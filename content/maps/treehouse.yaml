@@ -1,0 +1,46 @@
+id: treehouse
+title: 诺克的树屋宅院
+imageAssetId: map-treehouse
+pins:
+  - id: central-platform
+    label: 中央平台（主宅）
+    x: 0.57
+    y: 0.25
+    dmOnly: false
+    description: 图书馆/实验室、起居室、餐厅兼厨房；诺克通常在这里研究法术。
+  - id: garden-platform
+    label: 花园平台
+    x: 0.78
+    y: 0.60
+    dmOnly: false
+    description: 修剪整齐的草坪与石径；最低的平台，离地约 10 尺。
+  - id: bedroom-platform
+    label: 卧室平台
+    x: 0.43
+    y: 0.56
+    dmOnly: true
+    description: 最高的平台，诺克的卧室；法杖通常随身，房里有衣柜、大床和梳妆台。
+  - id: west-hut
+    label: 西侧小屋
+    x: 0.23
+    y: 0.69
+    dmOnly: true
+    description: 平台下的小屋，守卫休息处；床铺偏大。
+  - id: outhouse
+    label: 外屋 / 小屋
+    x: 0.55
+    y: 0.71
+    dmOnly: true
+    description: 户外厕所；战斗开始时棕熊正在里面“办事”。
+  - id: bridge
+    label: 花园桥
+    x: 0.69
+    y: 0.87
+    dmOnly: false
+    description: 说出通行口令 Mae Tref Cathode 后，枝条会连接花园平台与中央平台。
+  - id: entry-slope
+    label: 入口坡道
+    x: 0.72
+    y: 0.96
+    dmOnly: false
+    description: 由树根和枝条形成的缓坡，连接主路与花园平台。

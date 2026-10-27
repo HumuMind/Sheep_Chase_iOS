@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
 from pathlib import Path
 from typing import Any
@@ -111,10 +112,10 @@ def build_pack() -> dict[str, Any]:
         "rules": load_collection("rules"),
         "spells": load_collection("spells"),
         "flags": load_flags(),
-        "assets": [],
+        "assets": sorted(load_collection("assets", allow_empty=True), key=lambda asset: asset["id"]),
     }
 
-    for key in ("npcs", "monsters", "encounters", "handouts", "maps", "rules", "spells", "flags"):
+    for key in ("npcs", "monsters", "encounters", "handouts", "maps", "rules", "spells", "flags", "assets"):
         pack[key].sort(key=lambda item: item["id"])
 
     return pack
@@ -221,7 +222,12 @@ def validate_references(pack: dict[str, Any]) -> list[str]:
         check_list(f"rule '{rule['id']}'", rule.get("relatedSpellIds"), "spells")
 
     for asset in pack["assets"]:
-        path = CONTENT / asset["path"]
+        path = (CONTENT / asset["path"]).resolve()
+        try:
+            path.relative_to(CONTENT.resolve())
+        except ValueError:
+            errors.append(f"asset '{asset['id']}': 路径必须位于 content/ 内 '{asset['path']}'")
+            continue
         if not path.is_file():
             errors.append(f"asset '{asset['id']}': 文件不存在 '{asset['path']}'")
 
@@ -255,7 +261,9 @@ def print_summary(pack: dict[str, Any]) -> None:
         f"{len(pack['handouts'])} 个手牌，"
         f"{len(pack['rules'])} 条规则，"
         f"{len(pack['spells'])} 个法术，"
-        f"{len(pack['flags'])} 个 flag"
+        f"{len(pack['flags'])} 个 flag，"
+        f"{len(pack['maps'])} 张地图，"
+        f"{len(pack['assets'])} 个资源"
     )
 
 
@@ -288,6 +296,13 @@ def main() -> None:
         encoding="utf-8",
     )
     print(f"写入：{output.relative_to(ROOT)}")
+
+    for asset in pack["assets"]:
+        source = (CONTENT / asset["path"]).resolve()
+        destination = (output.parent / asset["path"]).resolve()
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+        print(f"复制资源：{destination.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

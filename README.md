@@ -10,9 +10,9 @@
 
 ## 内容包
 
-- `content/` — YAML 源文件（当前为 Schema spike：场景 1–2、古兹遭遇、NPC/规则/法术/手牌）
+- `content/` — YAML 源文件（当前：场景 1–2、古兹遭遇、NPC/规则/法术/手牌、树屋地图与图钉）
 - `schema/content-pack.schema.json` — JSON Schema
-- `scripts/build_content.py` — 校验与构建，输出 `build/ContentPack.json`
+- `scripts/build_content.py` — 校验与构建，输出 `build/ContentPack.json` 与 `build/assets/`
 
 ## 状态
 
