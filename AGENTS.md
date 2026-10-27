@@ -10,10 +10,15 @@
 
 ## 约定
 
-- 当前无 App 工程；已有内容包源文件与校验脚本。
+- 已有 SwiftUI App 工程：`SheepChase.xcodeproj`（`SheepChaseMac` / `SheepChasePad`），以及内容包、校验脚本和 HTML 原型。
 - PDF 是只读素材，不要修改或删除；简体中文版的排版源文件在 `source/adventure-zh-cn.html`（配图在 `source/assets/`）。
-- 内容源在 `content/`（YAML），Schema 在 `schema/`；校验用 `python3 scripts/build_content.py --check`，构建用 `python3 scripts/build_content.py`。
-- 不要手改 `build/ContentPack.json` 或 `build/assets/`；它们是生成物，且 `build/` 已被 git 忽略。
-- App 计划采用原生 SwiftUI（macOS/iPadOS）+ SwiftData，最低 macOS 14 / iPadOS 17；详见 `DISCUSSION.md` 的 D1。
+- 内容源在 `content/`（YAML），Schema 在 `schema/`；校验用 `python3 scripts/build_content.py --check`，构建用 `python3 scripts/build_content.py`；构建会同步 `SheepChase/Resources/ContentPack.json`。
+- 不要手改 `build/ContentPack.json`、`build/assets/` 或 `SheepChase/Resources/ContentPack.json`；它们由脚本生成。
+- App 为原生 SwiftUI（macOS/iPadOS）+ SwiftData，最低 macOS 14 / iPadOS 17；详见 `DISCUSSION.md` 的 D1。
+- 工程由 `project.yml` 生成：改动后运行 `xcodegen generate`；`SheepChase.xcodeproj` 是生成物。
+- 当前 DSH 环境需要 `OTHER_SWIFT_FLAGS` 中的 `-disable-sandbox` 让宏插件运行；不要无故移除。
+- 构建命令见 README 的 App 工程一节；UI 变更后至少跑 macOS 与 iPad 模拟器 build。
+- UI 使用原生 NavigationSplitView / toolbar / inspector / GroupBox；不要重新引入自绘标题栏或 HTML 式大卡片；主题背景统一使用 PDF 纸面。
+- 可点击原型在 `prototype/index.html`，直接打开即可，无需构建。
 - 文档与界面使用简体中文。
 - 实现以简洁、够用为准，避免过度设计。

@@ -1,0 +1,607 @@
+{
+  "manifest": {
+    "id": "wild-sheep-chase",
+    "title": "荒野逐羊",
+    "originalTitle": "A Wild Sheep Chase",
+    "version": "0.2.0",
+    "schemaVersion": 1,
+    "locale": "zh-Hans",
+    "usage": "personal",
+    "credits": [
+      {
+        "name": "u/TheRainyDaze",
+        "role": "原著作者",
+        "url": "https://www.reddit.com/user/TheRainyDaze"
+      },
+      {
+        "name": "《綿羊冒險記》譯者",
+        "role": "繁体中文参考译本"
+      },
+      {
+        "name": "简体中文整理",
+        "role": "翻译与排版"
+      },
+      {
+        "name": "Blizzard Entertainment",
+        "role": "封面插画"
+      },
+      {
+        "name": "Pyromancer's Dungeon Painter",
+        "role": "地图制作",
+        "url": "https://www.pyromancers.com"
+      }
+    ],
+    "minAppVersion": "0.1.0"
+  },
+  "adventure": {
+    "id": "wild-sheep-chase",
+    "title": "荒野逐羊",
+    "summary": "一头衔着动物交谈卷轴的绵羊打断了队伍难得的午后休息。它其实是被学徒变成绵羊的法师范席尔·夏恩布莱特。\n队伍要在诺克的追兵、树屋守卫和一头床龙雏龙之间做出选择，帮这位自负的法师夺回法杖。\n",
+    "level": {
+      "min": 4,
+      "max": 5
+    },
+    "players": {
+      "min": 3,
+      "max": 5
+    },
+    "durationMinutes": 210,
+    "contentWarnings": [
+      "变形与身体恐怖",
+      "动物伤害",
+      "囚禁与失去自主",
+      "暴力与死亡"
+    ],
+    "sceneOrder": [
+      "scene-1",
+      "scene-2"
+    ],
+    "startingScene": "scene-1",
+    "sourceRef": "英文原版第 1–9 页；简体中文版第 2–9 页"
+  },
+  "scenes": [
+    {
+      "id": "scene-1",
+      "order": 1,
+      "title": "场景一：坏～～消息",
+      "summary": "队伍在午后被一头衔着卷轴的绵羊打断；它其实是法师夏恩布莱特。",
+      "readAloud": "一阵杂乱的蹄声、惊叫声和疯狂的咩咩声传来。队伍还没来得及反应，一头绵羊便朝他们奔来。\n这头野兽看上去与普通绵羊毫无二致——雪白的绒毛、黑色的脸、卷曲的角——但它嘴里衔着一张精致的卷轴。\n",
+      "dmText": "队伍可能正在酒馆小酌、在据点休息，或只是沿街散步。绵羊会靠近队伍中魔法天赋最高的人，\n朝对方挥动卷轴；若有人伸手，它便让对方拿走。蜡封标明这是“动物交谈卷轴（修改版）”。\n若角色大声说出这一点，绵羊会热切地点头并咩咩叫。\n",
+      "beats": [
+        {
+          "id": "sheep-arrives",
+          "title": "绵羊冲进来",
+          "type": "event",
+          "text": "一头普通模样的绵羊冲向队伍，嘴里衔着卷轴，执意要引起他们的注意。",
+          "readAloud": "蹄声、惊叫和咩咩声由远及近。一头白毛黑脸、卷角的绵羊冲到你们面前。",
+          "npcIds": [
+            "finethir-shinebright"
+          ],
+          "handoutIds": [
+            "scroll-speak-with-animals"
+          ]
+        },
+        {
+          "id": "scroll-offered",
+          "title": "卷轴",
+          "type": "decision",
+          "text": "绵羊把卷轴递给队伍中最有魔法天赋的人。蜡封显示这是一张动物交谈卷轴（修改版）。",
+          "readAloud": "蜡封上刻着动物与舌头的符文；展开后，文字以精灵语写成。",
+          "handoutIds": [
+            "scroll-speak-with-animals"
+          ],
+          "spellIds": [
+            "speak-with-animals"
+          ]
+        },
+        {
+          "id": "shinebright-intro",
+          "title": "绵羊开口",
+          "type": "roleplay",
+          "text": "若队伍使用卷轴，绵羊的咩叫会变成有教养的精灵口音通用语；他自称范席尔·夏恩布莱特。",
+          "readAloud": "“谢天谢地，终于有人听得懂。我是范席尔·夏恩布莱特，变化系大师。现在，请先帮我弄回我的法杖。”",
+          "npcIds": [
+            "finethir-shinebright"
+          ],
+          "spellIds": [
+            "speak-with-animals"
+          ]
+        },
+        {
+          "id": "howling",
+          "title": "嚎叫",
+          "type": "transition",
+          "text": "他刚要讲自己的故事，空中响起嚎叫；古兹一伙正在靠近。",
+          "readAloud": "他刚开口，街角便传来一声嚎叫，紧接着是沉重的脚步声和铁器碰撞声。",
+          "encounterIds": [
+            "guz-ambush"
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "id": "if-scroll-used",
+          "label": "若队伍使用卷轴",
+          "requiresFlag": "scroll-used",
+          "text": "夏恩布莱特可以正常交谈，并请求队伍帮他夺回法杖；他愿意承诺报酬，但大多无法兑现。"
+        },
+        {
+          "id": "if-scroll-refused",
+          "label": "若队伍拒绝或无法使用卷轴",
+          "text": "绵羊焦急地原地打转，用蹄子在地上划字；古兹的笑声从街角传来。"
+        },
+        {
+          "id": "if-attack-sheep",
+          "label": "若队伍直接攻击绵羊",
+          "text": "绵羊惊慌逃窜，试图躲进人群；古兹会把这视为“诺克大人的财产受到威胁”，立即动手。"
+        }
+      ],
+      "npcIds": [
+        "finethir-shinebright"
+      ],
+      "encounterIds": [
+        "guz-ambush"
+      ],
+      "handoutIds": [
+        "scroll-speak-with-animals"
+      ],
+      "spellIds": [
+        "speak-with-animals"
+      ],
+      "dmNotes": "绵羊不会主动攻击。若队伍完全无视它，古兹一伙仍会找上门；可以把施法者卷轴作为引子。\n",
+      "sourceRef": "英文原版第 1–3 页；简体中文版第 2–3 页"
+    },
+    {
+      "id": "scene-2",
+      "order": 2,
+      "title": "场景二：牧羊人与骗子",
+      "summary": "古兹带着三头被变形的狼和一头棕熊上门索要“诺克大人的绵羊”。",
+      "readAloud": "一个巨大的半兽人推开人群，身后跟着三头眼神异常聪慧的狼，以及一个披着肮脏棕色斗篷、\n至少八英尺高的魁梧身影。他要求你们交出“诺克大人的绵羊”。\n",
+      "dmText": "若队伍在公共场合，古兹会大摇大摆走来；若在据点，他改为猛砸房门。\n他不接受“不”这个答案，先谈条件，谈不拢就动手。披斗篷的身影会掀开兜帽，\n露出它其实是一头被变形术变成的棕熊。\n",
+      "beats": [
+        {
+          "id": "guz-arrives",
+          "title": "古兹上门",
+          "type": "encounter",
+          "text": "古兹要求队伍交出绵羊；他身后的狼群会绕后抓人，棕熊负责堵路。",
+          "readAloud": "“这头羊属于诺克大人。把它交出来，我可以当你们没见过它。”",
+          "encounterIds": [
+            "guz-ambush"
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "id": "if-guz-defeated",
+          "label": "若古兹被击败",
+          "requiresFlag": "guz-defeated",
+          "text": "夏恩布莱特恳求队伍送他回塔楼夺回法杖；他愿意承诺报酬，但需要被提醒才会兑现。"
+        },
+        {
+          "id": "if-guz-captured",
+          "label": "若古兹被俘",
+          "requiresFlag": "guz-captured",
+          "text": "队伍可以审问古兹，得知诺克仍在塔楼、守卫不多，以及“诺克大人最近越来越疯”。"
+        },
+        {
+          "id": "if-shinebright-captured",
+          "label": "若夏恩布莱特被俘",
+          "requiresFlag": "shinebright-captured",
+          "text": "古兹带着绵羊撤向诺克的树屋；队伍可以追击，或先处理当地当局。"
+        }
+      ],
+      "npcIds": [
+        "finethir-shinebright"
+      ],
+      "encounterIds": [
+        "guz-ambush"
+      ],
+      "dmNotes": "狼群要活捉夏恩布莱特，不杀死他；古兹则乐于把队伍打残。若战斗发生在旅店，\n翻倒的桌椅可以形成困难地形。\n",
+      "sourceRef": "英文原版第 3–4 页；简体中文版第 3 页"
+    }
+  ],
+  "npcs": [
+    {
+      "id": "finethir-shinebright",
+      "name": "范席尔·夏恩布莱特",
+      "role": "被变成绵羊的法师 / 任务发布者",
+      "publicDescription": "一头毛茸茸的白绵羊，黑脸、卷角，嘴里常衔着卷轴。它的眼神过于聪明，完全不像普通牲畜。\n",
+      "dmDescription": "前高等精灵变化系法师，自恋、挑剔、书呆子气，但心地善良。两年前被学徒艾哈迈德·诺克\n用完全变形术变成绵羊，囚禁在自家花园里。他偷走动物交谈卷轴逃到镇上，急需队伍帮他夺回法杖。\n",
+      "personality": [
+        "自负、自恋、自我中心",
+        "内心善良，但读不懂社交场合",
+        "迫切想拿回法杖"
+      ],
+      "voice": "有教养的精灵口音，语速快，容易跑题到自己的学术成就；变成绵羊后偶尔夹杂咩叫。",
+      "motivation": "变回原形，夺回完全变形术法杖，向诺克复仇。",
+      "attitude": "friendly",
+      "knows": [
+        "诺克的塔楼布局和通行口令 Mae Tref Cathode",
+        "自己是被完全变形术变成绵羊的",
+        "诺克几乎破产，卖掉了大部分财物来支付研究和守卫",
+        "诺克随身携带法杖，而且非常多疑"
+      ],
+      "secrets": [
+        "他承诺的报酬大多无法兑现",
+        "他当年对诺克非常苛刻，把学徒当孩子使唤",
+        "如果队伍不帮他，他会把希望寄托在任何愿意冒险的人身上"
+      ],
+      "wants": [
+        "拿回法杖",
+        "恢复原形",
+        "保住面子"
+      ],
+      "sampleLines": [
+        "“我是范席尔·夏恩布莱特，变化系大师。现在，请先帮我弄回我的法杖。”",
+        "“多平面交织理论——这很难理解吗？”",
+        "“咩——不，我是说，当然，报酬不成问题。”"
+      ],
+      "keyCharacteristics": [
+        "自负、势利、自我中心",
+        "内心善良",
+        "完全读不懂社交场合",
+        "迫切想拿回法杖"
+      ],
+      "relationships": [
+        {
+          "label": "艾哈迈德·诺克",
+          "note": "前学徒、现任死敌；把他变成绵羊并夺走法杖。"
+        },
+        {
+          "label": "古兹",
+          "note": "诺克的打手；夏恩布莱特既怕他又鄙视他。"
+        }
+      ],
+      "sourceRef": "英文原版第 8 页；简体中文版第 8 页"
+    }
+  ],
+  "monsters": [
+    {
+      "id": "brown-bear",
+      "name": "棕熊",
+      "size": "大型",
+      "type": "野兽",
+      "alignment": "无阵营",
+      "ac": {
+        "value": 11,
+        "note": "天生护甲"
+      },
+      "hp": {
+        "average": 34,
+        "formula": "4d10+12"
+      },
+      "speed": {
+        "walk": 40,
+        "climb": 30
+      },
+      "abilities": {
+        "str": 19,
+        "dex": 10,
+        "con": 16,
+        "int": 2,
+        "wis": 13,
+        "cha": 7
+      },
+      "skills": [
+        "察觉 +3"
+      ],
+      "senses": {
+        "passivePerception": 13
+      },
+      "languages": [],
+      "challenge": {
+        "rating": 1,
+        "xp": 200
+      },
+      "traits": [
+        {
+          "name": "敏锐嗅觉",
+          "text": "棕熊在进行依赖嗅觉的感知（察觉）检定时具有优势。"
+        }
+      ],
+      "actions": [
+        {
+          "name": "多重攻击",
+          "text": "棕熊发动两次攻击：一次啃咬和一次爪击。"
+        },
+        {
+          "name": "啃咬",
+          "text": "近战武器攻击：命中 +5，触及 5 尺，一个目标。命中：8（1d8+4）穿刺伤害。"
+        },
+        {
+          "name": "爪击",
+          "text": "近战武器攻击：命中 +5，触及 5 尺，一个目标。命中：11（2d6+4）挥砍伤害。"
+        }
+      ],
+      "tactics": [
+        "守在古兹身侧，堵住通往队伍后排的路。",
+        "生命值降到一半以下时可能逃跑。"
+      ],
+      "sourceRef": "怪物图鉴第 319 页；英文原版第 3 页"
+    },
+    {
+      "id": "guz",
+      "name": "古兹",
+      "size": "中型",
+      "type": "类人生物（半兽人）",
+      "alignment": "混乱中立",
+      "ac": {
+        "value": 14,
+        "note": "皮甲"
+      },
+      "hp": {
+        "average": 67,
+        "formula": "9d8+27"
+      },
+      "speed": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": 16,
+        "dex": 12,
+        "con": 17,
+        "int": 8,
+        "wis": 11,
+        "cha": 8
+      },
+      "skills": [
+        "威吓 +2"
+      ],
+      "senses": {
+        "passivePerception": 10
+      },
+      "languages": [
+        "通用语",
+        "兽人语"
+      ],
+      "challenge": {
+        "rating": 2,
+        "xp": 450
+      },
+      "traits": [
+        {
+          "name": "鲁莽",
+          "text": "古兹可以在自己回合内选择让所有近战武器攻击获得优势；作为交换，直到他下个回合开始前，所有针对他的攻击检定也获得优势。"
+        }
+      ],
+      "actions": [
+        {
+          "name": "回旋巨剑",
+          "text": "近战武器攻击：命中 +5，触及 5 尺，两个目标。命中：10（2d6+3）挥砍伤害。"
+        }
+      ],
+      "tactics": [
+        "乐于冲上前线，与棕熊并肩对付硬骨头。",
+        "不聪明但忠诚；被话术绕晕时只会更愤怒。",
+        "若战局明显不利，可能谈条件或撤退，而不是死战到底。"
+      ],
+      "sourceRef": "英文原版第 3 页；简体中文版第 3 页"
+    },
+    {
+      "id": "wolf-guard",
+      "name": "被变形的狼",
+      "size": "中型",
+      "type": "野兽（变形守卫）",
+      "alignment": "中立",
+      "ac": {
+        "value": 10
+      },
+      "hp": {
+        "average": 11,
+        "formula": "2d8+2"
+      },
+      "speed": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": 15,
+        "dex": 10,
+        "con": 13,
+        "int": 18,
+        "wis": 14,
+        "cha": 7
+      },
+      "senses": {
+        "passivePerception": 14
+      },
+      "languages": [
+        "通用语"
+      ],
+      "challenge": {
+        "rating": 0.25,
+        "xp": 50
+      },
+      "traits": [
+        {
+          "name": "变形守卫",
+          "text": "使用矮种马的数据，但智力和感知分别为 18 和 14；保留人类心智，会聪明地行动。"
+        }
+      ],
+      "actions": [
+        {
+          "name": "啃咬（矮种马数据）",
+          "text": "近战武器攻击：命中 +4，触及 5 尺，一个目标。命中：7（2d4+2）钝击伤害。"
+        }
+      ],
+      "tactics": [
+        "绕到队伍后方抓走夏恩布莱特，优先活捉，不主动杀死他。",
+        "会优先攻击施法者和脆弱目标。"
+      ],
+      "sourceRef": "怪物图鉴第 325 页（矮种马数据）；英文原版第 3 页"
+    }
+  ],
+  "encounters": [
+    {
+      "id": "guz-ambush",
+      "title": "古兹的伏击",
+      "summary": "古兹带着三头被变形的狼和一头棕熊上门索要绵羊。",
+      "combatants": [
+        {
+          "monsterId": "guz",
+          "count": 1,
+          "label": "古兹"
+        },
+        {
+          "monsterId": "wolf-guard",
+          "count": 3,
+          "label": "被变形的狼"
+        },
+        {
+          "monsterId": "brown-bear",
+          "count": 1,
+          "label": "棕熊"
+        }
+      ],
+      "tactics": [
+        "古兹冲前排，与棕熊一起对付硬骨头。",
+        "狼群绕到队伍后方抓夏恩布莱特；它们要活捉，不杀死。",
+        "若战局不利，古兹可能谈条件或撤退，而不是死战到底。"
+      ],
+      "terrain": "视地点而定：旅店有翻倒的桌椅，街道有惊慌的路人；都可形成困难地形。",
+      "trigger": "古兹要求交出“诺克大人的绵羊”，被拒绝或拖延后动手。",
+      "difficulty": "视队伍等级与人数而定；古兹+棕熊是主要威胁，三头狼负责抓人。",
+      "sourceRef": "英文原版第 3 页；简体中文版第 3 页"
+    }
+  ],
+  "items": [],
+  "handouts": [
+    {
+      "id": "scroll-speak-with-animals",
+      "title": "动物交谈卷轴（修改版）",
+      "kind": "text",
+      "playerText": "一张精致的卷轴，蜡封上刻着动物与舌头的符文。展开后，文字以精灵语写成。\n蜡封旁有一行小字：“动物交谈（修改版）——持卷者可念出内容启动。”\n",
+      "dmText": "这是夏恩布莱特修改过的动物交谈卷轴，持续八小时而不是通常的 10 分钟。\n队伍使用后，绵羊的咩叫会变成有教养的精灵口音通用语。\n卷轴只有一张；若队伍拒绝使用，夏恩布莱特会用蹄子在地上划字，或试图引起施法者注意。\n"
+    }
+  ],
+  "maps": [
+    {
+      "id": "treehouse",
+      "title": "诺克的树屋宅院",
+      "imageAssetId": "map-treehouse",
+      "pins": [
+        {
+          "id": "central-platform",
+          "label": "中央平台（主宅）",
+          "x": 0.57,
+          "y": 0.25,
+          "dmOnly": false,
+          "description": "图书馆/实验室、起居室、餐厅兼厨房；诺克通常在这里研究法术。"
+        },
+        {
+          "id": "garden-platform",
+          "label": "花园平台",
+          "x": 0.78,
+          "y": 0.6,
+          "dmOnly": false,
+          "description": "修剪整齐的草坪与石径；最低的平台，离地约 10 尺。"
+        },
+        {
+          "id": "bedroom-platform",
+          "label": "卧室平台",
+          "x": 0.43,
+          "y": 0.56,
+          "dmOnly": true,
+          "description": "最高的平台，诺克的卧室；法杖通常随身，房里有衣柜、大床和梳妆台。"
+        },
+        {
+          "id": "west-hut",
+          "label": "西侧小屋",
+          "x": 0.23,
+          "y": 0.69,
+          "dmOnly": true,
+          "description": "平台下的小屋，守卫休息处；床铺偏大。"
+        },
+        {
+          "id": "outhouse",
+          "label": "外屋 / 小屋",
+          "x": 0.55,
+          "y": 0.71,
+          "dmOnly": true,
+          "description": "户外厕所；战斗开始时棕熊正在里面“办事”。"
+        },
+        {
+          "id": "bridge",
+          "label": "花园桥",
+          "x": 0.69,
+          "y": 0.87,
+          "dmOnly": false,
+          "description": "说出通行口令 Mae Tref Cathode 后，枝条会连接花园平台与中央平台。"
+        },
+        {
+          "id": "entry-slope",
+          "label": "入口坡道",
+          "x": 0.72,
+          "y": 0.96,
+          "dmOnly": false,
+          "description": "由树根和枝条形成的缓坡，连接主路与花园平台。"
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "concentration",
+      "term": "专注",
+      "aliases": [
+        "Concentration"
+      ],
+      "category": "core",
+      "summary": "需要专注的法术在持续时间内占用你的专注。同一时间只能专注一个法术。\n若你在专注时受到伤害，必须进行一次体质豁免，DC 为 10 或所受伤害的一半（取较高者，至少 10）；\n失败则法术结束。若你陷入失能或死亡，专注也会结束。\n",
+      "pageRef": "玩家手册第 203 页"
+    }
+  ],
+  "spells": [
+    {
+      "id": "speak-with-animals",
+      "name": "动物交谈",
+      "aliases": [
+        "Speak with Animals"
+      ],
+      "level": 1,
+      "school": "预言系（仪式）",
+      "castingTime": "1 动作",
+      "range": "自身",
+      "components": "V, S",
+      "duration": "10 分钟",
+      "concentration": false,
+      "ritual": true,
+      "summary": "你获得理解并口头回应动物的能力。持续时间内，你可以理解动物的叫声、动作和姿态，\n并能用它们能理解的方式回应。你无法说服动物做超出其理解或能力范围的事。\n",
+      "pageRef": "玩家手册第 277 页"
+    }
+  ],
+  "flags": [
+    {
+      "id": "guz-captured",
+      "label": "古兹被俘",
+      "description": "队伍可以审问古兹，或把他交给当地当局。",
+      "defaultValue": false
+    },
+    {
+      "id": "guz-defeated",
+      "label": "古兹被击败",
+      "description": "古兹无法继续追击；走“尘埃落定”分支。",
+      "defaultValue": false
+    },
+    {
+      "id": "scroll-used",
+      "label": "队伍使用了动物交谈卷轴",
+      "description": "夏恩布莱特可以正常交谈；后续按“已能沟通”处理。",
+      "defaultValue": false
+    },
+    {
+      "id": "shinebright-captured",
+      "label": "夏恩布莱特被俘",
+      "description": "古兹带走了绵羊，触发追逐或营救分支。",
+      "defaultValue": false
+    }
+  ],
+  "assets": [
+    {
+      "id": "map-treehouse",
+      "path": "assets/map-treehouse.jpg",
+      "kind": "map",
+      "exportFilename": "荒野逐羊_树屋地图.jpg",
+      "credit": "Pyromancer's Dungeon Painter（www.pyromancers.com）"
+    }
+  ]
+}

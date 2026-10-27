@@ -297,6 +297,11 @@ def main() -> None:
     )
     print(f"写入：{output.relative_to(ROOT)}")
 
+    app_resource = ROOT / "SheepChase" / "Resources" / "ContentPack.json"
+    if app_resource.parent.is_dir():
+        shutil.copy2(output, app_resource)
+        print(f"同步 App 资源：{app_resource.relative_to(ROOT)}")
+
     for asset in pack["assets"]:
         source = (CONTENT / asset["path"]).resolve()
         destination = (output.parent / asset["path"]).resolve()

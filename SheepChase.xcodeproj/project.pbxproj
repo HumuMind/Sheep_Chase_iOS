@@ -1,0 +1,551 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		16937F9607EEB260BCB91705 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
+		174A74E9CBFCA911E22C92DA /* ContentPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C9B690645973BB5B96B6E6 /* ContentPack.swift */; };
+		1F61BC91099F06D488730081 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */; };
+		21FFBBFBD8FB4B19866B4DCC /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C861A54D9912FC462E576 /* Theme.swift */; };
+		3D00480A68E3CAC16C2739FD /* ContentPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C9B690645973BB5B96B6E6 /* ContentPack.swift */; };
+		49D60CAB4B37C9219EFA94E3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C861A54D9912FC462E576 /* Theme.swift */; };
+		4D77C8B158D433F2B0ACD9FE /* BattleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */; };
+		53B98583AA65AAF7C7D8AE7E /* BattleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */; };
+		58EA50D237F6D5CD10C3E1E1 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A615CE91471991581D521AEF /* SceneView.swift */; };
+		5A94990918C57A5CD18201EB /* ContentPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F2FD00743370B53287BF389 /* ContentPack.json */; };
+		7151907658F411269BEE9FC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 398BC927DE54B66A467BEA90 /* Assets.xcassets */; };
+		786E06A4235DD71200915E12 /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */; };
+		793DC80D214C7C91E6C9625F /* ContentPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F2FD00743370B53287BF389 /* ContentPack.json */; };
+		7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
+		83F83637A189F656016BC871 /* RunRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CACE6E802810BAA987336 /* RunRecord.swift */; };
+		846549A2F3214D47785B826B /* RunStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0E1BA9B8A49C55EF7699A /* RunStore.swift */; };
+		8768A0B1B5F71526D05EDEDA /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE06BBBDE740547C4640C3D /* InspectorView.swift */; };
+		906AF27D8171C51494DD045A /* RunModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7CFECC2200EE24CD572592 /* RunModels.swift */; };
+		90F30C748AC290276C689912 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB715842510A944ACE5BEC22 /* LibraryView.swift */; };
+		A4F8901204B160F095F2CBA8 /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE06BBBDE740547C4640C3D /* InspectorView.swift */; };
+		AC08F8948AA34CF45C079F5D /* RunStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0E1BA9B8A49C55EF7699A /* RunStore.swift */; };
+		AF5D5DFD28EAA0D82C4CD0A6 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB715842510A944ACE5BEC22 /* LibraryView.swift */; };
+		AF7DEE96141F0922C3F4D931 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A615CE91471991581D521AEF /* SceneView.swift */; };
+		BD3AADE5D7444A60D98313DC /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */; };
+		D2FE0F355C1625B7C3F15B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 398BC927DE54B66A467BEA90 /* Assets.xcassets */; };
+		DAB34ED281F99E40670CDC67 /* SheepChaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */; };
+		E5EBFE0BEC0EA322AF1BDF2A /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */; };
+		EE8462695D853CDEDBFE58B9 /* RunModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7CFECC2200EE24CD572592 /* RunModels.swift */; };
+		F1626034B5C81EC6EE036892 /* SheepChaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */; };
+		FC653821C3005603306AEA3D /* RunRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CACE6E802810BAA987336 /* RunRecord.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		154CC2063D420A953DF242EF /* SheepChaseMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheepChaseMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleViews.swift; sourceTree = "<group>"; };
+		1D7CFECC2200EE24CD572592 /* RunModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunModels.swift; sourceTree = "<group>"; };
+		21C9B690645973BB5B96B6E6 /* ContentPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPack.swift; sourceTree = "<group>"; };
+		22F0E1BA9B8A49C55EF7699A /* RunStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunStore.swift; sourceTree = "<group>"; };
+		37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
+		398BC927DE54B66A467BEA90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		62BD35D01F3AAAFFA9E9C531 /* SheepChasePad.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SheepChasePad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E4CACE6E802810BAA987336 /* RunRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunRecord.swift; sourceTree = "<group>"; };
+		8804416B86AAF5FA7A4B275B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		9F2FD00743370B53287BF389 /* ContentPack.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContentPack.json; sourceTree = "<group>"; };
+		A615CE91471991581D521AEF /* SceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
+		AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheepChaseApp.swift; sourceTree = "<group>"; };
+		AE7C861A54D9912FC462E576 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		CB715842510A944ACE5BEC22 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		CEE06BBBDE740547C4640C3D /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
+		EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0D8B2407916C914CC17AF25E /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				6E4CACE6E802810BAA987336 /* RunRecord.swift */,
+				22F0E1BA9B8A49C55EF7699A /* RunStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		403A14A42DECBEC2042F73B8 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */,
+				CEE06BBBDE740547C4640C3D /* InspectorView.swift */,
+				CB715842510A944ACE5BEC22 /* LibraryView.swift */,
+				37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */,
+				EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */,
+				A615CE91471991581D521AEF /* SceneView.swift */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		50D6B3A7AA9230C510080B16 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				1D7CFECC2200EE24CD572592 /* RunModels.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		92DAD19E6DC81F5B04C818D5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				8804416B86AAF5FA7A4B275B /* RootView.swift */,
+				AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */,
+				AE7C861A54D9912FC462E576 /* Theme.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9DD55B7E43BCDD48C849DE24 /* SheepChase */ = {
+			isa = PBXGroup;
+			children = (
+				92DAD19E6DC81F5B04C818D5 /* App */,
+				C13A1F2BA7026F576972AECF /* Content */,
+				50D6B3A7AA9230C510080B16 /* Domain */,
+				403A14A42DECBEC2042F73B8 /* Features */,
+				0D8B2407916C914CC17AF25E /* Persistence */,
+				C0362AB6E119ECC42DB8F10E /* Resources */,
+			);
+			path = SheepChase;
+			sourceTree = "<group>";
+		};
+		C0362AB6E119ECC42DB8F10E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				398BC927DE54B66A467BEA90 /* Assets.xcassets */,
+				9F2FD00743370B53287BF389 /* ContentPack.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C13A1F2BA7026F576972AECF /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				21C9B690645973BB5B96B6E6 /* ContentPack.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		D2F6ED9C06133A5892EEF9B1 = {
+			isa = PBXGroup;
+			children = (
+				9DD55B7E43BCDD48C849DE24 /* SheepChase */,
+				D306898E44904C09687DF85F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D306898E44904C09687DF85F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				154CC2063D420A953DF242EF /* SheepChaseMac.app */,
+				62BD35D01F3AAAFFA9E9C531 /* SheepChasePad.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		45B7041F892CD6D46486A6C2 /* SheepChasePad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B790EEA93089D6CEE15B87FE /* Build configuration list for PBXNativeTarget "SheepChasePad" */;
+			buildPhases = (
+				057159EEBB4111084FA7E3A3 /* Sources */,
+				357B4E95C0C7CD3D97C1A45B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SheepChasePad;
+			packageProductDependencies = (
+			);
+			productName = SheepChasePad;
+			productReference = 62BD35D01F3AAAFFA9E9C531 /* SheepChasePad.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F2701A9AB061E00AD6A7A312 /* SheepChaseMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5ABA4E9786072FFCC0EA8EE /* Build configuration list for PBXNativeTarget "SheepChaseMac" */;
+			buildPhases = (
+				31C17C7DEF3F210B0A2CACF1 /* Sources */,
+				67388EBD911CD01121F83B57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SheepChaseMac;
+			packageProductDependencies = (
+			);
+			productName = SheepChaseMac;
+			productReference = 154CC2063D420A953DF242EF /* SheepChaseMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8736A2B522F16B3F3650E85A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					45B7041F892CD6D46486A6C2 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					F2701A9AB061E00AD6A7A312 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = B2685E676A0ACC0D18F1590D /* Build configuration list for PBXProject "SheepChase" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D2F6ED9C06133A5892EEF9B1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D306898E44904C09687DF85F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2701A9AB061E00AD6A7A312 /* SheepChaseMac */,
+				45B7041F892CD6D46486A6C2 /* SheepChasePad */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		357B4E95C0C7CD3D97C1A45B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2FE0F355C1625B7C3F15B1A /* Assets.xcassets in Resources */,
+				5A94990918C57A5CD18201EB /* ContentPack.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67388EBD911CD01121F83B57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7151907658F411269BEE9FC5 /* Assets.xcassets in Resources */,
+				793DC80D214C7C91E6C9625F /* ContentPack.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		057159EEBB4111084FA7E3A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				53B98583AA65AAF7C7D8AE7E /* BattleViews.swift in Sources */,
+				3D00480A68E3CAC16C2739FD /* ContentPack.swift in Sources */,
+				A4F8901204B160F095F2CBA8 /* InspectorView.swift in Sources */,
+				AF5D5DFD28EAA0D82C4CD0A6 /* LibraryView.swift in Sources */,
+				E5EBFE0BEC0EA322AF1BDF2A /* NotesView.swift in Sources */,
+				7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */,
+				906AF27D8171C51494DD045A /* RunModels.swift in Sources */,
+				83F83637A189F656016BC871 /* RunRecord.swift in Sources */,
+				AC08F8948AA34CF45C079F5D /* RunStore.swift in Sources */,
+				BD3AADE5D7444A60D98313DC /* RunView.swift in Sources */,
+				AF7DEE96141F0922C3F4D931 /* SceneView.swift in Sources */,
+				DAB34ED281F99E40670CDC67 /* SheepChaseApp.swift in Sources */,
+				49D60CAB4B37C9219EFA94E3 /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31C17C7DEF3F210B0A2CACF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D77C8B158D433F2B0ACD9FE /* BattleViews.swift in Sources */,
+				174A74E9CBFCA911E22C92DA /* ContentPack.swift in Sources */,
+				8768A0B1B5F71526D05EDEDA /* InspectorView.swift in Sources */,
+				90F30C748AC290276C689912 /* LibraryView.swift in Sources */,
+				1F61BC91099F06D488730081 /* NotesView.swift in Sources */,
+				16937F9607EEB260BCB91705 /* RootView.swift in Sources */,
+				EE8462695D853CDEDBFE58B9 /* RunModels.swift in Sources */,
+				FC653821C3005603306AEA3D /* RunRecord.swift in Sources */,
+				846549A2F3214D47785B826B /* RunStore.swift in Sources */,
+				786E06A4235DD71200915E12 /* RunView.swift in Sources */,
+				58EA50D237F6D5CD10C3E1E1 /* SceneView.swift in Sources */,
+				F1626034B5C81EC6EE036892 /* SheepChaseApp.swift in Sources */,
+				21FFBBFBD8FB4B19866B4DCC /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		081ECFBF4A02BC2EF7EC504F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -disable-sandbox";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		325759FB835C4E93F5A08D44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = "荒野逐羊";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.sheepchase.mac;
+				PRODUCT_NAME = SheepChase;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5756C58EDB83AF9ADFE0BE98 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -disable-sandbox";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7EFFA778BCB2BC92255DD351 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = "荒野逐羊";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = local.sheepchase.ipad;
+				PRODUCT_NAME = SheepChase;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		ED762D7E5AB28F2EE3F350AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = "荒野逐羊";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.sheepchase.mac;
+				PRODUCT_NAME = SheepChase;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F7BFDBD609ADEF65EB7FCFBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = "荒野逐羊";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = local.sheepchase.ipad;
+				PRODUCT_NAME = SheepChase;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B2685E676A0ACC0D18F1590D /* Build configuration list for PBXProject "SheepChase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				081ECFBF4A02BC2EF7EC504F /* Debug */,
+				5756C58EDB83AF9ADFE0BE98 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B790EEA93089D6CEE15B87FE /* Build configuration list for PBXNativeTarget "SheepChasePad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EFFA778BCB2BC92255DD351 /* Debug */,
+				F7BFDBD609ADEF65EB7FCFBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C5ABA4E9786072FFCC0EA8EE /* Build configuration list for PBXNativeTarget "SheepChaseMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				325759FB835C4E93F5A08D44 /* Debug */,
+				ED762D7E5AB28F2EE3F350AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8736A2B522F16B3F3650E85A /* Project object */;
+}
