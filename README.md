@@ -1,6 +1,6 @@
 # 荒野逐羊 · DM 备团
 
-《荒野逐羊》（A Wild Sheep Chase）的 iOS DM 备团 App，用于在 D&D 5E 跑团时快速查阅场景、NPC 与怪物资料。
+《荒野逐羊》（A Wild Sheep Chase）的 DM 备团 App，以 macOS 为主、适配 iPad，用于在 D&D 5E 跑团时快速查阅场景、NPC 与怪物资料。
 
 ## 素材
 
