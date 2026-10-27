@@ -1,0 +1,22 @@
+id: wild-sheep-chase
+title: 荒野逐羊
+summary: |
+  一头衔着动物交谈卷轴的绵羊打断了队伍难得的午后休息。它其实是被学徒变成绵羊的法师范席尔·夏恩布莱特。
+  队伍要在诺克的追兵、树屋守卫和一头床龙雏龙之间做出选择，帮这位自负的法师夺回法杖。
+level:
+  min: 4
+  max: 5
+players:
+  min: 3
+  max: 5
+durationMinutes: 210
+contentWarnings:
+  - 变形与身体恐怖
+  - 动物伤害
+  - 囚禁与失去自主
+  - 暴力与死亡
+sceneOrder:
+  - scene-1
+  - scene-2
+startingScene: scene-1
+sourceRef: 英文原版第 1–9 页；简体中文版第 2–9 页

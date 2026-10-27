@@ -10,8 +10,10 @@
 
 ## 约定
 
-- 当前无应用代码；素材为英文原版、繁中译本和生成的简体中文 PDF。
+- 当前无 App 工程；已有内容包源文件与校验脚本。
 - PDF 是只读素材，不要修改或删除；简体中文版的排版源文件在 `source/adventure-zh-cn.html`（配图在 `source/assets/`）。
+- 内容源在 `content/`（YAML），Schema 在 `schema/`；校验用 `python3 scripts/build_content.py --check`，构建用 `python3 scripts/build_content.py`。
+- 不要手改 `build/ContentPack.json`；它是生成物，且 `build/` 已被 git 忽略。
+- App 计划采用原生 SwiftUI（macOS/iPadOS）+ SwiftData，最低 macOS 14 / iPadOS 17；详见 `DISCUSSION.md` 的 D1。
 - 文档与界面使用简体中文。
 - 实现以简洁、够用为准，避免过度设计。
-- 暂无构建与测试命令（尚无工程）。

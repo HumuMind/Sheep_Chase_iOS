@@ -1,0 +1,36 @@
+id: wolf-guard
+name: 被变形的狼
+size: 中型
+type: 野兽（变形守卫）
+alignment: 中立
+ac:
+  value: 10
+hp:
+  average: 11
+  formula: 2d8+2
+speed:
+  walk: 40
+abilities:
+  str: 15
+  dex: 10
+  con: 13
+  int: 18
+  wis: 14
+  cha: 7
+senses:
+  passivePerception: 14
+languages:
+  - 通用语
+challenge:
+  rating: 0.25
+  xp: 50
+traits:
+  - name: 变形守卫
+    text: 使用矮种马的数据，但智力和感知分别为 18 和 14；保留人类心智，会聪明地行动。
+actions:
+  - name: 啃咬（矮种马数据）
+    text: 近战武器攻击：命中 +4，触及 5 尺，一个目标。命中：7（2d4+2）钝击伤害。
+tactics:
+  - 绕到队伍后方抓走夏恩布莱特，优先活捉，不主动杀死他。
+  - 会优先攻击施法者和脆弱目标。
+sourceRef: 怪物图鉴第 325 页（矮种马数据）；英文原版第 3 页

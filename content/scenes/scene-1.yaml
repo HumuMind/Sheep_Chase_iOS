@@ -1,0 +1,68 @@
+id: scene-1
+order: 1
+title: 场景一：坏～～消息
+summary: 队伍在午后被一头衔着卷轴的绵羊打断；它其实是法师夏恩布莱特。
+readAloud: |
+  一阵杂乱的蹄声、惊叫声和疯狂的咩咩声传来。队伍还没来得及反应，一头绵羊便朝他们奔来。
+  这头野兽看上去与普通绵羊毫无二致——雪白的绒毛、黑色的脸、卷曲的角——但它嘴里衔着一张精致的卷轴。
+dmText: |
+  队伍可能正在酒馆小酌、在据点休息，或只是沿街散步。绵羊会靠近队伍中魔法天赋最高的人，
+  朝对方挥动卷轴；若有人伸手，它便让对方拿走。蜡封标明这是“动物交谈卷轴（修改版）”。
+  若角色大声说出这一点，绵羊会热切地点头并咩咩叫。
+beats:
+  - id: sheep-arrives
+    title: 绵羊冲进来
+    type: event
+    text: 一头普通模样的绵羊冲向队伍，嘴里衔着卷轴，执意要引起他们的注意。
+    readAloud: 蹄声、惊叫和咩咩声由远及近。一头白毛黑脸、卷角的绵羊冲到你们面前。
+    npcIds:
+      - finethir-shinebright
+    handoutIds:
+      - scroll-speak-with-animals
+  - id: scroll-offered
+    title: 卷轴
+    type: decision
+    text: 绵羊把卷轴递给队伍中最有魔法天赋的人。蜡封显示这是一张动物交谈卷轴（修改版）。
+    readAloud: 蜡封上刻着动物与舌头的符文；展开后，文字以精灵语写成。
+    handoutIds:
+      - scroll-speak-with-animals
+    spellIds:
+      - speak-with-animals
+  - id: shinebright-intro
+    title: 绵羊开口
+    type: roleplay
+    text: 若队伍使用卷轴，绵羊的咩叫会变成有教养的精灵口音通用语；他自称范席尔·夏恩布莱特。
+    readAloud: “谢天谢地，终于有人听得懂。我是范席尔·夏恩布莱特，变化系大师。现在，请先帮我弄回我的法杖。”
+    npcIds:
+      - finethir-shinebright
+    spellIds:
+      - speak-with-animals
+  - id: howling
+    title: 嚎叫
+    type: transition
+    text: 他刚要讲自己的故事，空中响起嚎叫；古兹一伙正在靠近。
+    readAloud: 他刚开口，街角便传来一声嚎叫，紧接着是沉重的脚步声和铁器碰撞声。
+    encounterIds:
+      - guz-ambush
+branches:
+  - id: if-scroll-used
+    label: 若队伍使用卷轴
+    requiresFlag: scroll-used
+    text: 夏恩布莱特可以正常交谈，并请求队伍帮他夺回法杖；他愿意承诺报酬，但大多无法兑现。
+  - id: if-scroll-refused
+    label: 若队伍拒绝或无法使用卷轴
+    text: 绵羊焦急地原地打转，用蹄子在地上划字；古兹的笑声从街角传来。
+  - id: if-attack-sheep
+    label: 若队伍直接攻击绵羊
+    text: 绵羊惊慌逃窜，试图躲进人群；古兹会把这视为“诺克大人的财产受到威胁”，立即动手。
+npcIds:
+  - finethir-shinebright
+encounterIds:
+  - guz-ambush
+handoutIds:
+  - scroll-speak-with-animals
+spellIds:
+  - speak-with-animals
+dmNotes: |
+  绵羊不会主动攻击。若队伍完全无视它，古兹一伙仍会找上门；可以把施法者卷轴作为引子。
+sourceRef: 英文原版第 1–3 页；简体中文版第 2–3 页

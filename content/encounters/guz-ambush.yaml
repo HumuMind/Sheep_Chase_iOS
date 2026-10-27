@@ -1,0 +1,21 @@
+id: guz-ambush
+title: 古兹的伏击
+summary: 古兹带着三头被变形的狼和一头棕熊上门索要绵羊。
+combatants:
+  - monsterId: guz
+    count: 1
+    label: 古兹
+  - monsterId: wolf-guard
+    count: 3
+    label: 被变形的狼
+  - monsterId: brown-bear
+    count: 1
+    label: 棕熊
+tactics:
+  - 古兹冲前排，与棕熊一起对付硬骨头。
+  - 狼群绕到队伍后方抓夏恩布莱特；它们要活捉，不杀死。
+  - 若战局不利，古兹可能谈条件或撤退，而不是死战到底。
+terrain: 视地点而定：旅店有翻倒的桌椅，街道有惊慌的路人；都可形成困难地形。
+trigger: 古兹要求交出“诺克大人的绵羊”，被拒绝或拖延后动手。
+difficulty: 视队伍等级与人数而定；古兹+棕熊是主要威胁，三头狼负责抓人。
+sourceRef: 英文原版第 3 页；简体中文版第 3 页

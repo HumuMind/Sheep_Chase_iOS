@@ -1,0 +1,16 @@
+- id: scroll-used
+  label: 队伍使用了动物交谈卷轴
+  description: 夏恩布莱特可以正常交谈；后续按“已能沟通”处理。
+  defaultValue: false
+- id: guz-defeated
+  label: 古兹被击败
+  description: 古兹无法继续追击；走“尘埃落定”分支。
+  defaultValue: false
+- id: guz-captured
+  label: 古兹被俘
+  description: 队伍可以审问古兹，或把他交给当地当局。
+  defaultValue: false
+- id: shinebright-captured
+  label: 夏恩布莱特被俘
+  description: 古兹带走了绵羊，触发追逐或营救分支。
+  defaultValue: false

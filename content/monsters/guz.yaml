@@ -1,0 +1,41 @@
+id: guz
+name: 古兹
+size: 中型
+type: 类人生物（半兽人）
+alignment: 混乱中立
+ac:
+  value: 14
+  note: 皮甲
+hp:
+  average: 67
+  formula: 9d8+27
+speed:
+  walk: 30
+abilities:
+  str: 16
+  dex: 12
+  con: 17
+  int: 8
+  wis: 11
+  cha: 8
+skills:
+  - 威吓 +2
+senses:
+  passivePerception: 10
+languages:
+  - 通用语
+  - 兽人语
+challenge:
+  rating: 2
+  xp: 450
+traits:
+  - name: 鲁莽
+    text: 古兹可以在自己回合内选择让所有近战武器攻击获得优势；作为交换，直到他下个回合开始前，所有针对他的攻击检定也获得优势。
+actions:
+  - name: 回旋巨剑
+    text: 近战武器攻击：命中 +5，触及 5 尺，两个目标。命中：10（2d6+3）挥砍伤害。
+tactics:
+  - 乐于冲上前线，与棕熊并肩对付硬骨头。
+  - 不聪明但忠诚；被话术绕晕时只会更愤怒。
+  - 若战局明显不利，可能谈条件或撤退，而不是死战到底。
+sourceRef: 英文原版第 3 页；简体中文版第 3 页

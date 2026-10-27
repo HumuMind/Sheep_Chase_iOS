@@ -1,0 +1,40 @@
+id: scene-2
+order: 2
+title: 场景二：牧羊人与骗子
+summary: 古兹带着三头被变形的狼和一头棕熊上门索要“诺克大人的绵羊”。
+readAloud: |
+  一个巨大的半兽人推开人群，身后跟着三头眼神异常聪慧的狼，以及一个披着肮脏棕色斗篷、
+  至少八英尺高的魁梧身影。他要求你们交出“诺克大人的绵羊”。
+dmText: |
+  若队伍在公共场合，古兹会大摇大摆走来；若在据点，他改为猛砸房门。
+  他不接受“不”这个答案，先谈条件，谈不拢就动手。披斗篷的身影会掀开兜帽，
+  露出它其实是一头被变形术变成的棕熊。
+beats:
+  - id: guz-arrives
+    title: 古兹上门
+    type: encounter
+    text: 古兹要求队伍交出绵羊；他身后的狼群会绕后抓人，棕熊负责堵路。
+    readAloud: “这头羊属于诺克大人。把它交出来，我可以当你们没见过它。”
+    encounterIds:
+      - guz-ambush
+branches:
+  - id: if-guz-defeated
+    label: 若古兹被击败
+    requiresFlag: guz-defeated
+    text: 夏恩布莱特恳求队伍送他回塔楼夺回法杖；他愿意承诺报酬，但需要被提醒才会兑现。
+  - id: if-guz-captured
+    label: 若古兹被俘
+    requiresFlag: guz-captured
+    text: 队伍可以审问古兹，得知诺克仍在塔楼、守卫不多，以及“诺克大人最近越来越疯”。
+  - id: if-shinebright-captured
+    label: 若夏恩布莱特被俘
+    requiresFlag: shinebright-captured
+    text: 古兹带着绵羊撤向诺克的树屋；队伍可以追击，或先处理当地当局。
+npcIds:
+  - finethir-shinebright
+encounterIds:
+  - guz-ambush
+dmNotes: |
+  狼群要活捉夏恩布莱特，不杀死他；古兹则乐于把队伍打残。若战斗发生在旅店，
+  翻倒的桌椅可以形成困难地形。
+sourceRef: 英文原版第 3–4 页；简体中文版第 3 页

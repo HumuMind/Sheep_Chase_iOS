@@ -1,0 +1,10 @@
+id: concentration
+term: 专注
+aliases:
+  - Concentration
+category: core
+summary: |
+  需要专注的法术在持续时间内占用你的专注。同一时间只能专注一个法术。
+  若你在专注时受到伤害，必须进行一次体质豁免，DC 为 10 或所受伤害的一半（取较高者，至少 10）；
+  失败则法术结束。若你陷入失能或死亡，专注也会结束。
+pageRef: 玩家手册第 203 页
