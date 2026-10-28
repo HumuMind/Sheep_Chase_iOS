@@ -33,9 +33,19 @@ final class SheepChaseUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
 
-        let pin = app.buttons["qr-pin-npc:guz-npc"]
-        XCTAssertTrue(pin.waitForExistence(timeout: 5))
-        pin.tap()
+        let tag = app.buttons["qr-tag-npc:guz-npc"]
+        XCTAssertTrue(tag.waitForExistence(timeout: 5))
+        tag.press(forDuration: 1.2)
+
+        let unpinAction = app.buttons["取消钉住"]
+        if unpinAction.waitForExistence(timeout: 1) {
+            unpinAction.tap()
+            tag.press(forDuration: 1.2)
+        }
+
+        let pinAction = app.buttons["钉住"]
+        XCTAssertTrue(pinAction.waitForExistence(timeout: 5))
+        pinAction.tap()
 
         let pinned = app.buttons["qr-pinned-npc:guz-npc"]
         XCTAssertTrue(pinned.waitForExistence(timeout: 5))

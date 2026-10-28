@@ -14,6 +14,7 @@ public struct QuickReferencePanel: View {
     @State private var isExpanded = true
     @State private var expandedKinds: Set<QuickReferenceKind> = [.npc]
     @State private var selection: QuickReferenceSelection?
+    @State private var pinPrompt: QuickReferenceEntry?
 
     private var allEntries: [QuickReferenceEntry] {
         QuickReferenceKind.allCases.flatMap(entries(for:))
@@ -36,6 +37,23 @@ public struct QuickReferencePanel: View {
         .sheet(item: $selection) { selection in
             detail(for: selection)
                 .environment(store)
+        }
+        .confirmationDialog(
+            "标签操作",
+            isPresented: Binding(
+                get: { pinPrompt != nil },
+                set: { if !$0 { pinPrompt = nil } }
+            ),
+            presenting: pinPrompt
+        ) { entry in
+            let pinned = run.pinnedReferenceIDs.contains(entry.id)
+            Button(pinned ? "取消钉住" : "钉住") {
+                store.togglePinnedReference(entry.id, in: run)
+                pinPrompt = nil
+            }
+            Button("取消", role: .cancel) { pinPrompt = nil }
+        } message: { entry in
+            Text(entry.title)
         }
     }
 
@@ -134,7 +152,7 @@ public struct QuickReferencePanel: View {
                 Spacer()
             }
             if pinnedEntries.isEmpty {
-                Text("钉住标签后会一直显示在这里")
+                Text("右键或长按标签可钉住，钉住后会一直显示在这里")
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
             } else {
@@ -233,83 +251,74 @@ public struct QuickReferencePanel: View {
     private func estimatedTagWidth(_ entry: QuickReferenceEntry) -> CGFloat {
         let wide = entry.title.unicodeScalars.filter { $0.value > 0x2E80 }.count
         let narrow = entry.title.count - wide
-        return CGFloat(wide) * 13 + CGFloat(narrow) * 7 + 42
+        return CGFloat(wide) * 13 + CGFloat(narrow) * 7 + 24
     }
 
     private func tag(_ entry: QuickReferenceEntry) -> some View {
         let pinned = run.pinnedReferenceIDs.contains(entry.id)
-        return HStack(spacing: 6) {
-            Button {
+        return Text(entry.title)
+            .font(.caption)
+            .foregroundStyle(Theme.ink)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: false)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
+            .background(
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(pinned ? Theme.red.opacity(0.10) : Theme.paperDeep.opacity(0.55))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(pinned ? Theme.red.opacity(0.35) : Theme.line.opacity(0.65), lineWidth: 0.7)
+            )
+            .contentShape(Rectangle())
+            .onTapGesture {
                 selection = QuickReferenceSelection(kind: entry.kind, itemID: entry.itemID)
-            } label: {
-                Text(entry.title)
-                    .font(.caption)
-                    .foregroundStyle(Theme.ink)
-                    .lineLimit(1)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
+            .onLongPressGesture(minimumDuration: 0.6) {
+                pinPrompt = entry
+            }
+            .contextMenu {
+                Button {
+                    store.togglePinnedReference(entry.id, in: run)
+                } label: {
+                    Label(pinned ? "取消钉住" : "钉住", systemImage: pinned ? "pin.slash" : "pin")
+                }
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(entry.title)
+            .accessibilityAddTraits(.isButton)
             .accessibilityIdentifier("qr-tag-\(entry.id)")
-
-            Button {
-                store.togglePinnedReference(entry.id, in: run)
-            } label: {
-                Image(systemName: pinned ? "pin.fill" : "pin")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(pinned ? Theme.red : .secondary)
-                    .frame(width: 24, height: 24)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            .help(pinned ? "取消钉住" : "钉住")
-            .accessibilityLabel(pinned ? "取消钉住\(entry.title)" : "钉住\(entry.title)")
-            .accessibilityIdentifier("qr-pin-\(entry.id)")
-        }
-        .padding(.leading, 8)
-        .padding(.trailing, 5)
-        .padding(.vertical, 3)
-        .background(
-            RoundedRectangle(cornerRadius: 5)
-                .fill(pinned ? Theme.red.opacity(0.10) : Theme.paperDeep.opacity(0.55))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(pinned ? Theme.red.opacity(0.35) : Theme.line.opacity(0.65), lineWidth: 0.7)
-        )
     }
 
     private func pinnedTag(_ entry: QuickReferenceEntry) -> some View {
-        HStack(spacing: 0) {
-            Button {
+        Text(entry.title)
+            .font(.caption2.weight(.medium))
+            .foregroundStyle(Theme.ink)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: false)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(Capsule().fill(Theme.red.opacity(0.10)))
+            .overlay(Capsule().stroke(Theme.red.opacity(0.28), lineWidth: 0.7))
+            .contentShape(Rectangle())
+            .onTapGesture {
                 selection = QuickReferenceSelection(kind: entry.kind, itemID: entry.itemID)
-            } label: {
-                Text(entry.title)
-                    .font(.caption2.weight(.medium))
-                    .foregroundStyle(Theme.ink)
-                    .fixedSize(horizontal: true, vertical: false)
             }
-            .buttonStyle(.plain)
+            .onLongPressGesture(minimumDuration: 0.6) {
+                pinPrompt = entry
+            }
+            .contextMenu {
+                Button {
+                    store.togglePinnedReference(entry.id, in: run)
+                } label: {
+                    Label("取消钉住", systemImage: "pin.slash")
+                }
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(entry.title)
+            .accessibilityAddTraits(.isButton)
             .accessibilityIdentifier("qr-pinned-\(entry.id)")
-
-            Button {
-                store.togglePinnedReference(entry.id, in: run)
-            } label: {
-                Image(systemName: "pin.slash")
-                    .font(.system(size: 8, weight: .semibold))
-                    .foregroundStyle(.secondary)
-                    .padding(.leading, 4)
-                    .padding(.vertical, 4)
-                    .padding(.trailing, 6)
-            }
-            .buttonStyle(.plain)
-            .help("取消钉住")
-            .accessibilityLabel("取消钉住\(entry.title)")
-            .accessibilityIdentifier("qr-unpin-\(entry.id)")
-        }
-        .padding(.leading, 7)
-        .background(Capsule().fill(Theme.red.opacity(0.10)))
-        .overlay(Capsule().stroke(Theme.red.opacity(0.28), lineWidth: 0.7))
     }
 
     private func entries(for kind: QuickReferenceKind) -> [QuickReferenceEntry] {
