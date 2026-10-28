@@ -3,13 +3,18 @@ import SwiftUI
 struct SceneDetailView: View {
     @Environment(RunStore.self) private var store
     @Bindable var run: RunRecord
+    var onOpenNPC: (String) -> Void = { _ in }
+    var onOpenHandout: (String) -> Void = { _ in }
+    var onOpenItem: (String) -> Void = { _ in }
+    var onOpenRule: (String) -> Void = { _ in }
+    var onOpenSpell: (String) -> Void = { _ in }
 
     private var scene: ContentPack.AdventureScene {
         store.currentScene(for: run)
     }
 
-    private var encounter: ContentPack.Encounter? {
-        scene.encounterIds?.first.flatMap { store.encounter(id: $0) }
+    private var encounters: [ContentPack.Encounter] {
+        (scene.encounterIds ?? []).compactMap { store.encounter(id: $0) }
     }
 
     var body: some View {
@@ -45,6 +50,8 @@ struct SceneDetailView: View {
             }
             .padding(28)
             .frame(maxWidth: 760, alignment: .leading)
+            .readingPage()
+            .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)
         }
     }
@@ -70,6 +77,74 @@ struct SceneDetailView: View {
                 .foregroundStyle(.secondary)
                 .lineSpacing(2)
                 .textSelection(.enabled)
+
+            HStack(spacing: 8) {
+                if let npcIDs = scene.npcIds, !npcIDs.isEmpty {
+                    ForEach(npcIDs, id: \.self) { npcID in
+                        if let npc = store.npc(id: npcID) {
+                            Button {
+                                onOpenNPC(npcID)
+                            } label: {
+                                Label(npc.name, systemImage: "person.text.rectangle")
+                                    .font(.callout)
+                            }
+                            .buttonStyle(.bordered)
+                            .controlSize(.small)
+                        }
+                    }
+                }
+                if let mapID = scene.mapIds?.first, let map = store.map(id: mapID) {
+                    Button {
+                        store.setMode(.map, in: run)
+                    } label: {
+                        Label(map.title, systemImage: "map")
+                            .font(.callout)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+                if let handoutID = scene.handoutIds?.first, let handout = store.handout(id: handoutID) {
+                    Button {
+                        onOpenHandout(handoutID)
+                    } label: {
+                        Label(handout.title, systemImage: "doc.text")
+                            .font(.callout)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+                if let itemID = scene.itemIds?.first, let item = store.item(id: itemID) {
+                    Button {
+                        onOpenItem(itemID)
+                    } label: {
+                        Label(item.name, systemImage: "wand.and.stars")
+                            .font(.callout)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+                if !(scene.ruleIds ?? []).isEmpty || !(scene.spellIds ?? []).isEmpty {
+                    Menu {
+                        ForEach(scene.ruleIds ?? [], id: \.self) { ruleID in
+                            if let rule = store.rule(id: ruleID) {
+                                Button(rule.term) { onOpenRule(ruleID) }
+                            }
+                        }
+                        ForEach(scene.spellIds ?? [], id: \.self) { spellID in
+                            if let spell = store.spell(id: spellID) {
+                                Button(spell.name) { onOpenSpell(spellID) }
+                            }
+                        }
+                    } label: {
+                        Label("本场速查", systemImage: "book.closed")
+                            .font(.callout)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                }
+                Spacer()
+            }
+            .padding(.top, 2)
         }
         .padding(.bottom, 2)
     }
@@ -106,6 +181,72 @@ struct SceneDetailView: View {
                                         .italic()
                                         .foregroundStyle(.secondary)
                                         .padding(.top, 1)
+                                }
+                                if let npcIDs = beat.npcIds, !npcIDs.isEmpty {
+                                    HStack(spacing: 5) {
+                                        ForEach(npcIDs, id: \.self) { npcID in
+                                            if let npc = store.npc(id: npcID) {
+                                                Button(npc.name) {
+                                                    onOpenNPC(npcID)
+                                                }
+                                                .buttonStyle(.borderless)
+                                                .font(.caption)
+                                                .foregroundStyle(Theme.red)
+                                            }
+                                        }
+                                    }
+                                }
+                                if let handoutIDs = beat.handoutIds, !handoutIDs.isEmpty {
+                                    HStack(spacing: 5) {
+                                        ForEach(handoutIDs, id: \.self) { handoutID in
+                                            if let handout = store.handout(id: handoutID) {
+                                                Button(handout.title) {
+                                                    onOpenHandout(handoutID)
+                                                }
+                                                .buttonStyle(.borderless)
+                                                .font(.caption)
+                                                .foregroundStyle(Theme.red)
+                                            }
+                                        }
+                                    }
+                                }
+                                if let itemIDs = beat.itemIds, !itemIDs.isEmpty {
+                                    HStack(spacing: 5) {
+                                        ForEach(itemIDs, id: \.self) { itemID in
+                                            if let item = store.item(id: itemID) {
+                                                Button(item.name) {
+                                                    onOpenItem(itemID)
+                                                }
+                                                .buttonStyle(.borderless)
+                                                .font(.caption)
+                                                .foregroundStyle(Theme.red)
+                                            }
+                                        }
+                                    }
+                                }
+                                if let ruleIDs = beat.ruleIds, !ruleIDs.isEmpty {
+                                    HStack(spacing: 5) {
+                                        ForEach(ruleIDs, id: \.self) { ruleID in
+                                            if let rule = store.rule(id: ruleID) {
+                                                Button(rule.term) { onOpenRule(ruleID) }
+                                                    .buttonStyle(.borderless)
+                                                    .font(.caption)
+                                                    .foregroundStyle(Theme.red)
+                                            }
+                                        }
+                                    }
+                                }
+                                if let spellIDs = beat.spellIds, !spellIDs.isEmpty {
+                                    HStack(spacing: 5) {
+                                        ForEach(spellIDs, id: \.self) { spellID in
+                                            if let spell = store.spell(id: spellID) {
+                                                Button(spell.name) { onOpenSpell(spellID) }
+                                                    .buttonStyle(.borderless)
+                                                    .font(.caption)
+                                                    .foregroundStyle(Theme.red)
+                                            }
+                                        }
+                                    }
                                 }
                             }
                             Spacer()
@@ -174,29 +315,35 @@ struct SceneDetailView: View {
         }
     }
 
-    @ViewBuilder
     private var encounterBox: some View {
-        if let encounter {
-            GroupBox("遭遇 · \(encounter.title)") {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(encounter.summary)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                    Text("参考组合；按队伍人数与等级在战斗筹备里逐个添加。")
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
-                    HStack {
-                        Button {
-                            store.openBattleSetup(for: run)
-                        } label: {
-                            Label(run.battle?.phase == .active ? "返回战斗" : "筹备战斗", systemImage: "shield.lefthalf.filled")
+        VStack(alignment: .leading, spacing: 10) {
+            ForEach(encounters) { encounter in
+                GroupBox("遭遇 · \(encounter.title)") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(encounter.summary)
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                        if let tactics = encounter.tactics, !tactics.isEmpty {
+                            Text(tactics.joined(separator: " · "))
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(Theme.red)
-                        Spacer()
+                        Text("参考组合；按队伍人数与等级在战斗筹备里逐个添加。")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                        HStack {
+                            Button {
+                                store.openBattleSetup(for: run)
+                            } label: {
+                                Label(run.battle?.phase == .active ? "返回战斗" : "筹备战斗", systemImage: "shield.lefthalf.filled")
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(Theme.red)
+                            Spacer()
+                        }
                     }
+                    .padding(.vertical, 3)
                 }
-                .padding(.vertical, 3)
             }
         }
     }

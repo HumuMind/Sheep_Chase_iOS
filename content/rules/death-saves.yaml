@@ -1,0 +1,7 @@
+id: death-saves
+term: 死亡豁免
+aliases:
+- Death Saving Throw
+category: 战斗
+summary: 0 HP 时每回合开始投 d20；10 以上成功，9 以下失败。三次成功稳定，三次失败死亡。受到伤害时失败一次；重击失败两次。
+pageRef: 玩家手册第 197 页

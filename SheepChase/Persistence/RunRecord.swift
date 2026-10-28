@@ -14,11 +14,15 @@ final class RunRecord {
     var flagsData: Data
     var notesData: Data
     var battleData: Data?
+    var safetyData: Data?
+    var isArchived: Bool = false
+    var contentVersion: String = ""
 
     init(
         name: String,
         sceneID: String = "scene-1",
-        beatID: String = "sheep-arrives"
+        beatID: String = "sheep-arrives",
+        contentVersion: String = ""
     ) {
         self.id = UUID()
         self.name = name
@@ -31,6 +35,9 @@ final class RunRecord {
         self.flagsData = Self.encode([String: Bool]())
         self.notesData = Self.encode([StickyNote]())
         self.battleData = nil
+        self.safetyData = Self.encode(SafetyState())
+        self.isArchived = false
+        self.contentVersion = contentVersion
     }
 
     var mode: RunMode {
@@ -60,6 +67,16 @@ final class RunRecord {
         }
         set {
             battleData = newValue.flatMap { Self.encodeOptional($0) }
+        }
+    }
+
+    var safety: SafetyState {
+        get {
+            guard let safetyData else { return SafetyState() }
+            return Self.decode(SafetyState.self, from: safetyData) ?? SafetyState()
+        }
+        set {
+            safetyData = Self.encode(newValue)
         }
     }
 

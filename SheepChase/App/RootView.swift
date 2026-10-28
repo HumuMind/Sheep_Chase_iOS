@@ -53,9 +53,21 @@ struct RootView: View {
         if arguments.contains("-demoScene") {
             store.setMode(.scene, in: run)
         }
+        if arguments.contains("-demoMap") {
+            store.setMode(.map, in: run)
+        }
+        if arguments.contains("-demoScene3"), let scene = store.scene(id: "scene-3") {
+            store.selectScene(scene, in: run)
+        }
+        if arguments.contains("-demoScene4"), let scene = store.scene(id: "scene-4") {
+            store.selectScene(scene, in: run)
+        }
 
         if arguments.contains("-demoNotes") {
             store.selectedTab = .notes
+        }
+        if arguments.contains("-demoRules") {
+            store.selectedTab = .rules
         }
 
         if arguments.contains("-demoBattleActive") {

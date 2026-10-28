@@ -3,7 +3,7 @@
     "id": "wild-sheep-chase",
     "title": "荒野逐羊",
     "originalTitle": "A Wild Sheep Chase",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "schemaVersion": 1,
     "locale": "zh-Hans",
     "usage": "personal",
@@ -36,7 +36,7 @@
   "adventure": {
     "id": "wild-sheep-chase",
     "title": "荒野逐羊",
-    "summary": "一头衔着动物交谈卷轴的绵羊打断了队伍难得的午后休息。它其实是被学徒变成绵羊的法师范席尔·夏恩布莱特。\n队伍要在诺克的追兵、树屋守卫和一头床龙雏龙之间做出选择，帮这位自负的法师夺回法杖。\n",
+    "summary": "一头衔着动物交谈卷轴的绵羊打断了队伍难得的午后休息。它其实是被学徒变成绵羊的法师范席尔·夏恩布莱特。\n队伍要在诺克的追兵、树屋守卫和一头床龙雏龙之间做出选择，帮这位自负的法师夺回法杖。",
     "level": {
       "min": 4,
       "max": 5
@@ -54,7 +54,9 @@
     ],
     "sceneOrder": [
       "scene-1",
-      "scene-2"
+      "scene-2",
+      "scene-3",
+      "scene-4"
     ],
     "startingScene": "scene-1",
     "sourceRef": "英文原版第 1–9 页；简体中文版第 2–9 页"
@@ -198,9 +200,315 @@
       ],
       "dmNotes": "狼群要活捉夏恩布莱特，不杀死他；古兹则乐于把队伍打残。若战斗发生在旅店，\n翻倒的桌椅可以形成困难地形。\n",
       "sourceRef": "英文原版第 3–4 页；简体中文版第 3 页"
+    },
+    {
+      "id": "scene-3",
+      "order": 3,
+      "title": "场景三：林中小屋",
+      "summary": "队伍沿足迹穿过树林，来到夏恩布莱特被诺克占据的树屋宅院；守卫、诺克和床龙都在这里。",
+      "readAloud": "通往诺克塔楼的小径在镇外几英里处从大路岔开，从灌木丛的缝隙间钻出去。这是一条被踩得很实的小路，很快便在高大的橡树之间蜿蜒穿行。\n小径穿过稀疏的林地，约有一英里不见人烟。当夏恩布莱特的旧宅从树梢间出现时，四棵粗壮橡树的活枝编织成三层平台，像一座悬在空中的树屋。",
+      "dmText": "夏恩布莱特没有用石头或玻璃，而是用四棵粗壮橡树的活枝搭建了自己的家。这些枝条被塑形、编织，形成三层厚实的平台。\n最低的花园平台离地约 10 尺；中央平台最大，离地约 20 尺，四周被枝条围合；最高的卧室平台离地约 30 尺。说出通行口令“Mae Tref Cathode”后，枝条会生长并连接花园平台与中央平台，形成入口。\n平台下方散落着两间小屋和一座大户外厕所。战斗开始时，两头狼正在草坪上玩耍，棕熊在厕所里，诺克在中央平台研究法术。",
+      "beats": [
+        {
+          "id": "trail-to-treehouse",
+          "title": "林间小径",
+          "type": "event",
+          "text": "小径上的足迹显示许多人形和爪印，最新的足迹与古兹一伙吻合。队伍可以追踪、潜行或直接沿路前进。",
+          "readAloud": "泥土里留着许多脚印和爪痕，其中一些还很新；灌木被什么沉重的东西压弯了。",
+          "mapIds": [
+            "treehouse"
+          ]
+        },
+        {
+          "id": "password-bridge",
+          "title": "通行口令",
+          "type": "decision",
+          "text": "夏恩布莱特知道口令“Mae Tref Cathode”。说出后，枝条会生长并连接花园平台与中央平台；桥梁可从两端启动。",
+          "readAloud": "“Mae Tref Cathode，”绵羊压低声音说，“我祖宅的名字。别让它听起来像个问题。”",
+          "npcIds": [
+            "finethir-shinebright"
+          ],
+          "mapIds": [
+            "treehouse"
+          ]
+        },
+        {
+          "id": "guards-in-the-open",
+          "title": "守卫在明处",
+          "type": "event",
+          "text": "两头狼在草坪上玩耍，棕熊在厕所里，诺克在中央平台。队伍可潜行、交涉、引开守卫或直接开战。",
+          "readAloud": "草坪上有两头狼正用一对过大的骰子玩游戏；户外厕所的门关着，里面传来很不体面的声音。",
+          "encounterIds": [
+            "treehouse-guards"
+          ],
+          "mapIds": [
+            "treehouse"
+          ]
+        },
+        {
+          "id": "noke-parley",
+          "title": "诺克的命令",
+          "type": "roleplay",
+          "text": "诺克发现队伍后，会命令他们把绵羊还回来，并吹嘘自己的成就。他愿意谈条件，但一旦觉得被背叛就立刻动手。",
+          "readAloud": "“把绵羊还回来，作为回报，我不会把你们全部消灭。”蓝袍法师站在中央平台的栏杆后，手指紧张地捏着左耳垂。",
+          "npcIds": [
+            "ahmed-noke"
+          ]
+        },
+        {
+          "id": "noke-flees",
+          "title": "诺克逃向卧室",
+          "type": "transition",
+          "text": "若战局不利或队伍靠得太近，诺克会施放加速术或撤离术，逃进中央平台、反锁房门并收起桥梁，尽快对床施展完全变形术。",
+          "readAloud": "诺克突然转身冲向卧室，蓝袍拖在身后。他一边跑一边尖声念诵，中央平台的枝条开始收拢。",
+          "npcIds": [
+            "ahmed-noke"
+          ],
+          "spellIds": [
+            "haste",
+            "expeditious-retreat"
+          ]
+        },
+        {
+          "id": "bed-dragon-arrives",
+          "title": "床龙破顶",
+          "type": "encounter",
+          "text": "诺克骑着一头由床变成的雏龙从卧室屋顶破顶而出。雏龙会优先使用木屑吐息，诺克则用冷冻射线减缓撤退。",
+          "readAloud": "屋顶的木瓦炸开，一头用木头雕成的龙冲了出来：鼓胀的床单是翅膀，尾巴末端是一只柔软的枕头。诺克骑在它背上，死死抓着法杖。",
+          "encounterIds": [
+            "bed-dragon-escape"
+          ],
+          "npcIds": [
+            "ahmed-noke"
+          ],
+          "mapIds": [
+            "treehouse"
+          ],
+          "ruleIds": [
+            "concentration",
+            "spell-save-dc",
+            "recharge"
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "id": "scene3-stealth",
+          "label": "若队伍选择潜行",
+          "text": "用敏捷（隐匿）对抗守卫的被动感知；成功可绕开草坪，直接接近中央平台或厕所。"
+        },
+        {
+          "id": "scene3-parley",
+          "label": "若队伍与诺克谈判",
+          "text": "诺克想要绵羊和法杖，也想要被承认。他愿意听一份“利润丰厚”的合约，但会带着守卫赴约。"
+        },
+        {
+          "id": "scene3-escape",
+          "label": "若诺克逃跑",
+          "requiresFlag": "noke-alerted",
+          "text": "诺克会在三轮后骑着床龙破顶而出；队伍可以追击、守住出口，或先解决守卫。"
+        },
+        {
+          "id": "scene3-staff-grab",
+          "label": "若队伍抢先拿到法杖",
+          "requiresFlag": "staff-taken",
+          "text": "诺克会陷入恐慌，优先夺回法杖；床龙可能不会出现，或会提前失控。"
+        }
+      ],
+      "npcIds": [
+        "finethir-shinebright",
+        "ahmed-noke"
+      ],
+      "encounterIds": [
+        "treehouse-guards",
+        "bed-dragon-escape"
+      ],
+      "mapIds": [
+        "treehouse"
+      ],
+      "ruleIds": [
+        "concentration",
+        "spell-save-dc",
+        "cover-rule",
+        "difficult-terrain",
+        "recharge"
+      ],
+      "spellIds": [
+        "enlarge-reduce",
+        "haste",
+        "slow",
+        "expeditious-retreat",
+        "ray-of-frost",
+        "polymorph"
+      ],
+      "dmNotes": "诺克的核心目标是保住法杖和面子。他不会死战；一旦明显不利，就逃向卧室并尝试把床变成龙。守卫降到一半 HP 以下会逃跑。",
+      "sourceRef": "英文原版第 4–6 页；简体中文版第 4–6 页"
+    },
+    {
+      "id": "scene-4",
+      "order": 4,
+      "title": "场景四：重大抉择",
+      "summary": "战斗结束后，队伍拿到损坏的法杖，必须决定是否让夏恩布莱特冒险施法恢复原形。",
+      "readAloud": "战斗结束时，树屋安静得只剩下木头的呻吟声。诺克的法杖落在平台边缘，杖身布满裂纹，铁箍上的符文还在冒着细小的火花。\n夏恩布莱特用蹄子碰了碰法杖，抬起头看着你们。",
+      "dmText": "若玩家取回法杖，会立刻发现它已损坏。任何熟练于奥秘的人都能看出，它被改造过，可以更频繁地使用，但过度使用已使它极不可靠。\n夏恩布莱特愿意冒着生命危险变回精灵；若队伍劝他放弃，他也愿意听取。在接受法术风险之前，他会请求队伍：若他真的死了，请给他的旧学院带个信。",
+      "beats": [
+        {
+          "id": "staff-aftermath",
+          "title": "损坏的法杖",
+          "type": "event",
+          "text": "法杖存有 1d4−1 发完全变形术充能（最少 1 发）；每次使用都需通过 DC 17 智力（奥秘）检定。失败不超过 5 点会变成畸形血肉，失败超过 5 点还会爆炸。",
+          "readAloud": "法杖上的裂纹像干涸河床一样蔓延，铁箍上的符文忽明忽暗。它还能用，但看起来随时会散架。",
+          "itemIds": [
+            "staff-of-true-polymorph"
+          ],
+          "ruleIds": [
+            "spell-scrolls",
+            "concentration"
+          ]
+        },
+        {
+          "id": "noke-aftermath",
+          "title": "诺克的结局",
+          "type": "roleplay",
+          "text": "若诺克还活着，他可能被俘、逃跑或死在法杖故障中。若他死了，夏恩布莱特会沉默很久，意识到自己曾怎样对待这个学徒。",
+          "readAloud": "“他本来可以成为一个好法师，”夏恩布莱特轻声说，“如果我不是那么……我自己。”",
+          "npcIds": [
+            "ahmed-noke",
+            "finethir-shinebright"
+          ]
+        },
+        {
+          "id": "shinebright-choice",
+          "title": "是否施法",
+          "type": "decision",
+          "text": "夏恩布莱特愿意冒险；队伍可以支持、劝阻或亲自使用法杖。成功则恢复原形，失败则可能永久死亡。",
+          "readAloud": "“我知道这很危险，”绵羊说，“但我不想再吃草了。如果你们愿意，我需要你们站在我身边。”",
+          "npcIds": [
+            "finethir-shinebright"
+          ],
+          "spellIds": [
+            "true-polymorph"
+          ],
+          "ruleIds": [
+            "spell-scrolls"
+          ]
+        },
+        {
+          "id": "epilogue",
+          "title": "尾声",
+          "type": "transition",
+          "text": "根据施法结果、诺克的生死和队伍是否接管塔楼，选择成功、失败或拒绝施法的结局。",
+          "readAloud": "树屋外的风穿过橡树，带来远处镇子的钟声。无论结果如何，这头绵羊和这座塔的故事都将在这里告一段落。",
+          "npcIds": [
+            "finethir-shinebright"
+          ]
+        }
+      ],
+      "branches": [
+        {
+          "id": "ending-success",
+          "label": "若施法成功",
+          "requiresFlag": "shinebright-restored",
+          "text": "夏恩布莱特恢复高等精灵原形，衷心感谢队伍；他付不出大笔金钱，但愿意施展最高五环的变化系法术，并收留被变形的守卫。"
+        },
+        {
+          "id": "ending-failure",
+          "label": "若施法失败",
+          "requiresFlag": "shinebright-dead",
+          "text": "夏恩布莱特永久死亡。队伍可以尊重遗愿，把塔楼留给他的旧学院，或搜刮价值约 1,000 gp 的实验设备。"
+        },
+        {
+          "id": "ending-refuse",
+          "label": "若队伍拒绝施法",
+          "text": "夏恩布莱特接受决定，但不会放弃希望。他会收回旧宅，设法解除诅咒，并承认自己欠队伍一个大人情。"
+        },
+        {
+          "id": "ending-tower",
+          "label": "若队伍接管塔楼",
+          "requiresFlag": "tower-claimed",
+          "text": "当地贵族迟早会来拜访诺克；队伍需要解释他的失踪，或面对新的麻烦。"
+        }
+      ],
+      "npcIds": [
+        "finethir-shinebright",
+        "ahmed-noke"
+      ],
+      "itemIds": [
+        "staff-of-true-polymorph"
+      ],
+      "spellIds": [
+        "true-polymorph"
+      ],
+      "ruleIds": [
+        "spell-scrolls",
+        "concentration",
+        "attunement"
+      ],
+      "dmNotes": "这幕的重点不是掷骰，而是让队伍决定是否信任夏恩布莱特、是否承担法杖的风险，以及如何处置诺克留下的东西。",
+      "sourceRef": "英文原版第 7–9 页；简体中文版第 7–9 页"
     }
   ],
   "npcs": [
+    {
+      "id": "ahmed-noke",
+      "name": "艾哈迈德·诺克",
+      "role": "前学徒 / 反派法师",
+      "publicDescription": "一个穿旧蓝袍、头发花白而凌乱的中年男子，紧张时会捏自己的左耳垂。",
+      "dmDescription": "诺克是铁匠最小的孩子，14 岁离家学习变化系魔法，后来拜夏恩布莱特为师。\n他被老师当作孩子使唤了几十年，终于在 40 岁生日那晚把夏恩布莱特变成绵羊，夺走法杖，并以大师法师自居。\n内疚与野心让他越来越偏执：他很少睡觉，豢养被变形的守卫，逼法杖承接超出极限的工作。",
+      "personality": [
+        "决心证明自己的才华",
+        "对夏恩布莱特仍满怀怒火",
+        "偏执地害怕失去法杖",
+        "濒临疯狂"
+      ],
+      "voice": "语速快、句子长，喜欢使用夸张的学术词汇；被质疑时会突然拔高声音，随后又压低声音威胁。",
+      "motivation": "证明自己比夏恩布莱特更强，保住法杖和“大师”身份，让老师永远无法恢复原形。",
+      "attitude": "hostile",
+      "knows": [
+        "夏恩布莱特被变成绵羊",
+        "树屋的布局与通行口令",
+        "古兹和守卫的部署",
+        "法杖已经出现裂纹，但仍能使用"
+      ],
+      "secrets": [
+        "他几乎破产，卖掉了大部分财物来支付研究和守卫",
+        "他非常害怕被自己的守卫背叛",
+        "他打算在必要时把床变成龙逃跑",
+        "他仍对夏恩布莱特抱有一丝扭曲的师徒感情"
+      ],
+      "wants": [
+        "夺回绵羊",
+        "保住法杖",
+        "让队伍承认他的才华",
+        "杀死或永远囚禁夏恩布莱特"
+      ],
+      "sampleLines": [
+        "“把绵羊还回来，作为回报，我不会把你们全部消灭。”",
+        "“你们以为我只是他的学徒？我早就不需要那个老东西了。”",
+        "“别碰那根法杖——它比你们想象的危险得多。”"
+      ],
+      "keyCharacteristics": [
+        "野心与自卑交织",
+        "偏执、缺乏睡眠",
+        "把守卫当作工具",
+        "在压力下捏左耳垂"
+      ],
+      "relationships": [
+        {
+          "label": "范席尔·夏恩布莱特",
+          "note": "前老师、死敌；诺克既恨他又渴望得到他的承认。"
+        },
+        {
+          "label": "古兹",
+          "note": "最忠诚的打手；诺克并不真正尊重他，但知道他不会背叛。"
+        },
+        {
+          "label": "床龙雏龙",
+          "note": "诺克用改造法杖把床变成的逃生坐骑。"
+        }
+      ],
+      "sourceRef": "英文原版第 8 页；简体中文版第 6、8 页"
+    },
     {
       "id": "finethir-shinebright",
       "name": "范席尔·夏恩布莱特",
@@ -253,9 +561,132 @@
         }
       ],
       "sourceRef": "英文原版第 8 页；简体中文版第 8 页"
+    },
+    {
+      "id": "guz-npc",
+      "name": "古兹",
+      "role": "诺克的打手 / 追兵",
+      "publicDescription": "一个身高超过六尺的魁梧半兽人，穿旧但干净的皮甲，头发编成一条垂到后腰的辫子。",
+      "dmDescription": "古兹认为暴力和恐吓是实现目标的唯一合理手段。他对诺克极其忠诚，因为诺克是少数真正不在乎他外表的人。\n他不聪明，容易被花言巧语绕晕，但这通常只会让他更愤怒。他喜欢模仿诺克使用又长又复杂的词。",
+      "personality": [
+        "对诺克极其忠诚",
+        "以暴力和恐吓行事",
+        "模仿诺克，爱用长词",
+        "不太聪明，但直觉敏锐"
+      ],
+      "voice": "粗哑、直接，喜欢把从诺克那里听来的长词硬塞进句子里；被戳穿时会恼羞成怒。",
+      "motivation": "完成诺克的命令，把绵羊带回去；在手下面前保住威严。",
+      "attitude": "hostile",
+      "knows": [
+        "绵羊是诺克大人的财产",
+        "诺克的树屋位置",
+        "守卫的部署",
+        "诺克最近越来越疯"
+      ],
+      "secrets": [
+        "他害怕被诺克当成失败者抛弃",
+        "他并不真的想杀夏恩布莱特，只想完成命令",
+        "他对自己的智力没有安全感"
+      ],
+      "wants": [
+        "抓住绵羊",
+        "让诺克满意",
+        "让手下服从"
+      ],
+      "sampleLines": [
+        "“这头羊属于诺克大人。把它交出来，我可以当你们没见过它。”",
+        "“这是……战略性的撤退，不是逃跑。”",
+        "“诺克大人说，这叫‘感——情——价——值’。”"
+      ],
+      "keyCharacteristics": [
+        "魁梧、直接",
+        "忠诚但不聪明",
+        "用暴力解决问题",
+        "爱模仿诺克的长词"
+      ],
+      "relationships": [
+        {
+          "label": "艾哈迈德·诺克",
+          "note": "主人；古兹对他有近乎盲目的忠诚。"
+        },
+        {
+          "label": "夏恩布莱特",
+          "note": "任务目标；古兹不理解诺克为何执着于一头羊。"
+        },
+        {
+          "label": "狼群与棕熊",
+          "note": "被变形的守卫；古兹把他们当同伙，但也会拿他们挡刀。"
+        }
+      ],
+      "sourceRef": "英文原版第 9 页；简体中文版第 3、9 页"
     }
   ],
   "monsters": [
+    {
+      "id": "bed-dragon-wyrmling",
+      "name": "床龙雏龙",
+      "size": "大型",
+      "type": "龙类",
+      "alignment": "混乱中立",
+      "ac": {
+        "value": 16,
+        "note": "天生护甲"
+      },
+      "hp": {
+        "average": 70,
+        "formula": "10d8+20"
+      },
+      "speed": {
+        "walk": 30,
+        "climb": 30,
+        "fly": 30
+      },
+      "abilities": {
+        "str": 19,
+        "dex": 14,
+        "con": 17,
+        "int": 8,
+        "wis": 8,
+        "cha": 4
+      },
+      "skills": [
+        "感知 +2",
+        "隐匿 +5"
+      ],
+      "damageVulnerabilities": [
+        "火焰"
+      ],
+      "senses": {
+        "passivePerception": 12
+      },
+      "languages": [],
+      "challenge": {
+        "rating": 4,
+        "xp": 1100
+      },
+      "traits": [
+        {
+          "name": "木床构造",
+          "text": "这头龙由诺克的床变形而成，看起来像一条用木头雕成的龙；被击败或诺克失去专注时，它会变回一张普通的旧床。"
+        }
+      ],
+      "actions": [
+        {
+          "name": "啃咬",
+          "text": "近战武器攻击：命中 +6，触及 5 尺，一个目标。命中：15（2d10+4）穿刺伤害。"
+        },
+        {
+          "name": "木屑吐息（充能 5-6）",
+          "text": "喷出一片木屑，覆盖 15 尺锥形区域。区域内的每个生物必须进行一次 DC 13 敏捷豁免，失败受到 24（7d6）穿刺伤害，成功则伤害减半。"
+        }
+      ],
+      "tactics": [
+        "尽可能频繁地使用木屑吐息；吐息不可用时攻击最近的目标。",
+        "优先攻击对自己使用火焰的敌人。",
+        "诺克骑在背上时，它不会主动离开诺克。"
+      ],
+      "sourceRef": "英文原版第 5 页；简体中文版第 5 页"
+    },
     {
       "id": "brown-bear",
       "name": "棕熊",
@@ -378,6 +809,73 @@
       "sourceRef": "英文原版第 3 页；简体中文版第 3 页"
     },
     {
+      "id": "noke",
+      "name": "艾哈迈德·诺克",
+      "size": "中型",
+      "type": "类人生物（人类）",
+      "alignment": "中立邪恶",
+      "ac": {
+        "value": 12
+      },
+      "hp": {
+        "average": 35,
+        "formula": "7d8"
+      },
+      "speed": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": 9,
+        "dex": 14,
+        "con": 16,
+        "int": 16,
+        "wis": 12,
+        "cha": 10
+      },
+      "savingThrows": [
+        "智力 +5",
+        "感知 +4"
+      ],
+      "skills": [
+        "奥秘 +6"
+      ],
+      "senses": {
+        "passivePerception": 12
+      },
+      "languages": [
+        "通用语",
+        "精灵语",
+        "矮人语",
+        "龙语"
+      ],
+      "challenge": {
+        "rating": 2,
+        "xp": 450
+      },
+      "traits": [
+        {
+          "name": "施法",
+          "text": "诺克是 7 级施法者，施法属性为智力（法术豁免 DC 14，法术攻击 +6）。戏法：冷冻射线、修复术、魔法伎俩、传讯术；一环（4 法术位）：撤离术、跳跃术、雷鸣波；二环（3 法术位）：变巨/缩小术、浮空术；三环（3 法术位）：加速术、缓慢术；四环（1 法术位）：变形术。"
+        },
+        {
+          "name": "专注维持者",
+          "text": "诺克会优先维持变巨/缩小术或加速术；受到伤害时按专注规则进行体质豁免。"
+        }
+      ],
+      "actions": [
+        {
+          "name": "匕首",
+          "text": "近战或远程武器攻击：命中 +5，触及 5 尺或射程 20/60 尺，一个目标。命中：4（1d4+2）穿刺伤害。"
+        }
+      ],
+      "tactics": [
+        "让守卫挡在前面，自己维持强化法术并用冷冻射线补伤害。",
+        "若战局不利，施放加速术或撤离术逃向卧室，准备把床变成龙。",
+        "不会死战；法杖和性命比面子更重要。"
+      ],
+      "sourceRef": "英文原版第 6 页；简体中文版第 6 页"
+    },
+    {
       "id": "wolf-guard",
       "name": "被变形的狼",
       "size": "中型",
@@ -432,6 +930,32 @@
   ],
   "encounters": [
     {
+      "id": "bed-dragon-escape",
+      "title": "床龙破顶",
+      "summary": "诺克骑上由床变成的雏龙，从卧室屋顶破顶而出。",
+      "combatants": [
+        {
+          "monsterId": "noke",
+          "count": 1,
+          "label": "艾哈迈德·诺克（骑乘）"
+        },
+        {
+          "monsterId": "bed-dragon-wyrmling",
+          "count": 1,
+          "label": "床龙雏龙"
+        }
+      ],
+      "tactics": [
+        "床龙尽可能使用木屑吐息；吐息不可用时攻击最近目标。",
+        "诺克用冷冻射线减缓撤退者，但不离开龙背。",
+        "床龙被击败或诺克失去专注时，床龙变回旧床。"
+      ],
+      "terrain": "卧室屋顶与中央平台上方；飞行中的床龙可以利用高度，但树冠会限制它飞出太远。",
+      "trigger": "诺克逃向卧室并在三轮后完成对床的完全变形术。",
+      "difficulty": "第二阶段的空中威胁；若队伍已经消耗大量资源，可让床龙优先逃跑而不是死战。",
+      "sourceRef": "英文原版第 5 页；简体中文版第 5 页"
+    },
+    {
       "id": "guz-ambush",
       "title": "古兹的伏击",
       "summary": "古兹带着三头被变形的狼和一头棕熊上门索要绵羊。",
@@ -461,9 +985,49 @@
       "trigger": "古兹要求交出“诺克大人的绵羊”，被拒绝或拖延后动手。",
       "difficulty": "视队伍等级与人数而定；古兹+棕熊是主要威胁，三头狼负责抓人。",
       "sourceRef": "英文原版第 3 页；简体中文版第 3 页"
+    },
+    {
+      "id": "treehouse-guards",
+      "title": "树屋守卫",
+      "summary": "诺克在中央平台指挥守卫；两头狼在草坪上，棕熊从厕所冲出。",
+      "combatants": [
+        {
+          "monsterId": "noke",
+          "count": 1,
+          "label": "艾哈迈德·诺克"
+        },
+        {
+          "monsterId": "wolf-guard",
+          "count": 2,
+          "label": "被变形的狼"
+        },
+        {
+          "monsterId": "brown-bear",
+          "count": 1,
+          "label": "棕熊"
+        }
+      ],
+      "tactics": [
+        "诺克让棕熊堵住通往中央平台的路，自己维持变巨/缩小术。",
+        "狼群游走攻击施法者和脆弱目标。",
+        "守卫降到一半 HP 以下会逃跑；诺克若明显不利则撤向卧室。"
+      ],
+      "terrain": "三层树屋平台、枝条坡道与花园；边缘可被推落，灌木和树根可视为困难地形。",
+      "trigger": "队伍接近中央平台，或诺克发现他们带着绵羊。",
+      "difficulty": "4–5 级队伍的主要战斗；诺克本身较弱，但强化守卫后威胁明显上升。",
+      "sourceRef": "英文原版第 4–6 页；简体中文版第 4–6 页"
     }
   ],
-  "items": [],
+  "items": [
+    {
+      "id": "staff-of-true-polymorph",
+      "name": "改造过的完全变形术法杖",
+      "kind": "法杖（传说）",
+      "summary": "一根从橡树上取下的细长枝条，存有 1d4−1 发完全变形术充能（最少 1 发），每日黎明恢复。任何具有施法属性、且与法杖同调 1 小时的人都能使用。每次使用消耗 1 发充能，并通过 DC 17 智力（奥秘）检定；成功时法术正常施展，且之后使用它的检定 DC 永久 +1。失败不超过 5 点，目标会变成无法行动、1d4 轮后死亡的畸形血肉；失败超过 5 点，法杖还会爆炸，对 10 尺内每个生物造成剩余充能数 ×1d12 力场伤害，然后被摧毁。",
+      "pageRef": "简体中文版第 7 页",
+      "sourceRef": "英文原版第 7 页；简体中文版第 7 页"
+    }
+  ],
   "handouts": [
     {
       "id": "scroll-speak-with-animals",
@@ -471,6 +1035,14 @@
       "kind": "text",
       "playerText": "一张精致的卷轴，蜡封上刻着动物与舌头的符文。展开后，文字以精灵语写成。\n蜡封旁有一行小字：“动物交谈（修改版）——持卷者可念出内容启动。”\n",
       "dmText": "这是夏恩布莱特修改过的动物交谈卷轴，持续八小时而不是通常的 10 分钟。\n队伍使用后，绵羊的咩叫会变成有教养的精灵口音通用语。\n卷轴只有一张；若队伍拒绝使用，夏恩布莱特会用蹄子在地上划字，或试图引起施法者注意。\n"
+    },
+    {
+      "id": "treehouse-map",
+      "title": "诺克的树屋宅院地图",
+      "kind": "map",
+      "playerText": "一张树屋宅院的战斗地图，标出花园平台、中央平台、卧室、小屋和户外厕所。",
+      "dmText": "图钉只存在于 App 内；导出时使用干净原图，不烧录 DM 标记。",
+      "imageAssetId": "map-treehouse"
     }
   ],
   "maps": [
@@ -540,6 +1112,39 @@
   ],
   "rules": [
     {
+      "id": "ability-check-dc",
+      "term": "属性检定与 DC",
+      "aliases": [
+        "Ability Check",
+        "DC",
+        "检定"
+      ],
+      "category": "核心",
+      "summary": "DM 设定 DC：非常简单 5、简单 10、中等 15、困难 20、非常困难 25、几乎不可能 30。玩家投 d20 + 属性调整值 + 熟练加值（如适用），达到 DC 即成功。",
+      "pageRef": "玩家手册第 174 页"
+    },
+    {
+      "id": "advantage-disadvantage",
+      "term": "优势与劣势",
+      "aliases": [
+        "Advantage",
+        "Disadvantage"
+      ],
+      "category": "核心",
+      "summary": "有优势时投两个 d20 取较高；有劣势时取较低。两者同时存在则互相抵消，只投一个 d20。",
+      "pageRef": "玩家手册第 173 页"
+    },
+    {
+      "id": "attunement",
+      "term": "同调",
+      "aliases": [
+        "Attunement"
+      ],
+      "category": "魔法物品",
+      "summary": "部分魔法物品需要同调才能使用。短休专注或长休期间完成，最多同调三件物品。",
+      "pageRef": "玩家手册第 138 页"
+    },
+    {
       "id": "concentration",
       "term": "专注",
       "aliases": [
@@ -548,9 +1153,368 @@
       "category": "core",
       "summary": "需要专注的法术在持续时间内占用你的专注。同一时间只能专注一个法术。\n若你在专注时受到伤害，必须进行一次体质豁免，DC 为 10 或所受伤害的一半（取较高者，至少 10）；\n失败则法术结束。若你陷入失能或死亡，专注也会结束。\n",
       "pageRef": "玩家手册第 203 页"
+    },
+    {
+      "id": "condition-frightened",
+      "term": "恐慌",
+      "aliases": [
+        "Frightened"
+      ],
+      "category": "状态",
+      "summary": "恐慌生物在看见恐惧源时，属性检定和攻击检定有劣势；不能主动靠近恐惧源。若恐惧源离开视线，效果可能结束。",
+      "pageRef": "玩家手册第 290 页"
+    },
+    {
+      "id": "condition-grappled",
+      "term": "受擒",
+      "aliases": [
+        "Grappled"
+      ],
+      "category": "状态",
+      "summary": "受擒生物速度变为 0，不能受益于速度加值。若被移出擒抱者触及范围，或擒抱者失能，受擒结束。",
+      "pageRef": "玩家手册第 290 页"
+    },
+    {
+      "id": "condition-poisoned",
+      "term": "中毒",
+      "aliases": [
+        "Poisoned"
+      ],
+      "category": "状态",
+      "summary": "中毒生物的攻击检定和属性检定有劣势。",
+      "pageRef": "玩家手册第 292 页"
+    },
+    {
+      "id": "condition-prone",
+      "term": "倒地",
+      "aliases": [
+        "Prone"
+      ],
+      "category": "状态",
+      "summary": "倒地生物只能爬行移动，除非起身；对其近战攻击有优势，远程攻击有劣势；它自己攻击有劣势。起身消耗一半速度。",
+      "pageRef": "玩家手册第 292 页"
+    },
+    {
+      "id": "cover-rule",
+      "term": "掩体",
+      "aliases": [
+        "Cover"
+      ],
+      "category": "战斗",
+      "summary": "半掩体 AC 和敏捷豁免 +2；四分之三掩体 +5；全掩体不能被直接作为目标。",
+      "pageRef": "玩家手册第 196 页"
+    },
+    {
+      "id": "death-saves",
+      "term": "死亡豁免",
+      "aliases": [
+        "Death Saving Throw"
+      ],
+      "category": "战斗",
+      "summary": "0 HP 时每回合开始投 d20；10 以上成功，9 以下失败。三次成功稳定，三次失败死亡。受到伤害时失败一次；重击失败两次。",
+      "pageRef": "玩家手册第 197 页"
+    },
+    {
+      "id": "difficult-terrain",
+      "term": "困难地形",
+      "aliases": [
+        "Difficult Terrain"
+      ],
+      "category": "战斗",
+      "summary": "在困难地形中每移动 1 尺消耗 2 尺速度。翻倒的桌椅、灌木、湿滑地面等可视为困难地形。",
+      "pageRef": "玩家手册第 182 页"
+    },
+    {
+      "id": "grapple-shove",
+      "term": "擒抱与推撞",
+      "aliases": [
+        "Grapple",
+        "Shove"
+      ],
+      "category": "战斗",
+      "summary": "以力量（运动）对抗目标的力量（运动）或敏捷（体操）；成功可使其受擒或倒地/推开 5 尺。目标体型最多比你大一级。",
+      "pageRef": "玩家手册第 195 页"
+    },
+    {
+      "id": "hide",
+      "term": "躲藏",
+      "aliases": [
+        "Hide",
+        "Stealth"
+      ],
+      "category": "战斗",
+      "summary": "进行敏捷（隐匿）检定，对抗被动感知；成功后获得隐形状态，攻击或发出声音可能暴露位置。",
+      "pageRef": "玩家手册第 177 页"
+    },
+    {
+      "id": "multiattack",
+      "term": "多重攻击",
+      "aliases": [
+        "Multiattack"
+      ],
+      "category": "怪物",
+      "summary": "怪物动作栏写“多重攻击”时，可在自己的回合进行列出的多次攻击；每次攻击分别投命中与伤害。",
+      "pageRef": "怪物图鉴导言"
+    },
+    {
+      "id": "opportunity-attacks",
+      "term": "借机攻击",
+      "aliases": [
+        "Opportunity Attack"
+      ],
+      "category": "战斗",
+      "summary": "敌人以移动离开你的触及范围时，你可以用反应进行一次近战攻击。传送或被迫移动通常不触发。",
+      "pageRef": "玩家手册第 195 页"
+    },
+    {
+      "id": "reactions",
+      "term": "反应",
+      "aliases": [
+        "Reaction"
+      ],
+      "category": "战斗",
+      "summary": "每轮最多一个反应，可在自己回合或其他人的回合触发；触发后直到自己下个回合开始前不能再次使用。",
+      "pageRef": "玩家手册第 190 页"
+    },
+    {
+      "id": "recharge",
+      "term": "充能",
+      "aliases": [
+        "Recharge"
+      ],
+      "category": "怪物",
+      "summary": "怪物能力标注“充能 5–6”时，每轮开始投 d6；结果在范围内则恢复使用。",
+      "pageRef": "怪物图鉴导言"
+    },
+    {
+      "id": "saving-throws",
+      "term": "豁免检定",
+      "aliases": [
+        "Saving Throw",
+        "Save"
+      ],
+      "category": "核心",
+      "summary": "d20 + 属性调整值 + 熟练加值（若该职业熟练）。达到 DC 即成功。常见 DC 由法术或怪物能力给出。",
+      "pageRef": "玩家手册第 179 页"
+    },
+    {
+      "id": "spell-save-dc",
+      "term": "法术豁免 DC",
+      "aliases": [
+        "Spell Save DC"
+      ],
+      "category": "魔法",
+      "summary": "法术豁免 DC = 8 + 熟练加值 + 施法属性调整值。诺克为 DC 14，法术攻击 +6。",
+      "pageRef": "玩家手册第 205 页"
+    },
+    {
+      "id": "spell-scrolls",
+      "term": "法术卷轴",
+      "aliases": [
+        "Spell Scroll"
+      ],
+      "category": "魔法物品",
+      "summary": "卷轴上的法术可用其正常施法时间施展；若法术不在你的职业列表，需通过智力（奥秘）检定，DC = 10 + 法术环阶。",
+      "pageRef": "地下城主指南第 200 页"
+    },
+    {
+      "id": "surprise",
+      "term": "突袭",
+      "aliases": [
+        "Surprise"
+      ],
+      "category": "战斗",
+      "summary": "战斗开始时，若一方未察觉另一方，未察觉方被突袭。被突袭生物在第一回合不能移动或采取动作，且直到其回合结束不能采取反应。",
+      "pageRef": "玩家手册第 189 页"
+    },
+    {
+      "id": "temporary-hp",
+      "term": "临时生命值",
+      "aliases": [
+        "Temporary HP"
+      ],
+      "category": "战斗",
+      "summary": "临时 HP 先于正常 HP 扣除，不叠加；长休后消失（除非来源另有说明）。",
+      "pageRef": "玩家手册第 198 页"
     }
   ],
   "spells": [
+    {
+      "id": "enlarge-reduce",
+      "name": "变巨/缩小术",
+      "aliases": [
+        "Enlarge/Reduce"
+      ],
+      "level": 2,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "30 尺",
+      "components": "V, S, M",
+      "duration": "专注，至多 1 分钟",
+      "concentration": true,
+      "summary": "使目标体型增大或缩小一阶；增大时武器伤害 +1d4，缩小时 −1d4。",
+      "pageRef": "玩家手册第 237 页"
+    },
+    {
+      "id": "expeditious-retreat",
+      "name": "撤离术",
+      "aliases": [
+        "Expeditious Retreat"
+      ],
+      "level": 1,
+      "school": "变化系",
+      "castingTime": "1 附赠动作",
+      "range": "自身",
+      "components": "V, S",
+      "duration": "专注，至多 10 分钟",
+      "concentration": true,
+      "summary": "你可以在每回合用一个附赠动作执行疾走。",
+      "pageRef": "玩家手册第 238 页"
+    },
+    {
+      "id": "haste",
+      "name": "加速术",
+      "aliases": [
+        "Haste"
+      ],
+      "level": 3,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "30 尺",
+      "components": "V, S, M",
+      "duration": "专注，至多 1 分钟",
+      "concentration": true,
+      "summary": "目标速度加倍、AC +2、敏捷豁免优势，并获得一个额外动作（仅限攻击、疾走、撤离、躲藏或使用物品）。",
+      "pageRef": "玩家手册第 250 页"
+    },
+    {
+      "id": "jump",
+      "name": "跳跃术",
+      "aliases": [
+        "Jump"
+      ],
+      "level": 1,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "触及",
+      "components": "V, S, M",
+      "duration": "1 分钟",
+      "concentration": false,
+      "summary": "目标在持续时间内跳跃距离变为三倍；每次跳跃仍消耗移动力。",
+      "pageRef": "玩家手册第 254 页"
+    },
+    {
+      "id": "levitate",
+      "name": "浮空术",
+      "aliases": [
+        "Levitate"
+      ],
+      "level": 2,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "60 尺",
+      "components": "V, S, M",
+      "duration": "专注，至多 10 分钟",
+      "concentration": true,
+      "summary": "目标垂直上升或下降最多 20 尺；你可以改变高度，但不能水平移动，除非有别的推力。",
+      "pageRef": "玩家手册第 255 页"
+    },
+    {
+      "id": "mending",
+      "name": "修复术",
+      "aliases": [
+        "Mending"
+      ],
+      "level": 0,
+      "school": "变化系",
+      "castingTime": "1 分钟",
+      "range": "触及",
+      "components": "V, S, M",
+      "duration": "立即",
+      "concentration": false,
+      "summary": "修复物体上的一处破损或撕裂，裂缝长度不超过 1 尺。",
+      "pageRef": "玩家手册第 259 页"
+    },
+    {
+      "id": "message",
+      "name": "传讯术",
+      "aliases": [
+        "Message"
+      ],
+      "level": 0,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "120 尺",
+      "components": "V, S, M",
+      "duration": "1 轮",
+      "concentration": false,
+      "summary": "目标听到你的耳语并可低声回复；其他人听不到，但魔法沉默或障碍会阻断。",
+      "pageRef": "玩家手册第 259 页"
+    },
+    {
+      "id": "polymorph",
+      "name": "变形术",
+      "aliases": [
+        "Polymorph"
+      ],
+      "level": 4,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "60 尺",
+      "components": "V, S, M",
+      "duration": "专注，至多 1 小时",
+      "concentration": true,
+      "summary": "目标变成一头野兽，其 CR 不能超过目标等级（或挑战等级）。目标使用野兽的数据，但保留阵营与人格。",
+      "pageRef": "玩家手册第 266 页"
+    },
+    {
+      "id": "prestidigitation",
+      "name": "魔法伎俩",
+      "aliases": [
+        "Prestidigitation"
+      ],
+      "level": 0,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "10 尺",
+      "components": "V, S",
+      "duration": "至多 1 小时",
+      "concentration": false,
+      "summary": "创造无害的感官效果、清洁或弄脏物品、点燃/熄灭小火焰等；同时最多维持三个非瞬时效果。",
+      "pageRef": "玩家手册第 267 页"
+    },
+    {
+      "id": "ray-of-frost",
+      "name": "冷冻射线",
+      "aliases": [
+        "Ray of Frost"
+      ],
+      "level": 0,
+      "school": "塑能系",
+      "castingTime": "1 动作",
+      "range": "60 尺",
+      "components": "V, S",
+      "duration": "立即",
+      "concentration": false,
+      "summary": "远程法术攻击，命中造成 1d8 冷冻伤害，并使目标速度减少 10 尺直到你的下个回合开始。",
+      "pageRef": "玩家手册第 271 页"
+    },
+    {
+      "id": "slow",
+      "name": "缓慢术",
+      "aliases": [
+        "Slow"
+      ],
+      "level": 3,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "120 尺",
+      "components": "V, S, M",
+      "duration": "专注，至多 1 分钟",
+      "concentration": true,
+      "summary": "最多六个目标；速度减半、AC 和敏捷豁免 −2，不能使用反应，且每回合只能做一个动作或一个附赠动作。",
+      "pageRef": "玩家手册第 278 页"
+    },
     {
       "id": "speak-with-animals",
       "name": "动物交谈",
@@ -567,9 +1531,47 @@
       "ritual": true,
       "summary": "你获得理解并口头回应动物的能力。持续时间内，你可以理解动物的叫声、动作和姿态，\n并能用它们能理解的方式回应。你无法说服动物做超出其理解或能力范围的事。\n",
       "pageRef": "玩家手册第 277 页"
+    },
+    {
+      "id": "thunderwave",
+      "name": "雷鸣波",
+      "aliases": [
+        "Thunderwave"
+      ],
+      "level": 1,
+      "school": "塑能系",
+      "castingTime": "1 动作",
+      "range": "自身（15 尺立方）",
+      "components": "V, S",
+      "duration": "立即",
+      "concentration": false,
+      "summary": "每个范围内的生物进行体质豁免；失败受到 2d8 雷鸣伤害并被推开 10 尺，成功则伤害减半且不被推开。",
+      "pageRef": "玩家手册第 282 页"
+    },
+    {
+      "id": "true-polymorph",
+      "name": "完全变形术",
+      "aliases": [
+        "True Polymorph"
+      ],
+      "level": 9,
+      "school": "变化系",
+      "castingTime": "1 动作",
+      "range": "30 尺",
+      "components": "V, S, M",
+      "duration": "专注，至多 1 小时",
+      "concentration": true,
+      "summary": "目标变成另一种生物或物体。生物形态的 CR/等级不能超过目标等级；持续到法术结束。若维持满一小时，效果变为永久。",
+      "pageRef": "玩家手册第 285 页"
     }
   ],
   "flags": [
+    {
+      "id": "bed-dragon-defeated",
+      "label": "床龙被击败",
+      "description": "床龙变回旧床；诺克失去坐骑。",
+      "defaultValue": false
+    },
     {
       "id": "guz-captured",
       "label": "古兹被俘",
@@ -583,6 +1585,24 @@
       "defaultValue": false
     },
     {
+      "id": "noke-alerted",
+      "label": "诺克被惊动",
+      "description": "诺克知道队伍闯入树屋；他会准备逃跑或唤醒床龙。",
+      "defaultValue": false
+    },
+    {
+      "id": "noke-dead",
+      "label": "诺克死亡",
+      "description": "诺克死在法杖故障或队伍手中；不会再有后续威胁。",
+      "defaultValue": false
+    },
+    {
+      "id": "noke-defeated",
+      "label": "诺克被击败",
+      "description": "诺克失去战斗能力、被俘或被迫撤退。",
+      "defaultValue": false
+    },
+    {
       "id": "scroll-used",
       "label": "队伍使用了动物交谈卷轴",
       "description": "夏恩布莱特可以正常交谈；后续按“已能沟通”处理。",
@@ -593,15 +1613,59 @@
       "label": "夏恩布莱特被俘",
       "description": "古兹带走了绵羊，触发追逐或营救分支。",
       "defaultValue": false
+    },
+    {
+      "id": "shinebright-dead",
+      "label": "夏恩布莱特死亡",
+      "description": "法杖故障或施法失败导致夏恩布莱特永久死亡。",
+      "defaultValue": false
+    },
+    {
+      "id": "shinebright-restored",
+      "label": "夏恩布莱特恢复原形",
+      "description": "法杖施法成功，夏恩布莱特变回高等精灵。",
+      "defaultValue": false
+    },
+    {
+      "id": "staff-damaged",
+      "label": "法杖已损坏",
+      "description": "法杖的改造与裂纹已暴露；使用时有失败风险。",
+      "defaultValue": false
+    },
+    {
+      "id": "staff-taken",
+      "label": "法杖被拿走",
+      "description": "队伍已经拿到改造过的完全变形术法杖。",
+      "defaultValue": false
+    },
+    {
+      "id": "tower-claimed",
+      "label": "队伍接管塔楼",
+      "description": "队伍决定把树屋据为己有，或留下来处理当地贵族。",
+      "defaultValue": false
     }
   ],
   "assets": [
+    {
+      "id": "cover",
+      "path": "assets/cover.jpg",
+      "kind": "cover",
+      "exportFilename": "荒野逐羊_封面.jpg",
+      "credit": "Blizzard Entertainment"
+    },
     {
       "id": "map-treehouse",
       "path": "assets/map-treehouse.jpg",
       "kind": "map",
       "exportFilename": "荒野逐羊_树屋地图.jpg",
       "credit": "Pyromancer's Dungeon Painter（www.pyromancers.com）"
+    },
+    {
+      "id": "sheep-illustration",
+      "path": "assets/sheep-ink.png",
+      "kind": "illustration",
+      "exportFilename": "荒野逐羊_绵羊速写.png",
+      "credit": "《荒野逐羊》简体中文版"
     }
   ]
 }

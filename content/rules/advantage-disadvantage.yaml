@@ -1,0 +1,8 @@
+id: advantage-disadvantage
+term: 优势与劣势
+aliases:
+- Advantage
+- Disadvantage
+category: 核心
+summary: 有优势时投两个 d20 取较高；有劣势时取较低。两者同时存在则互相抵消，只投一个 d20。
+pageRef: 玩家手册第 173 页

@@ -1,0 +1,8 @@
+id: hide
+term: 躲藏
+aliases:
+- Hide
+- Stealth
+category: 战斗
+summary: 进行敏捷（隐匿）检定，对抗被动感知；成功后获得隐形状态，攻击或发出声音可能暴露位置。
+pageRef: 玩家手册第 177 页

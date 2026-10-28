@@ -1,0 +1,107 @@
+id: scene-3
+order: 3
+title: 场景三：林中小屋
+summary: 队伍沿足迹穿过树林，来到夏恩布莱特被诺克占据的树屋宅院；守卫、诺克和床龙都在这里。
+readAloud: |-
+  通往诺克塔楼的小径在镇外几英里处从大路岔开，从灌木丛的缝隙间钻出去。这是一条被踩得很实的小路，很快便在高大的橡树之间蜿蜒穿行。
+  小径穿过稀疏的林地，约有一英里不见人烟。当夏恩布莱特的旧宅从树梢间出现时，四棵粗壮橡树的活枝编织成三层平台，像一座悬在空中的树屋。
+dmText: |-
+  夏恩布莱特没有用石头或玻璃，而是用四棵粗壮橡树的活枝搭建了自己的家。这些枝条被塑形、编织，形成三层厚实的平台。
+  最低的花园平台离地约 10 尺；中央平台最大，离地约 20 尺，四周被枝条围合；最高的卧室平台离地约 30 尺。说出通行口令“Mae Tref Cathode”后，枝条会生长并连接花园平台与中央平台，形成入口。
+  平台下方散落着两间小屋和一座大户外厕所。战斗开始时，两头狼正在草坪上玩耍，棕熊在厕所里，诺克在中央平台研究法术。
+beats:
+- id: trail-to-treehouse
+  title: 林间小径
+  type: event
+  text: 小径上的足迹显示许多人形和爪印，最新的足迹与古兹一伙吻合。队伍可以追踪、潜行或直接沿路前进。
+  readAloud: 泥土里留着许多脚印和爪痕，其中一些还很新；灌木被什么沉重的东西压弯了。
+  mapIds:
+  - treehouse
+- id: password-bridge
+  title: 通行口令
+  type: decision
+  text: 夏恩布莱特知道口令“Mae Tref Cathode”。说出后，枝条会生长并连接花园平台与中央平台；桥梁可从两端启动。
+  readAloud: “Mae Tref Cathode，”绵羊压低声音说，“我祖宅的名字。别让它听起来像个问题。”
+  npcIds:
+  - finethir-shinebright
+  mapIds:
+  - treehouse
+- id: guards-in-the-open
+  title: 守卫在明处
+  type: event
+  text: 两头狼在草坪上玩耍，棕熊在厕所里，诺克在中央平台。队伍可潜行、交涉、引开守卫或直接开战。
+  readAloud: 草坪上有两头狼正用一对过大的骰子玩游戏；户外厕所的门关着，里面传来很不体面的声音。
+  encounterIds:
+  - treehouse-guards
+  mapIds:
+  - treehouse
+- id: noke-parley
+  title: 诺克的命令
+  type: roleplay
+  text: 诺克发现队伍后，会命令他们把绵羊还回来，并吹嘘自己的成就。他愿意谈条件，但一旦觉得被背叛就立刻动手。
+  readAloud: “把绵羊还回来，作为回报，我不会把你们全部消灭。”蓝袍法师站在中央平台的栏杆后，手指紧张地捏着左耳垂。
+  npcIds:
+  - ahmed-noke
+- id: noke-flees
+  title: 诺克逃向卧室
+  type: transition
+  text: 若战局不利或队伍靠得太近，诺克会施放加速术或撤离术，逃进中央平台、反锁房门并收起桥梁，尽快对床施展完全变形术。
+  readAloud: 诺克突然转身冲向卧室，蓝袍拖在身后。他一边跑一边尖声念诵，中央平台的枝条开始收拢。
+  npcIds:
+  - ahmed-noke
+  spellIds:
+  - haste
+  - expeditious-retreat
+- id: bed-dragon-arrives
+  title: 床龙破顶
+  type: encounter
+  text: 诺克骑着一头由床变成的雏龙从卧室屋顶破顶而出。雏龙会优先使用木屑吐息，诺克则用冷冻射线减缓撤退。
+  readAloud: 屋顶的木瓦炸开，一头用木头雕成的龙冲了出来：鼓胀的床单是翅膀，尾巴末端是一只柔软的枕头。诺克骑在它背上，死死抓着法杖。
+  encounterIds:
+  - bed-dragon-escape
+  npcIds:
+  - ahmed-noke
+  mapIds:
+  - treehouse
+  ruleIds:
+  - concentration
+  - spell-save-dc
+  - recharge
+branches:
+- id: scene3-stealth
+  label: 若队伍选择潜行
+  text: 用敏捷（隐匿）对抗守卫的被动感知；成功可绕开草坪，直接接近中央平台或厕所。
+- id: scene3-parley
+  label: 若队伍与诺克谈判
+  text: 诺克想要绵羊和法杖，也想要被承认。他愿意听一份“利润丰厚”的合约，但会带着守卫赴约。
+- id: scene3-escape
+  label: 若诺克逃跑
+  requiresFlag: noke-alerted
+  text: 诺克会在三轮后骑着床龙破顶而出；队伍可以追击、守住出口，或先解决守卫。
+- id: scene3-staff-grab
+  label: 若队伍抢先拿到法杖
+  requiresFlag: staff-taken
+  text: 诺克会陷入恐慌，优先夺回法杖；床龙可能不会出现，或会提前失控。
+npcIds:
+- finethir-shinebright
+- ahmed-noke
+encounterIds:
+- treehouse-guards
+- bed-dragon-escape
+mapIds:
+- treehouse
+ruleIds:
+- concentration
+- spell-save-dc
+- cover-rule
+- difficult-terrain
+- recharge
+spellIds:
+- enlarge-reduce
+- haste
+- slow
+- expeditious-retreat
+- ray-of-frost
+- polymorph
+dmNotes: 诺克的核心目标是保住法杖和面子。他不会死战；一旦明显不利，就逃向卧室并尝试把床变成龙。守卫降到一半 HP 以下会逃跑。
+sourceRef: 英文原版第 4–6 页；简体中文版第 4–6 页

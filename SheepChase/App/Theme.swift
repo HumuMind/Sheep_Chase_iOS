@@ -10,6 +10,7 @@ enum Theme {
     static let paper = Color(red: 0.98, green: 0.96, blue: 0.92)
     static let paperDeep = Color(red: 0.93, green: 0.89, blue: 0.82)
     static let card = Color(red: 0.995, green: 0.98, blue: 0.95)
+    static let readingPaper = Color(red: 0.985, green: 0.968, blue: 0.925)
     static let line = Color(red: 0.86, green: 0.80, blue: 0.71)
     static let green = Color(red: 0.30, green: 0.42, blue: 0.32)
     static let amber = Color(red: 0.60, green: 0.40, blue: 0.18)
@@ -111,6 +112,16 @@ extension View {
 }
 
 extension View {
+    func readingPage() -> some View {
+        self
+            .background(Theme.readingPaper)
+            .overlay(
+                Rectangle()
+                    .stroke(Theme.line.opacity(0.55), lineWidth: 0.5)
+            )
+            .shadow(color: .black.opacity(0.08), radius: 10, y: 3)
+    }
+
     @ViewBuilder
     func bookPaperSurface() -> some View {
         #if os(iOS)

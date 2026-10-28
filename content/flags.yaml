@@ -14,3 +14,39 @@
   label: 夏恩布莱特被俘
   description: 古兹带走了绵羊，触发追逐或营救分支。
   defaultValue: false
+- id: noke-alerted
+  label: 诺克被惊动
+  description: 诺克知道队伍闯入树屋；他会准备逃跑或唤醒床龙。
+  defaultValue: false
+- id: staff-taken
+  label: 法杖被拿走
+  description: 队伍已经拿到改造过的完全变形术法杖。
+  defaultValue: false
+- id: staff-damaged
+  label: 法杖已损坏
+  description: 法杖的改造与裂纹已暴露；使用时有失败风险。
+  defaultValue: false
+- id: noke-defeated
+  label: 诺克被击败
+  description: 诺克失去战斗能力、被俘或被迫撤退。
+  defaultValue: false
+- id: noke-dead
+  label: 诺克死亡
+  description: 诺克死在法杖故障或队伍手中；不会再有后续威胁。
+  defaultValue: false
+- id: bed-dragon-defeated
+  label: 床龙被击败
+  description: 床龙变回旧床；诺克失去坐骑。
+  defaultValue: false
+- id: shinebright-restored
+  label: 夏恩布莱特恢复原形
+  description: 法杖施法成功，夏恩布莱特变回高等精灵。
+  defaultValue: false
+- id: shinebright-dead
+  label: 夏恩布莱特死亡
+  description: 法杖故障或施法失败导致夏恩布莱特永久死亡。
+  defaultValue: false
+- id: tower-claimed
+  label: 队伍接管塔楼
+  description: 队伍决定把树屋据为己有，或留下来处理当地贵族。
+  defaultValue: false

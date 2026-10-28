@@ -1,0 +1,13 @@
+id: expeditious-retreat
+name: 撤离术
+aliases:
+- Expeditious Retreat
+level: 1
+school: 变化系
+castingTime: 1 附赠动作
+range: 自身
+components: V, S
+duration: 专注，至多 10 分钟
+concentration: true
+summary: 你可以在每回合用一个附赠动作执行疾走。
+pageRef: 玩家手册第 238 页

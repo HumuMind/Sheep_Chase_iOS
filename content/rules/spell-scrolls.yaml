@@ -1,0 +1,7 @@
+id: spell-scrolls
+term: 法术卷轴
+aliases:
+- Spell Scroll
+category: 魔法物品
+summary: 卷轴上的法术可用其正常施法时间施展；若法术不在你的职业列表，需通过智力（奥秘）检定，DC = 10 + 法术环阶。
+pageRef: 地下城主指南第 200 页

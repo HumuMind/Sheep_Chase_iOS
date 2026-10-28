@@ -1,0 +1,7 @@
+id: opportunity-attacks
+term: 借机攻击
+aliases:
+- Opportunity Attack
+category: 战斗
+summary: 敌人以移动离开你的触及范围时，你可以用反应进行一次近战攻击。传送或被迫移动通常不触发。
+pageRef: 玩家手册第 195 页

@@ -1,0 +1,9 @@
+id: ability-check-dc
+term: 属性检定与 DC
+aliases:
+- Ability Check
+- DC
+- 检定
+category: 核心
+summary: DM 设定 DC：非常简单 5、简单 10、中等 15、困难 20、非常困难 25、几乎不可能 30。玩家投 d20 + 属性调整值 + 熟练加值（如适用），达到 DC 即成功。
+pageRef: 玩家手册第 174 页

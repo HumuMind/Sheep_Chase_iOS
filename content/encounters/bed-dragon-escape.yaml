@@ -1,0 +1,18 @@
+id: bed-dragon-escape
+title: 床龙破顶
+summary: 诺克骑上由床变成的雏龙，从卧室屋顶破顶而出。
+combatants:
+- monsterId: noke
+  count: 1
+  label: 艾哈迈德·诺克（骑乘）
+- monsterId: bed-dragon-wyrmling
+  count: 1
+  label: 床龙雏龙
+tactics:
+- 床龙尽可能使用木屑吐息；吐息不可用时攻击最近目标。
+- 诺克用冷冻射线减缓撤退者，但不离开龙背。
+- 床龙被击败或诺克失去专注时，床龙变回旧床。
+terrain: 卧室屋顶与中央平台上方；飞行中的床龙可以利用高度，但树冠会限制它飞出太远。
+trigger: 诺克逃向卧室并在三轮后完成对床的完全变形术。
+difficulty: 第二阶段的空中威胁；若队伍已经消耗大量资源，可让床龙优先逃跑而不是死战。
+sourceRef: 英文原版第 5 页；简体中文版第 5 页

@@ -1,0 +1,7 @@
+id: condition-prone
+term: 倒地
+aliases:
+- Prone
+category: 状态
+summary: 倒地生物只能爬行移动，除非起身；对其近战攻击有优势，远程攻击有劣势；它自己攻击有劣势。起身消耗一半速度。
+pageRef: 玩家手册第 292 页

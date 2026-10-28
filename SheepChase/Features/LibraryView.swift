@@ -1,9 +1,13 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct LibraryView: View {
     @Environment(RunStore.self) private var store
     @State private var selection: UUID?
     @State private var showNewRun = false
+    @State private var showImporter = false
+    @State private var showAbout = false
+    @State private var importError: String?
 
     private var selectedRun: RunRecord? {
         guard let selection else { return nil }
@@ -17,6 +21,15 @@ struct LibraryView: View {
                     ForEach(store.orderedRuns) { run in
                         LibraryRunRow(run: run)
                             .tag(run.id)
+                    }
+                }
+
+                if !store.archivedRuns.isEmpty {
+                    Section("已归档") {
+                        ForEach(store.archivedRuns) { run in
+                            LibraryRunRow(run: run)
+                                .tag(run.id)
+                        }
                     }
                 }
             }
@@ -51,11 +64,25 @@ struct LibraryView: View {
             }
             .navigationTitle("我的开团")
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        showNewRun = true
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Menu {
+                        Button {
+                            showNewRun = true
+                        } label: {
+                            Label("新建开团", systemImage: "plus")
+                        }
+                        Button {
+                            showImporter = true
+                        } label: {
+                            Label("导入开团备份…", systemImage: "square.and.arrow.down")
+                        }
                     } label: {
-                        Label("新建开团", systemImage: "plus")
+                        Label("开团操作", systemImage: "plus")
+                    }
+                    Button {
+                        showAbout = true
+                    } label: {
+                        Label("关于内容包", systemImage: "info.circle")
                     }
                 }
             }
@@ -84,9 +111,40 @@ struct LibraryView: View {
             NewRunSheet()
                 .environment(store)
         }
+        .sheet(isPresented: $showAbout) {
+            AboutContentSheet(content: store.content)
+                .environment(store)
+        }
+        .fileImporter(
+            isPresented: $showImporter,
+            allowedContentTypes: [.json]
+        ) { result in
+            switch result {
+            case .success(let url):
+                let accessed = url.startAccessingSecurityScopedResource()
+                defer { if accessed { url.stopAccessingSecurityScopedResource() } }
+                do {
+                    let data = try Data(contentsOf: url)
+                    _ = try store.importRun(from: data)
+                    selection = store.selectedRunID
+                } catch {
+                    importError = error.localizedDescription
+                }
+            case .failure(let error):
+                importError = error.localizedDescription
+            }
+        }
+        .alert("导入失败", isPresented: Binding(
+            get: { importError != nil },
+            set: { if !$0 { importError = nil } }
+        )) {
+            Button("好") { importError = nil }
+        } message: {
+            Text(importError ?? "未知错误")
+        }
         .onAppear {
             if selection == nil {
-                selection = store.orderedRuns.first?.id
+                selection = store.orderedRuns.first?.id ?? store.archivedRuns.first?.id
             }
         }
     }
@@ -134,6 +192,9 @@ private struct LibraryRunRow: View {
 private struct LibraryRunDetail: View {
     @Environment(RunStore.self) private var store
     let run: RunRecord
+    @State private var showRename = false
+    @State private var renameText = ""
+    @State private var showDelete = false
 
     private var sceneIndex: Int {
         store.scenes.firstIndex { $0.id == run.sceneID } ?? 0
@@ -180,9 +241,13 @@ private struct LibraryRunDetail: View {
 
                 HStack(spacing: 10) {
                     Button {
-                        store.open(run)
+                        if run.isArchived {
+                            store.setArchived(false, in: run)
+                        } else {
+                            store.open(run)
+                        }
                     } label: {
-                        Label("继续带团", systemImage: "play.fill")
+                        Label(run.isArchived ? "恢复开团" : "继续带团", systemImage: run.isArchived ? "archivebox" : "play.fill")
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
@@ -274,6 +339,8 @@ private struct LibraryRunDetail: View {
             }
             .padding(28)
             .frame(maxWidth: 760, alignment: .leading)
+            .readingPage()
+            .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)
         }
         .background(.clear)
@@ -281,13 +348,51 @@ private struct LibraryRunDetail: View {
         .navigationTitle("开团详情")
         .macNavigationSubtitle(store.adventure.title)
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button {
-                    store.open(run)
+            ToolbarItemGroup(placement: .primaryAction) {
+                if !run.isArchived {
+                    Button {
+                        store.open(run)
+                    } label: {
+                        Label("继续带团", systemImage: "play.fill")
+                    }
+                }
+                Menu {
+                    Button {
+                        renameText = run.name
+                        showRename = true
+                    } label: {
+                        Label("重命名…", systemImage: "pencil")
+                    }
+                    Button {
+                        store.setArchived(!run.isArchived, in: run)
+                    } label: {
+                        Label(run.isArchived ? "恢复开团" : "归档开团", systemImage: "archivebox")
+                    }
+                    Divider()
+                    Button(role: .destructive) {
+                        showDelete = true
+                    } label: {
+                        Label("删除开团…", systemImage: "trash")
+                    }
                 } label: {
-                    Label("继续带团", systemImage: "play.fill")
+                    Label("更多", systemImage: "ellipsis.circle")
                 }
             }
+        }
+        .alert("重命名开团", isPresented: $showRename) {
+            TextField("开团名称", text: $renameText)
+            Button("取消", role: .cancel) {}
+            Button("保存") {
+                store.rename(run, to: renameText)
+            }
+        }
+        .alert("删除这个开团？", isPresented: $showDelete) {
+            Button("取消", role: .cancel) {}
+            Button("删除", role: .destructive) {
+                store.delete(run)
+            }
+        } message: {
+            Text("“\(run.name)”的队伍、便签、战斗和日志都会被删除，不能撤销。")
         }
     }
 

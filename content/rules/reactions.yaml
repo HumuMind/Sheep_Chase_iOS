@@ -1,0 +1,7 @@
+id: reactions
+term: 反应
+aliases:
+- Reaction
+category: 战斗
+summary: 每轮最多一个反应，可在自己回合或其他人的回合触发；触发后直到自己下个回合开始前不能再次使用。
+pageRef: 玩家手册第 190 页

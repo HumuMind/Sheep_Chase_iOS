@@ -1,0 +1,7 @@
+id: condition-grappled
+term: 受擒
+aliases:
+- Grappled
+category: 状态
+summary: 受擒生物速度变为 0，不能受益于速度加值。若被移出擒抱者触及范围，或擒抱者失能，受擒结束。
+pageRef: 玩家手册第 290 页

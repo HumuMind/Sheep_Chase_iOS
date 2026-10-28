@@ -1,0 +1,13 @@
+id: thunderwave
+name: 雷鸣波
+aliases:
+- Thunderwave
+level: 1
+school: 塑能系
+castingTime: 1 动作
+range: 自身（15 尺立方）
+components: V, S
+duration: 立即
+concentration: false
+summary: 每个范围内的生物进行体质豁免；失败受到 2d8 雷鸣伤害并被推开 10 尺，成功则伤害减半且不被推开。
+pageRef: 玩家手册第 282 页

@@ -44,7 +44,8 @@ targets:
         ENABLE_HARDENED_RUNTIME: NO
         COMBINE_HIDPI_IMAGES: YES
     scheme:
-      testTargets: []
+      testTargets:
+        - SheepChaseTests
 
   SheepChasePad:
     type: application
@@ -67,5 +68,26 @@ targets:
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    scheme:
+      testTargets: []
+
+  SheepChaseTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: SheepChaseTests
+    dependencies:
+      - target: SheepChaseMac
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        SWIFT_VERSION: "5.0"
+        SWIFT_STRICT_CONCURRENCY: minimal
+        OTHER_SWIFT_FLAGS: "$(inherited) -disable-sandbox"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/SheepChase.app/Contents/MacOS/SheepChase"
+        BUNDLE_LOADER: "$(TEST_HOST)"
     scheme:
       testTargets: []

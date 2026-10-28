@@ -1,0 +1,76 @@
+id: scene-4
+order: 4
+title: 场景四：重大抉择
+summary: 战斗结束后，队伍拿到损坏的法杖，必须决定是否让夏恩布莱特冒险施法恢复原形。
+readAloud: |-
+  战斗结束时，树屋安静得只剩下木头的呻吟声。诺克的法杖落在平台边缘，杖身布满裂纹，铁箍上的符文还在冒着细小的火花。
+  夏恩布莱特用蹄子碰了碰法杖，抬起头看着你们。
+dmText: |-
+  若玩家取回法杖，会立刻发现它已损坏。任何熟练于奥秘的人都能看出，它被改造过，可以更频繁地使用，但过度使用已使它极不可靠。
+  夏恩布莱特愿意冒着生命危险变回精灵；若队伍劝他放弃，他也愿意听取。在接受法术风险之前，他会请求队伍：若他真的死了，请给他的旧学院带个信。
+beats:
+- id: staff-aftermath
+  title: 损坏的法杖
+  type: event
+  text: 法杖存有 1d4−1 发完全变形术充能（最少 1 发）；每次使用都需通过 DC 17 智力（奥秘）检定。失败不超过 5 点会变成畸形血肉，失败超过 5 点还会爆炸。
+  readAloud: 法杖上的裂纹像干涸河床一样蔓延，铁箍上的符文忽明忽暗。它还能用，但看起来随时会散架。
+  itemIds:
+  - staff-of-true-polymorph
+  ruleIds:
+  - spell-scrolls
+  - concentration
+- id: noke-aftermath
+  title: 诺克的结局
+  type: roleplay
+  text: 若诺克还活着，他可能被俘、逃跑或死在法杖故障中。若他死了，夏恩布莱特会沉默很久，意识到自己曾怎样对待这个学徒。
+  readAloud: “他本来可以成为一个好法师，”夏恩布莱特轻声说，“如果我不是那么……我自己。”
+  npcIds:
+  - ahmed-noke
+  - finethir-shinebright
+- id: shinebright-choice
+  title: 是否施法
+  type: decision
+  text: 夏恩布莱特愿意冒险；队伍可以支持、劝阻或亲自使用法杖。成功则恢复原形，失败则可能永久死亡。
+  readAloud: “我知道这很危险，”绵羊说，“但我不想再吃草了。如果你们愿意，我需要你们站在我身边。”
+  npcIds:
+  - finethir-shinebright
+  spellIds:
+  - true-polymorph
+  ruleIds:
+  - spell-scrolls
+- id: epilogue
+  title: 尾声
+  type: transition
+  text: 根据施法结果、诺克的生死和队伍是否接管塔楼，选择成功、失败或拒绝施法的结局。
+  readAloud: 树屋外的风穿过橡树，带来远处镇子的钟声。无论结果如何，这头绵羊和这座塔的故事都将在这里告一段落。
+  npcIds:
+  - finethir-shinebright
+branches:
+- id: ending-success
+  label: 若施法成功
+  requiresFlag: shinebright-restored
+  text: 夏恩布莱特恢复高等精灵原形，衷心感谢队伍；他付不出大笔金钱，但愿意施展最高五环的变化系法术，并收留被变形的守卫。
+- id: ending-failure
+  label: 若施法失败
+  requiresFlag: shinebright-dead
+  text: 夏恩布莱特永久死亡。队伍可以尊重遗愿，把塔楼留给他的旧学院，或搜刮价值约 1,000 gp 的实验设备。
+- id: ending-refuse
+  label: 若队伍拒绝施法
+  text: 夏恩布莱特接受决定，但不会放弃希望。他会收回旧宅，设法解除诅咒，并承认自己欠队伍一个大人情。
+- id: ending-tower
+  label: 若队伍接管塔楼
+  requiresFlag: tower-claimed
+  text: 当地贵族迟早会来拜访诺克；队伍需要解释他的失踪，或面对新的麻烦。
+npcIds:
+- finethir-shinebright
+- ahmed-noke
+itemIds:
+- staff-of-true-polymorph
+spellIds:
+- true-polymorph
+ruleIds:
+- spell-scrolls
+- concentration
+- attunement
+dmNotes: 这幕的重点不是掷骰，而是让队伍决定是否信任夏恩布莱特、是否承担法杖的风险，以及如何处置诺克留下的东西。
+sourceRef: 英文原版第 7–9 页；简体中文版第 7–9 页

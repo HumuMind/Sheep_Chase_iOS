@@ -1,0 +1,7 @@
+id: condition-frightened
+term: 恐慌
+aliases:
+- Frightened
+category: 状态
+summary: 恐慌生物在看见恐惧源时，属性检定和攻击检定有劣势；不能主动靠近恐惧源。若恐惧源离开视线，效果可能结束。
+pageRef: 玩家手册第 290 页

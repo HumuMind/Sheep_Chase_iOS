@@ -1,0 +1,13 @@
+id: ray-of-frost
+name: 冷冻射线
+aliases:
+- Ray of Frost
+level: 0
+school: 塑能系
+castingTime: 1 动作
+range: 60 尺
+components: V, S
+duration: 立即
+concentration: false
+summary: 远程法术攻击，命中造成 1d8 冷冻伤害，并使目标速度减少 10 尺直到你的下个回合开始。
+pageRef: 玩家手册第 271 页

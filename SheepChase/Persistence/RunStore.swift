@@ -30,17 +30,69 @@ final class RunStore {
     }
 
     var orderedRuns: [RunRecord] {
-        runs.sorted { $0.updatedAt > $1.updatedAt }
+        runs.filter { !$0.isArchived }.sorted { $0.updatedAt > $1.updatedAt }
+    }
+
+    var archivedRuns: [RunRecord] {
+        runs.filter(\.isArchived).sorted { $0.updatedAt > $1.updatedAt }
     }
 
     var adventure: ContentPack.Adventure { content.adventure }
     var scenes: [ContentPack.AdventureScene] { content.scenes.sorted { $0.order < $1.order } }
 
     var orderedBattleMonsters: [ContentPack.Monster] {
-        let order = ["guz": 0, "wolf-guard": 1, "brown-bear": 2]
+        let order = ["guz": 0, "wolf-guard": 1, "brown-bear": 2, "noke": 3, "bed-dragon-wyrmling": 4]
         return content.monsters.sorted {
             (order[$0.id] ?? 99) < (order[$1.id] ?? 99)
         }
+    }
+
+    var npcs: [ContentPack.NPC] {
+        content.npcs.sorted { $0.name < $1.name }
+    }
+
+    var items: [ContentPack.Item] {
+        content.items.sorted { $0.name < $1.name }
+    }
+
+    var handouts: [ContentPack.Handout] {
+        content.handouts.sorted { $0.title < $1.title }
+    }
+
+    var maps: [ContentPack.MapData] {
+        content.maps.sorted { $0.title < $1.title }
+    }
+
+    var assets: [ContentPack.Asset] {
+        content.assets.sorted { $0.id < $1.id }
+    }
+
+    func npc(id: String) -> ContentPack.NPC? {
+        content.npcs.first { $0.id == id }
+    }
+
+    func item(id: String) -> ContentPack.Item? {
+        content.items.first { $0.id == id }
+    }
+
+    func handout(id: String) -> ContentPack.Handout? {
+        content.handouts.first { $0.id == id }
+    }
+
+    func map(id: String) -> ContentPack.MapData? {
+        content.maps.first { $0.id == id }
+    }
+
+    func asset(id: String) -> ContentPack.Asset? {
+        content.assets.first { $0.id == id }
+    }
+
+    func rule(id: String) -> ContentPack.RuleCard? {
+        content.rules.first { $0.id == id }
+    }
+
+    func spell(id: String) -> ContentPack.SpellCard? {
+        content.spells.first { $0.id == id }
     }
 
     func scene(id: String) -> ContentPack.AdventureScene? {
@@ -82,7 +134,8 @@ final class RunStore {
         let run = RunRecord(
             name: trimmed.isEmpty ? "未命名开团" : trimmed,
             sceneID: scenes.first?.id ?? "scene-1",
-            beatID: scenes.first?.beats.first?.id ?? ""
+            beatID: scenes.first?.beats.first?.id ?? "",
+            contentVersion: content.manifest.version
         )
         context.insert(run)
         runs.append(run)
@@ -111,7 +164,11 @@ final class RunStore {
             run.battle = BattleState()
         }
         run.mode = mode
-        selectedTab = mode == .battle ? .battle : .party
+        if mode == .battle {
+            selectedTab = .battle
+        } else if selectedTab == .battle {
+            selectedTab = .party
+        }
         commit(run)
     }
 
@@ -218,6 +275,7 @@ final class RunStore {
         switch monster.id {
         case "wolf-guard": name = "狼 \(count)"
         case "brown-bear": name = count == 1 ? "棕熊" : "棕熊 \(count)"
+        case "bed-dragon-wyrmling": name = count == 1 ? "床龙雏龙" : "床龙雏龙 \(count)"
         default: name = count == 1 ? monster.name : "\(monster.name) \(count)"
         }
         battle.monsters.append(BattleMonster(baseID: monster.id, name: name))
@@ -345,6 +403,7 @@ final class RunStore {
     func nextTurn(in run: RunRecord) {
         guard var battle = run.battle, battle.phase == .active else { return }
         guard let index = battle.combatants.firstIndex(where: { $0.id == battle.activeID }) else { return }
+        battle.undo = undoSnapshot(battle)
         let next = (index + 1) % battle.combatants.count
         if next == 0 { battle.round += 1 }
         battle.activeID = battle.combatants[next].id
@@ -354,10 +413,15 @@ final class RunStore {
     }
 
     func adjustHP(_ delta: Int, in run: RunRecord) {
+        guard let activeID = run.battle?.activeID else { return }
+        adjustHP(forID: activeID, delta: delta, in: run)
+    }
+
+    func adjustHP(forID id: UUID, delta: Int, in run: RunRecord) {
         guard var battle = run.battle,
-              let activeID = battle.activeID,
-              let index = battle.combatants.firstIndex(where: { $0.id == activeID })
+              let index = battle.combatants.firstIndex(where: { $0.id == id })
         else { return }
+        battle.undo = undoSnapshot(battle)
         let before = battle.combatants[index].hp
         battle.combatants[index].hp = min(
             battle.combatants[index].maxHP,
@@ -371,6 +435,14 @@ final class RunStore {
             "第 \(battle.round) 轮 · \(battle.combatants[index].name) \(delta > 0 ? "+" : "")\(delta) HP（\(before) → \(battle.combatants[index].hp)）",
             at: 0
         )
+        if delta < 0, let concentration = battle.combatants[index].concentration, !concentration.isEmpty {
+            let dc = max(10, (-delta) / 2)
+            battle.log.insert("专注检定：\(battle.combatants[index].name) 维持「\(concentration)」需通过 DC \(dc) 体质豁免", at: 0)
+        }
+        if battle.combatants[index].hp == 0, battle.combatants[index].concentration != nil {
+            battle.combatants[index].concentration = nil
+            battle.log.insert("\(battle.combatants[index].name) 的专注中断", at: 0)
+        }
         run.battle = battle
         syncParty(run)
         commit(run)
@@ -381,6 +453,7 @@ final class RunStore {
               let activeID = battle.activeID,
               let index = battle.combatants.firstIndex(where: { $0.id == activeID })
         else { return }
+        battle.undo = undoSnapshot(battle)
         if let existing = battle.combatants[index].conditions.firstIndex(of: condition) {
             battle.combatants[index].conditions.remove(at: existing)
             battle.log.insert("\(battle.combatants[index].name) 移除状态：\(condition)", at: 0)
@@ -391,6 +464,51 @@ final class RunStore {
         run.battle = battle
         syncParty(run)
         commit(run)
+    }
+
+    func setConcentration(_ text: String, forID id: UUID, in run: RunRecord) {
+        guard var battle = run.battle,
+              let index = battle.combatants.firstIndex(where: { $0.id == id })
+        else { return }
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        battle.undo = undoSnapshot(battle)
+        battle.combatants[index].concentration = trimmed.isEmpty ? nil : trimmed
+        battle.log.insert(trimmed.isEmpty ? "\(battle.combatants[index].name) 结束专注" : "\(battle.combatants[index].name) 开始专注：\(trimmed)", at: 0)
+        run.battle = battle
+        commit(run)
+    }
+
+    func rollDice(sides: Int, count: Int = 1, modifier: Int = 0, in run: RunRecord) -> Int {
+        let rolls = (0..<max(1, count)).map { _ in Int.random(in: 1...max(2, sides)) }
+        let total = rolls.reduce(0, +) + modifier
+        if var battle = run.battle {
+            battle.undo = undoSnapshot(battle)
+            let mod = modifier == 0 ? "" : (modifier > 0 ? "+\(modifier)" : "\(modifier)")
+            let detail = count > 1 ? " [\(rolls.map(String.init).joined(separator: "、"))]" : ""
+            battle.log.insert("骰子 · \(count)d\(sides)\(mod) = \(total)\(detail)", at: 0)
+            run.battle = battle
+            commit(run)
+        }
+        return total
+    }
+
+    func undoBattle(in run: RunRecord) {
+        guard var battle = run.battle, let undo = battle.undo else { return }
+        var restoredLog = undo.log
+        restoredLog.insert("已撤销上一步", at: 0)
+        battle.combatants = undo.combatants
+        battle.round = undo.round
+        battle.activeID = undo.activeID
+        battle.log = restoredLog
+        battle.undo = nil
+        run.battle = battle
+        syncParty(run)
+        commit(run)
+        notify("已撤销上一步")
+    }
+
+    private func undoSnapshot(_ battle: BattleState) -> BattleUndo {
+        BattleUndo(combatants: battle.combatants, round: battle.round, activeID: battle.activeID, log: battle.log)
     }
 
     func selectCombatant(_ id: UUID, in run: RunRecord) {
@@ -412,6 +530,71 @@ final class RunStore {
     func activeCombatant(in run: RunRecord) -> BattleCombatant? {
         guard let battle = run.battle, let activeID = battle.activeID else { return nil }
         return battle.combatants.first { $0.id == activeID }
+    }
+
+    // MARK: - Run management and safety
+
+    func updateSafety(_ safety: SafetyState, in run: RunRecord) {
+        run.safety = safety
+        commit(run)
+    }
+
+    func rename(_ run: RunRecord, to name: String) {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        run.name = trimmed
+        commit(run)
+        notify("开团已重命名")
+    }
+
+    func setArchived(_ archived: Bool, in run: RunRecord) {
+        run.isArchived = archived
+        if archived, selectedRunID == run.id {
+            selectedRunID = nil
+        }
+        commit(run)
+        notify(archived ? "已归档开团" : "已恢复开团")
+    }
+
+    func delete(_ run: RunRecord) {
+        if selectedRunID == run.id { selectedRunID = nil }
+        runs.removeAll { $0.id == run.id }
+        context.delete(run)
+        persist()
+        notify("开团已删除")
+    }
+
+    func exportJSON(for run: RunRecord) throws -> Data {
+        try RunExport.data(for: run, contentVersion: content.manifest.version)
+    }
+
+    func exportMarkdown(for run: RunRecord) -> String {
+        RunExport.markdown(for: run, content: content)
+    }
+
+    func importRun(from data: Data) throws -> RunRecord {
+        let snapshot = try RunExport.decoder().decode(RunSnapshot.self, from: data)
+        let payload = snapshot.run
+        let sceneID = scene(id: payload.sceneID) != nil ? payload.sceneID : (scenes.first?.id ?? "scene-1")
+        let run = RunRecord(
+            name: payload.name.isEmpty ? "导入开团" : "\(payload.name)（导入）",
+            sceneID: sceneID,
+            beatID: payload.beatID,
+            contentVersion: content.manifest.version
+        )
+        run.party = payload.party
+        run.flags = payload.flags
+        run.stickyNotes = payload.notes
+        run.battle = payload.battle
+        run.safety = payload.safety
+        run.mode = payload.mode
+        run.updatedAt = .now
+        context.insert(run)
+        runs.append(run)
+        selectedRunID = run.id
+        persist()
+        notify("已导入为新开团")
+        return run
     }
 
     // MARK: - Persistence
@@ -460,7 +643,7 @@ final class RunStore {
     }
 
     private func seedRuns() {
-        let friday = RunRecord(name: "周五团 · A 组", sceneID: "scene-2", beatID: "guz-arrives")
+        let friday = RunRecord(name: "周五团 · A 组", sceneID: "scene-2", beatID: "guz-arrives", contentVersion: content.manifest.version)
         friday.party = [
             PartyMember(name: "阿岚", role: "战士", level: 4, ac: 18, maxHP: 44, hp: 36, initMod: 1, passivePerception: 12),
             PartyMember(name: "米娅", role: "法师", level: 4, ac: 13, maxHP: 27, hp: 22, initMod: 3, passivePerception: 11),
@@ -483,7 +666,7 @@ final class RunStore {
             ),
         ]
 
-        let sunday = RunRecord(name: "周日新手团")
+        let sunday = RunRecord(name: "周日新手团", contentVersion: content.manifest.version)
         sunday.party = [
             PartyMember(name: "森", role: "圣武士", level: 4, ac: 18, maxHP: 40, hp: 40, initMod: 0, passivePerception: 11),
             PartyMember(name: "鹿鸣", role: "德鲁伊", level: 4, ac: 14, maxHP: 28, hp: 28, initMod: 2, passivePerception: 15),
@@ -498,7 +681,7 @@ final class RunStore {
             ),
         ]
 
-        let solo = RunRecord(name: "单刷测试团")
+        let solo = RunRecord(name: "单刷测试团", contentVersion: content.manifest.version)
         solo.party = [
             PartyMember(name: "测试", role: "战士", level: 4, ac: 18, maxHP: 44, hp: 30, initMod: 1, passivePerception: 10),
         ]

@@ -37,6 +37,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D855E4B83FC98CCFAD1D9643"
+               BuildableName = "SheepChaseTests.xctest"
+               BlueprintName = "SheepChaseTests"
+               ReferencedContainer = "container:SheepChase.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

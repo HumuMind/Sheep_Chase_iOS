@@ -1,0 +1,46 @@
+id: bed-dragon-wyrmling
+name: 床龙雏龙
+size: 大型
+type: 龙类
+alignment: 混乱中立
+ac:
+  value: 16
+  note: 天生护甲
+hp:
+  average: 70
+  formula: 10d8+20
+speed:
+  walk: 30
+  climb: 30
+  fly: 30
+abilities:
+  str: 19
+  dex: 14
+  con: 17
+  int: 8
+  wis: 8
+  cha: 4
+skills:
+- 感知 +2
+- 隐匿 +5
+damageVulnerabilities:
+- 火焰
+senses:
+  passivePerception: 12
+languages: []
+challenge:
+  rating: 4
+  xp: 1100
+traits:
+- name: 木床构造
+  text: 这头龙由诺克的床变形而成，看起来像一条用木头雕成的龙；被击败或诺克失去专注时，它会变回一张普通的旧床。
+actions:
+- name: 啃咬
+  text: 近战武器攻击：命中 +6，触及 5 尺，一个目标。命中：15（2d10+4）穿刺伤害。
+- name: 木屑吐息（充能 5-6）
+  text: 喷出一片木屑，覆盖 15 尺锥形区域。区域内的每个生物必须进行一次 DC 13 敏捷豁免，失败受到 24（7d6）穿刺伤害，成功则伤害减半。
+tactics:
+- 尽可能频繁地使用木屑吐息；吐息不可用时攻击最近的目标。
+- 优先攻击对自己使用火焰的敌人。
+- 诺克骑在背上时，它不会主动离开诺克。
+sourceRef: 英文原版第 5 页；简体中文版第 5 页

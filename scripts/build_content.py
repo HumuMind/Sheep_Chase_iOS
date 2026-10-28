@@ -309,6 +309,11 @@ def main() -> None:
         shutil.copy2(source, destination)
         print(f"复制资源：{destination.relative_to(ROOT)}")
 
+        app_assets = ROOT / "SheepChase" / "Resources" / "ContentAssets"
+        if app_assets.parent.is_dir():
+            app_assets.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, app_assets / source.name)
+
 
 if __name__ == "__main__":
     main()

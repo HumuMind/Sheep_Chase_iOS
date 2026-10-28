@@ -1,0 +1,13 @@
+id: slow
+name: 缓慢术
+aliases:
+- Slow
+level: 3
+school: 变化系
+castingTime: 1 动作
+range: 120 尺
+components: V, S, M
+duration: 专注，至多 1 分钟
+concentration: true
+summary: 最多六个目标；速度减半、AC 和敏捷豁免 −2，不能使用反应，且每回合只能做一个动作或一个附赠动作。
+pageRef: 玩家手册第 278 页

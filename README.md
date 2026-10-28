@@ -10,7 +10,7 @@
 
 ## 内容包
 
-- `content/` — YAML 源文件（当前：场景 1–2、古兹遭遇、NPC/规则/法术/手牌、树屋地图与图钉）
+- `content/` — YAML 源文件（4 场景、3 NPC、5 怪物、3 遭遇、22 规则、14 法术、2 手牌、13 flags、树屋地图与图钉）
 - `schema/content-pack.schema.json` — JSON Schema
 - `scripts/build_content.py` — 校验与构建，输出 `build/ContentPack.json` 与 `build/assets/`
 
@@ -27,7 +27,9 @@
 - 主题：整窗 PDF 羊皮纸背景（含 toolbar）+ AppIcon/封面/绵羊插画 + 暗红 AccentColor；侧栏、内容、检查器透明叠在纸面上；`GroupBox` 改为书页式分节线，状态色改为哑光
 
 > 目前按浅色书页主题固定外观，深色模式留到后续单独适配。
-- 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`
+- 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
+- 测试：`SheepChaseTests` 覆盖内容解码、场景顺序、JSON/Markdown 导出、导入、归档/删除、战斗撤销
+- 内容校对记录：`CONTENT_REVIEW.md`
 
 构建：
 
@@ -35,6 +37,10 @@
 xcodebuild -project SheepChase.xcodeproj -scheme SheepChaseMac \
   -configuration Debug -destination 'platform=macOS' \
   -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
+
+xcodebuild -project SheepChase.xcodeproj -scheme SheepChaseMac \
+  -configuration Debug -destination 'platform=macOS' \
+  -derivedDataPath build/DerivedDataTests CODE_SIGNING_ALLOWED=NO test
 
 xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
   -configuration Debug -sdk iphonesimulator \
@@ -44,8 +50,10 @@ xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
 
 > 当前 DSH 环境需要在 Swift 编译时加 `-disable-sandbox` 才能运行宏插件；已写入 `project.yml`，普通 Xcode 环境可按需移除。
 
-DEBUG 启动参数：`-demoRun`（直接进入周五团）、`-demoScene`（场景态）、`-demoBattle`（战斗筹备）、`-demoBattleActive`（演示战斗态）、`-demoNotes`（便签）。
+DEBUG 启动参数：`-demoRun`（直接进入周五团）、`-demoScene` / `-demoScene3` / `-demoScene4`（场景）、`-demoBattle`（战斗筹备）、`-demoBattleActive`（演示战斗态）、`-demoMap`（地图）、`-demoNPC`（NPC 卡）、`-demoNotes` / `-demoRules`（检查器）、`-demoHandout` / `-demoItem` / `-demoSafety` / `-demoImageExport`（弹层）。
 
 ## 状态
 
-Vertical slice 已跑通：开团库、场景、队伍（添加玩家）、便签、战斗筹备、玩家先攻填写、怪物自动先攻、按轮次战斗、SwiftData 自动保存与重启恢复。地图/导出/分享、场景 3–4 内容等继续迭代。产品与技术结论见 `DISCUSSION.md`。
+MVP 功能闭环已实现：4 场景内容、NPC 卡、地图与图钉、规则/法术搜索、队伍与便签、战斗筹备/先攻/轮次/HP/状态/专注/骰子/多目标/撤销、桌面安全页、Run JSON/Markdown 导出与导入、图片导出/分享、Run 重命名/归档/删除、自动保存与重启恢复。
+
+下一步是一次真实 3–4 小时跑团，按 `PLAYTEST.md` 记录备团时间、查询时间、回合点击和数据安全。产品与技术结论见 `DISCUSSION.md`。

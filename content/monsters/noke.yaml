@@ -1,0 +1,47 @@
+id: noke
+name: 艾哈迈德·诺克
+size: 中型
+type: 类人生物（人类）
+alignment: 中立邪恶
+ac:
+  value: 12
+hp:
+  average: 35
+  formula: 7d8
+speed:
+  walk: 30
+abilities:
+  str: 9
+  dex: 14
+  con: 16
+  int: 16
+  wis: 12
+  cha: 10
+savingThrows:
+- 智力 +5
+- 感知 +4
+skills:
+- 奥秘 +6
+senses:
+  passivePerception: 12
+languages:
+- 通用语
+- 精灵语
+- 矮人语
+- 龙语
+challenge:
+  rating: 2
+  xp: 450
+traits:
+- name: 施法
+  text: 诺克是 7 级施法者，施法属性为智力（法术豁免 DC 14，法术攻击 +6）。戏法：冷冻射线、修复术、魔法伎俩、传讯术；一环（4 法术位）：撤离术、跳跃术、雷鸣波；二环（3 法术位）：变巨/缩小术、浮空术；三环（3 法术位）：加速术、缓慢术；四环（1 法术位）：变形术。
+- name: 专注维持者
+  text: 诺克会优先维持变巨/缩小术或加速术；受到伤害时按专注规则进行体质豁免。
+actions:
+- name: 匕首
+  text: 近战或远程武器攻击：命中 +5，触及 5 尺或射程 20/60 尺，一个目标。命中：4（1d4+2）穿刺伤害。
+tactics:
+- 让守卫挡在前面，自己维持强化法术并用冷冻射线补伤害。
+- 若战局不利，施放加速术或撤离术逃向卧室，准备把床变成龙。
+- 不会死战；法杖和性命比面子更重要。
+sourceRef: 英文原版第 6 页；简体中文版第 6 页

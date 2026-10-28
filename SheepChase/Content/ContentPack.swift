@@ -4,17 +4,33 @@ struct ContentPack: Decodable {
     let manifest: Manifest
     let adventure: Adventure
     let scenes: [AdventureScene]
+    let npcs: [NPC]
     let monsters: [Monster]
     let encounters: [Encounter]
+    let items: [Item]
+    let handouts: [Handout]
+    let maps: [MapData]
     let rules: [RuleCard]
     let spells: [SpellCard]
     let flags: [FlagDefinition]
+    let assets: [Asset]
 
     struct Manifest: Decodable {
         let id: String
         let title: String
+        let originalTitle: String
         let version: String
         let schemaVersion: Int
+        let locale: String
+        let usage: String
+        let credits: [Credit]
+
+        struct Credit: Decodable, Identifiable {
+            let name: String
+            let role: String
+            let url: String?
+            var id: String { name + role }
+        }
     }
 
     struct Adventure: Decodable {
@@ -48,6 +64,8 @@ struct ContentPack: Decodable {
         let handoutIds: [String]?
         let ruleIds: [String]?
         let spellIds: [String]?
+        let mapIds: [String]?
+        let itemIds: [String]?
         let dmNotes: String?
         let sourceRef: String?
     }
@@ -62,7 +80,10 @@ struct ContentPack: Decodable {
         let npcIds: [String]?
         let encounterIds: [String]?
         let handoutIds: [String]?
+        let ruleIds: [String]?
         let spellIds: [String]?
+        let mapIds: [String]?
+        let itemIds: [String]?
     }
 
     struct Branch: Decodable, Identifiable {
@@ -83,6 +104,10 @@ struct ContentPack: Decodable {
         let speed: Speed
         let abilities: Abilities
         let skills: [String]?
+        let savingThrows: [String]?
+        let damageVulnerabilities: [String]?
+        let damageResistances: [String]?
+        let conditionImmunities: [String]?
         let senses: Senses?
         let languages: [String]?
         let challenge: Challenge
@@ -170,10 +195,80 @@ struct ContentPack: Decodable {
         let school: String
         let castingTime: String
         let range: String
+        let components: String?
         let duration: String
         let concentration: Bool
+        let ritual: Bool?
         let summary: String
         let pageRef: String
+    }
+
+    struct NPC: Decodable, Identifiable {
+        let id: String
+        let name: String
+        let role: String
+        let publicDescription: String
+        let dmDescription: String
+        let personality: [String]
+        let voice: String
+        let motivation: String
+        let attitude: String
+        let knows: [String]
+        let secrets: [String]
+        let wants: [String]
+        let sampleLines: [String]
+        let keyCharacteristics: [String]?
+        let relationships: [Relationship]?
+        let portraitAssetId: String?
+        let sourceRef: String?
+
+        struct Relationship: Decodable, Identifiable {
+            let label: String
+            let note: String
+            var id: String { label }
+        }
+    }
+
+    struct Item: Decodable, Identifiable {
+        let id: String
+        let name: String
+        let kind: String
+        let summary: String
+        let pageRef: String?
+        let sourceRef: String?
+    }
+
+    struct Handout: Decodable, Identifiable {
+        let id: String
+        let title: String
+        let kind: String
+        let playerText: String
+        let dmText: String?
+        let imageAssetId: String?
+    }
+
+    struct MapData: Decodable, Identifiable {
+        let id: String
+        let title: String
+        let imageAssetId: String
+        let pins: [Pin]
+
+        struct Pin: Decodable, Identifiable {
+            let id: String
+            let label: String
+            let x: Double
+            let y: Double
+            let dmOnly: Bool
+            let description: String?
+        }
+    }
+
+    struct Asset: Decodable, Identifiable {
+        let id: String
+        let path: String
+        let kind: String
+        let exportFilename: String
+        let credit: String?
     }
 
     struct FlagDefinition: Decodable, Identifiable {

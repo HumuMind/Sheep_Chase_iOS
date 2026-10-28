@@ -1,0 +1,13 @@
+id: message
+name: 传讯术
+aliases:
+- Message
+level: 0
+school: 变化系
+castingTime: 1 动作
+range: 120 尺
+components: V, S, M
+duration: 1 轮
+concentration: false
+summary: 目标听到你的耳语并可低声回复；其他人听不到，但魔法沉默或障碍会阻断。
+pageRef: 玩家手册第 259 页

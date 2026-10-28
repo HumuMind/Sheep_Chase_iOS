@@ -1,0 +1,7 @@
+id: difficult-terrain
+term: 困难地形
+aliases:
+- Difficult Terrain
+category: 战斗
+summary: 在困难地形中每移动 1 尺消耗 2 尺速度。翻倒的桌椅、灌木、湿滑地面等可视为困难地形。
+pageRef: 玩家手册第 182 页

@@ -1,0 +1,7 @@
+id: condition-poisoned
+term: 中毒
+aliases:
+- Poisoned
+category: 状态
+summary: 中毒生物的攻击检定和属性检定有劣势。
+pageRef: 玩家手册第 292 页

@@ -1,0 +1,13 @@
+id: true-polymorph
+name: 完全变形术
+aliases:
+- True Polymorph
+level: 9
+school: 变化系
+castingTime: 1 动作
+range: 30 尺
+components: V, S, M
+duration: 专注，至多 1 小时
+concentration: true
+summary: 目标变成另一种生物或物体。生物形态的 CR/等级不能超过目标等级；持续到法术结束。若维持满一小时，效果变为永久。
+pageRef: 玩家手册第 285 页

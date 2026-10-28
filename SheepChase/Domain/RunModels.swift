@@ -3,9 +3,16 @@ import Foundation
 enum RunMode: String, Codable, CaseIterable, Identifiable {
     case scene
     case battle
+    case map
 
     var id: String { rawValue }
-    var title: String { self == .scene ? "场景" : "战斗" }
+    var title: String {
+        switch self {
+        case .scene: "场景"
+        case .battle: "战斗"
+        case .map: "地图"
+        }
+    }
 }
 
 enum InspectorTab: String, CaseIterable, Identifiable {
@@ -91,6 +98,21 @@ struct BattleCombatant: Identifiable, Codable, Hashable {
     var maxHP: Int
     var initiative: Int
     var conditions: [String] = []
+    var concentration: String? = nil
+}
+
+struct BattleUndo: Codable {
+    var combatants: [BattleCombatant]
+    var round: Int
+    var activeID: UUID?
+    var log: [String]
+}
+
+struct SafetyState: Codable {
+    var lines: String = ""
+    var veils: String = ""
+    var pauseSignal: String = ""
+    var notes: String = ""
 }
 
 struct BattleState: Codable {
@@ -102,6 +124,7 @@ struct BattleState: Codable {
     var round: Int = 1
     var activeID: UUID?
     var log: [String] = []
+    var undo: BattleUndo? = nil
 
     var totalParticipants: Int {
         selectedPlayerIDs.count + monsters.count

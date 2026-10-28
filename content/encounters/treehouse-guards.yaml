@@ -1,0 +1,21 @@
+id: treehouse-guards
+title: 树屋守卫
+summary: 诺克在中央平台指挥守卫；两头狼在草坪上，棕熊从厕所冲出。
+combatants:
+- monsterId: noke
+  count: 1
+  label: 艾哈迈德·诺克
+- monsterId: wolf-guard
+  count: 2
+  label: 被变形的狼
+- monsterId: brown-bear
+  count: 1
+  label: 棕熊
+tactics:
+- 诺克让棕熊堵住通往中央平台的路，自己维持变巨/缩小术。
+- 狼群游走攻击施法者和脆弱目标。
+- 守卫降到一半 HP 以下会逃跑；诺克若明显不利则撤向卧室。
+terrain: 三层树屋平台、枝条坡道与花园；边缘可被推落，灌木和树根可视为困难地形。
+trigger: 队伍接近中央平台，或诺克发现他们带着绵羊。
+difficulty: 4–5 级队伍的主要战斗；诺克本身较弱，但强化守卫后威胁明显上升。
+sourceRef: 英文原版第 4–6 页；简体中文版第 4–6 页

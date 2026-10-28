@@ -1,0 +1,13 @@
+id: enlarge-reduce
+name: 变巨/缩小术
+aliases:
+- Enlarge/Reduce
+level: 2
+school: 变化系
+castingTime: 1 动作
+range: 30 尺
+components: V, S, M
+duration: 专注，至多 1 分钟
+concentration: true
+summary: 使目标体型增大或缩小一阶；增大时武器伤害 +1d4，缩小时 −1d4。
+pageRef: 玩家手册第 237 页

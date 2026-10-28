@@ -1,0 +1,13 @@
+id: jump
+name: 跳跃术
+aliases:
+- Jump
+level: 1
+school: 变化系
+castingTime: 1 动作
+range: 触及
+components: V, S, M
+duration: 1 分钟
+concentration: false
+summary: 目标在持续时间内跳跃距离变为三倍；每次跳跃仍消耗移动力。
+pageRef: 玩家手册第 254 页

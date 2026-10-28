@@ -1,0 +1,7 @@
+id: temporary-hp
+term: 临时生命值
+aliases:
+- Temporary HP
+category: 战斗
+summary: 临时 HP 先于正常 HP 扣除，不叠加；长休后消失（除非来源另有说明）。
+pageRef: 玩家手册第 198 页

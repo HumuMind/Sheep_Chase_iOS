@@ -172,6 +172,8 @@ private struct BattleSelectView: View {
             }
             .padding(24)
             .frame(maxWidth: 760, alignment: .leading)
+            .readingPage()
+            .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)
         }
     }
@@ -280,6 +282,8 @@ private struct BattleInitiativeView: View {
             }
             .padding(24)
             .frame(maxWidth: 760, alignment: .leading)
+            .readingPage()
+            .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)
         }
     }
@@ -317,6 +321,9 @@ private struct BattleActiveView: View {
         return store.monster(id: baseID)
     }
 
+    @State private var lastRoll: String?
+    @State private var showMultiDamage = false
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
@@ -330,6 +337,15 @@ private struct BattleActiveView: View {
                     }
                     Spacer()
                     if let battle, battle.phase == .active {
+                        Button("撤销上一步") {
+                            store.undoBattle(in: run)
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(battle.undo == nil)
+                        Button("多目标伤害") {
+                            showMultiDamage = true
+                        }
+                        .buttonStyle(.bordered)
                         Button("下一回合") {
                             store.nextTurn(in: run)
                         }
@@ -363,6 +379,16 @@ private struct BattleActiveView: View {
                                 Text("先攻 \(active.initiative)")
                                     .font(.callout)
                                     .foregroundStyle(.secondary)
+                                Spacer()
+                                TextField("专注：例如加速术", text: concentrationBinding(active))
+                                    .textFieldStyle(.roundedBorder)
+                                    .frame(width: 190)
+                            }
+
+                            if let concentration = active.concentration, !concentration.isEmpty {
+                                Text("专注中：\(concentration)。受到伤害时按专注规则进行体质豁免。")
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.red)
                             }
 
                             ProgressView(value: Double(active.hp), total: Double(max(active.maxHP, 1)))
@@ -402,6 +428,31 @@ private struct BattleActiveView: View {
                     }
                 }
 
+                GroupBox("骰子") {
+                    HStack(spacing: 6) {
+                        ForEach([4, 6, 8, 10, 12, 20], id: \.self) { sides in
+                            Button("d\(sides)") {
+                                let value = store.rollDice(sides: sides, in: run)
+                                lastRoll = "d\(sides) = \(value)"
+                            }
+                            .buttonStyle(.bordered)
+                            .controlSize(.small)
+                        }
+                        Divider().frame(height: 18)
+                        Button("d20+5") {
+                            let value = store.rollDice(sides: 20, modifier: 5, in: run)
+                            lastRoll = "d20+5 = \(value)"
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        Spacer()
+                        Text(lastRoll ?? "尚未掷骰")
+                            .font(.callout.monospacedDigit())
+                            .foregroundStyle(lastRoll == nil ? .secondary : Theme.ink)
+                    }
+                    .padding(.vertical, 3)
+                }
+
                 HStack(alignment: .top, spacing: 12) {
                     GroupBox("战斗日志") {
                         VStack(alignment: .leading, spacing: 4) {
@@ -421,6 +472,11 @@ private struct BattleActiveView: View {
                                 Text("\(monster.size)\(monster.type) · \(monster.alignment)")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
+                                if let vulnerabilities = monster.damageVulnerabilities, !vulnerabilities.isEmpty {
+                                    Text("易伤：\(vulnerabilities.joined(separator: "、"))")
+                                        .font(.caption)
+                                        .foregroundStyle(Theme.red)
+                                }
                                 ForEach((monster.traits ?? []) + monster.actions) { pair in
                                     Text("\(pair.name)。\(pair.text)")
                                         .font(.callout)
@@ -448,8 +504,72 @@ private struct BattleActiveView: View {
             }
             .padding(24)
             .frame(maxWidth: 820, alignment: .leading)
+            .readingPage()
+            .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)
         }
+        .sheet(isPresented: $showMultiDamage) {
+            MultiDamageSheet(run: run)
+                .environment(store)
+        }
+    }
+
+    private func concentrationBinding(_ combatant: BattleCombatant) -> Binding<String> {
+        Binding(
+            get: {
+                run.battle?.combatants.first { $0.id == combatant.id }?.concentration ?? ""
+            },
+            set: { value in
+                store.setConcentration(value, forID: combatant.id, in: run)
+            }
+        )
+    }
+}
+
+private struct MultiDamageSheet: View {
+    @Environment(RunStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @Bindable var run: RunRecord
+    @State private var amount = 1
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("伤害数值") {
+                    Stepper("每次 \(amount) 点", value: $amount, in: 1...100)
+                }
+                Section("目标") {
+                    ForEach(run.battle?.combatants ?? []) { combatant in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text(combatant.name)
+                                Text("HP \(combatant.hp)/\(combatant.maxHP)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Button("-\(amount)") {
+                                store.adjustHP(forID: combatant.id, delta: -amount, in: run)
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(Theme.red)
+                            Button("+\(amount)") {
+                                store.adjustHP(forID: combatant.id, delta: amount, in: run)
+                            }
+                            .buttonStyle(.bordered)
+                            .tint(Theme.green)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("多目标伤害")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("完成") { dismiss() }
+                }
+            }
+        }
+        .frame(minWidth: 460, minHeight: 380)
     }
 }
 
@@ -551,6 +671,13 @@ struct BattleInspector: View {
                         }
                         .buttonStyle(.plain)
                     }
+
+                    Button("撤销上一步") {
+                        store.undoBattle(in: run)
+                    }
+                    .buttonStyle(.bordered)
+                    .frame(maxWidth: .infinity)
+                    .disabled(battle.undo == nil)
 
                     Button("下一回合") {
                         store.nextTurn(in: run)

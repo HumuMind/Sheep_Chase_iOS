@@ -1,0 +1,13 @@
+id: levitate
+name: 浮空术
+aliases:
+- Levitate
+level: 2
+school: 变化系
+castingTime: 1 动作
+range: 60 尺
+components: V, S, M
+duration: 专注，至多 10 分钟
+concentration: true
+summary: 目标垂直上升或下降最多 20 尺；你可以改变高度，但不能水平移动，除非有别的推力。
+pageRef: 玩家手册第 255 页

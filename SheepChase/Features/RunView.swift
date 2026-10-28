@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct RunView: View {
     @Environment(RunStore.self) private var store
@@ -6,6 +7,19 @@ struct RunView: View {
     @State private var showAddPlayer = false
     @State private var showPrivacy = false
     @State private var showInspector = true
+    @State private var selectedNPC: ContentPack.NPC?
+    @State private var selectedHandout: ContentPack.Handout?
+    @State private var selectedItem: ContentPack.Item?
+    @State private var selectedRule: ContentPack.RuleCard?
+    @State private var selectedSpell: ContentPack.SpellCard?
+    @State private var showSafety = false
+    @State private var showImageExport = false
+    @State private var showLeaveConfirmation = false
+    @State private var showExporter = false
+    @State private var exportDocument: RunExportDocument?
+    @State private var exportContentType: UTType = .json
+    @State private var exportFilename = "荒野逐羊_开团备份.json"
+    @State private var exportError: String?
 
     private var currentScene: ContentPack.AdventureScene {
         store.currentScene(for: run)
@@ -80,19 +94,42 @@ struct RunView: View {
             Group {
                 if run.mode == .battle {
                     BattleCenterView(run: run)
+                } else if run.mode == .map {
+                    MapView(run: run)
                 } else {
-                    SceneDetailView(run: run)
+                    SceneDetailView(
+                        run: run,
+                        onOpenNPC: { npcID in
+                            selectedNPC = store.npc(id: npcID)
+                        },
+                        onOpenHandout: { handoutID in
+                            selectedHandout = store.handout(id: handoutID)
+                        },
+                        onOpenItem: { itemID in
+                            selectedItem = store.item(id: itemID)
+                        },
+                        onOpenRule: { ruleID in
+                            selectedRule = store.rule(id: ruleID)
+                        },
+                        onOpenSpell: { spellID in
+                            selectedSpell = store.spell(id: spellID)
+                        }
+                    )
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.clear)
             .bookPaperSurface()
-            .navigationTitle(run.mode == .battle ? "战斗" : "场景 \(currentScene.order)")
-            .macNavigationSubtitle(run.mode == .battle ? run.name : "\(run.name) · \(currentScene.title)")
+            .navigationTitle(run.mode == .battle ? "战斗" : (run.mode == .map ? "地图" : "场景 \(currentScene.order)"))
+            .macNavigationSubtitle(run.mode == .battle ? run.name : (run.mode == .map ? "\(run.name) · \(store.maps.first?.title ?? "")" : "\(run.name) · \(currentScene.title)"))
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button {
-                        store.closeRun()
+                        if let battle = run.battle, battle.phase == .active {
+                            showLeaveConfirmation = true
+                        } else {
+                            store.closeRun()
+                        }
                     } label: {
                         Label("我的开团", systemImage: "chevron.left")
                     }
@@ -105,7 +142,7 @@ struct RunView: View {
                         }
                     }
                     .pickerStyle(.segmented)
-                    .frame(width: 180)
+                    .frame(width: 230)
                 }
 
                 if let battle = run.battle, battle.phase == .active {
@@ -124,6 +161,34 @@ struct RunView: View {
                 }
 
                 ToolbarItemGroup(placement: .primaryAction) {
+                    Menu {
+                        Button {
+                            exportJSON()
+                        } label: {
+                            Label("导出开团备份（JSON）", systemImage: "doc.badge.arrow.up")
+                        }
+                        Button {
+                            exportMarkdown()
+                        } label: {
+                            Label("导出日志（Markdown）", systemImage: "text.document")
+                        }
+                        Divider()
+                        Button {
+                            showImageExport = true
+                        } label: {
+                            Label("导出模组图片…", systemImage: "photo.on.rectangle")
+                        }
+                    } label: {
+                        Label("导出", systemImage: "square.and.arrow.up")
+                    }
+
+                    Button {
+                        showSafety = true
+                    } label: {
+                        Label("安全工具", systemImage: "shield.lefthalf.filled")
+                    }
+                    .help("桌面安全、lines/veils 与暂停暗号")
+
                     Button {
                         showInspector.toggle()
                     } label: {
@@ -148,6 +213,81 @@ struct RunView: View {
             AddPlayerSheet(run: run)
                 .environment(store)
         }
+        .sheet(item: $selectedNPC) { npc in
+            NPCSheetView(npc: npc)
+                .environment(store)
+        }
+        .sheet(item: $selectedHandout) { handout in
+            HandoutSheetView(
+                handout: handout,
+                asset: handout.imageAssetId.flatMap { store.asset(id: $0) }
+            )
+            .environment(store)
+        }
+        .sheet(item: $selectedItem) { item in
+            ItemSheetView(item: item)
+                .environment(store)
+        }
+        .sheet(item: $selectedRule) { rule in
+            RuleSheetView(rule: rule)
+                .environment(store)
+        }
+        .sheet(item: $selectedSpell) { spell in
+            SpellSheetView(spell: spell)
+                .environment(store)
+        }
+        .sheet(isPresented: $showSafety) {
+            SafetySheet(run: run)
+                .environment(store)
+        }
+        .sheet(isPresented: $showImageExport) {
+            ImageExportView()
+                .environment(store)
+        }
+        .fileExporter(
+            isPresented: $showExporter,
+            document: exportDocument,
+            contentType: exportContentType,
+            defaultFilename: exportFilename
+        ) { result in
+            if case let .failure(error) = result {
+                exportError = error.localizedDescription
+            }
+        }
+        .alert("导出失败", isPresented: Binding(
+            get: { exportError != nil },
+            set: { if !$0 { exportError = nil } }
+        )) {
+            Button("好") { exportError = nil }
+        } message: {
+            Text(exportError ?? "未知错误")
+        }
+        .alert("离开战斗？", isPresented: $showLeaveConfirmation) {
+            Button("留在战斗", role: .cancel) {}
+            Button("离开并保存") { store.closeRun() }
+        } message: {
+            Text("当前战斗状态会保留，下次打开这个开团可以继续。")
+        }
+        .task {
+            #if DEBUG
+            let args = ProcessInfo.processInfo.arguments
+            if args.contains("-demoNPC") {
+                selectedNPC = store.npc(id: "ahmed-noke")
+            }
+            if args.contains("-demoHandout") {
+                selectedHandout = store.handout(id: "scroll-speak-with-animals")
+            }
+            if args.contains("-demoItem") {
+                selectedItem = store.item(id: "staff-of-true-polymorph")
+            }
+            if args.contains("-demoSafety") {
+                showSafety = true
+            }
+            if args.contains("-demoImageExport") {
+                showImageExport = true
+            }
+            #endif
+        }
         .overlay {
             if showPrivacy {
                 ZStack {
@@ -167,5 +307,25 @@ struct RunView: View {
                 .onTapGesture { showPrivacy = false }
             }
         }
+    }
+
+    private func exportJSON() {
+        do {
+            let data = try store.exportJSON(for: run)
+            exportDocument = RunExportDocument(data: data)
+            exportContentType = .json
+            exportFilename = RunExport.safeFilename(run.name, suffix: "开团备份", extension: "json")
+            showExporter = true
+        } catch {
+            exportError = error.localizedDescription
+        }
+    }
+
+    private func exportMarkdown() {
+        let markdown = store.exportMarkdown(for: run)
+        exportDocument = RunExportDocument(data: Data(markdown.utf8))
+        exportContentType = .plainText
+        exportFilename = RunExport.safeFilename(run.name, suffix: "日志", extension: "md")
+        showExporter = true
     }
 }

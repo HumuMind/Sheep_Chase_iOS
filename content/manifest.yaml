@@ -1,21 +1,21 @@
 id: wild-sheep-chase
 title: 荒野逐羊
 originalTitle: A Wild Sheep Chase
-version: 0.2.0
+version: 0.3.0
 schemaVersion: 1
 locale: zh-Hans
 usage: personal
 credits:
-  - name: u/TheRainyDaze
-    role: 原著作者
-    url: https://www.reddit.com/user/TheRainyDaze
-  - name: 《綿羊冒險記》譯者
-    role: 繁体中文参考译本
-  - name: 简体中文整理
-    role: 翻译与排版
-  - name: Blizzard Entertainment
-    role: 封面插画
-  - name: Pyromancer's Dungeon Painter
-    role: 地图制作
-    url: https://www.pyromancers.com
+- name: u/TheRainyDaze
+  role: 原著作者
+  url: https://www.reddit.com/user/TheRainyDaze
+- name: 《綿羊冒險記》譯者
+  role: 繁体中文参考译本
+- name: 简体中文整理
+  role: 翻译与排版
+- name: Blizzard Entertainment
+  role: 封面插画
+- name: Pyromancer's Dungeon Painter
+  role: 地图制作
+  url: https://www.pyromancers.com
 minAppVersion: 0.1.0

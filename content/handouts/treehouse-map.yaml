@@ -1,0 +1,6 @@
+id: treehouse-map
+title: 诺克的树屋宅院地图
+kind: map
+playerText: 一张树屋宅院的战斗地图，标出花园平台、中央平台、卧室、小屋和户外厕所。
+dmText: 图钉只存在于 App 内；导出时使用干净原图，不烧录 DM 标记。
+imageAssetId: map-treehouse
