@@ -44,6 +44,23 @@ final class SheepChaseUITests: XCTestCase {
         add(attachment)
     }
 
+    func testScene2SourceShowsGuzStatBlock() throws {
+        XCUIDevice.shared.orientation = .landscapeLeft
+        let app = XCUIApplication()
+        app.launchArguments = ["-demoRun", "-demoScene2", "-demoSource", "-resetPins"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["场景二：牧羊人与骗子"].waitForExistence(timeout: 12))
+        XCTAssertTrue(app.staticTexts["中型类人生物（半兽人），混乱中立"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["护甲等级 14（皮甲）"].exists)
+        XCTAssertTrue(app.staticTexts["挑战等级 2（450 XP）"].exists)
+
+        app.swipeUp()
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = "Scene 2 Guz stat block"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     func testQuickReferencePinAndDetail() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]

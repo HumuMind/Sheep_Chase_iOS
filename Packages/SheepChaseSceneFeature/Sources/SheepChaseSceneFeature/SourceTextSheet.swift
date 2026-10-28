@@ -1,4 +1,5 @@
 import SheepChaseCore
+import SheepChaseRunStore
 import SheepChaseUI
 import SwiftUI
 
@@ -9,6 +10,7 @@ public struct SourceTextSheet: View {
     }
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(RunStore.self) private var store
     private let scene: ContentPack.AdventureScene
     private let sections: [SourceTextSection]
 
@@ -52,17 +54,24 @@ public struct SourceTextSheet: View {
     }
 
     private func sectionView(_ section: SourceTextSection) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if let heading = section.heading {
-                Text(heading)
-                    .font(Theme.serif(21, weight: .semibold))
-                    .foregroundStyle(Theme.red)
-                    .padding(.top, section.id == 0 ? 0 : 22)
-                    .padding(.bottom, 2)
-            }
+        Group {
+            if let heading = section.heading,
+               let monster = store.content.monsters.first(where: { $0.name == heading }) {
+                MonsterStatBlockCard(monster: monster)
+            } else {
+                VStack(alignment: .leading, spacing: 8) {
+                    if let heading = section.heading {
+                        Text(heading)
+                            .font(Theme.serif(21, weight: .semibold))
+                            .foregroundStyle(Theme.red)
+                            .padding(.top, section.id == 0 ? 0 : 22)
+                            .padding(.bottom, 2)
+                    }
 
-            ForEach(section.paragraphs.indices, id: \.self) { index in
-                paragraphView(section.paragraphs[index])
+                    ForEach(section.paragraphs.indices, id: \.self) { index in
+                        paragraphView(section.paragraphs[index])
+                    }
+                }
             }
         }
         .padding(section.isBox ? 16 : 0)

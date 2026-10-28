@@ -70,6 +70,9 @@ struct RootView: View {
         if arguments.contains("-demoMap") {
             store.setMode(.map, in: run)
         }
+        if arguments.contains("-demoScene2"), let scene = store.scene(id: "scene-2") {
+            store.selectScene(scene, in: run)
+        }
         if arguments.contains("-demoScene3"), let scene = store.scene(id: "scene-3") {
             store.selectScene(scene, in: run)
         }
