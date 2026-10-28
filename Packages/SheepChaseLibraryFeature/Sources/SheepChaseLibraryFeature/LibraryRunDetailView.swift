@@ -83,6 +83,39 @@ struct LibraryRunDetail: View {
                         .foregroundStyle(.secondary)
                 }
 
+                GroupBox("开团管理") {
+                    VStack(alignment: .leading, spacing: 9) {
+                        Text("重命名、归档或删除这次开团。")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        HStack(spacing: 10) {
+                            Button {
+                                renameText = run.name
+                                showRename = true
+                            } label: {
+                                Label("重命名", systemImage: "pencil")
+                            }
+                            .buttonStyle(.bordered)
+
+                            Button {
+                                store.setArchived(!run.isArchived, in: run)
+                            } label: {
+                                Label(run.isArchived ? "恢复开团" : "归档开团", systemImage: "archivebox")
+                            }
+                            .buttonStyle(.bordered)
+
+                            Spacer()
+
+                            Button(role: .destructive) {
+                                showDelete = true
+                            } label: {
+                                Label("删除开团", systemImage: "trash")
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                    .padding(.vertical, 3)
+                }
                 GroupBox("冒险概览") {
                     LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), alignment: .leading)], alignment: .leading, spacing: 8) {
                         overviewStat("\(store.scenes.count)", "场景")
@@ -174,6 +207,7 @@ struct LibraryRunDetail: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 3)
                 }
+
             }
             .padding(28)
             .frame(maxWidth: 760, alignment: .leading)
@@ -185,31 +219,6 @@ struct LibraryRunDetail: View {
         .bookPaperSurface()
         .navigationTitle("开团详情")
         .macNavigationSubtitle(store.adventure.title)
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                Button {
-                    renameText = run.name
-                    showRename = true
-                } label: {
-                    Label("重命名", systemImage: "pencil")
-                }
-                .help("重命名开团")
-
-                Button {
-                    store.setArchived(!run.isArchived, in: run)
-                } label: {
-                    Label(run.isArchived ? "恢复开团" : "归档开团", systemImage: "archivebox")
-                }
-                .help(run.isArchived ? "恢复开团" : "归档开团")
-
-                Button(role: .destructive) {
-                    showDelete = true
-                } label: {
-                    Label("删除开团", systemImage: "trash")
-                }
-                .help("删除开团")
-            }
-        }
         .sheet(isPresented: $showPrep) {
             PrepChecklistView(run: run)
                 .environment(store)
