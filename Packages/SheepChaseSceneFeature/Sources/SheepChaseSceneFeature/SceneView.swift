@@ -101,6 +101,18 @@ public struct SceneDetailView: View {
                     }
                 }
 
+                if let dmText = scene.dmText, !dmText.isEmpty {
+                    GroupBox("场景正文 / 完整原文") {
+                        Text(dmText.singleLineSpaced)
+                            .font(.callout)
+                            .lineSpacing(4)
+                            .foregroundStyle(Theme.inkSoft)
+                            .textSelection(.enabled)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.vertical, 3)
+                    }
+                }
+
                 beats
                 beatNavigation
                 branches
