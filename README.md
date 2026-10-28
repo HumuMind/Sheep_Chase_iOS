@@ -26,6 +26,8 @@
 - `Packages/SheepChaseCore` — Domain + Content（纯 Foundation）
 - `Packages/SheepChasePersistence` — SwiftData `RunRecord` + `RunRepository`
 - `Packages/SheepChaseUI` — Theme、字号、参考卡视图与图片资源
+- `Packages/SheepChaseExport` — JSON/Markdown 导出、版本备份
+- `Packages/SheepChaseBattleEngine` — 纯战斗状态机（先攻/HP/专注/骰子/撤销）
 - 最低系统：macOS 14 / iPadOS 17；数据用 SwiftData 本地持久化
 - UI：macOS 原生 `NavigationSplitView` + toolbar + sidebar + inspector；场景/战斗用 `GroupBox`，不再自绘标题栏或 HTML 式卡片；主题纸面统一由 Parchment 背景提供
 - 主题：整窗 PDF 羊皮纸背景 + 不透明阅读页；长文/数据块放在阅读页上，纹理留在页边、侧栏和 toolbar；`GroupBox` 改为书页式分节线
@@ -34,7 +36,7 @@
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：9 个 App `SheepChaseTests`；7 个 Package 单元测试（Core 3 / Persistence 2 / UI 2）；2 个 iPad `SheepChaseUITests`
+- 测试：9 个 App `SheepChaseTests`；14 个 Package 单元测试（Core 3 / Persistence 2 / UI 2 / Export 3 / BattleEngine 4）；2 个 iPad `SheepChaseUITests`
 - 内容校对记录：`CONTENT_REVIEW.md`
 - 文件大小检查：`python3 scripts/check_swift_file_sizes.py`
 - Package 测试：`./scripts/test_packages.sh`（或分别 `swift test --package-path Packages/<name> --disable-sandbox`）

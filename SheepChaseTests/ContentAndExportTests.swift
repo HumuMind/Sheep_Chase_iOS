@@ -1,3 +1,5 @@
+import SheepChaseBattleEngine
+import SheepChaseExport
 import SheepChaseCore
 import SheepChasePersistence
 import SwiftData
@@ -46,7 +48,7 @@ final class ContentAndExportTests: XCTestCase {
         run.flags = ["scroll-used": true]
         run.stickyNotes = [StickyNote(text: "测试便签", color: .blue)]
 
-        let data = try RunExport.data(for: run, contentVersion: "0.3.0")
+        let data = try RunExport.data(for: run, contentVersion: "0.3.0", appVersion: "0.1.0")
         let snapshot = try RunExport.decoder().decode(RunSnapshot.self, from: data)
         XCTAssertEqual(snapshot.run.name, "导出测试团")
         XCTAssertEqual(snapshot.run.party.first?.name, "阿岚")
@@ -203,7 +205,7 @@ final class ContentAndExportTests: XCTestCase {
         let content = try loadContent()
         let run = RunRecord(name: "日志测试", sceneID: "scene-3", contentVersion: content.manifest.version)
         run.stickyNotes = [StickyNote(text: "记住诺克会逃跑", color: .pink)]
-        let markdown = RunExport.markdown(for: run, content: content)
+        let markdown = RunExport.markdown(for: run, content: content, appVersion: "0.1.0")
         XCTAssertTrue(markdown.contains("# 日志测试"))
         XCTAssertTrue(markdown.contains("场景三：林中小屋"))
         XCTAssertTrue(markdown.contains("记住诺克会逃跑"))

@@ -2,7 +2,7 @@
 
 ## 总览
 
-这是一个 SwiftUI 应用工程 + 3 个本地 Swift Package，由 `project.yml` 通过 XcodeGen 生成两个 target：
+这是一个 SwiftUI 应用工程 + 5 个本地 Swift Package，由 `project.yml` 通过 XcodeGen 生成两个 target：
 
 - `SheepChaseMac`：macOS 14+
 - `SheepChasePad`：iPadOS 17+
@@ -27,6 +27,12 @@ Packages/
   SheepChaseUI/
     Sources/SheepChaseUI/         Theme、字号、参考卡、图片资源
     Tests/SheepChaseUITests/
+  SheepChaseExport/
+    Sources/SheepChaseExport/     JSON/Markdown 导出、版本备份
+    Tests/SheepChaseExportTests/
+  SheepChaseBattleEngine/
+    Sources/SheepChaseBattleEngine/ 纯战斗状态机
+    Tests/SheepChaseBattleEngineTests/
 
 SheepChaseTests/   内容、导入导出、生命周期、会话、战斗逻辑
 SheepChaseUITests/ iPad 启动、场景工作区、全局搜索
@@ -55,18 +61,30 @@ SheepChaseUITests/ iPad 启动、场景工作区、全局搜索
 - `SheepChaseImages` 提供 Package bundle 内的 Cover/Map/Sheep/Parchment 图片。
 - Assets 随 Package 资源构建；App 不再保留这些 imageset（仅保留 AppIcon/AccentColor）。
 
+**SheepChaseExport**（Core + Persistence）
+
+- `RunSnapshot`、JSON 编解码、Markdown 导出、文件名规则。
+- `RunBackupService`：版本升级时把开团快照写入 Application Support。
+- 不依赖 SwiftUI；App 侧的 `RunExportDocument` 才提供 `FileDocument`。
+
+**SheepChaseBattleEngine**（Core）
+
+- 玩家/怪物选择、先攻、开战、轮次、HP/临时 HP、状态、专注、骰子、多目标、撤销。
+- 纯 `BattleState` 输入输出；不依赖 SwiftData、SwiftUI 或 App。
+- `RunStore+Battle` 只负责取/存 Run、checkpoint 和 toast。
+
 ### App
 
 - `SheepChaseApp` 创建 `ModelContainer`、加载内容包、构造 `RunStore`。
 - `RootView` 负责“开团库 ↔ 当前开团”两层切换、字号环境和全局外观。
 - `SheepChase/Content/ContentStore` 从 App bundle 定位 `ContentPack.json` 并解码。
-- `RunStore`：`@MainActor @Observable` 的应用状态/协调层，负责当前开团、导航、队伍、便签、战斗、会话、导出等。按功能拆成扩展：
+- `RunStore`：`@MainActor @Observable` 的应用状态/协调层，负责当前开团、导航、队伍、便签、战斗协调、会话、导出等。按功能拆成扩展：
   - `RunStore.swift`：状态、生命周期、导航、队伍、便签、场景备注、持久化
   - `RunStore+Battle.swift`：战斗筹备、先攻、轮次、HP、专注、骰子、撤销
   - `RunStore+Sessions.swift`：聚会记录、快照、安全设置、Run 管理
   - `RunStore+Export.swift`：JSON/Markdown 导出、导入、版本备份
   - `RunStore+Seed.swift`：示例开团种子
-- `RunExport` 仍在 App，负责 `RunSnapshot` 的 FileDocument/图片文件名等 App 级导出细节。
+- `RunExportDocument` 仍在 App，只负责 `FileDocument` 包装；导出/备份逻辑在 `SheepChaseExport`。
 
 这不是严格 MVVM：没有为每个视图再套一层 ViewModel。`RunStore` 相当于 app-level state/service，视图通过 `@Environment(RunStore.self)` 和 `@Bindable RunRecord` 直接读写。这样代码少、行为直接，但 `RunStore` 必须按功能拆文件，避免变成上帝对象。
 
@@ -84,6 +102,7 @@ YAML content
   → App bundle + ContentStore.load()
   → SheepChaseCore.ContentPack（只读）
   → RunStore + SheepChasePersistence.RunRecord（每团独立状态）
+  → SheepChaseBattleEngine / SheepChaseExport
   → SheepChaseUI / App SwiftUI 视图
   → SheepChasePersistence.RunRepository.save()
 ```
@@ -100,10 +119,10 @@ YAML content
 
 | 文件 | 行数 |
 |---|---:|
-| `Features/RunView.swift` | 378 |
-| `Persistence/RunStore.swift` | 351 |
-| `Features/SceneDetailSections.swift` | 350 |
-| `Features/BattleActiveView.swift` | 344 |
+| `Features/RunView.swift` | 380 |
+| `Persistence/RunStore.swift` | 353 |
+| `Features/SceneDetailSections.swift` | 352 |
+| `Features/BattleActiveView.swift` | 346 |
 | `Persistence/RunStore+Battle.swift` | 329 |
 | `Packages/SheepChaseCore/.../RunModels.swift` | 328 |
 | `Packages/SheepChaseCore/.../ContentPack.swift` | 283 |
@@ -113,9 +132,7 @@ YAML content
 
 ```bash
 python3 scripts/check_swift_file_sizes.py
-swift test --package-path Packages/SheepChaseCore --disable-sandbox
-swift test --package-path Packages/SheepChasePersistence --disable-sandbox
-swift test --package-path Packages/SheepChaseUI --disable-sandbox
+./scripts/test_packages.sh
 ```
 
 脚本在文件超过 500 行时失败，超过 400 行时给出警告。
@@ -126,5 +143,5 @@ swift test --package-path Packages/SheepChaseUI --disable-sandbox
 - 两个 target 共享文件夹而不是独立 Swift Package；目前规模下更简单，后续要复用或严格模块化时再拆。
 - UI 测试目前覆盖 iPad 的进入工作区和全局搜索，不覆盖每个弹层；复杂交互主要靠单元测试和 XCUITest 基础路径。
 - `SheepChaseUI` 的资源随 Package bundle 走；App 的 Asset Catalog 只保留 AppIcon/AccentColor。
-- 依赖方向：`Core ← Persistence`，`Core ← UI`，App 依赖三者；不允许 Package 反向依赖 App。
-- 内容包校验、Package/App 单元测试、UI 测试都需要在本地跑；真实跑团仍是最终验收。
+- 依赖方向：`Core ← Persistence`，`Core ← UI`，`Core + Persistence ← Export`，`Core ← BattleEngine`，App 依赖全部；不允许 Package 反向依赖 App。
+- 内容包校验、5 个 Package 的单元测试、App 单元测试和 UI 测试都需要在本地跑；真实跑团仍是最终验收。

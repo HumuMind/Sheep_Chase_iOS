@@ -19,8 +19,11 @@
 		2700DD87544C20F1B6C4FE07 /* SheepChaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78234207D5B311AAEC23EA7E /* SheepChaseCore */; };
 		28055A7A0802DBD9127A9D80 /* RunStore+Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3805A790ABEED39156A66B35 /* RunStore+Sessions.swift */; };
 		2F8312BB3C2C9DE34C81D51F /* PrepChecklistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF986145AF03B0658DD574 /* PrepChecklistView.swift */; };
+		31BA82BD33987A3396183996 /* RunExportDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FE64178AADFE22D4E3765E /* RunExportDocument.swift */; };
 		31F23F900EEDF94F909ABE4E /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */; };
 		346FE211423187AEDD764C39 /* BattleActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3608EA50F9771109AB48196F /* BattleActiveView.swift */; };
+		357B584FD8A63895BD9423F3 /* RunExportDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0FE64178AADFE22D4E3765E /* RunExportDocument.swift */; };
+		384F05EE97CA37162884D813 /* SheepChaseExport in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD18B2915B0EA45E3993575 /* SheepChaseExport */; };
 		4B48352924AB516414183AFF /* SheepChasePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9A57A8666634D2A05EEA4210 /* SheepChasePersistence */; };
 		4D77C8B158D433F2B0ACD9FE /* BattleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */; };
 		4F6AC6855F619CC89C44154D /* cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 020524B273A5E80CE97899DA /* cover.jpg */; };
@@ -39,6 +42,7 @@
 		632A02A1CFF3A94AEA5B82E6 /* map-treehouse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BB7DE3816798478894ACFF3F /* map-treehouse.jpg */; };
 		636ADFB897665CCD7E23D54C /* AboutContentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C9B65768D7AF42566545E /* AboutContentSheet.swift */; };
 		6792EBB8BCEEF2668CFB4869 /* SheepChaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB328123E4DDC8532B332C48 /* SheepChaseCore */; };
+		682E6CA55BD744D064506A32 /* SheepChaseBattleEngine in Frameworks */ = {isa = PBXBuildFile; productRef = D0D04F7577768A84D0E0EF44 /* SheepChaseBattleEngine */; };
 		6ADD7293D7511986E2EEB10A /* NewRunSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9259CDE557E0B6CFE105FC /* NewRunSheet.swift */; };
 		6DD31DE874C7F699C5CCBE87 /* BattleInitiativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16B49488F06E63B8F7EB761 /* BattleInitiativeView.swift */; };
 		70D602408AC5BB4096ADAF4F /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */; };
@@ -50,7 +54,9 @@
 		7B39CA7B371C4DA23108845D /* ImageExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561F4D6B465DE19401AABA4 /* ImageExportView.swift */; };
 		7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
 		7F4CBDED4AE5CFA029487D3F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F12132067004AD5C6AE66 /* MapView.swift */; };
+		82C515E147815ADE4F2C5C38 /* SheepChaseExport in Frameworks */ = {isa = PBXBuildFile; productRef = 1875245BE95345369C995CC9 /* SheepChaseExport */; };
 		846549A2F3214D47785B826B /* RunStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0E1BA9B8A49C55EF7699A /* RunStore.swift */; };
+		86F94787D29484ADCADF2BC5 /* SheepChaseExport in Frameworks */ = {isa = PBXBuildFile; productRef = 6347EF1D8FC0B1D533735267 /* SheepChaseExport */; };
 		8768A0B1B5F71526D05EDEDA /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE06BBBDE740547C4640C3D /* InspectorView.swift */; };
 		8A8CD3BB71560EBDAF1747B3 /* BattleInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A744F507422A03B386F714F7 /* BattleInspectorView.swift */; };
 		8AAF9101B185A6012FE5BC19 /* SceneDetailSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08651DAF7EBFA61312D46D22 /* SceneDetailSections.swift */; };
@@ -62,7 +68,7 @@
 		A34B6E5EEFFE64C7036AD5B9 /* RunStore+Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71205C697C4FE44370B76A90 /* RunStore+Battle.swift */; };
 		A4F8901204B160F095F2CBA8 /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE06BBBDE740547C4640C3D /* InspectorView.swift */; };
 		A654EDC3D12B96804A5F6A07 /* RunStore+Battle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71205C697C4FE44370B76A90 /* RunStore+Battle.swift */; };
-		A89052EF95D96466904B7F10 /* RunExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C7F733E946F2072CB54541 /* RunExport.swift */; };
+		A85CE9B79F5E42CF03115C67 /* SheepChaseBattleEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 16E536CC53D8C41F2E3D25C2 /* SheepChaseBattleEngine */; };
 		AC08F8948AA34CF45C079F5D /* RunStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0E1BA9B8A49C55EF7699A /* RunStore.swift */; };
 		AF5D5DFD28EAA0D82C4CD0A6 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB715842510A944ACE5BEC22 /* LibraryView.swift */; };
 		AF7DEE96141F0922C3F4D931 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A615CE91471991581D521AEF /* SceneView.swift */; };
@@ -88,12 +94,12 @@
 		DCB739C9364EF09D3BDB037A /* cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 020524B273A5E80CE97899DA /* cover.jpg */; };
 		DCF5C38920BF616DBBA97A00 /* RulesInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CABACBDACB84FAF6463CDFE /* RulesInspectorView.swift */; };
 		DF6835D3AE16567385BB7189 /* RunStore+Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3805A790ABEED39156A66B35 /* RunStore+Sessions.swift */; };
-		E370F5CAB9958F14BB41EB4E /* RunExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C7F733E946F2072CB54541 /* RunExport.swift */; };
 		E5EBFE0BEC0EA322AF1BDF2A /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */; };
 		E72DDE348539DBA002C099B7 /* AboutContentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C9B65768D7AF42566545E /* AboutContentSheet.swift */; };
 		E9F5128822850713FCEAE7AA /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F38122AD24C8A9E1CDF6 /* GlobalSearchView.swift */; };
 		ECACED3BEF91E5ACBAF3DB1C /* LibraryRunDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B924ED1CEC75F5D09755AEAC /* LibraryRunDetailView.swift */; };
 		F1626034B5C81EC6EE036892 /* SheepChaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */; };
+		F4283F6B4D38F209B93EA77B /* SheepChaseBattleEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 67F2A8F8C0F82DF89FF46FD0 /* SheepChaseBattleEngine */; };
 		F6F2CE8E772FF28093892734 /* LibraryRunDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B924ED1CEC75F5D09755AEAC /* LibraryRunDetailView.swift */; };
 		FB417162C430BCB6742C65D0 /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F38122AD24C8A9E1CDF6 /* GlobalSearchView.swift */; };
 		FCBC6C2AB5632ECB23E2905A /* SheepChasePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = A09A7E09B9212BD8505B324F /* SheepChasePersistence */; };
@@ -122,9 +128,9 @@
 		07B9009FFB8120C98C8A4AA4 /* ContentAndExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentAndExportTests.swift; sourceTree = "<group>"; };
 		08171DA9B2373053C962948F /* BattleSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleSelectView.swift; sourceTree = "<group>"; };
 		08651DAF7EBFA61312D46D22 /* SceneDetailSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDetailSections.swift; sourceTree = "<group>"; };
-		12C7F733E946F2072CB54541 /* RunExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunExport.swift; sourceTree = "<group>"; };
 		154CC2063D420A953DF242EF /* SheepChaseMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheepChaseMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleViews.swift; sourceTree = "<group>"; };
+		1C8A7C3D18797BF60F769981 /* SheepChaseExport */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseExport; path = Packages/SheepChaseExport; sourceTree = SOURCE_ROOT; };
 		22F0E1BA9B8A49C55EF7699A /* RunStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunStore.swift; sourceTree = "<group>"; };
 		2561F4D6B465DE19401AABA4 /* ImageExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExportView.swift; sourceTree = "<group>"; };
 		2F3FE2FCBD9FFA9A1EEF2078 /* SheepChaseUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SheepChaseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +164,7 @@
 		C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		CB715842510A944ACE5BEC22 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		CEE06BBBDE740547C4640C3D /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
+		D0FE64178AADFE22D4E3765E /* RunExportDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunExportDocument.swift; sourceTree = "<group>"; };
 		D11B1275D2CAC3C867981704 /* BattleComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleComponents.swift; sourceTree = "<group>"; };
 		D16B49488F06E63B8F7EB761 /* BattleInitiativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleInitiativeView.swift; sourceTree = "<group>"; };
 		D59694443ADF9982B72BD40F /* SheepChasePersistence */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChasePersistence; path = Packages/SheepChasePersistence; sourceTree = SOURCE_ROOT; };
@@ -166,6 +173,7 @@
 		E8951581CEE5AFEBBA1F4839 /* SheepChaseUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseUI; path = Packages/SheepChaseUI; sourceTree = SOURCE_ROOT; };
 		E94E8385AEB32C9EC1C5C2E4 /* RunStore+Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RunStore+Export.swift"; sourceTree = "<group>"; };
 		EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
+		FF23A5D31EA1CC7DFA62A827 /* SheepChaseBattleEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseBattleEngine; path = Packages/SheepChaseBattleEngine; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +184,8 @@
 				20A5DDB0D5DE4AC5E496802F /* SheepChaseCore in Frameworks */,
 				4B48352924AB516414183AFF /* SheepChasePersistence in Frameworks */,
 				D3C709D23C425A5E73785779 /* SheepChaseUI in Frameworks */,
+				82C515E147815ADE4F2C5C38 /* SheepChaseExport in Frameworks */,
+				A85CE9B79F5E42CF03115C67 /* SheepChaseBattleEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +195,8 @@
 			files = (
 				2700DD87544C20F1B6C4FE07 /* SheepChaseCore in Frameworks */,
 				FCBC6C2AB5632ECB23E2905A /* SheepChasePersistence in Frameworks */,
+				384F05EE97CA37162884D813 /* SheepChaseExport in Frameworks */,
+				682E6CA55BD744D064506A32 /* SheepChaseBattleEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +207,8 @@
 				6792EBB8BCEEF2668CFB4869 /* SheepChaseCore in Frameworks */,
 				1DE59DA6AFD9F7E7608F513E /* SheepChasePersistence in Frameworks */,
 				7627F4F442FF821DAF77F67D /* SheepChaseUI in Frameworks */,
+				86F94787D29484ADCADF2BC5 /* SheepChaseExport in Frameworks */,
+				F4283F6B4D38F209B93EA77B /* SheepChaseBattleEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +218,7 @@
 		0D8B2407916C914CC17AF25E /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				12C7F733E946F2072CB54541 /* RunExport.swift */,
+				D0FE64178AADFE22D4E3765E /* RunExportDocument.swift */,
 				22F0E1BA9B8A49C55EF7699A /* RunStore.swift */,
 				71205C697C4FE44370B76A90 /* RunStore+Battle.swift */,
 				E94E8385AEB32C9EC1C5C2E4 /* RunStore+Export.swift */,
@@ -257,7 +271,9 @@
 		4970C1E4A25B29FB3BBE6F9A /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				FF23A5D31EA1CC7DFA62A827 /* SheepChaseBattleEngine */,
 				53D559AE299EC8A576BEF5DF /* SheepChaseCore */,
+				1C8A7C3D18797BF60F769981 /* SheepChaseExport */,
 				D59694443ADF9982B72BD40F /* SheepChasePersistence */,
 				E8951581CEE5AFEBBA1F4839 /* SheepChaseUI */,
 			);
@@ -364,6 +380,8 @@
 				FB328123E4DDC8532B332C48 /* SheepChaseCore */,
 				7857AEF9D5F7ACDEB282D1B0 /* SheepChasePersistence */,
 				B27BF26B823542F664092860 /* SheepChaseUI */,
+				6347EF1D8FC0B1D533735267 /* SheepChaseExport */,
+				67F2A8F8C0F82DF89FF46FD0 /* SheepChaseBattleEngine */,
 			);
 			productName = SheepChasePad;
 			productReference = 62BD35D01F3AAAFFA9E9C531 /* SheepChasePad.app */;
@@ -385,6 +403,8 @@
 			packageProductDependencies = (
 				78234207D5B311AAEC23EA7E /* SheepChaseCore */,
 				A09A7E09B9212BD8505B324F /* SheepChasePersistence */,
+				8FD18B2915B0EA45E3993575 /* SheepChaseExport */,
+				D0D04F7577768A84D0E0EF44 /* SheepChaseBattleEngine */,
 			);
 			productName = SheepChaseTests;
 			productReference = 4516D7D7741815F09D485D55 /* SheepChaseTests.xctest */;
@@ -407,6 +427,8 @@
 				3D9FE742144A16704754A3E2 /* SheepChaseCore */,
 				9A57A8666634D2A05EEA4210 /* SheepChasePersistence */,
 				091ECABC8BAD82773C7AB893 /* SheepChaseUI */,
+				1875245BE95345369C995CC9 /* SheepChaseExport */,
+				16E536CC53D8C41F2E3D25C2 /* SheepChaseBattleEngine */,
 			);
 			productName = SheepChaseMac;
 			productReference = 154CC2063D420A953DF242EF /* SheepChaseMac.app */;
@@ -468,7 +490,9 @@
 			mainGroup = D2F6ED9C06133A5892EEF9B1;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				EDC961FCFE0F097EC8EF9BF7 /* XCLocalSwiftPackageReference "Packages/SheepChaseBattleEngine" */,
 				F351EEB8D0CB2110F1709FF3 /* XCLocalSwiftPackageReference "Packages/SheepChaseCore" */,
+				E4064FCF4E2C9B925C9E51D1 /* XCLocalSwiftPackageReference "Packages/SheepChaseExport" */,
 				1510AA37B739EE78BEEB8BFD /* XCLocalSwiftPackageReference "Packages/SheepChasePersistence" */,
 				9304BFB7CEE36ABF3BB8C83D /* XCLocalSwiftPackageReference "Packages/SheepChaseUI" */,
 			);
@@ -540,7 +564,7 @@
 				624BFE0B93DABBA4C922C41A /* PrepChecklistView.swift in Sources */,
 				7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */,
 				5DF73643F2F44FDF14A214AB /* RulesInspectorView.swift in Sources */,
-				A89052EF95D96466904B7F10 /* RunExport.swift in Sources */,
+				357B584FD8A63895BD9423F3 /* RunExportDocument.swift in Sources */,
 				A34B6E5EEFFE64C7036AD5B9 /* RunStore+Battle.swift in Sources */,
 				17322B4A47ED24CA3785AC55 /* RunStore+Export.swift in Sources */,
 				5F87BD49FDE9268D006C622E /* RunStore+Seed.swift in Sources */,
@@ -582,7 +606,7 @@
 				2F8312BB3C2C9DE34C81D51F /* PrepChecklistView.swift in Sources */,
 				16937F9607EEB260BCB91705 /* RootView.swift in Sources */,
 				DCF5C38920BF616DBBA97A00 /* RulesInspectorView.swift in Sources */,
-				E370F5CAB9958F14BB41EB4E /* RunExport.swift in Sources */,
+				31BA82BD33987A3396183996 /* RunExportDocument.swift in Sources */,
 				A654EDC3D12B96804A5F6A07 /* RunStore+Battle.swift in Sources */,
 				D2C5989575FCA71BD176FA6A /* RunStore+Export.swift in Sources */,
 				B36CE8F41DB31E7AD7494DFD /* RunStore+Seed.swift in Sources */,
@@ -1001,6 +1025,14 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/SheepChaseUI;
 		};
+		E4064FCF4E2C9B925C9E51D1 /* XCLocalSwiftPackageReference "Packages/SheepChaseExport" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SheepChaseExport;
+		};
+		EDC961FCFE0F097EC8EF9BF7 /* XCLocalSwiftPackageReference "Packages/SheepChaseBattleEngine" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SheepChaseBattleEngine;
+		};
 		F351EEB8D0CB2110F1709FF3 /* XCLocalSwiftPackageReference "Packages/SheepChaseCore" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/SheepChaseCore;
@@ -1012,9 +1044,25 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SheepChaseUI;
 		};
+		16E536CC53D8C41F2E3D25C2 /* SheepChaseBattleEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseBattleEngine;
+		};
+		1875245BE95345369C995CC9 /* SheepChaseExport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseExport;
+		};
 		3D9FE742144A16704754A3E2 /* SheepChaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SheepChaseCore;
+		};
+		6347EF1D8FC0B1D533735267 /* SheepChaseExport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseExport;
+		};
+		67F2A8F8C0F82DF89FF46FD0 /* SheepChaseBattleEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseBattleEngine;
 		};
 		78234207D5B311AAEC23EA7E /* SheepChaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1023,6 +1071,10 @@
 		7857AEF9D5F7ACDEB282D1B0 /* SheepChasePersistence */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SheepChasePersistence;
+		};
+		8FD18B2915B0EA45E3993575 /* SheepChaseExport */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseExport;
 		};
 		9A57A8666634D2A05EEA4210 /* SheepChasePersistence */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1035,6 +1087,10 @@
 		B27BF26B823542F664092860 /* SheepChaseUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SheepChaseUI;
+		};
+		D0D04F7577768A84D0E0EF44 /* SheepChaseBattleEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseBattleEngine;
 		};
 		FB328123E4DDC8532B332C48 /* SheepChaseCore */ = {
 			isa = XCSwiftPackageProductDependency;

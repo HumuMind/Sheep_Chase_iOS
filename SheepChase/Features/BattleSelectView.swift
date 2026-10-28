@@ -1,3 +1,5 @@
+import SheepChaseBattleEngine
+import SheepChaseExport
 import SheepChaseCore
 import SheepChasePersistence
 import SheepChaseUI

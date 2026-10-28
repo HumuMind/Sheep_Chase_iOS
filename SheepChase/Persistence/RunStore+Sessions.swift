@@ -1,3 +1,5 @@
+import SheepChaseBattleEngine
+import SheepChaseExport
 import SheepChaseCore
 import SheepChasePersistence
 import SheepChaseUI
@@ -114,11 +116,11 @@ extension RunStore {
     }
 
     func exportJSON(for run: RunRecord) throws -> Data {
-        try RunExport.data(for: run, contentVersion: content.manifest.version)
+        try RunExport.data(for: run, contentVersion: content.manifest.version, appVersion: AppVersion.short)
     }
 
     func exportMarkdown(for run: RunRecord) -> String {
-        RunExport.markdown(for: run, content: content)
+        RunExport.markdown(for: run, content: content, appVersion: AppVersion.short)
     }
 
     func importRun(from data: Data) throws -> RunRecord {
