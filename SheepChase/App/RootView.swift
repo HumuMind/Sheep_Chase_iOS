@@ -27,12 +27,6 @@ struct RootView: View {
             .background(.clear)
             .groupBoxStyle(BookGroupBoxStyle())
 
-            if let run = store.selectedRun {
-                QuickReferencePanel(run: run)
-                    .padding(14)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-            }
-
             if let toast = store.toast {
                 Text(toast)
                     .font(Theme.ui(12, weight: .medium))

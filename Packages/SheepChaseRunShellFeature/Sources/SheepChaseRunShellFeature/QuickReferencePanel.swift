@@ -196,23 +196,46 @@ public struct QuickReferencePanel: View {
 
     private func category(_ kind: QuickReferenceKind) -> some View {
         let entries = entries(for: kind)
-        return DisclosureGroup(
-            isExpanded: Binding(
-                get: { expandedKinds.contains(kind) },
-                set: { expanded in
-                    if expanded { expandedKinds.insert(kind) } else { expandedKinds.remove(kind) }
+        let expanded = expandedKinds.contains(kind)
+        return VStack(alignment: .leading, spacing: 4) {
+            Button {
+                withAnimation(.easeInOut(duration: 0.12)) {
+                    if expanded {
+                        expandedKinds.remove(kind)
+                    } else {
+                        expandedKinds.insert(kind)
+                    }
                 }
-            )
-        ) {
-            if entries.isEmpty {
-                Text("暂无内容")
-                    .font(.caption2)
-                    .foregroundStyle(.tertiary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical, 4)
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 5) {
+            } label: {
+                HStack(spacing: 6) {
+                    Label(kind.title, systemImage: kind.icon)
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(Theme.ink)
+                    Spacer()
+                    Text("\(entries.count)")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundStyle(.secondary)
+                        .rotationEffect(.degrees(expanded ? 90 : 0))
+                }
+                .padding(.vertical, 4)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("\(kind.title)，\(expanded ? "收起" : "展开")")
+            .accessibilityIdentifier("qr-category-\(kind.rawValue)")
+
+            if expanded {
+                if entries.isEmpty {
+                    Text("暂无内容")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 4)
+                } else {
+                    VStack(spacing: 3) {
                         ForEach(entries) { entry in
                             tag(entry)
                         }
@@ -220,31 +243,21 @@ public struct QuickReferencePanel: View {
                     .padding(.vertical, 3)
                 }
             }
-        } label: {
-            HStack(spacing: 6) {
-                Label(kind.title, systemImage: kind.icon)
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(Theme.ink)
-                Spacer()
-                Text("\(entries.count)")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.vertical, 3)
         }
-        .tint(Theme.red)
     }
 
     private func tag(_ entry: QuickReferenceEntry) -> some View {
         let pinned = run.pinnedReferenceIDs.contains(entry.id)
-        return HStack(spacing: 0) {
+        return HStack(spacing: 6) {
             Button {
                 selection = QuickReferenceSelection(kind: entry.kind, itemID: entry.itemID)
             } label: {
                 Text(entry.title)
                     .font(.caption)
                     .foregroundStyle(Theme.ink)
-                    .lineLimit(1)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("qr-tag-\(entry.id)")
@@ -253,23 +266,26 @@ public struct QuickReferencePanel: View {
                 store.togglePinnedReference(entry.id, in: run)
             } label: {
                 Image(systemName: pinned ? "pin.fill" : "pin")
-                    .font(.system(size: 9, weight: .semibold))
+                    .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(pinned ? Theme.red : .secondary)
-                    .padding(.leading, 4)
-                    .padding(.vertical, 5)
-                    .padding(.trailing, 6)
+                    .frame(width: 24, height: 24)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .help(pinned ? "取消钉住" : "钉住")
             .accessibilityLabel(pinned ? "取消钉住\(entry.title)" : "钉住\(entry.title)")
             .accessibilityIdentifier("qr-pin-\(entry.id)")
         }
-        .padding(.leading, 7)
+        .padding(.leading, 8)
+        .padding(.trailing, 5)
+        .padding(.vertical, 3)
         .background(
-            Capsule().fill(pinned ? Theme.red.opacity(0.10) : Theme.paperDeep.opacity(0.65))
+            RoundedRectangle(cornerRadius: 5)
+                .fill(pinned ? Theme.red.opacity(0.10) : Theme.paperDeep.opacity(0.55))
         )
         .overlay(
-            Capsule().stroke(pinned ? Theme.red.opacity(0.35) : Theme.line.opacity(0.7), lineWidth: 0.7)
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(pinned ? Theme.red.opacity(0.35) : Theme.line.opacity(0.65), lineWidth: 0.7)
         )
     }
 
@@ -281,7 +297,7 @@ public struct QuickReferencePanel: View {
                 Text(entry.title)
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(Theme.ink)
-                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("qr-pinned-\(entry.id)")

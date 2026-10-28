@@ -190,6 +190,13 @@ public struct RunView: View {
             InspectorView(run: run, showAddPlayer: $showAddPlayer)
                 .inspectorColumnWidth(min: 290, ideal: 320, max: 380)
         }
+        .safeAreaInset(edge: .bottom, alignment: .leading, spacing: 0) {
+            HStack(alignment: .bottom) {
+                QuickReferencePanel(run: run)
+                    .padding(14)
+                Spacer()
+            }
+        }
         .navigationSplitViewStyle(.balanced)
         .tint(Theme.red)
         .sheet(isPresented: $showAddPlayer) {
