@@ -1,3 +1,4 @@
+import SheepChaseRunStore
 import SheepChaseBattleEngine
 import SheepChaseExport
 import SheepChaseCore
@@ -16,11 +17,20 @@ struct SheepChaseApp: App {
         do {
             let container = try ModelContainer(for: RunRecord.self)
             self.container = container
+            let content = ContentStore.load()
+            let repository = RunRepository(context: container.mainContext)
+            let backupDirectory = FileManager.default.urls(
+                for: .applicationSupportDirectory,
+                in: .userDomainMask
+            ).first ?? FileManager.default.temporaryDirectory
             let store = RunStore(
-                context: container.mainContext,
-                content: ContentStore.load()
+                repository: repository,
+                content: content,
+                appVersion: AppVersion.short,
+                backupDirectory: backupDirectory,
+                seed: { DemoSeed.make(content: content) }
             )
-            store.createVersionBackupIfNeeded(appVersion: AppVersion.short)
+            store.createVersionBackupIfNeeded()
             _store = State(initialValue: store)
         } catch {
             fatalError("无法创建 SwiftData 容器：\(error)")

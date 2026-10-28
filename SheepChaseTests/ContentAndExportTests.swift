@@ -1,3 +1,4 @@
+import SheepChaseRunStore
 import SheepChaseBattleEngine
 import SheepChaseExport
 import SheepChaseCore
@@ -62,7 +63,13 @@ final class ContentAndExportTests: XCTestCase {
         let content = try loadContent()
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: RunRecord.self, configurations: configuration)
-        let store = RunStore(context: container.mainContext, content: content)
+        let store = RunStore(
+            repository: RunRepository(context: container.mainContext),
+            content: content,
+            appVersion: "test",
+            backupDirectory: FileManager.default.temporaryDirectory,
+            seed: { [] }
+        )
         let countBefore = store.runs.count
 
         store.createRun(name: "导入测试团")
@@ -86,7 +93,13 @@ final class ContentAndExportTests: XCTestCase {
         let content = try loadContent()
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: RunRecord.self, configurations: configuration)
-        let store = RunStore(context: container.mainContext, content: content)
+        let store = RunStore(
+            repository: RunRepository(context: container.mainContext),
+            content: content,
+            appVersion: "test",
+            backupDirectory: FileManager.default.temporaryDirectory,
+            seed: { [] }
+        )
 
         store.createRun(name: "生命周期测试")
         guard let run = store.selectedRun else { return XCTFail("missing run") }
@@ -126,7 +139,13 @@ final class ContentAndExportTests: XCTestCase {
         let content = try loadContent()
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: RunRecord.self, configurations: configuration)
-        let store = RunStore(context: container.mainContext, content: content)
+        let store = RunStore(
+            repository: RunRepository(context: container.mainContext),
+            content: content,
+            appVersion: "test",
+            backupDirectory: FileManager.default.temporaryDirectory,
+            seed: { [] }
+        )
         store.createRun(name: "聚会测试")
         guard let run = store.selectedRun else { return XCTFail("missing run") }
 
@@ -158,7 +177,13 @@ final class ContentAndExportTests: XCTestCase {
         let content = try loadContent()
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: RunRecord.self, configurations: configuration)
-        let store = RunStore(context: container.mainContext, content: content)
+        let store = RunStore(
+            repository: RunRepository(context: container.mainContext),
+            content: content,
+            appVersion: "test",
+            backupDirectory: FileManager.default.temporaryDirectory,
+            seed: { [] }
+        )
         store.createRun(name: "编辑测试")
         guard let run = store.selectedRun else { return XCTFail("missing run") }
 

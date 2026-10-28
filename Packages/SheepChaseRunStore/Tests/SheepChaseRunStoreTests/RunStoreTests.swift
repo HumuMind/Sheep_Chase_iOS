@@ -1,0 +1,49 @@
+import Foundation
+import SwiftData
+import XCTest
+import SheepChaseCore
+import SheepChasePersistence
+@testable import SheepChaseRunStore
+
+final class RunStoreTests: XCTestCase {
+    private var content: ContentPack {
+        get throws {
+            var root = URL(fileURLWithPath: #filePath)
+            for _ in 0..<5 { root.deleteLastPathComponent() }
+            let url = root.appendingPathComponent("SheepChase/Resources/ContentPack.json")
+            return try JSONDecoder().decode(ContentPack.self, from: Data(contentsOf: url))
+        }
+    }
+
+    @MainActor
+    func testStoreSeedsAndCreatesRuns() throws {
+        let content = try content
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: RunRecord.self, configurations: config)
+        let repository = RunRepository(context: container.mainContext)
+        let seedRun = RunRecord(name: "种子团", contentVersion: content.manifest.version)
+        let store = RunStore(
+            repository: repository,
+            content: content,
+            appVersion: "test",
+            backupDirectory: FileManager.default.temporaryDirectory,
+            seed: { [seedRun] }
+        )
+
+        XCTAssertEqual(store.runs.count, 1)
+        XCTAssertEqual(store.runs.first?.name, "种子团")
+
+        store.createRun(name: "新团")
+        XCTAssertEqual(store.runs.count, 2)
+        guard let run = store.selectedRun else { return XCTFail("missing run") }
+        XCTAssertEqual(run.name, "新团")
+        XCTAssertEqual(store.scenes.count, 4)
+
+        store.selectScene(store.scenes[2], in: run)
+        XCTAssertEqual(run.sceneID, "scene-3")
+        store.addNote(to: run)
+        XCTAssertEqual(run.stickyNotes.count, 1)
+        store.setArchived(true, in: run)
+        XCTAssertFalse(store.orderedRuns.contains { $0.id == run.id })
+    }
+}

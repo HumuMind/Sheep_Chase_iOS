@@ -18,6 +18,12 @@ packages:
     path: Packages/SheepChaseExport
   SheepChaseBattleEngine:
     path: Packages/SheepChaseBattleEngine
+  SheepChaseRunStore:
+    path: Packages/SheepChaseRunStore
+  SheepChaseLibraryFeature:
+    path: Packages/SheepChaseLibraryFeature
+  SheepChaseRunShellFeature:
+    path: Packages/SheepChaseRunShellFeature
 
 settings:
   base:
@@ -51,6 +57,9 @@ targets:
       - package: SheepChaseUI
       - package: SheepChaseExport
       - package: SheepChaseBattleEngine
+      - package: SheepChaseRunStore
+      - package: SheepChaseLibraryFeature
+      - package: SheepChaseRunShellFeature
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.mac
@@ -81,6 +90,9 @@ targets:
       - package: SheepChaseUI
       - package: SheepChaseExport
       - package: SheepChaseBattleEngine
+      - package: SheepChaseRunStore
+      - package: SheepChaseLibraryFeature
+      - package: SheepChaseRunShellFeature
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.ipad
@@ -108,6 +120,7 @@ targets:
       - package: SheepChasePersistence
       - package: SheepChaseExport
       - package: SheepChaseBattleEngine
+      - package: SheepChaseRunStore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.tests
