@@ -171,7 +171,7 @@ Open/import/export 都通过 RunStore；Feature 视图通过 `@Environment(RunSt
 
 | 文件 | 行数 |
 |---|---:|
-| `Packages/SheepChaseRunShellFeature/.../QuickReferencePanel.swift` | 379 |
+| `Packages/SheepChaseRunShellFeature/.../QuickReferencePanel.swift` | 399 |
 | `Packages/SheepChaseRunStore/.../RunStore.swift` | 369 |
 | `Packages/SheepChaseSceneFeature/.../SceneDetailSections.swift` | 353 |
 | `Packages/SheepChaseBattleFeature/.../BattleActiveView.swift` | 347 |

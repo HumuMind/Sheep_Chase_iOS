@@ -235,12 +235,29 @@ public struct QuickReferencePanel: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 4)
                 } else {
-                    VStack(spacing: 3) {
-                        ForEach(entries) { entry in
-                            tag(entry)
-                        }
+                    tagRows(entries)
+                        .padding(.vertical, 3)
+                }
+            }
+        }
+    }
+
+    private func tagRows(_ entries: [QuickReferenceEntry]) -> some View {
+        let columns = 2
+        let rows = stride(from: 0, to: entries.count, by: columns).map { start in
+            Array(entries[start..<min(start + columns, entries.count)])
+        }
+        return VStack(spacing: 3) {
+            ForEach(rows.indices, id: \.self) { index in
+                HStack(alignment: .top, spacing: 4) {
+                    ForEach(rows[index]) { entry in
+                        tag(entry)
+                            .frame(maxWidth: .infinity)
                     }
-                    .padding(.vertical, 3)
+                    if rows[index].count < columns {
+                        Spacer()
+                            .frame(maxWidth: .infinity)
+                    }
                 }
             }
         }
@@ -256,6 +273,8 @@ public struct QuickReferencePanel: View {
                     .font(.caption)
                     .foregroundStyle(Theme.ink)
                     .multilineTextAlignment(.leading)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
             }
@@ -287,6 +306,7 @@ public struct QuickReferencePanel: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(pinned ? Theme.red.opacity(0.35) : Theme.line.opacity(0.65), lineWidth: 0.7)
         )
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func pinnedTag(_ entry: QuickReferenceEntry) -> some View {
