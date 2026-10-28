@@ -44,3 +44,5 @@ tactics:
 - 优先攻击对自己使用火焰的敌人。
 - 诺克骑在背上时，它不会主动离开诺克。
 sourceRef: 英文原版第 5 页；简体中文版第 5 页
+ruleIds:
+- recharge

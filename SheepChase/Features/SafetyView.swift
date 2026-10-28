@@ -87,6 +87,7 @@ struct SafetySheet: View {
             .formStyle(.grouped)
             .scrollContentBackground(.hidden)
             .background(Theme.readingPaper)
+            .environment(\.colorScheme, .light)
             .navigationTitle("桌面安全")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

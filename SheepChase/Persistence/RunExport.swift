@@ -6,6 +6,7 @@ struct RunSnapshot: Codable {
     var formatVersion: Int = 1
     var exportedAt: Date
     var contentVersion: String
+    var appVersion: String?
     var run: RunStateSnapshot
 }
 
@@ -46,6 +47,7 @@ enum RunExport {
         RunSnapshot(
             exportedAt: .now,
             contentVersion: run.contentVersion.isEmpty ? contentVersion : run.contentVersion,
+            appVersion: AppVersion.short,
             run: run.stateSnapshot
         )
     }
@@ -60,6 +62,7 @@ enum RunExport {
         lines.append("# \(run.name)")
         lines.append("")
         lines.append("- 冒险：\(content.adventure.title)")
+        lines.append("- App 版本：\(AppVersion.short)")
         lines.append("- 内容版本：\(run.contentVersion.isEmpty ? content.manifest.version : run.contentVersion)")
         lines.append("- 当前场景：\(scene?.title ?? run.sceneID)")
         lines.append("- 导出时间：\(ISO8601DateFormatter().string(from: .now))")
@@ -90,6 +93,15 @@ enum RunExport {
             for note in run.stickyNotes {
                 lines.append("### \(note.color.title)便签")
                 lines.append(note.text.isEmpty ? "（空白）" : note.text)
+                lines.append("")
+            }
+        }
+        if !run.sceneNotes.isEmpty {
+            lines.append("## 场景备注")
+            for (sceneID, note) in run.sceneNotes.sorted(by: { $0.key < $1.key }) {
+                let title = content.scenes.first { $0.id == sceneID }?.title ?? sceneID
+                lines.append("### \(title)")
+                lines.append(note.isEmpty ? "（空白）" : note)
                 lines.append("")
             }
         }

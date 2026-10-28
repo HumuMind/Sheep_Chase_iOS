@@ -11,10 +11,12 @@ struct SheepChaseApp: App {
         do {
             let container = try ModelContainer(for: RunRecord.self)
             self.container = container
-            _store = State(initialValue: RunStore(
+            let store = RunStore(
                 context: container.mainContext,
                 content: ContentStore.load()
-            ))
+            )
+            store.createVersionBackupIfNeeded(appVersion: AppVersion.short)
+            _store = State(initialValue: store)
         } catch {
             fatalError("无法创建 SwiftData 容器：\(error)")
         }

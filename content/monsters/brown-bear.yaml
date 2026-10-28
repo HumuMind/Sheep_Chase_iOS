@@ -41,3 +41,5 @@ tactics:
   - 守在古兹身侧，堵住通往队伍后排的路。
   - 生命值降到一半以下时可能逃跑。
 sourceRef: 怪物图鉴第 319 页；英文原版第 3 页
+ruleIds:
+- multiattack

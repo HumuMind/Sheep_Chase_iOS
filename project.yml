@@ -69,7 +69,8 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     scheme:
-      testTargets: []
+      testTargets:
+        - SheepChaseUITests
 
   SheepChaseTests:
     type: bundle.unit-test
@@ -89,5 +90,26 @@ targets:
         OTHER_SWIFT_FLAGS: "$(inherited) -disable-sandbox"
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/SheepChase.app/Contents/MacOS/SheepChase"
         BUNDLE_LOADER: "$(TEST_HOST)"
+    scheme:
+      testTargets: []
+
+  SheepChaseUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: SheepChaseUITests
+    dependencies:
+      - target: SheepChasePad
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        SWIFT_VERSION: "5.0"
+        SWIFT_STRICT_CONCURRENCY: minimal
+        OTHER_SWIFT_FLAGS: "$(inherited) -disable-sandbox"
+        TEST_TARGET_NAME: SheepChasePad
+        TARGETED_DEVICE_FAMILY: "2"
     scheme:
       testTargets: []

@@ -45,3 +45,19 @@ tactics:
 - 若战局不利，施放加速术或撤离术逃向卧室，准备把床变成龙。
 - 不会死战；法杖和性命比面子更重要。
 sourceRef: 英文原版第 6 页；简体中文版第 6 页
+ruleIds:
+- concentration
+- spell-save-dc
+spellIds:
+- ray-of-frost
+- mending
+- prestidigitation
+- message
+- expeditious-retreat
+- jump
+- thunderwave
+- enlarge-reduce
+- levitate
+- haste
+- slow
+- polymorph

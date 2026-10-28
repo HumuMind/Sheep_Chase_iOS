@@ -1,5 +1,10 @@
 import SwiftUI
 import UniformTypeIdentifiers
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
 
 struct ImageExportView: View {
     @Environment(RunStore.self) private var store
@@ -11,6 +16,7 @@ struct ImageExportView: View {
     @State private var exportContentType: UTType = .jpeg
     @State private var exportFilename = "荒野逐羊_图片.jpg"
     @State private var exportError: String?
+    @State private var exportNotice: String?
 
     var body: some View {
         NavigationStack {
@@ -67,10 +73,16 @@ struct ImageExportView: View {
             .scrollContentBackground(.hidden)
             .background(Theme.readingPaper)
             .listRowBackground(Color.clear)
+            .environment(\.colorScheme, .light)
             .navigationTitle("模组图片")
             .macNavigationSubtitle("干净原图 · 不烧录 DM 标记")
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button {
+                        exportAllToDirectory()
+                    } label: {
+                        Label("导出全部", systemImage: "folder.badge.plus")
+                    }
                     Button {
                         shareAll()
                     } label: {
@@ -100,6 +112,14 @@ struct ImageExportView: View {
             Button("好") { exportError = nil }
         } message: {
             Text(exportError ?? "未知错误")
+        }
+        .alert("图片导出", isPresented: Binding(
+            get: { exportNotice != nil },
+            set: { if !$0 { exportNotice = nil } }
+        )) {
+            Button("好") { exportNotice = nil }
+        } message: {
+            Text(exportNotice ?? "")
         }
     }
 
@@ -131,6 +151,82 @@ struct ImageExportView: View {
         default: asset.kind
         }
     }
+
+    private func exportAllToDirectory() {
+        let urls = store.assets.compactMap { ContentAssetFile.url(for: $0) }
+        guard !urls.isEmpty else {
+            exportError = "找不到可导出的图片。"
+            return
+        }
+        #if os(macOS)
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.prompt = "导出到这里"
+        panel.message = "选择保存全部模组图片的目录"
+        guard panel.runModal() == .OK, let directory = panel.url else { return }
+        do {
+            for url in urls {
+                try copyUnique(url, to: directory)
+            }
+            let credit = creditText()
+            try credit.write(to: directory.appendingPathComponent("荒野逐羊_图片说明.txt"), atomically: true, encoding: .utf8)
+            exportNotice = "已导出 \(urls.count) 张原图到所选目录。"
+        } catch {
+            exportError = error.localizedDescription
+        }
+        #else
+        var items = urls
+        if let creditURL = writeCreditFile() {
+            items.append(creditURL)
+        }
+        presentExportPicker(for: items)
+        #endif
+    }
+
+    private func creditText() -> String {
+        var lines = ["《荒野逐羊》模组图片", ""]
+        for asset in store.assets {
+            lines.append("\(asset.exportFilename)")
+            lines.append("  来源：\(asset.credit ?? "未注明")")
+        }
+        lines.append("")
+        lines.append("仅供个人跑团使用。")
+        return lines.joined(separator: "\n") + "\n"
+    }
+
+    private func writeCreditFile() -> URL? {
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("荒野逐羊_图片说明.txt")
+        do {
+            try creditText().write(to: url, atomically: true, encoding: .utf8)
+            return url
+        } catch {
+            return nil
+        }
+    }
+
+    #if os(macOS)
+    private func copyUnique(_ source: URL, to directory: URL) throws {
+        let base = source.deletingPathExtension().lastPathComponent
+        let ext = source.pathExtension
+        var destination = directory.appendingPathComponent(source.lastPathComponent)
+        var index = 2
+        while FileManager.default.fileExists(atPath: destination.path) {
+            destination = directory.appendingPathComponent("\(base) (\(index)).\(ext)")
+            index += 1
+        }
+        try FileManager.default.copyItem(at: source, to: destination)
+    }
+    #else
+    private func presentExportPicker(for urls: [URL]) {
+        let picker = UIDocumentPickerViewController(forExporting: urls, asCopy: true)
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let root = scene.keyWindow?.rootViewController {
+            root.present(picker, animated: true)
+        }
+    }
+    #endif
 
     private func prepareExport(_ asset: ContentPack.Asset) {
         guard let url = ContentAssetFile.url(for: asset), let data = try? Data(contentsOf: url) else {

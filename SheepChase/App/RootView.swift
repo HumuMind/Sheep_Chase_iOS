@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootView: View {
     @Environment(RunStore.self) private var store
+    @AppStorage("appTextSize") private var appTextSize = AppTextSize.large.rawValue
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -35,7 +36,7 @@ struct RootView: View {
             }
         }
         .tint(Theme.red)
-        .preferredColorScheme(.light)
+        .dynamicTypeSize((AppTextSize(rawValue: appTextSize) ?? .large).dynamicTypeSize)
         .themedToolbarBackground()
         .task {
             openDemoRunIfNeeded()

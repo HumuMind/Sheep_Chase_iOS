@@ -130,6 +130,7 @@ struct SessionLogView: View {
             .formStyle(.grouped)
             .scrollContentBackground(.hidden)
             .background(Theme.readingPaper)
+            .environment(\.colorScheme, .light)
             .navigationTitle("聚会与快照")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

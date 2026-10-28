@@ -3,6 +3,7 @@ import SwiftUI
 struct AboutContentSheet: View {
     @Environment(\.dismiss) private var dismiss
     let content: ContentPack
+    @AppStorage("appTextSize") private var appTextSize = AppTextSize.large.rawValue
 
     var body: some View {
         NavigationStack {
@@ -24,7 +25,7 @@ struct AboutContentSheet: View {
                             Text(content.manifest.originalTitle)
                                 .font(.callout)
                                 .foregroundStyle(.secondary)
-                            Text("内容版本 \(content.manifest.version) · schema \(content.manifest.schemaVersion) · \(content.manifest.locale)")
+                            Text("App \(AppVersion.short) · 内容版本 \(content.manifest.version) · schema \(content.manifest.schemaVersion) · \(content.manifest.locale)")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -48,6 +49,25 @@ struct AboutContentSheet: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 3)
+                    }
+
+                    GroupBox("界面字号") {
+                        Picker("界面字号", selection: $appTextSize) {
+                            ForEach(AppTextSize.allCases) { size in
+                                Text(size.title).tag(size.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .labelsHidden()
+                    }
+
+                    GroupBox("版本与备份") {
+                        Text("App \(AppVersion.short)（build \(AppVersion.build)）。启动新版本时，App 会自动把当前开团导出到本机 Application Support/SheepChase/Backups，保留最近 3 次；升级前也可以手动导出 JSON。")
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                            .lineSpacing(2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.vertical, 3)
                     }
 
                     GroupBox("使用范围") {

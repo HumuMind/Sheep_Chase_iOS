@@ -354,6 +354,8 @@
           "minItems": 1,
           "items": { "$ref": "#/$defs/textPair" }
         },
+        "ruleIds": { "$ref": "#/$defs/idList" },
+        "spellIds": { "$ref": "#/$defs/idList" },
         "tactics": { "$ref": "#/$defs/stringList" },
         "sourceRef": { "type": "string" }
       }

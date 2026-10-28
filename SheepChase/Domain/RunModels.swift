@@ -42,6 +42,7 @@ struct PartyMember: Identifiable, Codable, Hashable {
     var hp: Int
     var initMod: Int
     var passivePerception: Int
+    var tempHP: Int? = nil
     var conditions: [String] = []
 }
 
@@ -97,6 +98,7 @@ struct BattleCombatant: Identifiable, Codable, Hashable {
     var hp: Int
     var maxHP: Int
     var initiative: Int
+    var tempHP: Int? = nil
     var conditions: [String] = []
     var concentration: String? = nil
 }
@@ -127,6 +129,8 @@ struct RunStateSnapshot: Codable {
     var battle: BattleState?
     var safety: SafetyState
     var sessions: [RunSession]
+    var sceneNotes: [String: String]?
+    var prepChecks: [String]?
 }
 
 struct RunCheckpoint: Identifiable, Codable {

@@ -14,6 +14,8 @@ enum Theme {
     static let line = Color(red: 0.86, green: 0.80, blue: 0.71)
     static let green = Color(red: 0.30, green: 0.42, blue: 0.32)
     static let amber = Color(red: 0.60, green: 0.40, blue: 0.18)
+    static let darkDesk = Color(red: 0.10, green: 0.075, blue: 0.06)
+    static let darkDeskToolbar = Color(red: 0.14, green: 0.105, blue: 0.08)
 
     static func serif(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
         .custom("Songti SC", size: size).weight(weight)
@@ -50,38 +52,73 @@ struct BookGroupBoxStyle: GroupBoxStyle {
 }
 
 struct BookPaperBackground: View {
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         GeometryReader { proxy in
-            Image("Parchment")
-                .resizable()
-                .scaledToFill()
-                .frame(width: proxy.size.width, height: proxy.size.height)
-                .clipped()
-                .overlay(Color(red: 0.99, green: 0.965, blue: 0.91).opacity(0.22))
-                .overlay(
+            if colorScheme == .dark {
+                ZStack {
                     LinearGradient(
                         colors: [
-                            Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.16),
+                            Color(red: 0.16, green: 0.115, blue: 0.08),
+                            Theme.darkDesk,
+                            Color(red: 0.06, green: 0.045, blue: 0.035),
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    Image("Parchment")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: proxy.size.width, height: proxy.size.height)
+                        .clipped()
+                        .saturation(0.25)
+                        .brightness(-0.60)
+                        .opacity(0.28)
+                        .blendMode(.softLight)
+                    LinearGradient(
+                        colors: [
+                            Color.black.opacity(0.35),
                             Color.clear,
                             Color.clear,
-                            Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.12),
+                            Color.black.opacity(0.28),
                         ],
                         startPoint: .top,
                         endPoint: .bottom
                     )
-                )
-                .overlay(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.10),
-                            Color.clear,
-                            Color.clear,
-                            Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.08),
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
+                }
+            } else {
+                Image("Parchment")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                    .clipped()
+                    .overlay(Color(red: 0.99, green: 0.965, blue: 0.91).opacity(0.22))
+                    .overlay(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.16),
+                                Color.clear,
+                                Color.clear,
+                                Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.12),
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
                     )
-                )
+                    .overlay(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.10),
+                                Color.clear,
+                                Color.clear,
+                                Color(red: 0.22, green: 0.13, blue: 0.07).opacity(0.08),
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+            }
         }
         .ignoresSafeArea()
     }
@@ -120,6 +157,7 @@ extension View {
                     .stroke(Theme.line.opacity(0.55), lineWidth: 0.5)
             )
             .shadow(color: .black.opacity(0.08), radius: 10, y: 3)
+            .environment(\.colorScheme, .light)
     }
 
     @ViewBuilder
@@ -131,15 +169,8 @@ extension View {
         #endif
     }
 
-    @ViewBuilder
     func themedToolbarBackground() -> some View {
-        #if os(macOS)
-        self.toolbarBackground(Theme.paper, for: .windowToolbar)
-        #else
-        self
-            .toolbarBackground(Theme.paper, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-        #endif
+        modifier(ThemedToolbarBackgroundModifier())
     }
 
     @ViewBuilder
@@ -176,5 +207,24 @@ extension Date {
         if delta < 3600 { return "\(Int(delta / 60)) 分钟前" }
         if delta < 86400 { return "\(Int(delta / 3600)) 小时前" }
         return formatted(date: .abbreviated, time: .omitted)
+    }
+}
+
+
+private struct ThemedToolbarBackgroundModifier: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var color: Color {
+        colorScheme == .dark ? Theme.darkDeskToolbar : Theme.paper
+    }
+
+    func body(content: Content) -> some View {
+        #if os(macOS)
+        content.toolbarBackground(color, for: .windowToolbar)
+        #else
+        content
+            .toolbarBackground(color, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+        #endif
     }
 }

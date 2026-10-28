@@ -165,6 +165,7 @@ struct GlobalSearchView: View {
                 }
             }
             .background(Theme.readingPaper)
+            .environment(\.colorScheme, .light)
             .navigationTitle("全局速查")
             .compactNavigationTitle()
             .navigationDestination(for: GlobalSearchResult.self) { result in

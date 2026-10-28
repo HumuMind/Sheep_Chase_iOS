@@ -149,6 +149,54 @@ final class ContentAndExportTests: XCTestCase {
         }
     }
 
+    @MainActor
+    func testPlayerEditingSceneNotesPrepAndTempHP() throws {
+        let content = try loadContent()
+        let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: RunRecord.self, configurations: configuration)
+        let store = RunStore(context: container.mainContext, content: content)
+        store.createRun(name: "编辑测试")
+        guard let run = store.selectedRun else { return XCTFail("missing run") }
+
+        store.addPlayer(to: run, name: "旧名字", role: "战士", level: 4, ac: 16, maxHP: 30, initMod: 1, passivePerception: 10)
+        guard var member = run.party.first else { return XCTFail("missing player") }
+        member.name = "新名字"
+        member.ac = 17
+        store.updatePlayer(member, in: run)
+        XCTAssertEqual(run.party.first?.name, "新名字")
+        XCTAssertEqual(run.party.first?.ac, 17)
+
+        store.updateSceneNote("这里是场景备注", sceneID: "scene-3", in: run)
+        XCTAssertEqual(store.sceneNote(for: "scene-3", in: run), "这里是场景备注")
+        store.togglePrep("scene:scene-1", in: run)
+        XCTAssertTrue(store.isPrepChecked("scene:scene-1", in: run))
+        store.clearPrep(in: run)
+        XCTAssertTrue(run.prepChecks.isEmpty)
+
+        store.removePlayer(member, from: run)
+        XCTAssertTrue(run.party.isEmpty)
+
+        store.addPlayer(to: run, name: "战斗玩家", role: "战士", level: 4, ac: 16, maxHP: 30, initMod: 1, passivePerception: 10)
+        guard let fighter = run.party.first else { return XCTFail("missing fighter") }
+        store.openBattleSetup(for: run)
+        store.toggleBattlePlayer(fighter, in: run)
+        if let guz = content.monsters.first(where: { $0.id == "guz" }) {
+            store.addBattleMonster(guz, in: run)
+        }
+        store.goToInitiative(in: run)
+        store.setPlayerInitiative("18", memberID: fighter.id, in: run)
+        store.startBattle(in: run)
+        guard let activeID = run.battle?.activeID else { return XCTFail("missing active combatant") }
+        let hpBefore = run.battle?.combatants.first(where: { $0.id == activeID })?.hp
+        store.setTemporaryHP(5, forID: activeID, in: run)
+        store.adjustHP(-8, in: run)
+        let after = run.battle?.combatants.first(where: { $0.id == activeID })
+        XCTAssertEqual(after?.tempHP, 0)
+        XCTAssertEqual(after?.hp, (hpBefore ?? 0) - 3)
+        store.undoBattle(in: run)
+        XCTAssertEqual(run.battle?.combatants.first(where: { $0.id == activeID })?.hp, hpBefore)
+    }
+
     func testMarkdownExportIncludesRunState() throws {
         let content = try loadContent()
         let run = RunRecord(name: "日志测试", sceneID: "scene-3", contentVersion: content.manifest.version)

@@ -207,6 +207,7 @@ private struct LibraryRunDetail: View {
     @State private var showRename = false
     @State private var renameText = ""
     @State private var showDelete = false
+    @State private var showPrep = false
 
     private var sceneIndex: Int {
         store.scenes.firstIndex { $0.id == run.sceneID } ?? 0
@@ -263,6 +264,13 @@ private struct LibraryRunDetail: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
+
+                    Button {
+                        showPrep = true
+                    } label: {
+                        Label("备团清单", systemImage: "checklist")
+                    }
+                    .buttonStyle(.bordered)
 
                     Text("上次更新 \(run.updatedAt.formatted(date: .abbreviated, time: .shortened))")
                         .font(.caption)
@@ -390,6 +398,10 @@ private struct LibraryRunDetail: View {
                     Label("更多", systemImage: "ellipsis.circle")
                 }
             }
+        }
+        .sheet(isPresented: $showPrep) {
+            PrepChecklistView(run: run)
+                .environment(store)
         }
         .alert("重命名开团", isPresented: $showRename) {
             TextField("开团名称", text: $renameText)

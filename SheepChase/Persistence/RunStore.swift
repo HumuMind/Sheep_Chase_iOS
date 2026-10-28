@@ -6,7 +6,7 @@ import SwiftData
 @Observable
 final class RunStore {
     let content: ContentPack
-    private let context: ModelContext
+    private let repository: RunRepository
 
     private(set) var runs: [RunRecord] = []
     var selectedRunID: UUID?
@@ -16,7 +16,7 @@ final class RunStore {
     private var toastTask: Task<Void, Never>?
 
     init(context: ModelContext, content: ContentPack) {
-        self.context = context
+        self.repository = RunRepository(context: context)
         self.content = content
         fetchRuns()
         if runs.isEmpty {
@@ -137,7 +137,7 @@ final class RunStore {
             beatID: scenes.first?.beats.first?.id ?? "",
             contentVersion: content.manifest.version
         )
-        context.insert(run)
+        repository.insert(run)
         runs.append(run)
         selectedRunID = run.id
         selectedTab = .party
@@ -206,6 +206,71 @@ final class RunStore {
         run.party = party
         commit(run)
         notify("已添加玩家：\(member.name)")
+    }
+
+    func sceneNote(for sceneID: String, in run: RunRecord) -> String {
+        run.sceneNotes[sceneID] ?? ""
+    }
+
+    func updateSceneNote(_ text: String, sceneID: String, in run: RunRecord) {
+        var notes = run.sceneNotes
+        notes[sceneID] = text
+        run.sceneNotes = notes
+        commit(run)
+    }
+
+    func isPrepChecked(_ id: String, in run: RunRecord) -> Bool {
+        run.prepChecks.contains(id)
+    }
+
+    func togglePrep(_ id: String, in run: RunRecord) {
+        var checks = run.prepChecks
+        if let index = checks.firstIndex(of: id) {
+            checks.remove(at: index)
+        } else {
+            checks.append(id)
+        }
+        run.prepChecks = checks
+        commit(run)
+    }
+
+    func clearPrep(in run: RunRecord) {
+        run.prepChecks = []
+        commit(run)
+    }
+
+    func updatePlayer(_ member: PartyMember, in run: RunRecord) {
+        var party = run.party
+        guard let index = party.firstIndex(where: { $0.id == member.id }) else { return }
+        party[index] = member
+        run.party = party
+        if var battle = run.battle, let battleIndex = battle.combatants.firstIndex(where: { $0.id == member.id }) {
+            battle.combatants[battleIndex].name = member.name
+            battle.combatants[battleIndex].ac = member.ac
+            battle.combatants[battleIndex].maxHP = member.maxHP
+            battle.combatants[battleIndex].hp = min(member.hp, member.maxHP)
+            battle.combatants[battleIndex].tempHP = member.tempHP
+            battle.combatants[battleIndex].conditions = member.conditions
+            run.battle = battle
+        }
+        commit(run)
+        notify("玩家资料已更新")
+    }
+
+    func removePlayer(_ member: PartyMember, from run: RunRecord) {
+        if run.battle?.phase == .active {
+            notify("战斗进行中，先结束战斗再移除玩家")
+            return
+        }
+        run.party = run.party.filter { $0.id != member.id }
+        if var battle = run.battle {
+            battle.selectedPlayerIDs.removeAll { $0 == member.id }
+            battle.playerInitiatives.removeValue(forKey: member.id.uuidString)
+            battle.combatants.removeAll { $0.id == member.id }
+            run.battle = battle
+        }
+        commit(run)
+        notify("已移除玩家：\(member.name)")
     }
 
     // MARK: - Notes
@@ -360,6 +425,7 @@ final class RunStore {
                 hp: member.hp,
                 maxHP: member.maxHP,
                 initiative: initiative,
+                tempHP: member.tempHP,
                 conditions: member.conditions
             )
         }
@@ -374,7 +440,8 @@ final class RunStore {
                     ac: stat.ac.value,
                     hp: stat.hp.average,
                     maxHP: stat.hp.average,
-                    initiative: initiative
+                    initiative: initiative,
+                    tempHP: 0
                 )
             )
         }
@@ -413,6 +480,18 @@ final class RunStore {
         commit(run)
     }
 
+    func setTemporaryHP(_ value: Int, forID id: UUID, in run: RunRecord) {
+        guard var battle = run.battle,
+              let index = battle.combatants.firstIndex(where: { $0.id == id })
+        else { return }
+        battle.undo = undoSnapshot(battle)
+        battle.combatants[index].tempHP = max(0, value)
+        battle.log.insert("\(battle.combatants[index].name) 临时 HP 设为 \(max(0, value))", at: 0)
+        run.battle = battle
+        syncParty(run)
+        commit(run)
+    }
+
     func adjustHP(_ delta: Int, in run: RunRecord) {
         guard let activeID = run.battle?.activeID else { return }
         adjustHP(forID: activeID, delta: delta, in: run)
@@ -424,16 +503,28 @@ final class RunStore {
         else { return }
         battle.undo = undoSnapshot(battle)
         let before = battle.combatants[index].hp
-        battle.combatants[index].hp = min(
-            battle.combatants[index].maxHP,
-            max(0, battle.combatants[index].hp + delta)
-        )
+        let beforeTemp = battle.combatants[index].tempHP ?? 0
+        if delta < 0 {
+            var remainingDamage = -delta
+            let absorbed = min(beforeTemp, remainingDamage)
+            battle.combatants[index].tempHP = beforeTemp - absorbed
+            remainingDamage -= absorbed
+            battle.combatants[index].hp = max(0, battle.combatants[index].hp - remainingDamage)
+        } else {
+            battle.combatants[index].hp = min(
+                battle.combatants[index].maxHP,
+                battle.combatants[index].hp + delta
+            )
+        }
         if battle.combatants[index].hp == 0,
            !battle.combatants[index].conditions.contains("倒地") {
             battle.combatants[index].conditions.append("倒地")
         }
+        let tempNote = (beforeTemp > 0 || (battle.combatants[index].tempHP ?? 0) > 0)
+            ? "（临时 HP \(beforeTemp) → \(battle.combatants[index].tempHP ?? 0)）"
+            : ""
         battle.log.insert(
-            "第 \(battle.round) 轮 · \(battle.combatants[index].name) \(delta > 0 ? "+" : "")\(delta) HP（\(before) → \(battle.combatants[index].hp)）",
+            "第 \(battle.round) 轮 · \(battle.combatants[index].name) \(delta > 0 ? "+" : "")\(delta) HP（\(before) → \(battle.combatants[index].hp)）\(tempNote)",
             at: 0
         )
         if delta < 0, let concentration = battle.combatants[index].concentration, !concentration.isEmpty {
@@ -625,7 +716,7 @@ final class RunStore {
     func delete(_ run: RunRecord) {
         if selectedRunID == run.id { selectedRunID = nil }
         runs.removeAll { $0.id == run.id }
-        context.delete(run)
+        repository.delete(run)
         persist()
         notify("开团已删除")
     }
@@ -654,12 +745,71 @@ final class RunStore {
             run.name = "\(run.name)（导入）"
         }
         run.updatedAt = .now
-        context.insert(run)
+        repository.insert(run)
         runs.append(run)
         selectedRunID = run.id
         persist()
         notify("已导入为新开团")
         return run
+    }
+
+    // MARK: - Version backup
+
+    func createVersionBackupIfNeeded(appVersion: String) {
+        let defaults = UserDefaults.standard
+        let key = "lastBackupAppVersion"
+        guard defaults.string(forKey: key) != appVersion else { return }
+
+        let fileManager = FileManager.default
+        guard let support = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
+        let stamp = ISO8601DateFormatter()
+            .string(from: .now)
+            .replacingOccurrences(of: ":", with: "-")
+        let folder = support
+            .appendingPathComponent("SheepChase", isDirectory: true)
+            .appendingPathComponent("Backups", isDirectory: true)
+            .appendingPathComponent("v\(appVersion)-\(stamp)", isDirectory: true)
+
+        do {
+            try fileManager.createDirectory(at: folder, withIntermediateDirectories: true)
+            for run in runs {
+                let data = try RunExport.data(for: run, contentVersion: content.manifest.version)
+                let filename = RunExport.safeFilename(run.name, suffix: "自动备份", extension: "json")
+                try data.write(to: folder.appendingPathComponent(filename), options: [.atomic])
+            }
+            let readme = """
+            《荒野逐羊》自动备份
+            App 版本：\(appVersion)
+            内容版本：\(content.manifest.version)
+            导出时间：\(ISO8601DateFormatter().string(from: .now))
+
+            每个 JSON 文件对应一个开团；可从 App 的开团库使用“导入开团备份…”恢复为新开团。
+            这些文件只在本机，不会上传。
+            """
+            try readme.write(to: folder.appendingPathComponent("说明.txt"), atomically: true, encoding: .utf8)
+            defaults.set(appVersion, forKey: key)
+            pruneBackups(in: support.appendingPathComponent("SheepChase/Backups", isDirectory: true))
+        } catch {
+            // 备份失败不应阻止 App 启动；用户仍可手动导出。
+            print("自动备份失败：\(error)")
+        }
+    }
+
+    private func pruneBackups(in directory: URL) {
+        let fileManager = FileManager.default
+        guard let folders = try? fileManager.contentsOfDirectory(
+            at: directory,
+            includingPropertiesForKeys: [.creationDateKey],
+            options: [.skipsHiddenFiles]
+        ) else { return }
+        let sorted = folders.sorted {
+            let lhs = (try? $0.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast
+            let rhs = (try? $1.resourceValues(forKeys: [.creationDateKey]).creationDate) ?? .distantPast
+            return lhs > rhs
+        }
+        for old in sorted.dropFirst(3) {
+            try? fileManager.removeItem(at: old)
+        }
     }
 
     // MARK: - Persistence
@@ -670,6 +820,7 @@ final class RunStore {
         for index in party.indices {
             guard let combatant = battle.combatants.first(where: { $0.id == party[index].id }) else { continue }
             party[index].hp = combatant.hp
+            party[index].tempHP = combatant.tempHP
             party[index].conditions = combatant.conditions
         }
         run.party = party
@@ -677,11 +828,11 @@ final class RunStore {
 
     private func commit(_ run: RunRecord) {
         run.updatedAt = .now
-        try? context.save()
+        repository.save()
     }
 
     private func persist() {
-        try? context.save()
+        repository.save()
     }
 
     private func d20() -> Int {
@@ -701,10 +852,7 @@ final class RunStore {
     // MARK: - Seed
 
     private func fetchRuns() {
-        let descriptor = FetchDescriptor<RunRecord>(
-            sortBy: [SortDescriptor(\.updatedAt, order: .reverse)]
-        )
-        runs = (try? context.fetch(descriptor)) ?? []
+        runs = repository.fetchAll()
     }
 
     private func seedRuns() {
@@ -753,7 +901,7 @@ final class RunStore {
         solo.flags = ["scroll-used": true]
         solo.updatedAt = Date().addingTimeInterval(-259200)
 
-        [friday, sunday, solo].forEach { context.insert($0) }
+        [friday, sunday, solo].forEach { repository.insert($0) }
         persist()
         fetchRuns()
     }

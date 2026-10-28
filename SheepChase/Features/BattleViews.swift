@@ -323,6 +323,8 @@ private struct BattleActiveView: View {
 
     @State private var lastRoll: String?
     @State private var showMultiDamage = false
+    @State private var selectedRule: ContentPack.RuleCard?
+    @State private var selectedSpell: ContentPack.SpellCard?
 
     var body: some View {
         ScrollView {
@@ -379,6 +381,14 @@ private struct BattleActiveView: View {
                                 Text("先攻 \(active.initiative)")
                                     .font(.callout)
                                     .foregroundStyle(.secondary)
+                                HStack(spacing: 4) {
+                                    Text("临时")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                    TextField("0", value: tempHPBinding(active), format: .number)
+                                        .textFieldStyle(.roundedBorder)
+                                        .frame(width: 46)
+                                }
                                 Spacer()
                                 TextField("专注：例如加速术", text: concentrationBinding(active))
                                     .textFieldStyle(.roundedBorder)
@@ -422,6 +432,24 @@ private struct BattleActiveView: View {
                                             .stroke(on ? Color.clear : Color.secondary.opacity(0.25), lineWidth: 1)
                                     )
                                 }
+
+                                Menu {
+                                    ForEach(extraConditions, id: \.self) { condition in
+                                        Button {
+                                            store.toggleCondition(condition, in: run)
+                                        } label: {
+                                            Label(
+                                                active.conditions.contains(condition) ? "\(condition) ✓" : condition,
+                                                systemImage: active.conditions.contains(condition) ? "checkmark.circle.fill" : "circle"
+                                            )
+                                        }
+                                    }
+                                } label: {
+                                    Image(systemName: "plus.circle")
+                                        .font(.caption)
+                                }
+                                .menuStyle(.borderlessButton)
+                                .help("更多状态")
                             }
                         }
                         .padding(.vertical, 3)
@@ -482,6 +510,36 @@ private struct BattleActiveView: View {
                                         .font(.callout)
                                         .foregroundStyle(.secondary)
                                 }
+                                if let ruleIDs = monster.ruleIds, !ruleIDs.isEmpty {
+                                    HStack(spacing: 5) {
+                                        Text("规则")
+                                            .font(.caption2)
+                                            .foregroundStyle(.secondary)
+                                        ForEach(ruleIDs, id: \.self) { ruleID in
+                                            if let rule = store.rule(id: ruleID) {
+                                                Button(rule.term) {
+                                                    selectedRule = rule
+                                                }
+                                                .buttonStyle(.borderless)
+                                                .font(.caption)
+                                                .foregroundStyle(Theme.red)
+                                            }
+                                        }
+                                    }
+                                }
+                                if let spellIDs = monster.spellIds, !spellIDs.isEmpty {
+                                    Menu {
+                                        ForEach(spellIDs, id: \.self) { spellID in
+                                            if let spell = store.spell(id: spellID) {
+                                                Button(spell.name) { selectedSpell = spell }
+                                            }
+                                        }
+                                    } label: {
+                                        Label("打开法术（\(spellIDs.count)）", systemImage: "book.closed")
+                                            .font(.caption)
+                                    }
+                                    .menuStyle(.borderlessButton)
+                                }
                             }
                             .padding(.vertical, 2)
                         }
@@ -512,6 +570,25 @@ private struct BattleActiveView: View {
             MultiDamageSheet(run: run)
                 .environment(store)
         }
+        .sheet(item: $selectedRule) { rule in
+            RuleSheetView(rule: rule)
+                .environment(store)
+        }
+        .sheet(item: $selectedSpell) { spell in
+            SpellSheetView(spell: spell)
+                .environment(store)
+        }
+    }
+
+    private var extraConditions: [String] {
+        ["目盲", "魅惑", "耳聋", "力竭", "隐形", "麻痹", "石化", "震慑", "昏迷", "束缚", "失能"]
+    }
+
+    private func tempHPBinding(_ combatant: BattleCombatant) -> Binding<Int> {
+        Binding(
+            get: { run.battle?.combatants.first { $0.id == combatant.id }?.tempHP ?? 0 },
+            set: { store.setTemporaryHP($0, forID: combatant.id, in: run) }
+        )
     }
 
     private func concentrationBinding(_ combatant: BattleCombatant) -> Binding<String> {

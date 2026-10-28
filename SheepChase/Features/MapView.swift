@@ -75,6 +75,7 @@ struct MapView: View {
                 Image("Map")
                     .resizable()
                     .scaledToFit()
+                    .accessibilityLabel("诺克的树屋宅院地图")
                     .frame(width: proxy.size.width, height: proxy.size.height)
                     .clipShape(RoundedRectangle(cornerRadius: 5))
                     .overlay(
@@ -139,6 +140,7 @@ struct MapView: View {
                 .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(pin.label)
         .position(x: size.width * pin.x, y: size.height * pin.y)
         .help(pin.label)
     }

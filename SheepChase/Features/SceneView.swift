@@ -13,6 +13,13 @@ struct SceneDetailView: View {
         store.currentScene(for: run)
     }
 
+    private var sceneNoteBinding: Binding<String> {
+        Binding(
+            get: { store.sceneNote(for: scene.id, in: run) },
+            set: { store.updateSceneNote($0, sceneID: scene.id, in: run) }
+        )
+    }
+
     private var encounters: [ContentPack.Encounter] {
         (scene.encounterIds ?? []).compactMap { store.encounter(id: $0) }
     }
@@ -57,6 +64,24 @@ struct SceneDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 3)
                     }
+                }
+
+                GroupBox("本场景备注") {
+                    TextEditor(text: sceneNoteBinding)
+                        .font(.callout)
+                        .scrollContentBackground(.hidden)
+                        .frame(minHeight: 72)
+                        .overlay(alignment: .topLeading) {
+                            if sceneNoteBinding.wrappedValue.isEmpty {
+                                Text("记录本场景的临时裁定、NPC 反应、队伍选择或下次继续的位置……")
+                                    .font(.callout)
+                                    .foregroundStyle(.tertiary)
+                                    .padding(.top, 8)
+                                    .padding(.leading, 5)
+                                    .allowsHitTesting(false)
+                            }
+                        }
+                        .padding(.vertical, 2)
                 }
             }
             .padding(28)

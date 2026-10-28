@@ -114,6 +114,8 @@ struct ContentPack: Decodable {
         let challenge: Challenge
         let traits: [TextPair]?
         let actions: [TextPair]
+        let ruleIds: [String]?
+        let spellIds: [String]?
         let tactics: [String]?
         let sourceRef: String?
 

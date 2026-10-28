@@ -48,6 +48,7 @@ struct InspectorView: View {
             }
         }
         .background(Theme.readingPaper)
+        .environment(\.colorScheme, .light)
     }
 }
 
@@ -55,6 +56,8 @@ struct PartyInspector: View {
     @Environment(RunStore.self) private var store
     @Bindable var run: RunRecord
     @Binding var showAddPlayer: Bool
+    @State private var editingMember: PartyMember?
+    @State private var removingMember: PartyMember?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -86,7 +89,11 @@ struct PartyInspector: View {
             } else {
                 VStack(spacing: 0) {
                     ForEach(run.party) { member in
-                        PartyRowView(member: member)
+                        PartyRowView(
+                            member: member,
+                            onEdit: { editingMember = member },
+                            onRemove: { removingMember = member }
+                        )
                         if member.id != run.party.last?.id {
                             Divider()
                         }
@@ -99,11 +106,31 @@ struct PartyInspector: View {
                 .foregroundStyle(.secondary)
                 .padding(.top, 2)
         }
+        .sheet(item: $editingMember) { member in
+            AddPlayerSheet(run: run, member: member)
+                .environment(store)
+        }
+        .alert("移除玩家？", isPresented: Binding(
+            get: { removingMember != nil },
+            set: { if !$0 { removingMember = nil } }
+        )) {
+            Button("取消", role: .cancel) { removingMember = nil }
+            Button("移除", role: .destructive) {
+                if let member = removingMember {
+                    store.removePlayer(member, from: run)
+                }
+                removingMember = nil
+            }
+        } message: {
+            Text("会从当前开团移除 \(removingMember?.name ?? "该玩家")；战斗进行中不能移除。")
+        }
     }
 }
 
 struct PartyRowView: View {
     let member: PartyMember
+    var onEdit: () -> Void = {}
+    var onRemove: () -> Void = {}
 
     private var hpColor: Color {
         let ratio = member.maxHP > 0 ? Double(member.hp) / Double(member.maxHP) : 0
@@ -124,6 +151,16 @@ struct PartyRowView: View {
                 Text("\(member.hp)/\(member.maxHP)")
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
+                Menu {
+                    Button("编辑资料…") { onEdit() }
+                    Button("移除玩家", role: .destructive) { onRemove() }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.caption)
+                }
+                .menuStyle(.borderlessButton)
+                .frame(width: 18)
+                .accessibilityLabel("玩家操作")
             }
 
             ProgressView(value: Double(member.hp), total: Double(max(member.maxHP, 1)))
@@ -134,6 +171,10 @@ struct PartyRowView: View {
                 Text("AC \(member.ac)")
                 Text("被动 \(member.passivePerception)")
                 Text("先攻 \(member.initMod >= 0 ? "+" : "")\(member.initMod)")
+                if let tempHP = member.tempHP, tempHP > 0 {
+                    Text("临时 HP \(tempHP)")
+                        .foregroundStyle(.blue)
+                }
                 if !member.conditions.isEmpty {
                     Text(member.conditions.joined(separator: "、"))
                         .foregroundStyle(.orange)
@@ -151,14 +192,27 @@ struct AddPlayerSheet: View {
     @Environment(RunStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     let run: RunRecord
+    let member: PartyMember?
 
-    @State private var name = ""
-    @State private var role = ""
-    @State private var level = 4
-    @State private var ac = 14
-    @State private var maxHP = 20
-    @State private var initMod = 0
-    @State private var passivePerception = 12
+    @State private var name: String
+    @State private var role: String
+    @State private var level: Int
+    @State private var ac: Int
+    @State private var maxHP: Int
+    @State private var initMod: Int
+    @State private var passivePerception: Int
+
+    init(run: RunRecord, member: PartyMember? = nil) {
+        self.run = run
+        self.member = member
+        _name = State(initialValue: member?.name ?? "")
+        _role = State(initialValue: member?.role ?? "")
+        _level = State(initialValue: member?.level ?? 4)
+        _ac = State(initialValue: member?.ac ?? 14)
+        _maxHP = State(initialValue: member?.maxHP ?? 20)
+        _initMod = State(initialValue: member?.initMod ?? 0)
+        _passivePerception = State(initialValue: member?.passivePerception ?? 12)
+    }
 
     private var canAdd: Bool {
         !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && maxHP > 0
@@ -207,23 +261,35 @@ struct AddPlayerSheet: View {
                 }
             }
             .formStyle(.grouped)
-            .navigationTitle("添加玩家")
+            .navigationTitle(member == nil ? "添加玩家" : "编辑玩家")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("取消") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("添加") {
-                        store.addPlayer(
-                            to: run,
-                            name: name,
-                            role: role,
-                            level: level,
-                            ac: ac,
-                            maxHP: maxHP,
-                            initMod: initMod,
-                            passivePerception: passivePerception
-                        )
+                    Button(member == nil ? "添加" : "保存") {
+                        if var existing = member {
+                            existing.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                            existing.role = role.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "冒险者" : role
+                            existing.level = level
+                            existing.ac = ac
+                            existing.maxHP = maxHP
+                            existing.hp = min(existing.hp, maxHP)
+                            existing.initMod = initMod
+                            existing.passivePerception = passivePerception
+                            store.updatePlayer(existing, in: run)
+                        } else {
+                            store.addPlayer(
+                                to: run,
+                                name: name,
+                                role: role,
+                                level: level,
+                                ac: ac,
+                                maxHP: maxHP,
+                                initMod: initMod,
+                                passivePerception: passivePerception
+                            )
+                        }
                         dismiss()
                     }
                     .disabled(!canAdd)

@@ -26,9 +26,9 @@
 - UI：macOS 原生 `NavigationSplitView` + toolbar + sidebar + inspector；场景/战斗用 `GroupBox`，不再自绘标题栏或 HTML 式卡片；主题纸面统一由 Parchment 背景提供
 - 主题：整窗 PDF 羊皮纸背景 + 不透明阅读页；长文/数据块放在阅读页上，纹理留在页边、侧栏和 toolbar；`GroupBox` 改为书页式分节线
 
-> 目前按浅色书页主题固定外观，深色模式留到后续单独适配。
+> 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：`SheepChaseTests` 覆盖内容解码、场景顺序、JSON/Markdown 导出、导入、归档/删除、战斗撤销
+- 测试：9 个 `SheepChaseTests` 覆盖内容、导出/导入、生命周期、会话快照、玩家编辑、场景备注、临时 HP；2 个 `SheepChaseUITests` 覆盖进入场景、全局速查
 - 内容校对记录：`CONTENT_REVIEW.md`
 
 构建：
@@ -54,6 +54,6 @@ DEBUG 启动参数：`-demoRun`、`-demoScene` / `-demoScene3` / `-demoScene4`�
 
 ## 状态
 
-MVP 功能闭环已实现：4 场景内容、NPC 卡、可平移/缩放地图、全局 ⌘K 速查、队伍与便签、战斗筹备/先攻/轮次/HP/状态/专注/骰子/多目标/撤销、聚会记录与本地快照、桌面安全页与 rest 记录、Run JSON/Markdown 导出与导入、图片导出/分享、Run 重命名/归档/删除、自动保存与重启恢复。
+MVP 功能闭环已实现：4 场景内容、NPC 卡、可平移/缩放地图、全局 ⌘K 速查、队伍添加/编辑/移除、备团清单与逐场景备注、战斗筹备/先攻/轮次/HP/临时 HP/扩展状态/专注/骰子/多目标/撤销、怪物动作直达规则/法术、聚会记录与本地快照、桌面安全页与 rest 记录、Run JSON/Markdown 导出与导入、图片单张/批量导出与分享、Run 重命名/归档/删除、自动保存/重启恢复、版本升级自动备份。
 
 下一步是一次真实 3–4 小时跑团，按 `PLAYTEST.md` 记录备团时间、查询时间、回合点击和数据安全。产品与技术结论见 `DISCUSSION.md`。

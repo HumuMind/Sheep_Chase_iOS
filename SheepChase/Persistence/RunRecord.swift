@@ -17,6 +17,8 @@ final class RunRecord {
     var safetyData: Data?
     var sessionsData: Data?
     var checkpointsData: Data?
+    var sceneNotesData: Data?
+    var prepData: Data?
     var isArchived: Bool = false
     var contentVersion: String = ""
 
@@ -40,6 +42,8 @@ final class RunRecord {
         self.safetyData = Self.encode(SafetyState())
         self.sessionsData = Self.encode([RunSession]())
         self.checkpointsData = Self.encode([RunCheckpoint]())
+        self.sceneNotesData = Self.encode([String: String]())
+        self.prepData = Self.encode([String]())
         self.isArchived = false
         self.contentVersion = contentVersion
     }
@@ -104,6 +108,26 @@ final class RunRecord {
         }
     }
 
+    var sceneNotes: [String: String] {
+        get {
+            guard let sceneNotesData else { return [:] }
+            return Self.decode([String: String].self, from: sceneNotesData) ?? [:]
+        }
+        set {
+            sceneNotesData = Self.encode(newValue)
+        }
+    }
+
+    var prepChecks: [String] {
+        get {
+            guard let prepData else { return [] }
+            return Self.decode([String].self, from: prepData) ?? []
+        }
+        set {
+            prepData = Self.encode(newValue)
+        }
+    }
+
     var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -116,7 +140,9 @@ final class RunRecord {
             notes: stickyNotes,
             battle: battle,
             safety: safety,
-            sessions: sessions
+            sessions: sessions,
+            sceneNotes: sceneNotes,
+            prepChecks: prepChecks
         )
     }
 
@@ -132,6 +158,8 @@ final class RunRecord {
         battle = snapshot.battle
         safety = snapshot.safety
         sessions = snapshot.sessions
+        sceneNotes = snapshot.sceneNotes ?? [:]
+        prepChecks = snapshot.prepChecks ?? []
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {
