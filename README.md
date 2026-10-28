@@ -24,7 +24,7 @@
 - `project.yml` — XcodeGen 工程定义；改动后运行 `xcodegen generate`
 - 最低系统：macOS 14 / iPadOS 17；数据用 SwiftData 本地持久化
 - UI：macOS 原生 `NavigationSplitView` + toolbar + sidebar + inspector；场景/战斗用 `GroupBox`，不再自绘标题栏或 HTML 式卡片；主题纸面统一由 Parchment 背景提供
-- 主题：整窗 PDF 羊皮纸背景（含 toolbar）+ AppIcon/封面/绵羊插画 + 暗红 AccentColor；侧栏、内容、检查器透明叠在纸面上；`GroupBox` 改为书页式分节线，状态色改为哑光
+- 主题：整窗 PDF 羊皮纸背景 + 不透明阅读页；长文/数据块放在阅读页上，纹理留在页边、侧栏和 toolbar；`GroupBox` 改为书页式分节线
 
 > 目前按浅色书页主题固定外观，深色模式留到后续单独适配。
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
@@ -50,10 +50,10 @@ xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
 
 > 当前 DSH 环境需要在 Swift 编译时加 `-disable-sandbox` 才能运行宏插件；已写入 `project.yml`，普通 Xcode 环境可按需移除。
 
-DEBUG 启动参数：`-demoRun`（直接进入周五团）、`-demoScene` / `-demoScene3` / `-demoScene4`（场景）、`-demoBattle`（战斗筹备）、`-demoBattleActive`（演示战斗态）、`-demoMap`（地图）、`-demoNPC`（NPC 卡）、`-demoNotes` / `-demoRules`（检查器）、`-demoHandout` / `-demoItem` / `-demoSafety` / `-demoImageExport`（弹层）。
+DEBUG 启动参数：`-demoRun`、`-demoScene` / `-demoScene3` / `-demoScene4`、`-demoBattle` / `-demoBattleActive`、`-demoMap`、`-demoNPC`、`-demoNotes` / `-demoRules`、`-demoHandout` / `-demoItem` / `-demoSafety` / `-demoImageExport`、`-demoSessions`、`-demoSearch`。
 
 ## 状态
 
-MVP 功能闭环已实现：4 场景内容、NPC 卡、地图与图钉、规则/法术搜索、队伍与便签、战斗筹备/先攻/轮次/HP/状态/专注/骰子/多目标/撤销、桌面安全页、Run JSON/Markdown 导出与导入、图片导出/分享、Run 重命名/归档/删除、自动保存与重启恢复。
+MVP 功能闭环已实现：4 场景内容、NPC 卡、可平移/缩放地图、全局 ⌘K 速查、队伍与便签、战斗筹备/先攻/轮次/HP/状态/专注/骰子/多目标/撤销、聚会记录与本地快照、桌面安全页与 rest 记录、Run JSON/Markdown 导出与导入、图片导出/分享、Run 重命名/归档/删除、自动保存与重启恢复。
 
 下一步是一次真实 3–4 小时跑团，按 `PLAYTEST.md` 记录备团时间、查询时间、回合点击和数据安全。产品与技术结论见 `DISCUSSION.md`。

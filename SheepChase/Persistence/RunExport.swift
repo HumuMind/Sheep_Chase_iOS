@@ -6,19 +6,7 @@ struct RunSnapshot: Codable {
     var formatVersion: Int = 1
     var exportedAt: Date
     var contentVersion: String
-    var run: RunPayload
-
-    struct RunPayload: Codable {
-        var name: String
-        var sceneID: String
-        var beatID: String
-        var mode: RunMode
-        var party: [PartyMember]
-        var flags: [String: Bool]
-        var notes: [StickyNote]
-        var battle: BattleState?
-        var safety: SafetyState
-    }
+    var run: RunStateSnapshot
 }
 
 struct RunExportDocument: FileDocument {
@@ -58,17 +46,7 @@ enum RunExport {
         RunSnapshot(
             exportedAt: .now,
             contentVersion: run.contentVersion.isEmpty ? contentVersion : run.contentVersion,
-            run: RunSnapshot.RunPayload(
-                name: run.name,
-                sceneID: run.sceneID,
-                beatID: run.beatID,
-                mode: run.mode,
-                party: run.party,
-                flags: run.flags,
-                notes: run.stickyNotes,
-                battle: run.battle,
-                safety: run.safety
-            )
+            run: run.stateSnapshot
         )
     }
 
@@ -115,6 +93,19 @@ enum RunExport {
                 lines.append("")
             }
         }
+        lines.append("## 聚会记录")
+        if run.sessions.isEmpty {
+            lines.append("（无）")
+        } else {
+            for (index, session) in run.sessions.enumerated() {
+                let ended = session.endedAt.map { ISO8601DateFormatter().string(from: $0) } ?? "进行中"
+                lines.append("- 第 \(index + 1) 次聚会：\(ISO8601DateFormatter().string(from: session.startedAt)) → \(ended)")
+                if !session.note.isEmpty {
+                    lines.append("  - \(session.note)")
+                }
+            }
+        }
+        lines.append("")
         lines.append("## 战斗日志")
         if let battle = run.battle {
             lines.append("- 阶段：\(battle.phase.rawValue)｜第 \(battle.round) 轮")

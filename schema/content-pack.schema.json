@@ -214,6 +214,7 @@
         "mapIds": { "$ref": "#/$defs/idList" },
         "itemIds": { "$ref": "#/$defs/idList" },
         "dmNotes": { "type": "string" },
+        "fadeToBlack": { "type": "string" },
         "sourceRef": { "type": "string" }
       }
     },

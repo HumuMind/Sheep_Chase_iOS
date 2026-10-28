@@ -108,11 +108,40 @@ struct BattleUndo: Codable {
     var log: [String]
 }
 
+struct RunSession: Identifiable, Codable, Hashable {
+    var id: UUID = UUID()
+    var startedAt: Date = .now
+    var endedAt: Date?
+    var note: String = ""
+}
+
+struct RunStateSnapshot: Codable {
+    var name: String
+    var contentVersion: String
+    var sceneID: String
+    var beatID: String
+    var mode: RunMode
+    var party: [PartyMember]
+    var flags: [String: Bool]
+    var notes: [StickyNote]
+    var battle: BattleState?
+    var safety: SafetyState
+    var sessions: [RunSession]
+}
+
+struct RunCheckpoint: Identifiable, Codable {
+    var id: UUID = UUID()
+    var createdAt: Date = .now
+    var label: String
+    var state: RunStateSnapshot
+}
+
 struct SafetyState: Codable {
     var lines: String = ""
     var veils: String = ""
     var pauseSignal: String = ""
     var notes: String = ""
+    var restLog: [String]? = nil
 }
 
 struct BattleState: Codable {

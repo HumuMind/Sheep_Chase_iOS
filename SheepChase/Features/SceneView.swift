@@ -47,6 +47,17 @@ struct SceneDetailView: View {
                             .padding(.vertical, 3)
                     }
                 }
+
+                if let fadeToBlack = scene.fadeToBlack {
+                    GroupBox("淡出处理 / 安全替代") {
+                        Text(fadeToBlack.singleLineSpaced)
+                            .font(.callout)
+                            .foregroundStyle(.secondary)
+                            .lineSpacing(2)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.vertical, 3)
+                    }
+                }
             }
             .padding(28)
             .frame(maxWidth: 760, alignment: .leading)

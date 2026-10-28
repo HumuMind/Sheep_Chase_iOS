@@ -397,6 +397,7 @@ final class RunStore {
         run.mode = .battle
         selectedTab = .battle
         commit(run)
+        createCheckpoint("进入战斗", in: run)
         notify("先攻已记录，进入第 1 轮")
     }
 
@@ -524,6 +525,7 @@ final class RunStore {
         run.mode = .scene
         selectedTab = .party
         commit(run)
+        createCheckpoint("战斗结束", in: run)
         notify("战斗结束，HP 与状态已同步")
     }
 
@@ -532,11 +534,75 @@ final class RunStore {
         return battle.combatants.first { $0.id == activeID }
     }
 
-    // MARK: - Run management and safety
+    // MARK: - Sessions, checkpoints, run management and safety
+
+    func activeSession(in run: RunRecord) -> RunSession? {
+        run.sessions.last { $0.endedAt == nil }
+    }
+
+    func startSession(in run: RunRecord) {
+        guard activeSession(in: run) == nil else {
+            notify("本次聚会已经开始")
+            return
+        }
+        var sessions = run.sessions
+        sessions.append(RunSession(startedAt: .now))
+        run.sessions = sessions
+        commit(run)
+        createCheckpoint("开始聚会", in: run)
+        notify("开始第 \(sessions.count) 次聚会")
+    }
+
+    func endSession(note: String, in run: RunRecord) {
+        guard var session = activeSession(in: run) else { return }
+        session.endedAt = .now
+        session.note = note
+        var sessions = run.sessions
+        if let index = sessions.firstIndex(where: { $0.id == session.id }) {
+            sessions[index] = session
+        }
+        run.sessions = sessions
+        commit(run)
+        createCheckpoint("结束聚会", in: run)
+        notify("聚会记录已保存")
+    }
+
+    func updateSessionNote(_ note: String, sessionID: UUID, in run: RunRecord) {
+        var sessions = run.sessions
+        guard let index = sessions.firstIndex(where: { $0.id == sessionID }) else { return }
+        sessions[index].note = note
+        run.sessions = sessions
+        commit(run)
+    }
+
+    func createCheckpoint(_ label: String, in run: RunRecord) {
+        var checkpoints = run.checkpoints
+        checkpoints.insert(RunCheckpoint(label: label, state: run.stateSnapshot), at: 0)
+        run.checkpoints = Array(checkpoints.prefix(12))
+        commit(run)
+    }
+
+    func restoreCheckpoint(_ checkpoint: RunCheckpoint, in run: RunRecord) {
+        run.apply(checkpoint.state)
+        run.updatedAt = .now
+        commit(run)
+        notify("已恢复到「\(checkpoint.label)」")
+    }
 
     func updateSafety(_ safety: SafetyState, in run: RunRecord) {
         run.safety = safety
         commit(run)
+    }
+
+    func recordRest(note: String, in run: RunRecord) {
+        var safety = run.safety
+        var log = safety.restLog ?? []
+        let timestamp = Date().formatted(date: .abbreviated, time: .shortened)
+        log.append("\(timestamp)　\(note.isEmpty ? "暂停 / 休息" : note)")
+        safety.restLog = Array(log.suffix(20))
+        run.safety = safety
+        commit(run)
+        notify("已记录休息")
     }
 
     func rename(_ run: RunRecord, to name: String) {
@@ -582,12 +648,11 @@ final class RunStore {
             beatID: payload.beatID,
             contentVersion: content.manifest.version
         )
-        run.party = payload.party
-        run.flags = payload.flags
-        run.stickyNotes = payload.notes
-        run.battle = payload.battle
-        run.safety = payload.safety
-        run.mode = payload.mode
+        run.apply(payload)
+        run.contentVersion = content.manifest.version
+        if !run.name.hasSuffix("（导入）") {
+            run.name = "\(run.name)（导入）"
+        }
         run.updatedAt = .now
         context.insert(run)
         runs.append(run)

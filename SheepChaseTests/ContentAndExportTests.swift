@@ -117,6 +117,38 @@ final class ContentAndExportTests: XCTestCase {
         XCTAssertEqual(store.runs.count, countBeforeDelete - 1)
     }
 
+    @MainActor
+    func testSessionsAndCheckpoints() throws {
+        let content = try loadContent()
+        let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: RunRecord.self, configurations: configuration)
+        let store = RunStore(context: container.mainContext, content: content)
+        store.createRun(name: "聚会测试")
+        guard let run = store.selectedRun else { return XCTFail("missing run") }
+
+        store.startSession(in: run)
+        XCTAssertEqual(store.activeSession(in: run)?.endedAt, nil)
+        store.endSession(note: "第一次聚会结束", in: run)
+        XCTAssertEqual(store.activeSession(in: run), nil)
+        XCTAssertEqual(run.sessions.count, 1)
+        XCTAssertEqual(run.sessions.first?.note, "第一次聚会结束")
+        XCTAssertFalse(run.checkpoints.isEmpty)
+
+        store.createCheckpoint("手动测试", in: run)
+        guard let checkpoint = run.checkpoints.first(where: { $0.label == "手动测试" }) else {
+            return XCTFail("missing checkpoint")
+        }
+        store.restoreCheckpoint(checkpoint, in: run)
+        XCTAssertEqual(run.sessions.count, 1)
+    }
+
+    func testFadeToBlackDescriptionsExist() throws {
+        let content = try loadContent()
+        for scene in content.scenes {
+            XCTAssertNotNil(scene.fadeToBlack, "\(scene.id) should carry a safety fade description")
+        }
+    }
+
     func testMarkdownExportIncludesRunState() throws {
         let content = try loadContent()
         let run = RunRecord(name: "日志测试", sceneID: "scene-3", contentVersion: content.manifest.version)

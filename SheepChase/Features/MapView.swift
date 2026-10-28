@@ -7,6 +7,8 @@ struct MapView: View {
     @State private var selectedPinID: String?
     @State private var showDMPins = true
     @State private var zoom: CGFloat = 1
+    @State private var offset: CGSize = .zero
+    @GestureState private var dragOffset: CGSize = .zero
 
     private var mapData: ContentPack.MapData? { store.maps.first }
 
@@ -20,7 +22,7 @@ struct MapView: View {
                             .foregroundStyle(.secondary)
                         Text(mapData?.title ?? "树屋地图")
                             .font(.largeTitle.weight(.semibold))
-                        Text("静态地图 + DM 图钉；不做网格、token、迷雾或测距。")
+                        Text("静态地图 + DM 图钉；拖拽平移、按钮缩放；不做网格、token、迷雾或测距。")
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
@@ -29,11 +31,17 @@ struct MapView: View {
                         .toggleStyle(.switch)
                         .controlSize(.small)
                     HStack(spacing: 4) {
-                        Button { zoom = max(0.7, zoom - 0.15) } label: { Image(systemName: "minus.magnifyingglass") }
+                        Button { setZoom(zoom - 0.15) } label: { Image(systemName: "minus.magnifyingglass") }
                             .buttonStyle(.bordered)
-                        Button { zoom = 1 } label: { Text("\(Int(zoom * 100))%").font(.caption.monospacedDigit()) }
-                            .buttonStyle(.bordered)
-                        Button { zoom = min(2.2, zoom + 0.15) } label: { Image(systemName: "plus.magnifyingglass") }
+                        Button {
+                            setZoom(1)
+                            offset = .zero
+                        } label: {
+                            Text("\(Int(zoom * 100))%").font(.caption.monospacedDigit())
+                        }
+                        .buttonStyle(.bordered)
+                        .help("重置缩放和平移")
+                        Button { setZoom(zoom + 0.15) } label: { Image(systemName: "plus.magnifyingglass") }
                             .buttonStyle(.bordered)
                     }
                 }
@@ -46,7 +54,7 @@ struct MapView: View {
                 }
 
                 GroupBox("地图说明") {
-                    Text("图钉只存在于 App 内；导出地图时使用干净原图，不烧录 DM 标记。")
+                    Text("拖拽地图可平移；百分比按钮重置视图。图钉只存在于 App 内；导出地图时使用干净原图，不烧录 DM 标记。")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -81,9 +89,43 @@ struct MapView: View {
                 }
             }
             .scaleEffect(zoom)
+            .offset(
+                x: offset.width + dragOffset.width,
+                y: offset.height + dragOffset.height
+            )
+            .gesture(
+                DragGesture(minimumDistance: 8)
+                    .updating($dragOffset) { value, state, _ in
+                        state = value.translation
+                    }
+                    .onEnded { value in
+                        offset = clampedOffset(
+                            CGSize(
+                                width: offset.width + value.translation.width,
+                                height: offset.height + value.translation.height
+                            ),
+                            in: proxy.size
+                        )
+                    }
+            )
+            .help("拖拽平移地图")
         }
         .aspectRatio(1280.0 / 736.0, contentMode: .fit)
         .clipped()
+    }
+
+    private func setZoom(_ newValue: CGFloat) {
+        zoom = min(2.2, max(0.7, newValue))
+        offset = .zero
+    }
+
+    private func clampedOffset(_ proposed: CGSize, in size: CGSize) -> CGSize {
+        let maxX = max(0, size.width * (zoom - 1) / 2)
+        let maxY = max(0, size.height * (zoom - 1) / 2)
+        return CGSize(
+            width: min(max(proposed.width, -maxX), maxX),
+            height: min(max(proposed.height, -maxY), maxY)
+        )
     }
 
     private func pinButton(_ pin: ContentPack.MapData.Pin, in size: CGSize) -> some View {

@@ -67,6 +67,7 @@ struct ContentPack: Decodable {
         let mapIds: [String]?
         let itemIds: [String]?
         let dmNotes: String?
+        let fadeToBlack: String?
         let sourceRef: String?
     }
 

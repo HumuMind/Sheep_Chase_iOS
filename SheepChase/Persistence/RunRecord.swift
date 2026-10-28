@@ -15,6 +15,8 @@ final class RunRecord {
     var notesData: Data
     var battleData: Data?
     var safetyData: Data?
+    var sessionsData: Data?
+    var checkpointsData: Data?
     var isArchived: Bool = false
     var contentVersion: String = ""
 
@@ -36,6 +38,8 @@ final class RunRecord {
         self.notesData = Self.encode([StickyNote]())
         self.battleData = nil
         self.safetyData = Self.encode(SafetyState())
+        self.sessionsData = Self.encode([RunSession]())
+        self.checkpointsData = Self.encode([RunCheckpoint]())
         self.isArchived = false
         self.contentVersion = contentVersion
     }
@@ -78,6 +82,56 @@ final class RunRecord {
         set {
             safetyData = Self.encode(newValue)
         }
+    }
+
+    var sessions: [RunSession] {
+        get {
+            guard let sessionsData else { return [] }
+            return Self.decode([RunSession].self, from: sessionsData) ?? []
+        }
+        set {
+            sessionsData = Self.encode(newValue)
+        }
+    }
+
+    var checkpoints: [RunCheckpoint] {
+        get {
+            guard let checkpointsData else { return [] }
+            return Self.decode([RunCheckpoint].self, from: checkpointsData) ?? []
+        }
+        set {
+            checkpointsData = Self.encode(newValue)
+        }
+    }
+
+    var stateSnapshot: RunStateSnapshot {
+        RunStateSnapshot(
+            name: name,
+            contentVersion: contentVersion,
+            sceneID: sceneID,
+            beatID: beatID,
+            mode: mode,
+            party: party,
+            flags: flags,
+            notes: stickyNotes,
+            battle: battle,
+            safety: safety,
+            sessions: sessions
+        )
+    }
+
+    func apply(_ snapshot: RunStateSnapshot) {
+        name = snapshot.name
+        contentVersion = snapshot.contentVersion
+        sceneID = snapshot.sceneID
+        beatID = snapshot.beatID
+        mode = snapshot.mode
+        party = snapshot.party
+        flags = snapshot.flags
+        stickyNotes = snapshot.notes
+        battle = snapshot.battle
+        safety = snapshot.safety
+        sessions = snapshot.sessions
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {

@@ -9,6 +9,7 @@ struct SafetySheet: View {
     @State private var veils = ""
     @State private var pauseSignal = ""
     @State private var notes = ""
+    @State private var restNote = ""
 
     init(run: RunRecord) {
         self.run = run
@@ -52,6 +53,29 @@ struct SafetySheet: View {
                 Section("本团备注") {
                     TextEditor(text: $notes)
                         .frame(minHeight: 54)
+                }
+
+                Section("休息 / 暂停记录") {
+                    HStack {
+                        TextField("例如：中场休息、玩家要求暂停", text: $restNote)
+                        Button("记录") {
+                            store.recordRest(note: restNote, in: run)
+                            restNote = ""
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                    let log = run.safety.restLog ?? []
+                    if log.isEmpty {
+                        Text("还没有记录。")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ForEach(log, id: \.self) { entry in
+                            Text("· \(entry)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                 }
 
                 Section {

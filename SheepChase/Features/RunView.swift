@@ -12,6 +12,8 @@ struct RunView: View {
     @State private var selectedItem: ContentPack.Item?
     @State private var selectedRule: ContentPack.RuleCard?
     @State private var selectedSpell: ContentPack.SpellCard?
+    @State private var showSearch = false
+    @State private var showSessions = false
     @State private var showSafety = false
     @State private var showImageExport = false
     @State private var showLeaveConfirmation = false
@@ -161,6 +163,13 @@ struct RunView: View {
                 }
 
                 ToolbarItemGroup(placement: .primaryAction) {
+                    Button {
+                        showSearch = true
+                    } label: {
+                        Label("全局速查", systemImage: "magnifyingglass")
+                    }
+                    .keyboardShortcut("k", modifiers: .command)
+
                     Menu {
                         Button {
                             exportJSON()
@@ -181,6 +190,13 @@ struct RunView: View {
                     } label: {
                         Label("导出", systemImage: "square.and.arrow.up")
                     }
+
+                    Button {
+                        showSessions = true
+                    } label: {
+                        Label("聚会记录", systemImage: "calendar.badge.clock")
+                    }
+                    .help("聚会记录与本地快照")
 
                     Button {
                         showSafety = true
@@ -236,6 +252,14 @@ struct RunView: View {
             SpellSheetView(spell: spell)
                 .environment(store)
         }
+        .sheet(isPresented: $showSearch) {
+            GlobalSearchView(run: run)
+                .environment(store)
+        }
+        .sheet(isPresented: $showSessions) {
+            SessionLogView(run: run)
+                .environment(store)
+        }
         .sheet(isPresented: $showSafety) {
             SafetySheet(run: run)
                 .environment(store)
@@ -283,6 +307,12 @@ struct RunView: View {
             if args.contains("-demoSafety") {
                 showSafety = true
             }
+            if args.contains("-demoSessions") {
+                showSessions = true
+            }
+            if args.contains("-demoSearch") {
+                showSearch = true
+            }
             if args.contains("-demoImageExport") {
                 showImageExport = true
             }
@@ -293,13 +323,19 @@ struct RunView: View {
                 ZStack {
                     Color.black.opacity(0.96)
                         .ignoresSafeArea()
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         Text("已遮屏")
                             .font(.title2)
                             .tracking(4)
                         Text("点击任意处恢复")
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                        Button("记录休息并恢复") {
+                            store.recordRest(note: "暂停遮屏", in: run)
+                            showPrivacy = false
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.white)
                     }
                     .foregroundStyle(.white.opacity(0.8))
                 }

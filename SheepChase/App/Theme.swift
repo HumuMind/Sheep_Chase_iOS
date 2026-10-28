@@ -143,6 +143,15 @@ extension View {
     }
 
     @ViewBuilder
+    func compactNavigationTitle() -> some View {
+        #if os(iOS)
+        self.navigationBarTitleDisplayMode(.inline)
+        #else
+        self
+        #endif
+    }
+
+    @ViewBuilder
     func macNavigationSubtitle(_ text: String) -> some View {
         #if os(macOS)
         self.navigationSubtitle(text)

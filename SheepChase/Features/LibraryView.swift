@@ -7,6 +7,7 @@ struct LibraryView: View {
     @State private var showNewRun = false
     @State private var showImporter = false
     @State private var showAbout = false
+    @State private var showSearch = false
     @State private var importError: String?
 
     private var selectedRun: RunRecord? {
@@ -65,6 +66,13 @@ struct LibraryView: View {
             .navigationTitle("我的开团")
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
+                    Button {
+                        showSearch = true
+                    } label: {
+                        Label("全局速查", systemImage: "magnifyingglass")
+                    }
+                    .keyboardShortcut("k", modifiers: .command)
+
                     Menu {
                         Button {
                             showNewRun = true
@@ -113,6 +121,10 @@ struct LibraryView: View {
         }
         .sheet(isPresented: $showAbout) {
             AboutContentSheet(content: store.content)
+                .environment(store)
+        }
+        .sheet(isPresented: $showSearch) {
+            GlobalSearchView(run: nil)
                 .environment(store)
         }
         .fileImporter(
