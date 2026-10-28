@@ -45,7 +45,7 @@
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：9 个 App `SheepChaseTests`；23 个 Package 单元测试；6 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航与开团操作）
+- 测试：9 个 App `SheepChaseTests`；23 个 Package 单元测试；7 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作与场景原文）
 - 内容校对记录：`CONTENT_REVIEW.md`
 - 文件大小检查：`python3 scripts/check_swift_file_sizes.py`
 - Package 测试：`./scripts/test_packages.sh`（或分别 `swift test --package-path Packages/<name> --disable-sandbox`）
@@ -75,7 +75,7 @@ xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
 
 > 当前 DSH 环境需要在 Swift 编译时加 `-disable-sandbox` 才能运行宏插件；已写入 `project.yml`，普通 Xcode 环境可按需移除。
 
-DEBUG 启动参数：`-demoRun`、`-demoScene` / `-demoScene3` / `-demoScene4`、`-demoBattle` / `-demoBattleActive`、`-demoMap`、`-demoNPC`、`-demoNotes`、`-demoHandout` / `-demoItem` / `-demoSafety` / `-demoImageExport`、`-demoSessions`、`-demoSearch`。
+DEBUG 启动参数：`-demoRun`、`-demoScene` / `-demoScene3` / `-demoScene4`、`-demoBattle` / `-demoBattleActive`、`-demoMap`、`-demoNPC`、`-demoNotes`、`-demoHandout` / `-demoItem` / `-demoSafety` / `-demoImageExport`、`-demoSessions`、`-demoSearch`、`-demoSource`。
 
 ## 状态
 

@@ -27,6 +27,23 @@ final class SheepChaseUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["冒险引钩"].exists)
     }
 
+    func testSceneSourceTextOpens() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
+
+        let source = app.buttons["scene-source-button"]
+        XCTAssertTrue(source.waitForExistence(timeout: 5))
+        source.tap()
+        XCTAssertTrue(app.buttons["完成"].waitForExistence(timeout: 5))
+
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = "Scene source sheet"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     func testQuickReferencePinAndDetail() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]

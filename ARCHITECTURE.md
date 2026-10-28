@@ -138,7 +138,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 ### Feature 包
 
 - `LibraryFeature`：开团库、详情、新建、备团清单、About。
-- `SceneFeature`：场景正文、节拍、分支、flags、遭遇、DM 备注。
+- `SceneFeature`：场景正文、节拍、分支、flags、遭遇、DM 备注，以及节拍右上角的原文弹框（PDF 风格单列排版）。
 - `BattleFeature`：战斗入口、选择、先攻、战斗、右侧战斗检查器。
 - `MapFeature`：地图平移/缩放与图钉。
 - `InspectorFeature`：队伍/战斗/便签 tab、添加玩家、会话、安全页；原“速查”tab 已移到左下角速查面板。
@@ -209,7 +209,7 @@ Package 测试（23 个）：
 App 测试：
 
 - 9 个 `SheepChaseTests`
-- 6 个 iPad `SheepChaseUITests`（含 DM 导读、速查钉住/详情、主页导航与开团操作）
+- 7 个 iPad `SheepChaseUITests`（含 DM 导读、速查钉住/详情、主页导航、开团操作、场景原文）
 
 命令：
 

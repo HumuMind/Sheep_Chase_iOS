@@ -214,6 +214,20 @@ extension SceneDetailView {
             }
             .padding(.vertical, 2)
         }
+        .overlay(alignment: .topTrailing) {
+            if let dmText = scene.dmText, !dmText.isEmpty {
+                Button {
+                    showSource = true
+                } label: {
+                    Label("原文", systemImage: "doc.text")
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .padding(.top, 7)
+                .padding(.trailing, 12)
+                .accessibilityIdentifier("scene-source-button")
+            }
+        }
     }
 
     var beatNavigation: some View {

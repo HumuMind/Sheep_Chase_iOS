@@ -29,6 +29,7 @@ public struct SceneDetailView: View {
 
     @Environment(RunStore.self) var store
     @Bindable var run: RunRecord
+    @State var showSource = false
     var onOpenNPC: (String) -> Void = { _ in }
     var onOpenHandout: (String) -> Void = { _ in }
     var onOpenItem: (String) -> Void = { _ in }
@@ -101,18 +102,6 @@ public struct SceneDetailView: View {
                     }
                 }
 
-                if let dmText = scene.dmText, !dmText.isEmpty {
-                    GroupBox("场景正文 / 完整原文") {
-                        Text(dmText.singleLineSpaced)
-                            .font(.callout)
-                            .lineSpacing(4)
-                            .foregroundStyle(Theme.inkSoft)
-                            .textSelection(.enabled)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 3)
-                    }
-                }
-
                 beats
                 beatNavigation
                 branches
@@ -163,6 +152,16 @@ public struct SceneDetailView: View {
             .readingPage()
             .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .sheet(isPresented: $showSource) {
+            SourceTextSheet(scene: scene)
+        }
+        .onAppear {
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("-demoSource") {
+                showSource = true
+            }
+            #endif
         }
     }
 }
