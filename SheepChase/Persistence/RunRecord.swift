@@ -14,6 +14,7 @@ final class RunRecord {
     var flagsData: Data
     var notesData: Data
     var battleData: Data?
+    var lastBattleData: Data?
     var safetyData: Data?
     var sessionsData: Data?
     var checkpointsData: Data?
@@ -39,6 +40,7 @@ final class RunRecord {
         self.flagsData = Self.encode([String: Bool]())
         self.notesData = Self.encode([StickyNote]())
         self.battleData = nil
+        self.lastBattleData = nil
         self.safetyData = Self.encode(SafetyState())
         self.sessionsData = Self.encode([RunSession]())
         self.checkpointsData = Self.encode([RunCheckpoint]())
@@ -75,6 +77,16 @@ final class RunRecord {
         }
         set {
             battleData = newValue.flatMap { Self.encodeOptional($0) }
+        }
+    }
+
+    var lastBattle: BattleState? {
+        get {
+            guard let lastBattleData else { return nil }
+            return Self.decode(BattleState.self, from: lastBattleData)
+        }
+        set {
+            lastBattleData = newValue.flatMap { Self.encodeOptional($0) }
         }
     }
 
@@ -139,6 +151,7 @@ final class RunRecord {
             flags: flags,
             notes: stickyNotes,
             battle: battle,
+            lastBattle: lastBattle,
             safety: safety,
             sessions: sessions,
             sceneNotes: sceneNotes,
@@ -156,8 +169,9 @@ final class RunRecord {
         flags = snapshot.flags
         stickyNotes = snapshot.notes
         battle = snapshot.battle
+        lastBattle = snapshot.lastBattle
         safety = snapshot.safety
-        sessions = snapshot.sessions
+        sessions = snapshot.sessions ?? []
         sceneNotes = snapshot.sceneNotes ?? [:]
         prepChecks = snapshot.prepChecks ?? []
     }

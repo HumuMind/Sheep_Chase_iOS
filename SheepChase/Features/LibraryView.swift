@@ -277,6 +277,18 @@ private struct LibraryRunDetail: View {
                         .foregroundStyle(.secondary)
                 }
 
+                GroupBox("冒险概览") {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 90), alignment: .leading)], alignment: .leading, spacing: 8) {
+                        overviewStat("\(store.scenes.count)", "场景")
+                        overviewStat("\(store.npcs.count)", "NPC")
+                        overviewStat("\(store.content.monsters.count)", "怪物")
+                        overviewStat("\(store.content.encounters.count)", "遭遇")
+                        overviewStat("\(store.handouts.count)", "手牌")
+                        overviewStat("\(store.maps.count)", "地图")
+                    }
+                    .padding(.vertical, 3)
+                }
+
                 GroupBox("进度") {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
@@ -417,6 +429,16 @@ private struct LibraryRunDetail: View {
             }
         } message: {
             Text("“\(run.name)”的队伍、便签、战斗和日志都会被删除，不能撤销。")
+        }
+    }
+
+    private func overviewStat(_ value: String, _ label: String) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 4) {
+            Text(value)
+                .font(.body.monospacedDigit().weight(.semibold))
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 

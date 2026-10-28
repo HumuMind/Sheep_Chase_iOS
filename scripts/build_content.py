@@ -193,6 +193,10 @@ def validate_references(pack: dict[str, Any]) -> list[str]:
                     f"{where} / branch '{branch['id']}': 引用了不存在的 flags ID '{flag}'"
                 )
 
+    for monster in pack["monsters"]:
+        check_list(f"monster '{monster['id']}'", monster.get("ruleIds"), "rules")
+        check_list(f"monster '{monster['id']}'", monster.get("spellIds"), "spells")
+
     for encounter in pack["encounters"]:
         for combatant in encounter["combatants"]:
             if combatant["monsterId"] not in ids["monsters"]:

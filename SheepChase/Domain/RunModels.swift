@@ -127,8 +127,9 @@ struct RunStateSnapshot: Codable {
     var flags: [String: Bool]
     var notes: [StickyNote]
     var battle: BattleState?
+    var lastBattle: BattleState?
     var safety: SafetyState
-    var sessions: [RunSession]
+    var sessions: [RunSession]?
     var sceneNotes: [String: String]?
     var prepChecks: [String]?
 }

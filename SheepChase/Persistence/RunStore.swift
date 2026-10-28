@@ -189,7 +189,9 @@ final class RunStore {
         ac: Int,
         maxHP: Int,
         initMod: Int,
-        passivePerception: Int
+        passivePerception: Int,
+        currentHP: Int? = nil,
+        tempHP: Int = 0
     ) {
         let member = PartyMember(
             name: name.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -197,9 +199,10 @@ final class RunStore {
             level: level,
             ac: ac,
             maxHP: maxHP,
-            hp: maxHP,
+            hp: min(max(currentHP ?? maxHP, 1), maxHP),
             initMod: initMod,
-            passivePerception: passivePerception
+            passivePerception: passivePerception,
+            tempHP: max(tempHP, 0)
         )
         var party = run.party
         party.append(member)
@@ -612,6 +615,7 @@ final class RunStore {
 
     func endBattle(in run: RunRecord) {
         syncParty(run)
+        run.lastBattle = run.battle
         run.battle = nil
         run.mode = .scene
         selectedTab = .party
@@ -757,8 +761,9 @@ final class RunStore {
 
     func createVersionBackupIfNeeded(appVersion: String) {
         let defaults = UserDefaults.standard
-        let key = "lastBackupAppVersion"
-        guard defaults.string(forKey: key) != appVersion else { return }
+        let key = "lastBackupVersion"
+        let backupKey = "\(appVersion)/\(content.manifest.version)"
+        guard defaults.string(forKey: key) != backupKey else { return }
 
         let fileManager = FileManager.default
         guard let support = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else { return }
@@ -774,7 +779,11 @@ final class RunStore {
             try fileManager.createDirectory(at: folder, withIntermediateDirectories: true)
             for run in runs {
                 let data = try RunExport.data(for: run, contentVersion: content.manifest.version)
-                let filename = RunExport.safeFilename(run.name, suffix: "自动备份", extension: "json")
+                let filename = RunExport.safeFilename(
+                    run.name,
+                    suffix: "自动备份-\(run.id.uuidString.prefix(8))",
+                    extension: "json"
+                )
                 try data.write(to: folder.appendingPathComponent(filename), options: [.atomic])
             }
             let readme = """
@@ -787,7 +796,7 @@ final class RunStore {
             这些文件只在本机，不会上传。
             """
             try readme.write(to: folder.appendingPathComponent("说明.txt"), atomically: true, encoding: .utf8)
-            defaults.set(appVersion, forKey: key)
+            defaults.set(backupKey, forKey: key)
             pruneBackups(in: support.appendingPathComponent("SheepChase/Backups", isDirectory: true))
         } catch {
             // 备份失败不应阻止 App 启动；用户仍可手动导出。

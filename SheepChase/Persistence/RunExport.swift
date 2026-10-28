@@ -119,8 +119,8 @@ enum RunExport {
         }
         lines.append("")
         lines.append("## 战斗日志")
-        if let battle = run.battle {
-            lines.append("- 阶段：\(battle.phase.rawValue)｜第 \(battle.round) 轮")
+        if let battle = run.battle ?? run.lastBattle {
+            lines.append("- 状态：\(run.battle == nil ? "已结束（上次战斗）" : "进行中")｜阶段：\(battle.phase.rawValue)｜第 \(battle.round) 轮")
             lines.append("")
             for combatant in battle.combatants {
                 lines.append("- \(combatant.name)｜先攻 \(combatant.initiative)｜AC \(combatant.ac)｜HP \(combatant.hp)/\(combatant.maxHP)\(combatant.conditions.isEmpty ? "" : "｜\(combatant.conditions.joined(separator: "、"))")")

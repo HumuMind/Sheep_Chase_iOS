@@ -199,6 +199,8 @@ struct AddPlayerSheet: View {
     @State private var level: Int
     @State private var ac: Int
     @State private var maxHP: Int
+    @State private var currentHP: Int
+    @State private var tempHP: Int
     @State private var initMod: Int
     @State private var passivePerception: Int
 
@@ -210,6 +212,8 @@ struct AddPlayerSheet: View {
         _level = State(initialValue: member?.level ?? 4)
         _ac = State(initialValue: member?.ac ?? 14)
         _maxHP = State(initialValue: member?.maxHP ?? 20)
+        _currentHP = State(initialValue: member?.hp ?? member?.maxHP ?? 20)
+        _tempHP = State(initialValue: member?.tempHP ?? 0)
         _initMod = State(initialValue: member?.initMod ?? 0)
         _passivePerception = State(initialValue: member?.passivePerception ?? 12)
     }
@@ -239,6 +243,16 @@ struct AddPlayerSheet: View {
                     }
                     LabeledContent("最大 HP") {
                         TextField("HP", value: $maxHP, format: .number)
+                            .multilineTextAlignment(.trailing)
+                            .frame(width: 70)
+                    }
+                    LabeledContent("当前 HP") {
+                        TextField("当前 HP", value: $currentHP, format: .number)
+                            .multilineTextAlignment(.trailing)
+                            .frame(width: 70)
+                    }
+                    LabeledContent("临时 HP") {
+                        TextField("临时 HP", value: $tempHP, format: .number)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 70)
                     }
@@ -274,7 +288,8 @@ struct AddPlayerSheet: View {
                             existing.level = level
                             existing.ac = ac
                             existing.maxHP = maxHP
-                            existing.hp = min(existing.hp, maxHP)
+                            existing.hp = min(max(currentHP, 0), maxHP)
+                            existing.tempHP = max(tempHP, 0)
                             existing.initMod = initMod
                             existing.passivePerception = passivePerception
                             store.updatePlayer(existing, in: run)
@@ -287,7 +302,9 @@ struct AddPlayerSheet: View {
                                 ac: ac,
                                 maxHP: maxHP,
                                 initMod: initMod,
-                                passivePerception: passivePerception
+                                passivePerception: passivePerception,
+                                currentHP: currentHP,
+                                tempHP: tempHP
                             )
                         }
                         dismiss()

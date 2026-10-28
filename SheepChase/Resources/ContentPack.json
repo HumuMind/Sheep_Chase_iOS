@@ -689,7 +689,10 @@
         "优先攻击对自己使用火焰的敌人。",
         "诺克骑在背上时，它不会主动离开诺克。"
       ],
-      "sourceRef": "英文原版第 5 页；简体中文版第 5 页"
+      "sourceRef": "英文原版第 5 页；简体中文版第 5 页",
+      "ruleIds": [
+        "recharge"
+      ]
     },
     {
       "id": "brown-bear",
@@ -752,7 +755,10 @@
         "守在古兹身侧，堵住通往队伍后排的路。",
         "生命值降到一半以下时可能逃跑。"
       ],
-      "sourceRef": "怪物图鉴第 319 页；英文原版第 3 页"
+      "sourceRef": "怪物图鉴第 319 页；英文原版第 3 页",
+      "ruleIds": [
+        "multiattack"
+      ]
     },
     {
       "id": "guz",
@@ -877,7 +883,25 @@
         "若战局不利，施放加速术或撤离术逃向卧室，准备把床变成龙。",
         "不会死战；法杖和性命比面子更重要。"
       ],
-      "sourceRef": "英文原版第 6 页；简体中文版第 6 页"
+      "sourceRef": "英文原版第 6 页；简体中文版第 6 页",
+      "ruleIds": [
+        "concentration",
+        "spell-save-dc"
+      ],
+      "spellIds": [
+        "ray-of-frost",
+        "mending",
+        "prestidigitation",
+        "message",
+        "expeditious-retreat",
+        "jump",
+        "thunderwave",
+        "enlarge-reduce",
+        "levitate",
+        "haste",
+        "slow",
+        "polymorph"
+      ]
     },
     {
       "id": "wolf-guard",
@@ -910,8 +934,8 @@
         "通用语"
       ],
       "challenge": {
-        "rating": 0.25,
-        "xp": 50
+        "rating": 0.125,
+        "xp": 25
       },
       "traits": [
         {
@@ -929,7 +953,7 @@
         "绕到队伍后方抓走夏恩布莱特，优先活捉，不主动杀死他。",
         "会优先攻击施法者和脆弱目标。"
       ],
-      "sourceRef": "怪物图鉴第 325 页（矮种马数据）；英文原版第 3 页"
+      "sourceRef": "怪物图鉴第 325 页（矮种马数据，CR 1/8 / 25 XP）；英文原版第 3 页"
     }
   ],
   "encounters": [

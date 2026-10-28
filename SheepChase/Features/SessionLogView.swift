@@ -92,6 +92,18 @@ struct SessionLogView: View {
                     }
                 }
 
+                if let lastBattle = run.lastBattle, run.battle == nil {
+                    Section("上次战斗") {
+                        Text("第 \(lastBattle.round) 轮 · \(lastBattle.combatants.count) 名参战者")
+                            .font(.body.weight(.medium))
+                        ForEach(Array(lastBattle.log.prefix(5)), id: \.self) { entry in
+                            Text("· \(entry)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+
                 Section("本地快照") {
                     if run.checkpoints.isEmpty {
                         Text("暂无快照。开始/结束聚会、进入/结束战斗会自动创建快照。")

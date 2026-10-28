@@ -41,6 +41,7 @@ struct SceneDetailView: View {
                 }
 
                 beats
+                beatNavigation
                 branches
                 flags
                 encounterBox
@@ -299,6 +300,35 @@ struct SceneDetailView: View {
             }
             .padding(.vertical, 2)
         }
+    }
+
+    private var beatNavigation: some View {
+        let index = scene.beats.firstIndex { $0.id == run.beatID } ?? 0
+        return HStack(spacing: 8) {
+            Button {
+                let previous = max(0, index - 1)
+                store.selectBeat(scene.beats[previous], in: run)
+            } label: {
+                Label("上一拍", systemImage: "chevron.left")
+            }
+            .buttonStyle(.bordered)
+            .disabled(index == 0)
+
+            Button {
+                let next = min(scene.beats.count - 1, index + 1)
+                store.selectBeat(scene.beats[next], in: run)
+            } label: {
+                Label("下一拍", systemImage: "chevron.right")
+            }
+            .buttonStyle(.bordered)
+            .disabled(index >= scene.beats.count - 1)
+
+            Spacer()
+            Text("第 \(index + 1) / \(scene.beats.count) 拍")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.vertical, 2)
     }
 
     private var branches: some View {

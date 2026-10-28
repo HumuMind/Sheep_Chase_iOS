@@ -26,7 +26,9 @@
 - UI：macOS 原生 `NavigationSplitView` + toolbar + sidebar + inspector；场景/战斗用 `GroupBox`，不再自绘标题栏或 HTML 式卡片；主题纸面统一由 Parchment 背景提供
 - 主题：整窗 PDF 羊皮纸背景 + 不透明阅读页；长文/数据块放在阅读页上，纹理留在页边、侧栏和 toolbar；`GroupBox` 改为书页式分节线
 
+
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
+
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
 - 测试：9 个 `SheepChaseTests` 覆盖内容、导出/导入、生命周期、会话快照、玩家编辑、场景备注、临时 HP；2 个 `SheepChaseUITests` 覆盖进入场景、全局速查
 - 内容校对记录：`CONTENT_REVIEW.md`
@@ -46,6 +48,12 @@ xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
   -configuration Debug -sdk iphonesimulator \
   -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M4),OS=18.6' \
   -derivedDataPath build/DerivedDataPad CODE_SIGNING_ALLOWED=NO build
+
+xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
+  -configuration Debug -sdk iphonesimulator \
+  -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M4),OS=18.6' \
+  -derivedDataPath build/DerivedDataPad CODE_SIGNING_ALLOWED=NO \
+  -only-testing:SheepChaseUITests test
 ```
 
 > 当前 DSH 环境需要在 Swift 编译时加 `-disable-sandbox` 才能运行宏插件；已写入 `project.yml`，普通 Xcode 环境可按需移除。
