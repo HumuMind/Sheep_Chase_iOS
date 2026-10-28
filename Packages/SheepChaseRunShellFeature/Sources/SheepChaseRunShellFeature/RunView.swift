@@ -1,3 +1,4 @@
+import SheepChaseGuideFeature
 import SheepChaseSearchFeature
 import SheepChaseInspectorFeature
 import SheepChaseMapFeature
@@ -28,6 +29,7 @@ public struct RunView: View {
     @State private var selectedSpell: ContentPack.SpellCard?
     @State private var selectedMonster: ContentPack.Monster?
     @State private var showSearch = false
+    @State private var showGuide = false
     @State private var showSessions = false
     @State private var showSafety = false
     @State private var showImageExport = false
@@ -188,6 +190,13 @@ public struct RunView: View {
                     }
                     .keyboardShortcut("k", modifiers: .command)
 
+                    Button {
+                        showGuide = true
+                    } label: {
+                        Label("DM 导读", systemImage: "book.closed")
+                    }
+                    .help("冒险摘要、引钩、背景与主持建议")
+
                     Menu {
                         Button {
                             exportJSON()
@@ -274,6 +283,7 @@ public struct RunView: View {
             MonsterSheetView(monster: monster)
                 .environment(store)
         }
+        .sheet(isPresented: $showGuide) { AdventureGuideView(content: store.content) }
         .sheet(isPresented: $showSearch) {
             GlobalSearchView(run: run)
                 .environment(store)

@@ -10,7 +10,8 @@ let package = Package(
         .package(path: "../SheepChasePersistence"),
         .package(path: "../SheepChaseRunStore"),
         .package(path: "../SheepChaseUI"),
-        .package(path: "../SheepChaseSearchFeature")
+        .package(path: "../SheepChaseSearchFeature"),
+        .package(path: "../SheepChaseGuideFeature")
     ],
     targets: [
         .target(
@@ -20,7 +21,8 @@ let package = Package(
                 .product(name: "SheepChasePersistence", package: "SheepChasePersistence"),
                 .product(name: "SheepChaseRunStore", package: "SheepChaseRunStore"),
                 .product(name: "SheepChaseUI", package: "SheepChaseUI"),
-                .product(name: "SheepChaseSearchFeature", package: "SheepChaseSearchFeature")
+                .product(name: "SheepChaseSearchFeature", package: "SheepChaseSearchFeature"),
+                .product(name: "SheepChaseGuideFeature", package: "SheepChaseGuideFeature")
             ]
         ),
         .testTarget(name: "SheepChaseLibraryFeatureTests", dependencies: ["SheepChaseLibraryFeature"])

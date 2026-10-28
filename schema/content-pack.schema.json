@@ -183,6 +183,22 @@
           ]
         },
         "startingScene": { "$ref": "#/$defs/id" },
+        "guide": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/guideSection" }
+        },
+        "sourceRef": { "type": "string" }
+      }
+    },
+    "guideSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "body"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "kicker": { "type": "string" },
+        "body": { "type": "string", "minLength": 1 },
         "sourceRef": { "type": "string" }
       }
     },

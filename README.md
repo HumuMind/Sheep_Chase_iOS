@@ -35,6 +35,7 @@
 - `Packages/SheepChaseMapFeature` — 地图
 - `Packages/SheepChaseInspectorFeature` — 检查器/队伍/便签/会话/安全
 - `Packages/SheepChaseSearchFeature` — 全局搜索
+- `Packages/SheepChaseGuideFeature` — DM 导读（摘要/引钩/背景/主持建议）
 - `Packages/SheepChaseRunShellFeature` — Run 工作区/Sheet 路由/图片导出
 - 最低系统：macOS 14 / iPadOS 17；数据用 SwiftData 本地持久化
 - UI：macOS 原生 `NavigationSplitView` + toolbar + sidebar + inspector；场景/战斗用 `GroupBox`，不再自绘标题栏或 HTML 式卡片；主题纸面统一由 Parchment 背景提供
@@ -44,7 +45,7 @@
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：9 个 App `SheepChaseTests`；22 个 Package 单元测试；2 个 iPad `SheepChaseUITests`
+- 测试：9 个 App `SheepChaseTests`；23 个 Package 单元测试；3 个 iPad `SheepChaseUITests`（含 DM 导读）
 - 内容校对记录：`CONTENT_REVIEW.md`
 - 文件大小检查：`python3 scripts/check_swift_file_sizes.py`
 - Package 测试：`./scripts/test_packages.sh`（或分别 `swift test --package-path Packages/<name> --disable-sandbox`）

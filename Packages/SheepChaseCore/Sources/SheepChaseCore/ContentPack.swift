@@ -43,6 +43,15 @@ public struct ContentPack: Decodable {
         public let contentWarnings: [String]
         public let sceneOrder: [String]
         public let startingScene: String
+        public let guide: [GuideSection]?
+
+        public struct GuideSection: Decodable, Identifiable {
+            public let id: String
+            public let title: String
+            public let kicker: String?
+            public let body: String
+            public let sourceRef: String?
+        }
 
         public struct Range: Decodable {
             public let min: Int

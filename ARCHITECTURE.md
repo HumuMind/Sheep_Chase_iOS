@@ -54,6 +54,8 @@ Packages/
     Inspector、Party、AddPlayer、Rules、Notes、Sessions、Safety
   SheepChaseSearchFeature/
     GlobalSearchView
+  SheepChaseGuideFeature/
+    AdventureGuideView（DM 前置导读）
   SheepChaseRunShellFeature/
     RunView、RunExportDocument、ImageExport
 ```
@@ -75,7 +77,8 @@ SheepChaseRunStore
   ├── SheepChaseMapFeature
   ├── SheepChaseInspectorFeature (also BattleFeature)
   ├── SheepChaseSearchFeature
-  └── SheepChaseRunShellFeature  (Scene + Battle + Map + Inspector + Search + Export)
+  ├── SheepChaseGuideFeature
+  └── SheepChaseRunShellFeature  (Scene + Battle + Map + Inspector + Search + Guide + Export)
 
 App
   └── LibraryFeature / RunShellFeature / RunStore / Core / Persistence / Export / UI
@@ -140,6 +143,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 - `MapFeature`：地图平移/缩放与图钉。
 - `InspectorFeature`：队伍/战斗/便签/速查 tab、添加玩家、会话、安全页。
 - `SearchFeature`：全局搜索；Library 与 RunShell 共用。
+- `GuideFeature`：DM 前置导读；Library 与 RunShell 共用。
 - `RunShellFeature`：RunView、Sheet 路由、导出文档和图片导出。
 - 跨 Feature 的 Sheet 路由集中在 RunShell；Scene 通过闭包发出打开 NPC/Handout/Rule/Spell 的请求。
 
@@ -166,7 +170,7 @@ Open/import/export 都通过 RunStore；Feature 视图通过 `@Environment(RunSt
 
 | 文件 | 行数 |
 |---|---:|
-| `Packages/SheepChaseRunShellFeature/.../RunView.swift` | 389 |
+| `Packages/SheepChaseRunShellFeature/.../RunView.swift` | 399 |
 | `Packages/SheepChaseRunStore/.../RunStore.swift` | 369 |
 | `Packages/SheepChaseSceneFeature/.../SceneDetailSections.swift` | 353 |
 | `Packages/SheepChaseBattleFeature/.../BattleActiveView.swift` | 347 |
@@ -183,7 +187,7 @@ python3 scripts/check_swift_file_sizes.py
 
 ## 测试
 
-Package 测试（22 个）：
+Package 测试（23 个）：
 
 - Core 3
 - Persistence 2
@@ -197,12 +201,13 @@ Package 测试（22 个）：
 - MapFeature 1
 - InspectorFeature 1
 - SearchFeature 1
+- GuideFeature 1
 - RunShellFeature 1
 
 App 测试：
 
 - 9 个 `SheepChaseTests`
-- 2 个 iPad `SheepChaseUITests`
+- 3 个 iPad `SheepChaseUITests`（含 DM 导读）
 
 命令：
 

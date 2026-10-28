@@ -16,6 +16,17 @@ final class SheepChaseUITests: XCTestCase {
         XCTAssertTrue(app.buttons["安全工具"].exists)
     }
 
+    func testAdventureGuideOpens() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-demoRun", "-demoScene3"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
+
+        app.buttons["DM 导读"].tap()
+        XCTAssertTrue(app.staticTexts["如何使用本冒险"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["冒险引钩"].exists)
+    }
+
     func testGlobalSearchOpens() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-demoRun", "-demoScene3"]

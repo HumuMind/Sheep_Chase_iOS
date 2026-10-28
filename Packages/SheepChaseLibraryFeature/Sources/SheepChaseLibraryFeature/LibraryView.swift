@@ -1,3 +1,4 @@
+import SheepChaseGuideFeature
 import SheepChaseSearchFeature
 import SheepChaseRunStore
 import SheepChaseBattleEngine
@@ -16,6 +17,7 @@ public struct LibraryView: View {
     @State private var showImporter = false
     @State private var showAbout = false
     @State private var showSearch = false
+    @State private var showGuide = false
     @State private var importError: String?
 
     private var selectedRun: RunRecord? {
@@ -81,6 +83,13 @@ public struct LibraryView: View {
                     }
                     .keyboardShortcut("k", modifiers: .command)
 
+                    Button {
+                        showGuide = true
+                    } label: {
+                        Label("DM 导读", systemImage: "book.closed")
+                    }
+                    .help("冒险摘要、引钩、背景与主持建议")
+
                     Menu {
                         Button {
                             showNewRun = true
@@ -130,6 +139,9 @@ public struct LibraryView: View {
         .sheet(isPresented: $showAbout) {
             AboutContentSheet(content: store.content)
                 .environment(store)
+        }
+        .sheet(isPresented: $showGuide) {
+            AdventureGuideView(content: store.content)
         }
         .sheet(isPresented: $showSearch) {
             GlobalSearchView(run: nil)
