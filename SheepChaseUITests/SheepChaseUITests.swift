@@ -64,7 +64,12 @@ final class SheepChaseUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.staticTexts["我的开团"].waitForExistence(timeout: 12))
 
-        XCTAssertTrue(app.buttons["重命名"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["全局速查"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["DM 导读"].exists)
+        XCTAssertTrue(app.buttons["新建开团"].exists)
+        XCTAssertTrue(app.buttons["导入开团备份"].exists)
+        XCTAssertTrue(app.buttons["关于内容包"].exists)
+        XCTAssertTrue(app.buttons["重命名"].exists)
         XCTAssertTrue(app.buttons["归档开团"].exists)
         XCTAssertTrue(app.buttons["删除开团"].exists)
     }

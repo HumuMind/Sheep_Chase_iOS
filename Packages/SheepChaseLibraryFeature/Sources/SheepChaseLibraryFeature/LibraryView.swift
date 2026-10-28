@@ -74,6 +74,26 @@ public struct LibraryView: View {
                 }
             }
             .navigationTitle("我的开团")
+        } detail: {
+            Group {
+                if let run = selectedRun {
+                    LibraryRunDetail(run: run)
+                } else {
+                VStack(spacing: 12) {
+                    SheepChaseImages.sheep
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 92, height: 92)
+                        .opacity(0.8)
+                    Text("选择一场开团")
+                        .font(.title3.weight(.semibold))
+                    Text("从左侧选择存档，或新建一场开团。")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button {
@@ -90,44 +110,27 @@ public struct LibraryView: View {
                     }
                     .help("冒险摘要、引钩、背景与主持建议")
 
-                    Menu {
-                        Button {
-                            showNewRun = true
-                        } label: {
-                            Label("新建开团", systemImage: "plus")
-                        }
-                        Button {
-                            showImporter = true
-                        } label: {
-                            Label("导入开团备份…", systemImage: "square.and.arrow.down")
-                        }
+                    Button {
+                        showNewRun = true
                     } label: {
-                        Label("开团操作", systemImage: "plus")
+                        Label("新建开团", systemImage: "plus")
                     }
+                    .help("新建开团")
+
+                    Button {
+                        showImporter = true
+                    } label: {
+                        Label("导入开团备份", systemImage: "square.and.arrow.down")
+                    }
+                    .help("导入开团备份")
+
                     Button {
                         showAbout = true
                     } label: {
                         Label("关于内容包", systemImage: "info.circle")
                     }
+                    .help("关于内容包")
                 }
-            }
-        } detail: {
-            if let run = selectedRun {
-                LibraryRunDetail(run: run)
-            } else {
-                VStack(spacing: 12) {
-                    SheepChaseImages.sheep
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 92, height: 92)
-                        .opacity(0.8)
-                    Text("选择一场开团")
-                        .font(.title3.weight(.semibold))
-                    Text("从左侧选择存档，或新建一场开团。")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
         }
         .navigationSplitViewStyle(.balanced)
