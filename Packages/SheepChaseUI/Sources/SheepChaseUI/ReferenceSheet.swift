@@ -1,4 +1,5 @@
 import SwiftUI
+import SheepChaseCore
 
 enum ContentImage {
     static func name(for assetID: String) -> String? {
@@ -11,12 +12,17 @@ enum ContentImage {
     }
 }
 
-struct HandoutSheetView: View {
+public struct HandoutSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let handout: ContentPack.Handout
     let asset: ContentPack.Asset?
 
-    var body: some View {
+    public init(handout: ContentPack.Handout, asset: ContentPack.Asset?) {
+        self.handout = handout
+        self.asset = asset
+    }
+
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -30,9 +36,9 @@ struct HandoutSheetView: View {
                     }
 
                     if let imageAssetID = handout.imageAssetId,
-                       let imageName = ContentImage.name(for: imageAssetID) {
+                       let image = SheepChaseImages.image(forAssetID: imageAssetID) {
                         GroupBox("图片") {
-                            Image(imageName)
+                            image
                                 .resizable()
                                 .scaledToFit()
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -80,11 +86,15 @@ struct HandoutSheetView: View {
     }
 }
 
-struct ItemSheetView: View {
+public struct ItemSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let item: ContentPack.Item
 
-    var body: some View {
+    public init(item: ContentPack.Item) {
+        self.item = item
+    }
+
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -121,11 +131,15 @@ struct ItemSheetView: View {
     }
 }
 
-struct RuleSheetView: View {
+public struct RuleSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let rule: ContentPack.RuleCard
 
-    var body: some View {
+    public init(rule: ContentPack.RuleCard) {
+        self.rule = rule
+    }
+
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -167,11 +181,15 @@ struct RuleSheetView: View {
     }
 }
 
-struct SpellSheetView: View {
+public struct SpellSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let spell: ContentPack.SpellCard
 
-    var body: some View {
+    public init(spell: ContentPack.SpellCard) {
+        self.spell = spell
+    }
+
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {

@@ -1,29 +1,30 @@
 import Foundation
+import SheepChaseCore
 import SwiftData
 
 @Model
-final class RunRecord {
-    @Attribute(.unique) var id: UUID
-    var name: String
-    var createdAt: Date
-    var updatedAt: Date
-    var sceneID: String
-    var beatID: String
-    var modeRaw: String
-    var partyData: Data
-    var flagsData: Data
-    var notesData: Data
-    var battleData: Data?
-    var lastBattleData: Data?
-    var safetyData: Data?
-    var sessionsData: Data?
-    var checkpointsData: Data?
-    var sceneNotesData: Data?
-    var prepData: Data?
-    var isArchived: Bool = false
-    var contentVersion: String = ""
+public final class RunRecord {
+    @Attribute(.unique) public var id: UUID
+    public var name: String
+    public var createdAt: Date
+    public var updatedAt: Date
+    public var sceneID: String
+    public var beatID: String
+    public var modeRaw: String
+    public var partyData: Data
+    public var flagsData: Data
+    public var notesData: Data
+    public var battleData: Data?
+    public var lastBattleData: Data?
+    public var safetyData: Data?
+    public var sessionsData: Data?
+    public var checkpointsData: Data?
+    public var sceneNotesData: Data?
+    public var prepData: Data?
+    public var isArchived: Bool = false
+    public var contentVersion: String = ""
 
-    init(
+    public init(
         name: String,
         sceneID: String = "scene-1",
         beatID: String = "sheep-arrives",
@@ -50,27 +51,27 @@ final class RunRecord {
         self.contentVersion = contentVersion
     }
 
-    var mode: RunMode {
+    public var mode: RunMode {
         get { RunMode(rawValue: modeRaw) ?? .scene }
         set { modeRaw = newValue.rawValue }
     }
 
-    var party: [PartyMember] {
+    public var party: [PartyMember] {
         get { Self.decode([PartyMember].self, from: partyData) ?? [] }
         set { partyData = Self.encode(newValue) }
     }
 
-    var flags: [String: Bool] {
+    public var flags: [String: Bool] {
         get { Self.decode([String: Bool].self, from: flagsData) ?? [:] }
         set { flagsData = Self.encode(newValue) }
     }
 
-    var stickyNotes: [StickyNote] {
+    public var stickyNotes: [StickyNote] {
         get { Self.decode([StickyNote].self, from: notesData) ?? [] }
         set { notesData = Self.encode(newValue) }
     }
 
-    var battle: BattleState? {
+    public var battle: BattleState? {
         get {
             guard let battleData else { return nil }
             return Self.decode(BattleState.self, from: battleData)
@@ -80,7 +81,7 @@ final class RunRecord {
         }
     }
 
-    var lastBattle: BattleState? {
+    public var lastBattle: BattleState? {
         get {
             guard let lastBattleData else { return nil }
             return Self.decode(BattleState.self, from: lastBattleData)
@@ -90,7 +91,7 @@ final class RunRecord {
         }
     }
 
-    var safety: SafetyState {
+    public var safety: SafetyState {
         get {
             guard let safetyData else { return SafetyState() }
             return Self.decode(SafetyState.self, from: safetyData) ?? SafetyState()
@@ -100,7 +101,7 @@ final class RunRecord {
         }
     }
 
-    var sessions: [RunSession] {
+    public var sessions: [RunSession] {
         get {
             guard let sessionsData else { return [] }
             return Self.decode([RunSession].self, from: sessionsData) ?? []
@@ -110,7 +111,7 @@ final class RunRecord {
         }
     }
 
-    var checkpoints: [RunCheckpoint] {
+    public var checkpoints: [RunCheckpoint] {
         get {
             guard let checkpointsData else { return [] }
             return Self.decode([RunCheckpoint].self, from: checkpointsData) ?? []
@@ -120,7 +121,7 @@ final class RunRecord {
         }
     }
 
-    var sceneNotes: [String: String] {
+    public var sceneNotes: [String: String] {
         get {
             guard let sceneNotesData else { return [:] }
             return Self.decode([String: String].self, from: sceneNotesData) ?? [:]
@@ -130,7 +131,7 @@ final class RunRecord {
         }
     }
 
-    var prepChecks: [String] {
+    public var prepChecks: [String] {
         get {
             guard let prepData else { return [] }
             return Self.decode([String].self, from: prepData) ?? []
@@ -140,7 +141,7 @@ final class RunRecord {
         }
     }
 
-    var stateSnapshot: RunStateSnapshot {
+    public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
             contentVersion: contentVersion,
@@ -159,7 +160,7 @@ final class RunRecord {
         )
     }
 
-    func apply(_ snapshot: RunStateSnapshot) {
+    public func apply(_ snapshot: RunStateSnapshot) {
         name = snapshot.name
         contentVersion = snapshot.contentVersion
         sceneID = snapshot.sceneID

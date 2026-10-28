@@ -1,3 +1,6 @@
+import SheepChaseCore
+import SheepChasePersistence
+import SheepChaseUI
 import SwiftUI
 
 struct LibraryRunDetail: View {
@@ -25,7 +28,7 @@ struct LibraryRunDetail: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(alignment: .top, spacing: 16) {
-                    Image("Cover")
+                    SheepChaseImages.cover
                         .resizable()
                         .scaledToFill()
                         .frame(width: 92, height: 126)

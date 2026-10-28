@@ -17,10 +17,12 @@
 - App 为原生 SwiftUI（macOS/iPadOS）+ SwiftData，最低 macOS 14 / iPadOS 17；详见 `DISCUSSION.md` 的 D1。
 - 工程由 `project.yml` 生成：改动后运行 `xcodegen generate`；`SheepChase.xcodeproj` 是生成物。
 - 架构与文件大小约定见 `ARCHITECTURE.md`；单文件软上限 400 行、硬上限 500 行，提交前运行 `python3 scripts/check_swift_file_sizes.py`。
+- 共享代码在 `Packages/`：`SheepChaseCore`（Domain+Content）、`SheepChasePersistence`（RunRecord/Repository）、`SheepChaseUI`（Theme/字号/参考卡/图片）。不要把这些类型重新塞回 App target。
 - 当前 DSH 环境需要 `OTHER_SWIFT_FLAGS` 中的 `-disable-sandbox` 让宏插件运行；不要无故移除。
 - 构建命令见 README 的 App 工程一节；UI 变更后至少跑 macOS 与 iPad 模拟器 build。
 - 单元测试：`xcodebuild -project SheepChase.xcodeproj -scheme SheepChaseMac -configuration Debug -destination 'platform=macOS' -derivedDataPath build/DerivedDataTests CODE_SIGNING_ALLOWED=NO test`。
 - UI 测试：`xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad -configuration Debug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M4),OS=18.6' -derivedDataPath build/DerivedDataPad CODE_SIGNING_ALLOWED=NO -only-testing:SheepChaseUITests test`。
+- Package 测试：`./scripts/test_packages.sh`；不要删除 `-disable-sandbox`（当前环境宏插件需要）。
 - UI 使用原生 NavigationSplitView / toolbar / inspector / GroupBox；不要重新引入自绘标题栏或 HTML 式大卡片；主题背景统一使用 PDF 纸面。
 - 内容校对记录在 `CONTENT_REVIEW.md`；真实跑团前先读 `PLAYTEST.md`，按其中的指标记录；不要在未备份当前 Run 的情况下开始测试。
 - 可点击原型在 `prototype/index.html`，直接打开即可，无需构建。

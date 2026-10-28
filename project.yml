@@ -7,6 +7,14 @@ options:
   createIntermediateGroups: true
   groupSortPosition: top
 
+packages:
+  SheepChaseCore:
+    path: Packages/SheepChaseCore
+  SheepChasePersistence:
+    path: Packages/SheepChasePersistence
+  SheepChaseUI:
+    path: Packages/SheepChaseUI
+
 settings:
   base:
     SWIFT_VERSION: "5.0"
@@ -33,6 +41,10 @@ targets:
           - Resources/**
       - path: SheepChase/Resources
         buildPhase: resources
+    dependencies:
+      - package: SheepChaseCore
+      - package: SheepChasePersistence
+      - package: SheepChaseUI
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.mac
@@ -57,6 +69,10 @@ targets:
           - Resources/**
       - path: SheepChase/Resources
         buildPhase: resources
+    dependencies:
+      - package: SheepChaseCore
+      - package: SheepChasePersistence
+      - package: SheepChaseUI
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.ipad
@@ -80,6 +96,8 @@ targets:
       - path: SheepChaseTests
     dependencies:
       - target: SheepChaseMac
+      - package: SheepChaseCore
+      - package: SheepChasePersistence
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: local.sheepchase.tests

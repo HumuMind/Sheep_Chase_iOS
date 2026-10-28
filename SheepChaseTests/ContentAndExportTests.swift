@@ -1,3 +1,5 @@
+import SheepChaseCore
+import SheepChasePersistence
 import SwiftData
 import XCTest
 @testable import SheepChase

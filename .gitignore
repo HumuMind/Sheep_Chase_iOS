@@ -4,3 +4,7 @@ __pycache__/
 *.pyc
 xcuserdata/
 *.xcuserstate
+.build/
+.swiftpm/
+Packages/*/.build/
+Packages/*/.swiftpm/

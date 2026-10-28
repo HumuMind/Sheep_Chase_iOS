@@ -1,15 +1,15 @@
 import SwiftUI
 
-enum AppTextSize: String, CaseIterable, Identifiable {
+public enum AppTextSize: String, CaseIterable, Identifiable {
     case small
     case medium
     case large
     case xLarge
     case accessibility
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
-    var title: String {
+    public var title: String {
         switch self {
         case .small: "小"
         case .medium: "中"
@@ -19,7 +19,7 @@ enum AppTextSize: String, CaseIterable, Identifiable {
         }
     }
 
-    var dynamicTypeSize: DynamicTypeSize {
+    public var dynamicTypeSize: DynamicTypeSize {
         switch self {
         case .small: .small
         case .medium: .medium

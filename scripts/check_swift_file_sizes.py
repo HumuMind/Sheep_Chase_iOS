@@ -6,11 +6,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOFT_LIMIT = 400
 HARD_LIMIT = 500
-FOLDERS = ("SheepChase", "SheepChaseTests", "SheepChaseUITests")
+FOLDERS = ("SheepChase", "SheepChaseTests", "SheepChaseUITests", "Packages")
 
 rows = []
 for folder in FOLDERS:
     for path in (ROOT / folder).rglob("*.swift"):
+        if ".build" in path.parts or ".swiftpm" in path.parts:
+            continue
         rows.append((len(path.read_text(encoding="utf-8").splitlines()), path))
 
 rows.sort(reverse=True)

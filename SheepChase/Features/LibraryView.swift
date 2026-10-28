@@ -1,3 +1,6 @@
+import SheepChaseCore
+import SheepChasePersistence
+import SheepChaseUI
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -41,7 +44,7 @@ struct LibraryView: View {
             .navigationSplitViewColumnWidth(min: 210, ideal: 230, max: 280)
             .safeAreaInset(edge: .top, spacing: 0) {
                 HStack(spacing: 9) {
-                    Image("Sheep")
+                    SheepChaseImages.sheep
                         .resizable()
                         .scaledToFit()
                         .frame(width: 26, height: 26)
@@ -99,7 +102,7 @@ struct LibraryView: View {
                 LibraryRunDetail(run: run)
             } else {
                 VStack(spacing: 12) {
-                    Image("Sheep")
+                    SheepChaseImages.sheep
                         .resizable()
                         .scaledToFit()
                         .frame(width: 92, height: 92)

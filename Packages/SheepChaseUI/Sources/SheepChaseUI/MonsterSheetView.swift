@@ -1,10 +1,15 @@
 import SwiftUI
+import SheepChaseCore
 
-struct MonsterSheetView: View {
+public struct MonsterSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let monster: ContentPack.Monster
 
-    var body: some View {
+    public init(monster: ContentPack.Monster) {
+        self.monster = monster
+    }
+
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {

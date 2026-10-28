@@ -1,3 +1,6 @@
+import SheepChaseCore
+import SheepChasePersistence
+import SheepChaseUI
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -70,7 +73,7 @@ struct RunView: View {
             .navigationSplitViewColumnWidth(min: 210, ideal: 230, max: 280)
             .safeAreaInset(edge: .top, spacing: 0) {
                 HStack(spacing: 9) {
-                    Image("Cover")
+                    SheepChaseImages.cover
                         .resizable()
                         .scaledToFill()
                         .frame(width: 30, height: 40)

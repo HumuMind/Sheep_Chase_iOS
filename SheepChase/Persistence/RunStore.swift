@@ -1,3 +1,6 @@
+import SheepChaseCore
+import SheepChasePersistence
+import SheepChaseUI
 import Foundation
 import Observation
 import SwiftData

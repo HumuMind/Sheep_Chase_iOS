@@ -1,10 +1,15 @@
 import SwiftUI
+import SheepChaseCore
 
-struct NPCSheetView: View {
+public struct NPCSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let npc: ContentPack.NPC
 
-    var body: some View {
+    public init(npc: ContentPack.NPC) {
+        self.npc = npc
+    }
+
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {

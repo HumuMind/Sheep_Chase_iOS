@@ -1,3 +1,6 @@
+import SheepChaseCore
+import SheepChasePersistence
+import SheepChaseUI
 import SwiftUI
 
 struct MapView: View {
@@ -72,7 +75,7 @@ struct MapView: View {
     private var mapCanvas: some View {
         GeometryReader { proxy in
             ZStack(alignment: .topLeading) {
-                Image("Map")
+                SheepChaseImages.map
                     .resizable()
                     .scaledToFit()
                     .accessibilityLabel("诺克的树屋宅院地图")

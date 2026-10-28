@@ -7,29 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0374DF024B60FDCF3865270E /* ReferenceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172E830FAB060C065D180EA8 /* ReferenceSheet.swift */; };
-		04B00031B18C883917C2B848 /* RunRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE97A71F836F54259586BF02 /* RunRepository.swift */; };
 		0A8804DDE3CDA7810784A569 /* SheepChaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7972BE44E388EA599EEC9D21 /* SheepChaseUITests.swift */; };
 		0DCF00227B688CB37E1491F1 /* SafetyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5077DDC816A99C5AD2E122 /* SafetyView.swift */; };
-		0E4C7C01762AB84D57B50B0B /* MonsterSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */; };
-		162F1B857CD7DF9712AA7C1A /* AppTextSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8CC7BA41ACFC50C307E0C /* AppTextSize.swift */; };
 		16937F9607EEB260BCB91705 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
 		17322B4A47ED24CA3785AC55 /* RunStore+Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94E8385AEB32C9EC1C5C2E4 /* RunStore+Export.swift */; };
-		174A74E9CBFCA911E22C92DA /* ContentPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C9B690645973BB5B96B6E6 /* ContentPack.swift */; };
+		1DE59DA6AFD9F7E7608F513E /* SheepChasePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = 7857AEF9D5F7ACDEB282D1B0 /* SheepChasePersistence */; };
 		1F61BC91099F06D488730081 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */; };
-		21FFBBFBD8FB4B19866B4DCC /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C861A54D9912FC462E576 /* Theme.swift */; };
+		20A5DDB0D5DE4AC5E496802F /* SheepChaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3D9FE742144A16704754A3E2 /* SheepChaseCore */; };
 		23E37F9044BCD90DB5739BC0 /* PartyInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58988FD39C05BC309191676 /* PartyInspectorView.swift */; };
 		2451C298D3EC411CC2D1F208 /* ContentAndExportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B9009FFB8120C98C8A4AA4 /* ContentAndExportTests.swift */; };
+		2700DD87544C20F1B6C4FE07 /* SheepChaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78234207D5B311AAEC23EA7E /* SheepChaseCore */; };
 		28055A7A0802DBD9127A9D80 /* RunStore+Sessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3805A790ABEED39156A66B35 /* RunStore+Sessions.swift */; };
 		2F8312BB3C2C9DE34C81D51F /* PrepChecklistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF986145AF03B0658DD574 /* PrepChecklistView.swift */; };
+		31F23F900EEDF94F909ABE4E /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */; };
 		346FE211423187AEDD764C39 /* BattleActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3608EA50F9771109AB48196F /* BattleActiveView.swift */; };
-		3D00480A68E3CAC16C2739FD /* ContentPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C9B690645973BB5B96B6E6 /* ContentPack.swift */; };
-		49D60CAB4B37C9219EFA94E3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C861A54D9912FC462E576 /* Theme.swift */; };
+		4B48352924AB516414183AFF /* SheepChasePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9A57A8666634D2A05EEA4210 /* SheepChasePersistence */; };
 		4D77C8B158D433F2B0ACD9FE /* BattleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */; };
 		4F6AC6855F619CC89C44154D /* cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 020524B273A5E80CE97899DA /* cover.jpg */; };
-		5052C412D970D3BABCA93839 /* RunRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE97A71F836F54259586BF02 /* RunRepository.swift */; };
 		53B98583AA65AAF7C7D8AE7E /* BattleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */; };
-		56E3CB81E5C96097D0022827 /* MonsterSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */; };
 		5766C4518C1E8AE9BC42C664 /* SceneDetailSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08651DAF7EBFA61312D46D22 /* SceneDetailSections.swift */; };
 		57733E83739AC2AF9844107E /* ImageExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561F4D6B465DE19401AABA4 /* ImageExportView.swift */; };
 		58EA50D237F6D5CD10C3E1E1 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A615CE91471991581D521AEF /* SceneView.swift */; };
@@ -43,23 +38,24 @@
 		624BFE0B93DABBA4C922C41A /* PrepChecklistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAF986145AF03B0658DD574 /* PrepChecklistView.swift */; };
 		632A02A1CFF3A94AEA5B82E6 /* map-treehouse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BB7DE3816798478894ACFF3F /* map-treehouse.jpg */; };
 		636ADFB897665CCD7E23D54C /* AboutContentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C9B65768D7AF42566545E /* AboutContentSheet.swift */; };
+		6792EBB8BCEEF2668CFB4869 /* SheepChaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB328123E4DDC8532B332C48 /* SheepChaseCore */; };
 		6ADD7293D7511986E2EEB10A /* NewRunSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF9259CDE557E0B6CFE105FC /* NewRunSheet.swift */; };
 		6DD31DE874C7F699C5CCBE87 /* BattleInitiativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16B49488F06E63B8F7EB761 /* BattleInitiativeView.swift */; };
+		70D602408AC5BB4096ADAF4F /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */; };
 		7151907658F411269BEE9FC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 398BC927DE54B66A467BEA90 /* Assets.xcassets */; };
 		72FC82E3F8AA3EF147A53134 /* PartyInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58988FD39C05BC309191676 /* PartyInspectorView.swift */; };
+		7627F4F442FF821DAF77F67D /* SheepChaseUI in Frameworks */ = {isa = PBXBuildFile; productRef = B27BF26B823542F664092860 /* SheepChaseUI */; };
 		786E06A4235DD71200915E12 /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */; };
 		793DC80D214C7C91E6C9625F /* ContentPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F2FD00743370B53287BF389 /* ContentPack.json */; };
 		7B39CA7B371C4DA23108845D /* ImageExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561F4D6B465DE19401AABA4 /* ImageExportView.swift */; };
 		7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
 		7F4CBDED4AE5CFA029487D3F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563F12132067004AD5C6AE66 /* MapView.swift */; };
-		83F83637A189F656016BC871 /* RunRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CACE6E802810BAA987336 /* RunRecord.swift */; };
 		846549A2F3214D47785B826B /* RunStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0E1BA9B8A49C55EF7699A /* RunStore.swift */; };
 		8768A0B1B5F71526D05EDEDA /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE06BBBDE740547C4640C3D /* InspectorView.swift */; };
 		8A8CD3BB71560EBDAF1747B3 /* BattleInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A744F507422A03B386F714F7 /* BattleInspectorView.swift */; };
 		8AAF9101B185A6012FE5BC19 /* SceneDetailSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08651DAF7EBFA61312D46D22 /* SceneDetailSections.swift */; };
 		8DCF521EC98522CF06E4E98E /* SessionLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE41D7CC5A2F4E5412B7F07 /* SessionLogView.swift */; };
 		8F6C32CFECBB66DD0EC5282F /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479B9558D025C3743CD963C1 /* AppVersion.swift */; };
-		906AF27D8171C51494DD045A /* RunModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7CFECC2200EE24CD572592 /* RunModels.swift */; };
 		90F30C748AC290276C689912 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB715842510A944ACE5BEC22 /* LibraryView.swift */; };
 		98FE8D80AE590695DF905A0C /* SessionLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE41D7CC5A2F4E5412B7F07 /* SessionLogView.swift */; };
 		A266D03371C4379F6373F652 /* LibraryRunRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056863AC17BCB37B2B64430B /* LibraryRunRow.swift */; };
@@ -81,13 +77,11 @@
 		C193E5012447E7A8EFE5AE01 /* BattleComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B1275D2CAC3C867981704 /* BattleComponents.swift */; };
 		C41BECA896ADE8D56DCF7CF8 /* BattleInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A744F507422A03B386F714F7 /* BattleInspectorView.swift */; };
 		C84C5AC89131158A18FC69F4 /* BattleInitiativeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16B49488F06E63B8F7EB761 /* BattleInitiativeView.swift */; };
-		C922B71BF9C713BC8A79087F /* ReferenceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172E830FAB060C065D180EA8 /* ReferenceSheet.swift */; };
 		CE68893858CE3FB204059401 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479B9558D025C3743CD963C1 /* AppVersion.swift */; };
 		CE8AB36BEFDC0BD380CD485F /* BattleActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3608EA50F9771109AB48196F /* BattleActiveView.swift */; };
-		D1721D2252341845DE87965D /* NPCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB6E7DB2F91E80ACFCD5C4 /* NPCView.swift */; };
-		D19B42905C7E978B8DF64F80 /* AppTextSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8CC7BA41ACFC50C307E0C /* AppTextSize.swift */; };
 		D2C5989575FCA71BD176FA6A /* RunStore+Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94E8385AEB32C9EC1C5C2E4 /* RunStore+Export.swift */; };
 		D2FE0F355C1625B7C3F15B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 398BC927DE54B66A467BEA90 /* Assets.xcassets */; };
+		D3C709D23C425A5E73785779 /* SheepChaseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 091ECABC8BAD82773C7AB893 /* SheepChaseUI */; };
 		D897F31C68AEF30A6BBF9C4F /* BattleComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11B1275D2CAC3C867981704 /* BattleComponents.swift */; };
 		DAB34ED281F99E40670CDC67 /* SheepChaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */; };
 		DC903079818DA9C5626DAEE7 /* sheep-ink.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DAACF9346CBD12B1262C705 /* sheep-ink.png */; };
@@ -99,12 +93,10 @@
 		E72DDE348539DBA002C099B7 /* AboutContentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C9B65768D7AF42566545E /* AboutContentSheet.swift */; };
 		E9F5128822850713FCEAE7AA /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F38122AD24C8A9E1CDF6 /* GlobalSearchView.swift */; };
 		ECACED3BEF91E5ACBAF3DB1C /* LibraryRunDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B924ED1CEC75F5D09755AEAC /* LibraryRunDetailView.swift */; };
-		EDC83624EF36137BF57059EC /* NPCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB6E7DB2F91E80ACFCD5C4 /* NPCView.swift */; };
-		EE8462695D853CDEDBFE58B9 /* RunModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7CFECC2200EE24CD572592 /* RunModels.swift */; };
 		F1626034B5C81EC6EE036892 /* SheepChaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */; };
 		F6F2CE8E772FF28093892734 /* LibraryRunDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B924ED1CEC75F5D09755AEAC /* LibraryRunDetailView.swift */; };
 		FB417162C430BCB6742C65D0 /* GlobalSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F38122AD24C8A9E1CDF6 /* GlobalSearchView.swift */; };
-		FC653821C3005603306AEA3D /* RunRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CACE6E802810BAA987336 /* RunRecord.swift */; };
+		FCBC6C2AB5632ECB23E2905A /* SheepChasePersistence in Frameworks */ = {isa = PBXBuildFile; productRef = A09A7E09B9212BD8505B324F /* SheepChasePersistence */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,10 +125,6 @@
 		12C7F733E946F2072CB54541 /* RunExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunExport.swift; sourceTree = "<group>"; };
 		154CC2063D420A953DF242EF /* SheepChaseMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SheepChaseMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleViews.swift; sourceTree = "<group>"; };
-		172E830FAB060C065D180EA8 /* ReferenceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceSheet.swift; sourceTree = "<group>"; };
-		1D7CFECC2200EE24CD572592 /* RunModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunModels.swift; sourceTree = "<group>"; };
-		21C9B690645973BB5B96B6E6 /* ContentPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentPack.swift; sourceTree = "<group>"; };
-		21FB6E7DB2F91E80ACFCD5C4 /* NPCView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPCView.swift; sourceTree = "<group>"; };
 		22F0E1BA9B8A49C55EF7699A /* RunStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunStore.swift; sourceTree = "<group>"; };
 		2561F4D6B465DE19401AABA4 /* ImageExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExportView.swift; sourceTree = "<group>"; };
 		2F3FE2FCBD9FFA9A1EEF2078 /* SheepChaseUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SheepChaseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,11 +136,11 @@
 		4516D7D7741815F09D485D55 /* SheepChaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SheepChaseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		479B9558D025C3743CD963C1 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		4FAF986145AF03B0658DD574 /* PrepChecklistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepChecklistView.swift; sourceTree = "<group>"; };
+		53D559AE299EC8A576BEF5DF /* SheepChaseCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseCore; path = Packages/SheepChaseCore; sourceTree = SOURCE_ROOT; };
 		563F12132067004AD5C6AE66 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		62BD35D01F3AAAFFA9E9C531 /* SheepChasePad.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SheepChasePad.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D5077DDC816A99C5AD2E122 /* SafetyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyView.swift; sourceTree = "<group>"; };
 		6DAACF9346CBD12B1262C705 /* sheep-ink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sheep-ink.png"; sourceTree = "<group>"; };
-		6E4CACE6E802810BAA987336 /* RunRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunRecord.swift; sourceTree = "<group>"; };
 		71205C697C4FE44370B76A90 /* RunStore+Battle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RunStore+Battle.swift"; sourceTree = "<group>"; };
 		766C9B65768D7AF42566545E /* AboutContentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutContentSheet.swift; sourceTree = "<group>"; };
 		7972BE44E388EA599EEC9D21 /* SheepChaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheepChaseUITests.swift; sourceTree = "<group>"; };
@@ -164,30 +152,59 @@
 		A615CE91471991581D521AEF /* SceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneView.swift; sourceTree = "<group>"; };
 		A744F507422A03B386F714F7 /* BattleInspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleInspectorView.swift; sourceTree = "<group>"; };
 		AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheepChaseApp.swift; sourceTree = "<group>"; };
-		AE7C861A54D9912FC462E576 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		AE97A71F836F54259586BF02 /* RunRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunRepository.swift; sourceTree = "<group>"; };
 		AEE41D7CC5A2F4E5412B7F07 /* SessionLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionLogView.swift; sourceTree = "<group>"; };
 		B924ED1CEC75F5D09755AEAC /* LibraryRunDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryRunDetailView.swift; sourceTree = "<group>"; };
 		BB7DE3816798478894ACFF3F /* map-treehouse.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "map-treehouse.jpg"; sourceTree = "<group>"; };
+		C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		CB715842510A944ACE5BEC22 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		CEE06BBBDE740547C4640C3D /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
 		D11B1275D2CAC3C867981704 /* BattleComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleComponents.swift; sourceTree = "<group>"; };
 		D16B49488F06E63B8F7EB761 /* BattleInitiativeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BattleInitiativeView.swift; sourceTree = "<group>"; };
-		D7F8CC7BA41ACFC50C307E0C /* AppTextSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextSize.swift; sourceTree = "<group>"; };
+		D59694443ADF9982B72BD40F /* SheepChasePersistence */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChasePersistence; path = Packages/SheepChasePersistence; sourceTree = SOURCE_ROOT; };
 		DF9259CDE557E0B6CFE105FC /* NewRunSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRunSheet.swift; sourceTree = "<group>"; };
 		E4DFBD9696BB6019721737E9 /* AddPlayerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerSheet.swift; sourceTree = "<group>"; };
+		E8951581CEE5AFEBBA1F4839 /* SheepChaseUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseUI; path = Packages/SheepChaseUI; sourceTree = SOURCE_ROOT; };
 		E94E8385AEB32C9EC1C5C2E4 /* RunStore+Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RunStore+Export.swift"; sourceTree = "<group>"; };
 		EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
-		FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterSheetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1B20CF41F47658EA837B70E1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20A5DDB0D5DE4AC5E496802F /* SheepChaseCore in Frameworks */,
+				4B48352924AB516414183AFF /* SheepChasePersistence in Frameworks */,
+				D3C709D23C425A5E73785779 /* SheepChaseUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85B01075FFC09A51D828E48F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2700DD87544C20F1B6C4FE07 /* SheepChaseCore in Frameworks */,
+				FCBC6C2AB5632ECB23E2905A /* SheepChasePersistence in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5B3E99155350C18006EAF86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6792EBB8BCEEF2668CFB4869 /* SheepChaseCore in Frameworks */,
+				1DE59DA6AFD9F7E7608F513E /* SheepChasePersistence in Frameworks */,
+				7627F4F442FF821DAF77F67D /* SheepChaseUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		0D8B2407916C914CC17AF25E /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
 				12C7F733E946F2072CB54541 /* RunExport.swift */,
-				6E4CACE6E802810BAA987336 /* RunRecord.swift */,
-				AE97A71F836F54259586BF02 /* RunRepository.swift */,
 				22F0E1BA9B8A49C55EF7699A /* RunStore.swift */,
 				71205C697C4FE44370B76A90 /* RunStore+Battle.swift */,
 				E94E8385AEB32C9EC1C5C2E4 /* RunStore+Export.swift */,
@@ -223,13 +240,10 @@
 				056863AC17BCB37B2B64430B /* LibraryRunRow.swift */,
 				CB715842510A944ACE5BEC22 /* LibraryView.swift */,
 				563F12132067004AD5C6AE66 /* MapView.swift */,
-				FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */,
 				DF9259CDE557E0B6CFE105FC /* NewRunSheet.swift */,
 				37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */,
-				21FB6E7DB2F91E80ACFCD5C4 /* NPCView.swift */,
 				A58988FD39C05BC309191676 /* PartyInspectorView.swift */,
 				4FAF986145AF03B0658DD574 /* PrepChecklistView.swift */,
-				172E830FAB060C065D180EA8 /* ReferenceSheet.swift */,
 				3CABACBDACB84FAF6463CDFE /* RulesInspectorView.swift */,
 				EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */,
 				6D5077DDC816A99C5AD2E122 /* SafetyView.swift */,
@@ -240,12 +254,14 @@
 			path = Features;
 			sourceTree = "<group>";
 		};
-		50D6B3A7AA9230C510080B16 /* Domain */ = {
+		4970C1E4A25B29FB3BBE6F9A /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				1D7CFECC2200EE24CD572592 /* RunModels.swift */,
+				53D559AE299EC8A576BEF5DF /* SheepChaseCore */,
+				D59694443ADF9982B72BD40F /* SheepChasePersistence */,
+				E8951581CEE5AFEBBA1F4839 /* SheepChaseUI */,
 			);
-			path = Domain;
+			path = Packages;
 			sourceTree = "<group>";
 		};
 		59EA6AF9C15C0BCA10E31491 /* ContentAssets */ = {
@@ -261,11 +277,9 @@
 		92DAD19E6DC81F5B04C818D5 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				D7F8CC7BA41ACFC50C307E0C /* AppTextSize.swift */,
 				479B9558D025C3743CD963C1 /* AppVersion.swift */,
 				8804416B86AAF5FA7A4B275B /* RootView.swift */,
 				AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */,
-				AE7C861A54D9912FC462E576 /* Theme.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -275,7 +289,6 @@
 			children = (
 				92DAD19E6DC81F5B04C818D5 /* App */,
 				C13A1F2BA7026F576972AECF /* Content */,
-				50D6B3A7AA9230C510080B16 /* Domain */,
 				403A14A42DECBEC2042F73B8 /* Features */,
 				0D8B2407916C914CC17AF25E /* Persistence */,
 				C0362AB6E119ECC42DB8F10E /* Resources */,
@@ -304,7 +317,7 @@
 		C13A1F2BA7026F576972AECF /* Content */ = {
 			isa = PBXGroup;
 			children = (
-				21C9B690645973BB5B96B6E6 /* ContentPack.swift */,
+				C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -312,6 +325,7 @@
 		D2F6ED9C06133A5892EEF9B1 = {
 			isa = PBXGroup;
 			children = (
+				4970C1E4A25B29FB3BBE6F9A /* Packages */,
 				9DD55B7E43BCDD48C849DE24 /* SheepChase */,
 				1FB6FCC8638953AA7A7FAAF2 /* SheepChaseTests */,
 				B98FF4E61DA4E21F291609AA /* SheepChaseUITests */,
@@ -339,6 +353,7 @@
 			buildPhases = (
 				057159EEBB4111084FA7E3A3 /* Sources */,
 				357B4E95C0C7CD3D97C1A45B /* Resources */,
+				B5B3E99155350C18006EAF86 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -346,6 +361,9 @@
 			);
 			name = SheepChasePad;
 			packageProductDependencies = (
+				FB328123E4DDC8532B332C48 /* SheepChaseCore */,
+				7857AEF9D5F7ACDEB282D1B0 /* SheepChasePersistence */,
+				B27BF26B823542F664092860 /* SheepChaseUI */,
 			);
 			productName = SheepChasePad;
 			productReference = 62BD35D01F3AAAFFA9E9C531 /* SheepChasePad.app */;
@@ -356,6 +374,7 @@
 			buildConfigurationList = 4DE01638C9A4232449B5DF45 /* Build configuration list for PBXNativeTarget "SheepChaseTests" */;
 			buildPhases = (
 				4EBB0B7B1344D8555D0F3FDC /* Sources */,
+				85B01075FFC09A51D828E48F /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -364,6 +383,8 @@
 			);
 			name = SheepChaseTests;
 			packageProductDependencies = (
+				78234207D5B311AAEC23EA7E /* SheepChaseCore */,
+				A09A7E09B9212BD8505B324F /* SheepChasePersistence */,
 			);
 			productName = SheepChaseTests;
 			productReference = 4516D7D7741815F09D485D55 /* SheepChaseTests.xctest */;
@@ -375,6 +396,7 @@
 			buildPhases = (
 				31C17C7DEF3F210B0A2CACF1 /* Sources */,
 				67388EBD911CD01121F83B57 /* Resources */,
+				1B20CF41F47658EA837B70E1 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -382,6 +404,9 @@
 			);
 			name = SheepChaseMac;
 			packageProductDependencies = (
+				3D9FE742144A16704754A3E2 /* SheepChaseCore */,
+				9A57A8666634D2A05EEA4210 /* SheepChasePersistence */,
+				091ECABC8BAD82773C7AB893 /* SheepChaseUI */,
 			);
 			productName = SheepChaseMac;
 			productReference = 154CC2063D420A953DF242EF /* SheepChaseMac.app */;
@@ -442,6 +467,11 @@
 			);
 			mainGroup = D2F6ED9C06133A5892EEF9B1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F351EEB8D0CB2110F1709FF3 /* XCLocalSwiftPackageReference "Packages/SheepChaseCore" */,
+				1510AA37B739EE78BEEB8BFD /* XCLocalSwiftPackageReference "Packages/SheepChasePersistence" */,
+				9304BFB7CEE36ABF3BB8C83D /* XCLocalSwiftPackageReference "Packages/SheepChaseUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D306898E44904C09687DF85F /* Products */;
 			projectDirPath = "";
@@ -489,7 +519,6 @@
 			files = (
 				636ADFB897665CCD7E23D54C /* AboutContentSheet.swift in Sources */,
 				B49726A2F3078CE456EB7CF6 /* AddPlayerSheet.swift in Sources */,
-				D19B42905C7E978B8DF64F80 /* AppTextSize.swift in Sources */,
 				8F6C32CFECBB66DD0EC5282F /* AppVersion.swift in Sources */,
 				346FE211423187AEDD764C39 /* BattleActiveView.swift in Sources */,
 				C193E5012447E7A8EFE5AE01 /* BattleComponents.swift in Sources */,
@@ -497,7 +526,7 @@
 				8A8CD3BB71560EBDAF1747B3 /* BattleInspectorView.swift in Sources */,
 				5E409062A2A9278CACBBA130 /* BattleSelectView.swift in Sources */,
 				53B98583AA65AAF7C7D8AE7E /* BattleViews.swift in Sources */,
-				3D00480A68E3CAC16C2739FD /* ContentPack.swift in Sources */,
+				70D602408AC5BB4096ADAF4F /* ContentStore.swift in Sources */,
 				FB417162C430BCB6742C65D0 /* GlobalSearchView.swift in Sources */,
 				57733E83739AC2AF9844107E /* ImageExportView.swift in Sources */,
 				A4F8901204B160F095F2CBA8 /* InspectorView.swift in Sources */,
@@ -505,19 +534,13 @@
 				A266D03371C4379F6373F652 /* LibraryRunRow.swift in Sources */,
 				AF5D5DFD28EAA0D82C4CD0A6 /* LibraryView.swift in Sources */,
 				7F4CBDED4AE5CFA029487D3F /* MapView.swift in Sources */,
-				56E3CB81E5C96097D0022827 /* MonsterSheetView.swift in Sources */,
-				EDC83624EF36137BF57059EC /* NPCView.swift in Sources */,
 				6ADD7293D7511986E2EEB10A /* NewRunSheet.swift in Sources */,
 				E5EBFE0BEC0EA322AF1BDF2A /* NotesView.swift in Sources */,
 				72FC82E3F8AA3EF147A53134 /* PartyInspectorView.swift in Sources */,
 				624BFE0B93DABBA4C922C41A /* PrepChecklistView.swift in Sources */,
-				C922B71BF9C713BC8A79087F /* ReferenceSheet.swift in Sources */,
 				7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */,
 				5DF73643F2F44FDF14A214AB /* RulesInspectorView.swift in Sources */,
 				A89052EF95D96466904B7F10 /* RunExport.swift in Sources */,
-				906AF27D8171C51494DD045A /* RunModels.swift in Sources */,
-				83F83637A189F656016BC871 /* RunRecord.swift in Sources */,
-				04B00031B18C883917C2B848 /* RunRepository.swift in Sources */,
 				A34B6E5EEFFE64C7036AD5B9 /* RunStore+Battle.swift in Sources */,
 				17322B4A47ED24CA3785AC55 /* RunStore+Export.swift in Sources */,
 				5F87BD49FDE9268D006C622E /* RunStore+Seed.swift in Sources */,
@@ -529,7 +552,6 @@
 				AF7DEE96141F0922C3F4D931 /* SceneView.swift in Sources */,
 				98FE8D80AE590695DF905A0C /* SessionLogView.swift in Sources */,
 				DAB34ED281F99E40670CDC67 /* SheepChaseApp.swift in Sources */,
-				49D60CAB4B37C9219EFA94E3 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,7 +561,6 @@
 			files = (
 				E72DDE348539DBA002C099B7 /* AboutContentSheet.swift in Sources */,
 				5BA374A5934FF13540DAF0AF /* AddPlayerSheet.swift in Sources */,
-				162F1B857CD7DF9712AA7C1A /* AppTextSize.swift in Sources */,
 				CE68893858CE3FB204059401 /* AppVersion.swift in Sources */,
 				CE8AB36BEFDC0BD380CD485F /* BattleActiveView.swift in Sources */,
 				D897F31C68AEF30A6BBF9C4F /* BattleComponents.swift in Sources */,
@@ -547,7 +568,7 @@
 				C41BECA896ADE8D56DCF7CF8 /* BattleInspectorView.swift in Sources */,
 				BEBA3BBB391E71D24234AB8D /* BattleSelectView.swift in Sources */,
 				4D77C8B158D433F2B0ACD9FE /* BattleViews.swift in Sources */,
-				174A74E9CBFCA911E22C92DA /* ContentPack.swift in Sources */,
+				31F23F900EEDF94F909ABE4E /* ContentStore.swift in Sources */,
 				E9F5128822850713FCEAE7AA /* GlobalSearchView.swift in Sources */,
 				7B39CA7B371C4DA23108845D /* ImageExportView.swift in Sources */,
 				8768A0B1B5F71526D05EDEDA /* InspectorView.swift in Sources */,
@@ -555,19 +576,13 @@
 				AFDA717B919E20D0D2E55936 /* LibraryRunRow.swift in Sources */,
 				90F30C748AC290276C689912 /* LibraryView.swift in Sources */,
 				B278F634205D7B85C75A1582 /* MapView.swift in Sources */,
-				0E4C7C01762AB84D57B50B0B /* MonsterSheetView.swift in Sources */,
-				D1721D2252341845DE87965D /* NPCView.swift in Sources */,
 				BFD17C4B86D8DA86CD2D203E /* NewRunSheet.swift in Sources */,
 				1F61BC91099F06D488730081 /* NotesView.swift in Sources */,
 				23E37F9044BCD90DB5739BC0 /* PartyInspectorView.swift in Sources */,
 				2F8312BB3C2C9DE34C81D51F /* PrepChecklistView.swift in Sources */,
-				0374DF024B60FDCF3865270E /* ReferenceSheet.swift in Sources */,
 				16937F9607EEB260BCB91705 /* RootView.swift in Sources */,
 				DCF5C38920BF616DBBA97A00 /* RulesInspectorView.swift in Sources */,
 				E370F5CAB9958F14BB41EB4E /* RunExport.swift in Sources */,
-				EE8462695D853CDEDBFE58B9 /* RunModels.swift in Sources */,
-				FC653821C3005603306AEA3D /* RunRecord.swift in Sources */,
-				5052C412D970D3BABCA93839 /* RunRepository.swift in Sources */,
 				A654EDC3D12B96804A5F6A07 /* RunStore+Battle.swift in Sources */,
 				D2C5989575FCA71BD176FA6A /* RunStore+Export.swift in Sources */,
 				B36CE8F41DB31E7AD7494DFD /* RunStore+Seed.swift in Sources */,
@@ -579,7 +594,6 @@
 				58EA50D237F6D5CD10C3E1E1 /* SceneView.swift in Sources */,
 				8DCF521EC98522CF06E4E98E /* SessionLogView.swift in Sources */,
 				F1626034B5C81EC6EE036892 /* SheepChaseApp.swift in Sources */,
-				21FFBBFBD8FB4B19866B4DCC /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -977,6 +991,56 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		1510AA37B739EE78BEEB8BFD /* XCLocalSwiftPackageReference "Packages/SheepChasePersistence" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SheepChasePersistence;
+		};
+		9304BFB7CEE36ABF3BB8C83D /* XCLocalSwiftPackageReference "Packages/SheepChaseUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SheepChaseUI;
+		};
+		F351EEB8D0CB2110F1709FF3 /* XCLocalSwiftPackageReference "Packages/SheepChaseCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/SheepChaseCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		091ECABC8BAD82773C7AB893 /* SheepChaseUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseUI;
+		};
+		3D9FE742144A16704754A3E2 /* SheepChaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseCore;
+		};
+		78234207D5B311AAEC23EA7E /* SheepChaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseCore;
+		};
+		7857AEF9D5F7ACDEB282D1B0 /* SheepChasePersistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChasePersistence;
+		};
+		9A57A8666634D2A05EEA4210 /* SheepChasePersistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChasePersistence;
+		};
+		A09A7E09B9212BD8505B324F /* SheepChasePersistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChasePersistence;
+		};
+		B27BF26B823542F664092860 /* SheepChaseUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseUI;
+		};
+		FB328123E4DDC8532B332C48 /* SheepChaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SheepChaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8736A2B522F16B3F3650E85A /* Project object */;
 }

@@ -1,3 +1,6 @@
+import SheepChaseCore
+import SheepChasePersistence
+import SheepChaseUI
 import SwiftUI
 import UniformTypeIdentifiers
 #if os(macOS)
@@ -126,9 +129,9 @@ struct ImageExportView: View {
     @ViewBuilder
     private func assetPreview(_ asset: ContentPack.Asset) -> some View {
         switch asset.id {
-        case "cover": Image("Cover").resizable().scaledToFill()
-        case "map-treehouse": Image("Map").resizable().scaledToFill()
-        case "sheep-illustration": Image("Sheep").resizable().scaledToFit().padding(6)
+        case "cover": SheepChaseImages.cover.resizable().scaledToFill()
+        case "map-treehouse": SheepChaseImages.map.resizable().scaledToFill()
+        case "sheep-illustration": SheepChaseImages.sheep.resizable().scaledToFit().padding(6)
         default: Image(systemName: "photo").foregroundStyle(.secondary)
         }
     }

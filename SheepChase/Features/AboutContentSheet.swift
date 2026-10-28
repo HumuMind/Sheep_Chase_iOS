@@ -1,3 +1,6 @@
+import SheepChaseCore
+import SheepChasePersistence
+import SheepChaseUI
 import SwiftUI
 
 struct AboutContentSheet: View {
@@ -13,7 +16,7 @@ struct AboutContentSheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     HStack(alignment: .top, spacing: 16) {
-                        Image("Cover")
+                        SheepChaseImages.cover
                             .resizable()
                             .scaledToFill()
                             .frame(width: 86, height: 118)
