@@ -44,16 +44,6 @@ public struct RunView: View {
         store.currentScene(for: run)
     }
 
-    private var sceneSelection: Binding<String?> {
-        Binding(
-            get: { run.sceneID },
-            set: { newValue in
-                guard let newValue, let scene = store.scene(id: newValue) else { return }
-                store.selectScene(scene, in: run)
-            }
-        )
-    }
-
     private var modeSelection: Binding<RunMode> {
         Binding(
             get: { run.mode },
@@ -63,52 +53,7 @@ public struct RunView: View {
 
     public var body: some View {
         NavigationSplitView {
-            List(selection: sceneSelection) {
-                Section("场景") {
-                    ForEach(store.scenes) { scene in
-                        Text("\(scene.order). \(scene.title)")
-                            .font(.system(size: 12, weight: .medium))
-                            .lineLimit(1)
-                            .padding(.vertical, 2)
-                            .tag(scene.id)
-                    }
-                }
-
-                Section("本团") {
-                    LabeledContent("队伍", value: "\(run.party.count) 人")
-                    LabeledContent("便签", value: "\(run.stickyNotes.count) 张")
-                }
-            }
-            .listStyle(.sidebar)
-            .scrollContentBackground(.hidden)
-            .background(.clear)
-            .bookPaperSurface()
-            .navigationSplitViewColumnWidth(min: 210, ideal: 230, max: 280)
-            .safeAreaInset(edge: .top, spacing: 0) {
-                HStack(spacing: 9) {
-                    SheepChaseImages.cover
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 30, height: 40)
-                        .clipShape(RoundedRectangle(cornerRadius: 3))
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text("荒野逐羊")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                        Text(run.name)
-                            .font(.headline)
-                            .lineLimit(1)
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, 10)
-                .padding(.vertical, 8)
-                .background(.clear)
-                .overlay(alignment: .bottom) {
-                    Divider().opacity(0.45)
-                }
-            }
-            .navigationTitle("场景")
+            RunSidebar(run: run, showGuide: $showGuide)
         } detail: {
             Group {
                 if run.mode == .battle {
@@ -135,7 +80,8 @@ public struct RunView: View {
                         },
                         onOpenMonster: { monsterID in
                             selectedMonster = store.monster(id: monsterID)
-                        }
+                        },
+                        onOpenGuide: { showGuide = true }
                     )
                 }
             }
@@ -190,12 +136,6 @@ public struct RunView: View {
                     }
                     .keyboardShortcut("k", modifiers: .command)
 
-                    Button {
-                        showGuide = true
-                    } label: {
-                        Label("DM 导读", systemImage: "book.closed")
-                    }
-                    .help("冒险摘要、引钩、背景与主持建议")
 
                     Menu {
                         Button {

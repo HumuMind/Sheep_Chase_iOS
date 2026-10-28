@@ -143,7 +143,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 - `MapFeature`：地图平移/缩放与图钉。
 - `InspectorFeature`：队伍/战斗/便签/速查 tab、添加玩家、会话、安全页。
 - `SearchFeature`：全局搜索；Library 与 RunShell 共用。
-- `GuideFeature`：DM 前置导读；Library 与 RunShell 共用。
+- `GuideFeature`：DM 前置导读；Library 与 RunShell 共用。RunShell 在场景正文顶部放常驻导读横幅，场景列表顶部放“开始之前”入口，顺序对应模组书的前置内容。
 - `RunShellFeature`：RunView、Sheet 路由、导出文档和图片导出。
 - 跨 Feature 的 Sheet 路由集中在 RunShell；Scene 通过闭包发出打开 NPC/Handout/Rule/Spell 的请求。
 
@@ -170,11 +170,11 @@ Open/import/export 都通过 RunStore；Feature 视图通过 `@Environment(RunSt
 
 | 文件 | 行数 |
 |---|---:|
-| `Packages/SheepChaseRunShellFeature/.../RunView.swift` | 399 |
 | `Packages/SheepChaseRunStore/.../RunStore.swift` | 369 |
 | `Packages/SheepChaseSceneFeature/.../SceneDetailSections.swift` | 353 |
 | `Packages/SheepChaseBattleFeature/.../BattleActiveView.swift` | 347 |
-| `Packages/SheepChaseRunStore/.../RunStore+Battle.swift` | ~202 |
+| `Packages/SheepChaseRunShellFeature/.../RunView.swift` | 339 |
+| `Packages/SheepChaseRunShellFeature/.../ImageExportView.swift` | 301 |
 | `Packages/SheepChaseBattleEngine/.../BattleEngine.swift` | 240 |
 
 检查：

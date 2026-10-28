@@ -22,7 +22,7 @@ final class SheepChaseUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
 
-        app.buttons["DM 导读"].tap()
+        app.buttons["dm-guide-scene-banner"].tap()
         XCTAssertTrue(app.staticTexts["如何使用本冒险"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["冒险引钩"].exists)
     }

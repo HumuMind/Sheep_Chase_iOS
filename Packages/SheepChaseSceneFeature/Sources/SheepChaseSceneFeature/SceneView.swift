@@ -14,7 +14,8 @@ public struct SceneDetailView: View {
         onOpenItem: @escaping (String) -> Void = { _ in },
         onOpenRule: @escaping (String) -> Void = { _ in },
         onOpenSpell: @escaping (String) -> Void = { _ in },
-        onOpenMonster: @escaping (String) -> Void = { _ in }
+        onOpenMonster: @escaping (String) -> Void = { _ in },
+        onOpenGuide: (() -> Void)? = nil
     ) {
         self.run = run
         self.onOpenNPC = onOpenNPC
@@ -23,6 +24,7 @@ public struct SceneDetailView: View {
         self.onOpenRule = onOpenRule
         self.onOpenSpell = onOpenSpell
         self.onOpenMonster = onOpenMonster
+        self.onOpenGuide = onOpenGuide
     }
 
     @Environment(RunStore.self) var store
@@ -33,6 +35,7 @@ public struct SceneDetailView: View {
     var onOpenRule: (String) -> Void = { _ in }
     var onOpenSpell: (String) -> Void = { _ in }
     var onOpenMonster: (String) -> Void = { _ in }
+    var onOpenGuide: (() -> Void)?
 
     var scene: ContentPack.AdventureScene {
         store.currentScene(for: run)
@@ -52,6 +55,39 @@ public struct SceneDetailView: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
+                if let onOpenGuide {
+                    Button(action: onOpenGuide) {
+                        HStack(spacing: 9) {
+                            Image(systemName: "book.closed")
+                                .foregroundStyle(Theme.red)
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text("DM 导读")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundStyle(Theme.ink)
+                                Text("摘要 · 引钩 · 背景 · 主持建议")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Text("开团前必读")
+                                .font(.caption2.weight(.medium))
+                                .foregroundStyle(Theme.red)
+                            Image(systemName: "chevron.right")
+                                .font(.caption2)
+                                .foregroundStyle(.tertiary)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 9)
+                        .background(Theme.card, in: RoundedRectangle(cornerRadius: 6))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Theme.line, lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("dm-guide-scene-banner")
+                }
+
                 header
 
                 if let readAloud = scene.readAloud {
