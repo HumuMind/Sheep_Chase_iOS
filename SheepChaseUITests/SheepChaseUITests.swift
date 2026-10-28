@@ -48,6 +48,27 @@ final class SheepChaseUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["古兹"].waitForExistence(timeout: 5))
     }
 
+    func testHomeButtonReturnsToLibrary() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
+
+        app.buttons["主页"].tap()
+        XCTAssertTrue(app.staticTexts["我的开团"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["开团详情"].exists)
+    }
+
+    func testHomeActionsAreExpanded() throws {
+        let app = XCUIApplication()
+        app.launch()
+        XCTAssertTrue(app.staticTexts["我的开团"].waitForExistence(timeout: 12))
+
+        XCTAssertTrue(app.buttons["重命名"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["归档开团"].exists)
+        XCTAssertTrue(app.buttons["删除开团"].exists)
+    }
+
     func testGlobalSearchOpens() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]

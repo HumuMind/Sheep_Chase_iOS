@@ -209,7 +209,7 @@ Package 测试（23 个）：
 App 测试：
 
 - 9 个 `SheepChaseTests`
-- 4 个 iPad `SheepChaseUITests`（含 DM 导读、速查钉住/详情）
+- 6 个 iPad `SheepChaseUITests`（含 DM 导读、速查钉住/详情、主页导航与开团操作）
 
 命令：
 

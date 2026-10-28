@@ -99,8 +99,9 @@ public struct RunView: View {
                             store.closeRun()
                         }
                     } label: {
-                        Label("我的开团", systemImage: "chevron.left")
+                        Label("主页", systemImage: "house")
                     }
+                    .help("返回主页")
                 }
 
                 ToolbarItem(placement: .principal) {

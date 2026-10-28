@@ -187,34 +187,27 @@ struct LibraryRunDetail: View {
         .macNavigationSubtitle(store.adventure.title)
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                if !run.isArchived {
-                    Button {
-                        store.open(run)
-                    } label: {
-                        Label("继续带团", systemImage: "play.fill")
-                    }
-                }
-                Menu {
-                    Button {
-                        renameText = run.name
-                        showRename = true
-                    } label: {
-                        Label("重命名…", systemImage: "pencil")
-                    }
-                    Button {
-                        store.setArchived(!run.isArchived, in: run)
-                    } label: {
-                        Label(run.isArchived ? "恢复开团" : "归档开团", systemImage: "archivebox")
-                    }
-                    Divider()
-                    Button(role: .destructive) {
-                        showDelete = true
-                    } label: {
-                        Label("删除开团…", systemImage: "trash")
-                    }
+                Button {
+                    renameText = run.name
+                    showRename = true
                 } label: {
-                    Label("更多", systemImage: "ellipsis.circle")
+                    Label("重命名", systemImage: "pencil")
                 }
+                .help("重命名开团")
+
+                Button {
+                    store.setArchived(!run.isArchived, in: run)
+                } label: {
+                    Label(run.isArchived ? "恢复开团" : "归档开团", systemImage: "archivebox")
+                }
+                .help(run.isArchived ? "恢复开团" : "归档开团")
+
+                Button(role: .destructive) {
+                    showDelete = true
+                } label: {
+                    Label("删除开团", systemImage: "trash")
+                }
+                .help("删除开团")
             }
         }
         .sheet(isPresented: $showPrep) {
