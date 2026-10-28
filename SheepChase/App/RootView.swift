@@ -59,6 +59,11 @@ struct RootView: View {
         else { return }
 
         store.open(run)
+        if arguments.contains("-resetPins") {
+            for id in run.pinnedReferenceIDs {
+                store.togglePinnedReference(id, in: run)
+            }
+        }
         if arguments.contains("-demoScene") {
             store.setMode(.scene, in: run)
         }

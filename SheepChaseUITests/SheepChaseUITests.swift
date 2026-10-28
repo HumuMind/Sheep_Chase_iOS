@@ -7,7 +7,7 @@ final class SheepChaseUITests: XCTestCase {
 
     func testDemoRunOpensSceneWorkspace() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-demoRun", "-demoScene3"]
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
         app.launch()
 
         XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
@@ -18,7 +18,7 @@ final class SheepChaseUITests: XCTestCase {
 
     func testAdventureGuideOpens() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-demoRun", "-demoScene3"]
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
         app.launch()
         XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
 
@@ -29,7 +29,7 @@ final class SheepChaseUITests: XCTestCase {
 
     func testQuickReferencePinAndDetail() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-demoRun", "-demoScene3"]
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
         app.launch()
         XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
 
@@ -37,25 +37,20 @@ final class SheepChaseUITests: XCTestCase {
         XCTAssertTrue(tag.waitForExistence(timeout: 5))
         tag.press(forDuration: 1.2)
 
-        let unpinAction = app.buttons["取消钉住"]
-        if unpinAction.waitForExistence(timeout: 1) {
-            unpinAction.tap()
-            tag.press(forDuration: 1.2)
-        }
-
         let pinAction = app.buttons["钉住"]
         XCTAssertTrue(pinAction.waitForExistence(timeout: 5))
         pinAction.tap()
 
-        let pinned = app.buttons["qr-pinned-npc:guz-npc"]
-        XCTAssertTrue(pinned.waitForExistence(timeout: 5))
-        pinned.tap()
+        XCTAssertTrue(app.staticTexts["已钉住"].waitForExistence(timeout: 5))
+        let pinnedText = app.staticTexts["古兹"].firstMatch
+        XCTAssertTrue(pinnedText.waitForExistence(timeout: 5))
+        pinnedText.tap()
         XCTAssertTrue(app.staticTexts["古兹"].waitForExistence(timeout: 5))
     }
 
     func testGlobalSearchOpens() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-demoRun", "-demoScene3"]
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
         app.launch()
         XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
 

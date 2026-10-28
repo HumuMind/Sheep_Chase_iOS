@@ -14,7 +14,6 @@ public struct QuickReferencePanel: View {
     @State private var isExpanded = true
     @State private var expandedKinds: Set<QuickReferenceKind> = [.npc]
     @State private var selection: QuickReferenceSelection?
-    @State private var pinPrompt: QuickReferenceEntry?
 
     private var allEntries: [QuickReferenceEntry] {
         QuickReferenceKind.allCases.flatMap(entries(for:))
@@ -37,23 +36,6 @@ public struct QuickReferencePanel: View {
         .sheet(item: $selection) { selection in
             detail(for: selection)
                 .environment(store)
-        }
-        .confirmationDialog(
-            "标签操作",
-            isPresented: Binding(
-                get: { pinPrompt != nil },
-                set: { if !$0 { pinPrompt = nil } }
-            ),
-            presenting: pinPrompt
-        ) { entry in
-            let pinned = run.pinnedReferenceIDs.contains(entry.id)
-            Button(pinned ? "取消钉住" : "钉住") {
-                store.togglePinnedReference(entry.id, in: run)
-                pinPrompt = nil
-            }
-            Button("取消", role: .cancel) { pinPrompt = nil }
-        } message: { entry in
-            Text(entry.title)
         }
     }
 
@@ -156,13 +138,7 @@ public struct QuickReferencePanel: View {
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 5) {
-                        ForEach(pinnedEntries) { entry in
-                            pinnedTag(entry)
-                        }
-                    }
-                }
+                pinnedTagRows(pinnedEntries)
             }
         }
         .padding(.horizontal, 12)
@@ -218,6 +194,32 @@ public struct QuickReferencePanel: View {
     }
 
     private func tagRows(_ entries: [QuickReferenceEntry]) -> some View {
+        VStack(spacing: 3) {
+            ForEach(groupedRows(entries).indices, id: \.self) { index in
+                HStack(spacing: 4) {
+                    ForEach(groupedRows(entries)[index]) { entry in
+                        tag(entry)
+                    }
+                    Spacer(minLength: 0)
+                }
+            }
+        }
+    }
+
+    private func pinnedTagRows(_ entries: [QuickReferenceEntry]) -> some View {
+        VStack(spacing: 3) {
+            ForEach(groupedRows(entries).indices, id: \.self) { index in
+                HStack(spacing: 4) {
+                    ForEach(groupedRows(entries)[index]) { entry in
+                        pinnedTag(entry)
+                    }
+                    Spacer(minLength: 0)
+                }
+            }
+        }
+    }
+
+    private func groupedRows(_ entries: [QuickReferenceEntry]) -> [[QuickReferenceEntry]] {
         var rows: [[QuickReferenceEntry]] = []
         var current: [QuickReferenceEntry] = []
         var currentWidth: CGFloat = 0
@@ -235,17 +237,7 @@ public struct QuickReferencePanel: View {
             current.append(entry)
         }
         if !current.isEmpty { rows.append(current) }
-
-        return VStack(spacing: 3) {
-            ForEach(rows.indices, id: \.self) { index in
-                HStack(spacing: 4) {
-                    ForEach(rows[index]) { entry in
-                        tag(entry)
-                    }
-                    Spacer(minLength: 0)
-                }
-            }
-        }
+        return rows
     }
 
     private func estimatedTagWidth(_ entry: QuickReferenceEntry) -> CGFloat {
@@ -275,9 +267,6 @@ public struct QuickReferencePanel: View {
             .onTapGesture {
                 selection = QuickReferenceSelection(kind: entry.kind, itemID: entry.itemID)
             }
-            .onLongPressGesture(minimumDuration: 0.6) {
-                pinPrompt = entry
-            }
             .contextMenu {
                 Button {
                     store.togglePinnedReference(entry.id, in: run)
@@ -304,9 +293,6 @@ public struct QuickReferencePanel: View {
             .contentShape(Rectangle())
             .onTapGesture {
                 selection = QuickReferenceSelection(kind: entry.kind, itemID: entry.itemID)
-            }
-            .onLongPressGesture(minimumDuration: 0.6) {
-                pinPrompt = entry
             }
             .contextMenu {
                 Button {
