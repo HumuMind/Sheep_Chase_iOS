@@ -19,7 +19,6 @@ public enum InspectorTab: String, CaseIterable, Identifiable {
     case party
     case battle
     case notes
-    case rules
 
     public var id: String { rawValue }
     public var title: String {
@@ -27,7 +26,6 @@ public enum InspectorTab: String, CaseIterable, Identifiable {
         case .party: "队伍"
         case .battle: "战斗"
         case .notes: "便签"
-        case .rules: "速查"
         }
     }
 }
@@ -219,6 +217,7 @@ public struct RunStateSnapshot: Codable {
     public var sessions: [RunSession]?
     public var sceneNotes: [String: String]?
     public var prepChecks: [String]?
+    public var pinnedReferenceIDs: [String]?
 
     public init(
         name: String,
@@ -234,7 +233,8 @@ public struct RunStateSnapshot: Codable {
         safety: SafetyState,
         sessions: [RunSession]? = nil,
         sceneNotes: [String: String]? = nil,
-        prepChecks: [String]? = nil
+        prepChecks: [String]? = nil,
+        pinnedReferenceIDs: [String]? = nil
     ) {
         self.name = name
         self.contentVersion = contentVersion
@@ -250,6 +250,7 @@ public struct RunStateSnapshot: Codable {
         self.sessions = sessions
         self.sceneNotes = sceneNotes
         self.prepChecks = prepChecks
+        self.pinnedReferenceIDs = pinnedReferenceIDs
     }
 }
 

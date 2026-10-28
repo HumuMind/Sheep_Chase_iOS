@@ -52,8 +52,6 @@ public struct InspectorView: View {
                         BattleInspector(run: run)
                     case .notes:
                         NotesInspector(run: run)
-                    case .rules:
-                        RulesInspector()
                     }
                 }
                 .padding(14)

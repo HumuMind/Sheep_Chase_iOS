@@ -45,5 +45,10 @@ final class RunStoreTests: XCTestCase {
         XCTAssertEqual(run.stickyNotes.count, 1)
         store.setArchived(true, in: run)
         XCTAssertFalse(store.orderedRuns.contains { $0.id == run.id })
+
+        store.togglePinnedReference("npc:finethir-shinebright", in: run)
+        XCTAssertTrue(store.isPinnedReference("npc:finethir-shinebright", in: run))
+        store.togglePinnedReference("npc:finethir-shinebright", in: run)
+        XCTAssertFalse(store.isPinnedReference("npc:finethir-shinebright", in: run))
     }
 }

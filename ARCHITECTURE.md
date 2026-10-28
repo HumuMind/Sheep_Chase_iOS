@@ -141,10 +141,11 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 - `SceneFeature`：场景正文、节拍、分支、flags、遭遇、DM 备注。
 - `BattleFeature`：战斗入口、选择、先攻、战斗、右侧战斗检查器。
 - `MapFeature`：地图平移/缩放与图钉。
-- `InspectorFeature`：队伍/战斗/便签/速查 tab、添加玩家、会话、安全页。
+- `InspectorFeature`：队伍/战斗/便签 tab、添加玩家、会话、安全页；原“速查”tab 已移到左下角速查面板。
 - `SearchFeature`：全局搜索；Library 与 RunShell 共用。
-- `GuideFeature`：DM 前置导读；Library 与 RunShell 共用。RunShell 在场景正文顶部放常驻导读横幅，场景列表顶部放“开始之前”入口，顺序对应模组书的前置内容。
-- `RunShellFeature`：RunView、Sheet 路由、导出文档和图片导出。
+- `GuideFeature`：DM 前置导读；Library 与 RunShell 共用。
+- QuickReference：左下角面板，按人物/怪物/物品/法术/规则折叠分类；点击标签弹详情；钉住后置顶，并按 Run 持久化。RunShell 在场景正文顶部放常驻导读横幅，场景列表顶部放“开始之前”入口，顺序对应模组书的前置内容。
+- `RunShellFeature`：RunView、Sheet 路由、导出文档、图片导出和左下角速查面板。
 - 跨 Feature 的 Sheet 路由集中在 RunShell；Scene 通过闭包发出打开 NPC/Handout/Rule/Spell 的请求。
 
 ## 数据流
@@ -171,6 +172,7 @@ Open/import/export 都通过 RunStore；Feature 视图通过 `@Environment(RunSt
 | 文件 | 行数 |
 |---|---:|
 | `Packages/SheepChaseRunStore/.../RunStore.swift` | 369 |
+| `Packages/SheepChaseRunShellFeature/.../QuickReferencePanel.swift` | 363 |
 | `Packages/SheepChaseSceneFeature/.../SceneDetailSections.swift` | 353 |
 | `Packages/SheepChaseBattleFeature/.../BattleActiveView.swift` | 347 |
 | `Packages/SheepChaseRunShellFeature/.../RunView.swift` | 339 |
@@ -207,7 +209,7 @@ Package 测试（23 个）：
 App 测试：
 
 - 9 个 `SheepChaseTests`
-- 3 个 iPad `SheepChaseUITests`（含 DM 导读）
+- 4 个 iPad `SheepChaseUITests`（含 DM 导读、速查钉住/详情）
 
 命令：
 

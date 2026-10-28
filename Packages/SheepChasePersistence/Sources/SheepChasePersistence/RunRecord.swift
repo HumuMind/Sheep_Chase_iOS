@@ -21,6 +21,7 @@ public final class RunRecord {
     public var checkpointsData: Data?
     public var sceneNotesData: Data?
     public var prepData: Data?
+    public var pinnedReferenceData: Data?
     public var isArchived: Bool = false
     public var contentVersion: String = ""
 
@@ -47,6 +48,7 @@ public final class RunRecord {
         self.checkpointsData = Self.encode([RunCheckpoint]())
         self.sceneNotesData = Self.encode([String: String]())
         self.prepData = Self.encode([String]())
+        self.pinnedReferenceData = nil
         self.isArchived = false
         self.contentVersion = contentVersion
     }
@@ -141,6 +143,16 @@ public final class RunRecord {
         }
     }
 
+    public var pinnedReferenceIDs: [String] {
+        get {
+            guard let pinnedReferenceData else { return [] }
+            return Self.decode([String].self, from: pinnedReferenceData) ?? []
+        }
+        set {
+            pinnedReferenceData = Self.encode(newValue)
+        }
+    }
+
     public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -156,7 +168,8 @@ public final class RunRecord {
             safety: safety,
             sessions: sessions,
             sceneNotes: sceneNotes,
-            prepChecks: prepChecks
+            prepChecks: prepChecks,
+            pinnedReferenceIDs: pinnedReferenceIDs
         )
     }
 
@@ -175,6 +188,7 @@ public final class RunRecord {
         sessions = snapshot.sessions ?? []
         sceneNotes = snapshot.sceneNotes ?? [:]
         prepChecks = snapshot.prepChecks ?? []
+        pinnedReferenceIDs = snapshot.pinnedReferenceIDs ?? []
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {
