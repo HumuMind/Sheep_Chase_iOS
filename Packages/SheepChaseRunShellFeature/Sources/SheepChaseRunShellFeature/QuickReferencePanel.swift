@@ -4,49 +4,6 @@ import SheepChaseRunStore
 import SheepChaseUI
 import SwiftUI
 
-private enum QuickReferenceKind: String, CaseIterable, Identifiable {
-    case npc
-    case monster
-    case item
-    case spell
-    case rule
-
-    var id: String { rawValue }
-    var title: String {
-        switch self {
-        case .npc: "人物"
-        case .monster: "怪物"
-        case .item: "物品"
-        case .spell: "法术"
-        case .rule: "规则"
-        }
-    }
-    var icon: String {
-        switch self {
-        case .npc: "person.2"
-        case .monster: "pawprint"
-        case .item: "shippingbox"
-        case .spell: "sparkles"
-        case .rule: "text.book.closed"
-        }
-    }
-}
-
-private struct QuickReferenceEntry: Identifiable {
-    let kind: QuickReferenceKind
-    let itemID: String
-    let title: String
-    let subtitle: String?
-
-    var id: String { "\(kind.rawValue):\(itemID)" }
-}
-
-private struct QuickReferenceSelection: Identifiable {
-    let kind: QuickReferenceKind
-    let itemID: String
-    var id: String { "\(kind.rawValue):\(itemID)" }
-}
-
 public struct QuickReferencePanel: View {
     public init(run: RunRecord) {
         self.run = run
@@ -243,24 +200,40 @@ public struct QuickReferencePanel: View {
     }
 
     private func tagRows(_ entries: [QuickReferenceEntry]) -> some View {
-        let columns = 2
-        let rows = stride(from: 0, to: entries.count, by: columns).map { start in
-            Array(entries[start..<min(start + columns, entries.count)])
+        var rows: [[QuickReferenceEntry]] = []
+        var current: [QuickReferenceEntry] = []
+        var currentWidth: CGFloat = 0
+        let maxWidth: CGFloat = 286
+
+        for entry in entries {
+            let width = estimatedTagWidth(entry)
+            let spacing: CGFloat = current.isEmpty ? 0 : 4
+            if !current.isEmpty, currentWidth + spacing + width > maxWidth {
+                rows.append(current)
+                current = []
+                currentWidth = 0
+            }
+            currentWidth += (current.isEmpty ? 0 : 4) + width
+            current.append(entry)
         }
+        if !current.isEmpty { rows.append(current) }
+
         return VStack(spacing: 3) {
             ForEach(rows.indices, id: \.self) { index in
-                HStack(alignment: .top, spacing: 4) {
+                HStack(spacing: 4) {
                     ForEach(rows[index]) { entry in
                         tag(entry)
-                            .frame(maxWidth: .infinity)
                     }
-                    if rows[index].count < columns {
-                        Spacer()
-                            .frame(maxWidth: .infinity)
-                    }
+                    Spacer(minLength: 0)
                 }
             }
         }
+    }
+
+    private func estimatedTagWidth(_ entry: QuickReferenceEntry) -> CGFloat {
+        let wide = entry.title.unicodeScalars.filter { $0.value > 0x2E80 }.count
+        let narrow = entry.title.count - wide
+        return CGFloat(wide) * 13 + CGFloat(narrow) * 7 + 42
     }
 
     private func tag(_ entry: QuickReferenceEntry) -> some View {
@@ -272,10 +245,8 @@ public struct QuickReferencePanel: View {
                 Text(entry.title)
                     .font(.caption)
                     .foregroundStyle(Theme.ink)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(nil)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -306,7 +277,6 @@ public struct QuickReferencePanel: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(pinned ? Theme.red.opacity(0.35) : Theme.line.opacity(0.65), lineWidth: 0.7)
         )
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func pinnedTag(_ entry: QuickReferenceEntry) -> some View {
