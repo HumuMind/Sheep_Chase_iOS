@@ -8,6 +8,7 @@ struct SceneDetailView: View {
     var onOpenItem: (String) -> Void = { _ in }
     var onOpenRule: (String) -> Void = { _ in }
     var onOpenSpell: (String) -> Void = { _ in }
+    var onOpenMonster: (String) -> Void = { _ in }
 
     private var scene: ContentPack.AdventureScene {
         store.currentScene(for: run)
@@ -393,6 +394,18 @@ struct SceneDetailView: View {
                             Text(tactics.joined(separator: " · "))
                                 .font(.caption)
                                 .foregroundStyle(.tertiary)
+                        }
+                        HStack(spacing: 5) {
+                            ForEach(encounter.combatants, id: \.monsterId) { combatant in
+                                if let monster = store.monster(id: combatant.monsterId) {
+                                    Button(monster.name) {
+                                        onOpenMonster(monster.id)
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .font(.caption)
+                                    .foregroundStyle(Theme.red)
+                                }
+                            }
                         }
                         Text("参考组合；按队伍人数与等级在战斗筹备里逐个添加。")
                             .font(.caption)

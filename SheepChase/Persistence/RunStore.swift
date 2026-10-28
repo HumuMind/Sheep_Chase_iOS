@@ -725,6 +725,16 @@ final class RunStore {
         notify("开团已删除")
     }
 
+    func deleteAllData() {
+        selectedRunID = nil
+        for run in runs {
+            repository.delete(run)
+        }
+        runs.removeAll()
+        persist()
+        notify("全部开团数据已删除")
+    }
+
     func exportJSON(for run: RunRecord) throws -> Data {
         try RunExport.data(for: run, contentVersion: content.manifest.version)
     }

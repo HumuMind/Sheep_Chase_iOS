@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct AboutContentSheet: View {
+    @Environment(RunStore.self) private var store
     @Environment(\.dismiss) private var dismiss
     let content: ContentPack
     @AppStorage("appTextSize") private var appTextSize = AppTextSize.large.rawValue
+    @State private var showDeleteFirst = false
+    @State private var showDeleteFinal = false
 
     var body: some View {
         NavigationStack {
@@ -86,6 +89,19 @@ struct AboutContentSheet: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 3)
                     }
+
+                    GroupBox("危险操作") {
+                        Button(role: .destructive) {
+                            showDeleteFirst = true
+                        } label: {
+                            Label("删除全部开团数据…", systemImage: "trash")
+                        }
+                        .buttonStyle(.borderless)
+                        Text("会删除本机所有开团、队伍、便签、战斗记录和快照；不会删除内容包。建议先导出 JSON 备份。")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .padding(.top, 3)
+                    }
                 }
                 .padding(24)
                 .frame(maxWidth: 660, alignment: .leading)
@@ -103,5 +119,20 @@ struct AboutContentSheet: View {
             }
         }
         .frame(minWidth: 560, minHeight: 460)
+        .confirmationDialog("删除全部开团数据？", isPresented: $showDeleteFirst, titleVisibility: .visible) {
+            Button("继续", role: .destructive) { showDeleteFinal = true }
+            Button("取消", role: .cancel) {}
+        } message: {
+            Text("此操作不可撤销。请确认已导出需要保留的 JSON 备份。")
+        }
+        .alert("最后确认", isPresented: $showDeleteFinal) {
+            Button("取消", role: .cancel) {}
+            Button("永久删除", role: .destructive) {
+                store.deleteAllData()
+                dismiss()
+            }
+        } message: {
+            Text("真的删除本机全部开团数据吗？内容包和图片资源不会受影响。")
+        }
     }
 }

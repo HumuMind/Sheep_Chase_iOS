@@ -11,6 +11,7 @@
 		04B00031B18C883917C2B848 /* RunRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE97A71F836F54259586BF02 /* RunRepository.swift */; };
 		0A8804DDE3CDA7810784A569 /* SheepChaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7972BE44E388EA599EEC9D21 /* SheepChaseUITests.swift */; };
 		0DCF00227B688CB37E1491F1 /* SafetyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5077DDC816A99C5AD2E122 /* SafetyView.swift */; };
+		0E4C7C01762AB84D57B50B0B /* MonsterSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */; };
 		162F1B857CD7DF9712AA7C1A /* AppTextSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F8CC7BA41ACFC50C307E0C /* AppTextSize.swift */; };
 		16937F9607EEB260BCB91705 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
 		174A74E9CBFCA911E22C92DA /* ContentPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C9B690645973BB5B96B6E6 /* ContentPack.swift */; };
@@ -24,6 +25,7 @@
 		4F6AC6855F619CC89C44154D /* cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 020524B273A5E80CE97899DA /* cover.jpg */; };
 		5052C412D970D3BABCA93839 /* RunRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE97A71F836F54259586BF02 /* RunRepository.swift */; };
 		53B98583AA65AAF7C7D8AE7E /* BattleViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BAE3DF66571CF15B5FBF92 /* BattleViews.swift */; };
+		56E3CB81E5C96097D0022827 /* MonsterSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */; };
 		57733E83739AC2AF9844107E /* ImageExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2561F4D6B465DE19401AABA4 /* ImageExportView.swift */; };
 		58EA50D237F6D5CD10C3E1E1 /* SceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A615CE91471991581D521AEF /* SceneView.swift */; };
 		5A94990918C57A5CD18201EB /* ContentPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F2FD00743370B53287BF389 /* ContentPack.json */; };
@@ -128,6 +130,7 @@
 		CEE06BBBDE740547C4640C3D /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
 		D7F8CC7BA41ACFC50C307E0C /* AppTextSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextSize.swift; sourceTree = "<group>"; };
 		EA0B7CD03F6E9054EC45BFB6 /* RunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
+		FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonsterSheetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -160,6 +163,7 @@
 				CEE06BBBDE740547C4640C3D /* InspectorView.swift */,
 				CB715842510A944ACE5BEC22 /* LibraryView.swift */,
 				563F12132067004AD5C6AE66 /* MapView.swift */,
+				FDF690352CE8CA2FEF4DD46E /* MonsterSheetView.swift */,
 				37046EFB3DDEEB73BB5BC2EC /* NotesView.swift */,
 				21FB6E7DB2F91E80ACFCD5C4 /* NPCView.swift */,
 				4FAF986145AF03B0658DD574 /* PrepChecklistView.swift */,
@@ -429,6 +433,7 @@
 				A4F8901204B160F095F2CBA8 /* InspectorView.swift in Sources */,
 				AF5D5DFD28EAA0D82C4CD0A6 /* LibraryView.swift in Sources */,
 				7F4CBDED4AE5CFA029487D3F /* MapView.swift in Sources */,
+				56E3CB81E5C96097D0022827 /* MonsterSheetView.swift in Sources */,
 				EDC83624EF36137BF57059EC /* NPCView.swift in Sources */,
 				E5EBFE0BEC0EA322AF1BDF2A /* NotesView.swift in Sources */,
 				624BFE0B93DABBA4C922C41A /* PrepChecklistView.swift in Sources */,
@@ -462,6 +467,7 @@
 				8768A0B1B5F71526D05EDEDA /* InspectorView.swift in Sources */,
 				90F30C748AC290276C689912 /* LibraryView.swift in Sources */,
 				B278F634205D7B85C75A1582 /* MapView.swift in Sources */,
+				0E4C7C01762AB84D57B50B0B /* MonsterSheetView.swift in Sources */,
 				D1721D2252341845DE87965D /* NPCView.swift in Sources */,
 				1F61BC91099F06D488730081 /* NotesView.swift in Sources */,
 				2F8312BB3C2C9DE34C81D51F /* PrepChecklistView.swift in Sources */,

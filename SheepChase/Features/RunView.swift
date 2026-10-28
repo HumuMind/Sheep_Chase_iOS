@@ -12,6 +12,7 @@ struct RunView: View {
     @State private var selectedItem: ContentPack.Item?
     @State private var selectedRule: ContentPack.RuleCard?
     @State private var selectedSpell: ContentPack.SpellCard?
+    @State private var selectedMonster: ContentPack.Monster?
     @State private var showSearch = false
     @State private var showSessions = false
     @State private var showSafety = false
@@ -115,6 +116,9 @@ struct RunView: View {
                         },
                         onOpenSpell: { spellID in
                             selectedSpell = store.spell(id: spellID)
+                        },
+                        onOpenMonster: { monsterID in
+                            selectedMonster = store.monster(id: monsterID)
                         }
                     )
                 }
@@ -250,6 +254,10 @@ struct RunView: View {
         }
         .sheet(item: $selectedSpell) { spell in
             SpellSheetView(spell: spell)
+                .environment(store)
+        }
+        .sheet(item: $selectedMonster) { monster in
+            MonsterSheetView(monster: monster)
                 .environment(store)
         }
         .sheet(isPresented: $showSearch) {
