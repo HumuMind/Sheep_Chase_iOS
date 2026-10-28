@@ -230,6 +230,7 @@ public struct ContentPack: Decodable {
         public let wants: [String]
         public let sampleLines: [String]
         public let keyCharacteristics: [String]?
+        public let sourceText: String?
         public let relationships: [Relationship]?
         public let portraitAssetId: String?
         public let sourceRef: String?

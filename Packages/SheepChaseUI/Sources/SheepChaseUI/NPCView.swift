@@ -12,89 +12,57 @@ public struct NPCSheetView: View {
     public var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    header
-                    GroupBox("玩家可见") {
-                        Text(npc.publicDescription)
-                            .font(.body)
-                            .lineSpacing(3)
-                            .textSelection(.enabled)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 3)
-                    }
-                    GroupBox("DM 秘密") {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(npc.name)
+                        .font(Theme.serif(30, weight: .semibold))
+                        .foregroundStyle(Theme.red)
+                        .padding(.bottom, 16)
+
+                    if let sourceText = npc.sourceText, !sourceText.isEmpty {
+                        ForEach(paragraphs(sourceText).indices, id: \.self) { index in
+                            Text("　　\(paragraphs(sourceText)[index])")
+                                .font(Theme.serif(15))
+                                .lineSpacing(7)
+                                .foregroundStyle(Theme.ink)
+                                .textSelection(.enabled)
+                                .padding(.bottom, 8)
+                        }
+                    } else {
                         Text(npc.dmDescription)
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
-                            .lineSpacing(3)
-                            .textSelection(.enabled)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 3)
+                            .font(Theme.serif(15))
+                            .lineSpacing(7)
+                            .foregroundStyle(Theme.ink)
+                            .padding(.bottom, 8)
                     }
-                    GroupBox("扮演提示") {
-                        VStack(alignment: .leading, spacing: 8) {
-                            labeled("语气", npc.voice)
-                            labeled("动机", npc.motivation)
-                            labeled("态度", attitudeLabel)
-                            if let characteristics = npc.keyCharacteristics, !characteristics.isEmpty {
-                                labeled("关键特征", characteristics.joined(separator: " · "))
+
+                    if let characteristics = npc.keyCharacteristics, !characteristics.isEmpty {
+                        Text("关键特征")
+                            .font(Theme.serif(20, weight: .semibold))
+                            .foregroundStyle(Theme.red)
+                            .padding(.top, 18)
+                            .padding(.bottom, 6)
+                        ForEach(characteristics, id: \.self) { characteristic in
+                            HStack(alignment: .firstTextBaseline, spacing: 7) {
+                                Text("•")
+                                    .foregroundStyle(Theme.red)
+                                Text(characteristic)
+                                    .font(Theme.serif(15))
+                                    .foregroundStyle(Theme.ink)
                             }
-                        }
-                        .padding(.vertical, 3)
-                    }
-                    if !npc.knows.isEmpty || !npc.wants.isEmpty || !npc.secrets.isEmpty {
-                        GroupBox("情报") {
-                            VStack(alignment: .leading, spacing: 10) {
-                                list("知道", npc.knows)
-                                list("想要", npc.wants)
-                                list("秘密", npc.secrets, tint: Theme.red)
-                            }
-                            .padding(.vertical, 3)
+                            .padding(.bottom, 3)
                         }
                     }
-                    if !npc.sampleLines.isEmpty {
-                        GroupBox("示例台词") {
-                            VStack(alignment: .leading, spacing: 6) {
-                                ForEach(npc.sampleLines, id: \.self) { line in
-                                    Text("“\(line)”")
-                                        .font(Theme.serif(14))
-                                        .foregroundStyle(Theme.inkSoft)
-                                }
-                            }
-                            .padding(.vertical, 3)
-                        }
-                    }
-                    if let relationships = npc.relationships, !relationships.isEmpty {
-                        GroupBox("关系") {
-                            VStack(alignment: .leading, spacing: 5) {
-                                ForEach(relationships) { relationship in
-                                    HStack(alignment: .firstTextBaseline) {
-                                        Text(relationship.label)
-                                            .font(.callout.weight(.medium))
-                                        Text(relationship.note)
-                                            .font(.callout)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                            }
-                            .padding(.vertical, 3)
-                        }
-                    }
-                    if let sourceRef = npc.sourceRef {
-                        Text(sourceRef)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+
+                    pageFooter
                 }
-                .padding(24)
-                .frame(maxWidth: 680, alignment: .leading)
-                .readingPage()
-                .padding(.vertical, 16)
+                .padding(.horizontal, 40)
+                .padding(.vertical, 38)
+                .frame(maxWidth: 640, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .center)
+                .background(Color(red: 0.99, green: 0.97, blue: 0.92).opacity(0.35))
             }
             .background(BookPaperBackground())
-            .groupBoxStyle(BookGroupBoxStyle())
-            .navigationTitle(npc.name)
+            .navigationTitle("角色")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("完成") { dismiss() }
@@ -102,68 +70,30 @@ public struct NPCSheetView: View {
                 }
             }
         }
-        .frame(minWidth: 560, minHeight: 560)
+        .environment(\.colorScheme, .light)
+        .tint(Theme.red)
+        .frame(minWidth: 520, idealWidth: 640, minHeight: 560)
     }
 
-    private var header: some View {
-        HStack(alignment: .center, spacing: 12) {
-            Text(String(npc.name.prefix(1)))
-                .font(Theme.serif(30, weight: .semibold))
-                .frame(width: 54, height: 54)
-                .background(Theme.paperDeep, in: Circle())
-            VStack(alignment: .leading, spacing: 2) {
-                Text(npc.role)
-                    .font(.title3.weight(.medium))
-                Text("DM 专属 NPC 卡")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-            }
+    private var pageFooter: some View {
+        HStack {
             Spacer()
-            Text(attitudeLabel)
-                .font(.caption)
-                .foregroundStyle(npc.attitude == "hostile" ? Theme.red : .secondary)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 3)
-                .overlay(
-                    Capsule().stroke(Theme.line, lineWidth: 1)
-                )
-        }
-    }
-
-    private var attitudeLabel: String {
-        switch npc.attitude {
-        case "friendly": "友善"
-        case "hostile": "敌对"
-        case "neutral": "中立"
-        default: "未知"
-        }
-    }
-
-    private func labeled(_ label: String, _ value: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(label)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-            Text(value)
-                .font(.callout)
-                .foregroundStyle(Theme.inkSoft)
-        }
-    }
-
-    private func list(_ label: String, _ values: [String], tint: Color = Theme.inkSoft) -> some View {
-        Group {
-            if !values.isEmpty {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(label)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                    ForEach(values, id: \.self) { value in
-                        Text("· \(value)")
-                            .font(.callout)
-                            .foregroundStyle(tint)
-                    }
+            VStack(spacing: 2) {
+                if let sourceRef = npc.sourceRef {
+                    Text(sourceRef)
                 }
+                Text("荒野逐羊 · 简体中文版")
             }
+            .font(Theme.serif(10))
+            .foregroundStyle(Theme.inkSoft.opacity(0.75))
+            Spacer()
         }
+        .padding(.top, 28)
+    }
+
+    private func paragraphs(_ text: String) -> [String] {
+        text.components(separatedBy: "\n\n")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
     }
 }

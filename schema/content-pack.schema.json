@@ -304,6 +304,7 @@
         "wants": { "$ref": "#/$defs/stringList" },
         "sampleLines": { "$ref": "#/$defs/stringList" },
         "keyCharacteristics": { "$ref": "#/$defs/stringList" },
+        "sourceText": { "type": "string" },
         "relationships": {
           "type": "array",
           "items": {

@@ -61,6 +61,22 @@ final class SheepChaseUITests: XCTestCase {
         add(attachment)
     }
 
+    func testNPCCardUsesBookText() throws {
+        XCUIDevice.shared.orientation = .landscapeLeft
+        let app = XCUIApplication()
+        app.launchArguments = ["-demoRun", "-demoNPC", "-resetPins"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["角色"].waitForExistence(timeout: 12))
+        let intro = app.staticTexts.containing(
+            NSPredicate(format: "label CONTAINS %@", "诺克是铁匠最小的孩子")
+        ).firstMatch
+        XCTAssertTrue(intro.waitForExistence(timeout: 5))
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = "NPC character card"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
     func testQuickReferencePinAndDetail() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
