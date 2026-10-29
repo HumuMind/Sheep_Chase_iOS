@@ -115,6 +115,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 ### UI
 
 - `Theme`、`AppTextSize`、`BookGroupBoxStyle`、`BookPaperBackground`、`readingPage`。
+- 编辑弹框统一使用 `BookFormSheet`：纸面直接铺满整个 sheet、红色标题、页内操作栏；macOS 用 `BookSheetMetrics` 提供 820×640 起的尺寸，iPad 暂保留较小尺寸。
 - `NPCSheetView`、`MonsterSheetView`、Handout/Item/Rule/Spell 参考卡；这些卡片均支持 DM 改动批注。
 - `SheepChaseImages` 提供 Package bundle 内的 Cover/Map/Sheep/Parchment。
 - App 的 Asset Catalog 只保留 AppIcon/AccentColor。

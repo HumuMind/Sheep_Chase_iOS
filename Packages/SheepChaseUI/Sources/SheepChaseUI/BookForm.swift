@@ -66,14 +66,10 @@ public struct BookFormSheet<Content: View>: View {
                     content
                 }
                 .padding(28)
-                .frame(maxWidth: BookSheetMetrics.pageWidth, minHeight: max(430, proxy.size.height - 24), alignment: .topLeading)
-                .readingPage()
-                .padding(.horizontal, 12)
-                .padding(.vertical, 12)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .frame(maxWidth: .infinity, minHeight: max(430, proxy.size.height), alignment: .topLeading)
             }
         }
-        .background(Theme.sheetBackground)
+        .background(Theme.readingPaper)
         .environment(\.colorScheme, .light)
         .tint(Theme.red)
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
