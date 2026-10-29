@@ -13,6 +13,17 @@ struct SaveTemplateSheet: View {
     @State private var summary = ""
     @State private var options = TemplateSaveOptions()
     @State private var errorMessage: String?
+    @State private var saveMode: SaveMode = .new
+    @State private var overwriteID: UUID?
+
+    private enum SaveMode: String, CaseIterable {
+        case new
+        case overwrite
+    }
+
+    private var overwriteTemplate: AdventureTemplate? {
+        store.template(id: overwriteID)
+    }
 
     init(run: RunRecord) {
         self.run = run
@@ -22,8 +33,9 @@ struct SaveTemplateSheet: View {
     var body: some View {
         BookFormSheet(
             title: "另存为我的模组",
-            primaryTitle: "保存",
-            primaryDisabled: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+            primaryTitle: saveMode == .overwrite ? "覆盖" : "保存",
+            primaryDisabled: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                || (saveMode == .overwrite && overwriteID == nil),
             onCancel: { dismiss() },
             onPrimary: save
         ) {
@@ -33,6 +45,30 @@ struct SaveTemplateSheet: View {
                 Text("\(store.content.manifest.title) · \(store.content.manifest.version)")
                     .font(Theme.serif(11))
                     .foregroundStyle(.secondary)
+            }
+
+            if !store.orderedTemplates.isEmpty {
+                BookFormSection("保存方式") {
+                    Picker("保存方式", selection: $saveMode) {
+                        Text("新建模组").tag(SaveMode.new)
+                        Text("覆盖已有模组").tag(SaveMode.overwrite)
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+
+                    if saveMode == .overwrite {
+                        Picker("选择模组", selection: $overwriteID) {
+                            Text("选择要覆盖的模组").tag(Optional<UUID>.none)
+                            ForEach(store.orderedTemplates) { template in
+                                Text(template.name).tag(Optional(template.id))
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        Text("覆盖会更新模板内容，已经用旧模板创建的开团不受影响。")
+                            .font(Theme.serif(11))
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
 
             BookFormSection("保存内容") {
@@ -45,6 +81,24 @@ struct SaveTemplateSheet: View {
             Text("只会保存模组内容改动，不会保存队伍、战斗、便签、会话记录、备团勾选或当前进度。")
                 .font(Theme.serif(11))
                 .foregroundStyle(.secondary)
+        }
+        .onChange(of: overwriteID) { _, newValue in
+            if saveMode == .overwrite, let template = store.template(id: newValue) {
+                name = template.name
+                summary = template.summary
+            }
+        }
+        .onChange(of: saveMode) { _, newValue in
+            if newValue == .overwrite, let template = store.template(id: overwriteID) {
+                name = template.name
+                summary = template.summary
+            }
+        }
+        .task {
+            if overwriteID == nil {
+                overwriteID = run.sourceTemplateID.flatMap { store.template(id: $0)?.id }
+                    ?? store.orderedTemplates.first?.id
+            }
         }
         .alert("保存失败", isPresented: Binding(
             get: { errorMessage != nil },
@@ -73,12 +127,22 @@ struct SaveTemplateSheet: View {
 
     private func save() {
         do {
-            _ = try store.saveRunAsTemplate(
-                from: run,
-                name: name,
-                summary: summary,
-                options: options
-            )
+            if saveMode == .overwrite, let overwriteTemplate {
+                _ = try store.overwriteTemplate(
+                    overwriteTemplate,
+                    from: run,
+                    name: name,
+                    summary: summary,
+                    options: options
+                )
+            } else {
+                _ = try store.saveRunAsTemplate(
+                    from: run,
+                    name: name,
+                    summary: summary,
+                    options: options
+                )
+            }
             dismiss()
         } catch {
             errorMessage = error.localizedDescription

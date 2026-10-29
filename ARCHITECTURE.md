@@ -234,6 +234,7 @@ xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
 - DM 改动是按 Run 保存的批注覆盖层：场景/朗读/节拍/NPC/怪物/物品/法术/规则/手牌/遭遇均支持；原文保持不变。
 - 自定义节拍、自定义 NPC、自定义怪物、自定义地图图钉均按 Run 保存，并进入快照/导出。
 - 我的模组用 `AdventureTemplate` 保存可复用的 `AdventureTemplatePatch`，不含任何开团进度；模板存本地 JSON（`AdventureTemplateRepository`），新建开团时可选择原始模组或某个我的模组，并记录来源模板与基础版本。
+- 我的模组支持新建、覆盖、重命名、删除、导出/导入 JSON；导入会校验基础模组 ID 并生成新模板 ID，不覆盖已有模板。
 - 遭遇组合用 `RunEncounterAdjustment` 按 Run 覆盖；怪物数值用 `RunMonsterOverride` 按 Run 覆盖 AC/HP/先攻，并应用到战斗筹备/开战。
 - Feature smoke test 只验证 View 可构造；真实渲染由 iPad UI 测试和手工跑团覆盖。
 - 真实 3–4 小时跑团仍是最终验收。

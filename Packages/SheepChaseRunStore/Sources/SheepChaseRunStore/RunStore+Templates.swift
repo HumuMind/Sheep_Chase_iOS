@@ -5,12 +5,14 @@ import SheepChasePersistence
 public enum TemplateStoreError: LocalizedError {
     case emptyName
     case emptyPatch
+    case incompatibleModule
     case saveFailed(String)
 
     public var errorDescription: String? {
         switch self {
         case .emptyName: "请填写模组名称。"
         case .emptyPatch: "当前没有可保存的模组改动。"
+        case .incompatibleModule: "这个模组不是基于当前内容包创建的，无法导入。"
         case .saveFailed(let message): "保存模组失败：\(message)"
         }
     }
@@ -37,15 +39,7 @@ extension RunStore {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { throw TemplateStoreError.emptyName }
 
-        let patch = AdventureTemplatePatch(
-            annotations: options.includeAnnotations ? run.annotations : [],
-            customBeats: options.includeCustomContent ? run.customBeats : [],
-            customNPCs: options.includeCustomContent ? run.customNPCs : [],
-            customMonsters: options.includeCustomContent ? run.customMonsters : [],
-            customMapPins: options.includeMapPins ? run.customMapPins : [],
-            encounterAdjustments: options.includeEncounterAdjustments ? run.encounterAdjustments : [],
-            monsterOverrides: options.includeEncounterAdjustments ? run.monsterOverrides : []
-        )
+        let patch = makePatch(from: run, options: options)
         guard !patch.isEmpty else { throw TemplateStoreError.emptyPatch }
 
         let template = AdventureTemplate(
@@ -85,6 +79,79 @@ extension RunStore {
         templates.removeAll { $0.id == template.id }
         try? templateRepository.save(templates)
         notify("已删除我的模组：\(template.name)")
+    }
+
+    @discardableResult
+    public func overwriteTemplate(
+        _ template: AdventureTemplate,
+        from run: RunRecord,
+        name: String,
+        summary: String,
+        options: TemplateSaveOptions = TemplateSaveOptions()
+    ) throws -> AdventureTemplate {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { throw TemplateStoreError.emptyName }
+        let patch = makePatch(from: run, options: options)
+        guard !patch.isEmpty else { throw TemplateStoreError.emptyPatch }
+        guard let index = templates.firstIndex(where: { $0.id == template.id }) else {
+            throw TemplateStoreError.saveFailed("找不到要覆盖的模组。")
+        }
+        templates[index].name = trimmed
+        templates[index].summary = summary.trimmingCharacters(in: .whitespacesAndNewlines)
+        templates[index].patch = patch
+        templates[index].baseModuleID = content.manifest.id
+        templates[index].baseModuleTitle = content.manifest.title
+        templates[index].baseContentVersion = content.manifest.version
+        templates[index].updatedAt = .now
+        do {
+            try templateRepository.save(templates)
+        } catch {
+            throw TemplateStoreError.saveFailed(error.localizedDescription)
+        }
+        notify("已更新我的模组：\(trimmed)")
+        return templates[index]
+    }
+
+    @discardableResult
+    public func importTemplate(_ imported: AdventureTemplate) throws -> AdventureTemplate {
+        guard imported.baseModuleID == content.manifest.id else {
+            throw TemplateStoreError.incompatibleModule
+        }
+        var template = imported
+        template.id = UUID()
+        template.name = uniqueImportedName(imported.name)
+        template.updatedAt = .now
+        templates.insert(template, at: 0)
+        do {
+            try templateRepository.save(templates)
+        } catch {
+            templates.removeAll { $0.id == template.id }
+            throw TemplateStoreError.saveFailed(error.localizedDescription)
+        }
+        notify("已导入我的模组：\(template.name)")
+        return template
+    }
+
+    private func makePatch(from run: RunRecord, options: TemplateSaveOptions) -> AdventureTemplatePatch {
+        AdventureTemplatePatch(
+            annotations: options.includeAnnotations ? run.annotations : [],
+            customBeats: options.includeCustomContent ? run.customBeats : [],
+            customNPCs: options.includeCustomContent ? run.customNPCs : [],
+            customMonsters: options.includeCustomContent ? run.customMonsters : [],
+            customMapPins: options.includeMapPins ? run.customMapPins : [],
+            encounterAdjustments: options.includeEncounterAdjustments ? run.encounterAdjustments : [],
+            monsterOverrides: options.includeEncounterAdjustments ? run.monsterOverrides : []
+        )
+    }
+
+    private func uniqueImportedName(_ name: String) -> String {
+        let base = name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "导入模组" : name
+        guard templates.contains(where: { $0.name == base }) else { return base }
+        var index = 2
+        while templates.contains(where: { $0.name == "\(base)（导入 \(index)）" }) {
+            index += 1
+        }
+        return "\(base)（导入 \(index)）"
     }
 
     public func createRun(name: String, from template: AdventureTemplate?) {

@@ -91,3 +91,15 @@ public struct AdventureTemplate: Identifiable, Codable, Hashable {
 
     public var changeCount: Int { patch.changeCount }
 }
+
+public struct AdventureTemplateFile: Codable {
+    public var schemaVersion: Int
+    public var exportedAt: Date
+    public var template: AdventureTemplate
+
+    public init(schemaVersion: Int = 1, exportedAt: Date = .now, template: AdventureTemplate) {
+        self.schemaVersion = schemaVersion
+        self.exportedAt = exportedAt
+        self.template = template
+    }
+}

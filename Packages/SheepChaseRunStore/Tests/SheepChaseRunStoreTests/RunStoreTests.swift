@@ -119,5 +119,20 @@ final class RunStoreTests: XCTestCase {
 
         let reloaded = AdventureTemplateRepository(fileURL: templateURL).load()
         XCTAssertEqual(reloaded.first?.name, "强化古兹")
+
+        try store.overwriteTemplate(template, from: run, name: "强化古兹 2", summary: "覆盖测试")
+        XCTAssertEqual(store.templates.first?.name, "强化古兹 2")
+        XCTAssertEqual(store.templates.first?.summary, "覆盖测试")
+
+        let imported = AdventureTemplate(
+            name: "导入模组",
+            baseModuleID: content.manifest.id,
+            baseModuleTitle: content.manifest.title,
+            baseContentVersion: content.manifest.version,
+            patch: template.patch
+        )
+        let importedTemplate = try store.importTemplate(imported)
+        XCTAssertNotEqual(importedTemplate.id, imported.id)
+        XCTAssertTrue(store.templates.contains { $0.name == "导入模组" })
     }
 }
