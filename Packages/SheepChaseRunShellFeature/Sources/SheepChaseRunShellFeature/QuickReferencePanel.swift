@@ -42,6 +42,11 @@ public struct QuickReferencePanel: View {
             CustomMonsterSheet(run: run)
                 .environment(store)
         }
+        .task {
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("-demoCustomNPC") { showAddNPC = true }
+            #endif
+        }
     }
     private var expandedPanel: some View {
         VStack(spacing: 0) {

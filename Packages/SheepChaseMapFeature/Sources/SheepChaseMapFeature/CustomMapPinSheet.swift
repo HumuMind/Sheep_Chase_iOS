@@ -16,50 +16,56 @@ struct CustomMapPinSheet: View {
     @State private var y = 0.5
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("标签") {
-                    TextField("例如：密道入口", text: $label)
-                }
-                Section("备注") {
-                    TextEditor(text: $note)
-                        .frame(minHeight: 80)
-                }
-                Section("位置") {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("横向 \(Int(x * 100))%")
+        BookFormSheet(
+            title: "自定义图钉",
+            primaryTitle: "添加",
+            primaryDisabled: label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+            onCancel: { dismiss() },
+            onPrimary: add
+        ) {
+            BookFormSection("标签") {
+                BookTextField("例如：密道入口", text: $label)
+            }
+            BookFormSection("备注") {
+                BookTextEditor("这个位置有什么、为什么标记……", text: $note, minHeight: 80)
+            }
+            BookFormSection("位置") {
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Text("横向")
+                            .font(Theme.serif(13))
                         Slider(value: $x, in: 0...1)
-                        Text("纵向 \(Int(y * 100))%")
+                            .tint(Theme.red)
+                        Text("\(Int(x * 100))%")
+                            .font(Theme.serif(11).monospacedDigit())
+                            .foregroundStyle(.secondary)
+                    }
+                    HStack {
+                        Text("纵向")
+                            .font(Theme.serif(13))
                         Slider(value: $y, in: 0...1)
+                            .tint(Theme.red)
+                        Text("\(Int(y * 100))%")
+                            .font(Theme.serif(11).monospacedDigit())
+                            .foregroundStyle(.secondary)
                     }
                 }
-                Section {
-                    Text("自定义图钉只存在于当前开团，导出地图原图不会烧录图钉。")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
             }
-            .navigationTitle("自定义图钉")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("添加") {
-                        store.addCustomMapPin(
-                            mapID: map.id,
-                            x: x,
-                            y: y,
-                            label: label,
-                            note: note,
-                            in: run
-                        )
-                        dismiss()
-                    }
-                    .disabled(label.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
-            }
+            Text("自定义图钉只存在于当前开团，导出地图原图不会烧录图钉。")
+                .font(Theme.serif(11))
+                .foregroundStyle(.secondary)
         }
-        .frame(minWidth: 460, minHeight: 420)
+    }
+
+    private func add() {
+        store.addCustomMapPin(
+            mapID: map.id,
+            x: x,
+            y: y,
+            label: label,
+            note: note,
+            in: run
+        )
+        dismiss()
     }
 }

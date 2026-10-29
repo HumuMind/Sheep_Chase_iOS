@@ -19,53 +19,51 @@ struct CustomMonsterSheet: View {
     @State private var actionText = ""
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("身份") {
-                    TextField("名称", text: $name)
-                    TextField("体型", text: $size)
-                    TextField("类型", text: $type)
-                    TextField("阵营", text: $alignment)
+        BookFormSheet(
+            title: "自定义怪物",
+            primaryTitle: "添加",
+            primaryDisabled: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                || actionText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+            onCancel: { dismiss() },
+            onPrimary: add
+        ) {
+            BookFormSection("身份") {
+                BookTextField("名称", text: $name)
+                HStack(spacing: 10) {
+                    BookTextField("体型", text: $size)
+                    BookTextField("类型", text: $type)
                 }
-                Section("数值") {
-                    Stepper("AC \(ac)", value: $ac, in: 1...40)
-                    Stepper("HP \(hp)", value: $hp, in: 1...999)
-                    Stepper("先攻调整 \(initiativeModifier >= 0 ? "+" : "")\(initiativeModifier)", value: $initiativeModifier, in: -5...10)
-                }
-                Section("动作") {
-                    TextEditor(text: $actionText)
-                        .frame(minHeight: 90)
-                }
-                Section {
-                    Text("自定义怪物只存在于当前开团，可在战斗筹备中选择。")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                BookTextField("阵营", text: $alignment)
             }
-            .navigationTitle("自定义怪物")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("添加") {
-                        store.addCustomMonster(
-                            name: name,
-                            size: size,
-                            type: type,
-                            alignment: alignment,
-                            ac: ac,
-                            hp: hp,
-                            initiativeModifier: initiativeModifier,
-                            actionText: actionText,
-                            in: run
-                        )
-                        dismiss()
-                    }
-                    .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || actionText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
+            BookFormSection("数值") {
+                Stepper("护甲等级  \(ac)", value: $ac, in: 1...40)
+                    .font(Theme.serif(14))
+                Stepper("生命值  \(hp)", value: $hp, in: 1...999)
+                    .font(Theme.serif(14))
+                Stepper("先攻调整  \(initiativeModifier >= 0 ? "+" : "")\(initiativeModifier)", value: $initiativeModifier, in: -5...10)
+                    .font(Theme.serif(14))
             }
+            BookFormSection("动作") {
+                BookTextEditor("这个怪物在战斗中做什么……", text: $actionText, minHeight: 100)
+            }
+            Text("自定义怪物只存在于当前开团，可在战斗筹备中选择。")
+                .font(Theme.serif(11))
+                .foregroundStyle(.secondary)
         }
-        .frame(minWidth: 500, minHeight: 500)
+    }
+
+    private func add() {
+        store.addCustomMonster(
+            name: name,
+            size: size,
+            type: type,
+            alignment: alignment,
+            ac: ac,
+            hp: hp,
+            initiativeModifier: initiativeModifier,
+            actionText: actionText,
+            in: run
+        )
+        dismiss()
     }
 }

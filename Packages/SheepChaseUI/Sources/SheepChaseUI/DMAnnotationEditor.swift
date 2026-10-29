@@ -70,59 +70,45 @@ public struct DMAnnotationEditor: View {
         .sheet(isPresented: $showEditor) {
             editorSheet
         }
+        .onAppear {
+            #if DEBUG
+            if subject == "朗读 / 描述", ProcessInfo.processInfo.arguments.contains("-demoAnnotation") {
+                beginEditing()
+            }
+            #endif
+        }
     }
 
     private var editorSheet: some View {
-        NavigationStack {
-            Form {
-                Section("显示方式") {
-                    Picker("显示方式", selection: $draftMode) {
-                        ForEach(DMAnnotationMode.allCases, id: \.self) { mode in
-                            Text(mode.title).tag(mode)
-                        }
-                    }
-                    .pickerStyle(.inline)
-                }
-
-                Section("DM 内容") {
-                    TextEditor(text: $draft)
-                        .font(.body)
-                        .frame(minHeight: 160)
-                        .overlay(alignment: .topLeading) {
-                            if draft.isEmpty {
-                                Text("写下这个版本里改了什么、为什么改，或你希望怎么演……")
-                                    .font(.callout)
-                                    .foregroundStyle(.tertiary)
-                                    .padding(.top, 8)
-                                    .padding(.leading, 5)
-                                    .allowsHitTesting(false)
-                            }
-                        }
-                }
+        BookFormSheet(
+            title: "DM 批注 · \(subject)",
+            primaryTitle: "保存",
+            primaryDisabled: draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+            deleteTitle: annotation == nil ? nil : "删除",
+            onCancel: { showEditor = false },
+            onDelete: {
+                onDelete()
+                showEditor = false
+            },
+            onPrimary: {
+                onSave(draft, draftMode)
+                showEditor = false
             }
-            .navigationTitle("DM 批注 · \(subject)")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { showEditor = false }
-                }
-                if annotation != nil {
-                    ToolbarItem(placement: .destructiveAction) {
-                        Button("删除批注", role: .destructive) {
-                            onDelete()
-                            showEditor = false
-                        }
+        ) {
+            BookFormSection("显示方式") {
+                Picker("显示方式", selection: $draftMode) {
+                    ForEach(DMAnnotationMode.allCases, id: \.self) { mode in
+                        Text(mode.title).tag(mode)
                     }
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("保存") {
-                        onSave(draft, draftMode)
-                        showEditor = false
-                    }
-                    .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+            }
+
+            BookFormSection("DM 内容") {
+                BookTextEditor("写下这个版本里改了什么、为什么改，或你希望怎么演……", text: $draft, minHeight: 180)
             }
         }
-        .frame(minWidth: 480, minHeight: 380)
     }
 
     private func beginEditing() {

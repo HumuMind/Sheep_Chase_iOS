@@ -18,55 +18,36 @@ struct EncounterAdjustmentSheet: View {
     }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("怪物数量") {
-                    ForEach(monsters) { monster in
-                        Stepper(value: Binding(
-                            get: { counts[monster.id] ?? 0 },
-                            set: { counts[monster.id] = max(0, $0) }
-                        ), in: 0...20) {
-                            HStack {
-                                Text(monster.name)
-                                Spacer()
-                                Text("× \(counts[monster.id] ?? 0)")
-                                    .font(.caption.monospacedDigit())
-                                    .foregroundStyle(.secondary)
-                            }
+        BookFormSheet(
+            title: "调整遭遇",
+            primaryTitle: "保存",
+            onCancel: { dismiss() },
+            onPrimary: save
+        ) {
+            BookFormSection("怪物数量") {
+                ForEach(monsters) { monster in
+                    Stepper(value: Binding(
+                        get: { counts[monster.id] ?? 0 },
+                        set: { counts[monster.id] = max(0, $0) }
+                    ), in: 0...20) {
+                        HStack {
+                            Text(monster.name)
+                                .font(Theme.serif(14))
+                            Spacer()
+                            Text("× \(counts[monster.id] ?? 0)")
+                                .font(Theme.serif(12).monospacedDigit())
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }
-                Section("调整备注") {
-                    TextEditor(text: $note)
-                        .frame(minHeight: 80)
-                }
-                Section {
-                    Text("保存后“按调整筹备”会把这组怪物加入战斗筹备。清空全部数量并保存可恢复原始组合。")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
             }
-            .navigationTitle("调整遭遇 · \(encounter.title)")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("保存") {
-                        store.setEncounterAdjustment(
-                            encounterID: encounter.id,
-                            combatants: counts.compactMap { monsterID, count in
-                                count > 0 ? RunEncounterCombatant(monsterID: monsterID, count: count) : nil
-                            },
-                            note: note,
-                            in: run
-                        )
-                        dismiss()
-                    }
-                }
+            BookFormSection("调整备注") {
+                BookTextEditor("为什么改、这组怪怎么打……", text: $note, minHeight: 80)
             }
+            Text("保存后“按调整筹备”会把这组怪物加入战斗筹备；清空全部数量并保存可恢复原始组合。")
+                .font(Theme.serif(11))
+                .foregroundStyle(.secondary)
         }
-        .frame(minWidth: 520, minHeight: 500)
         .onAppear {
             if let adjustment = store.encounterAdjustment(for: encounter.id, in: run) {
                 counts = Dictionary(uniqueKeysWithValues: adjustment.combatants.map { ($0.monsterID, $0.count) })
@@ -75,5 +56,17 @@ struct EncounterAdjustmentSheet: View {
                 counts = Dictionary(uniqueKeysWithValues: encounter.combatants.map { ($0.monsterId, $0.count) })
             }
         }
+    }
+
+    private func save() {
+        store.setEncounterAdjustment(
+            encounterID: encounter.id,
+            combatants: counts.compactMap { monsterID, count in
+                count > 0 ? RunEncounterCombatant(monsterID: monsterID, count: count) : nil
+            },
+            note: note,
+            in: run
+        )
+        dismiss()
     }
 }

@@ -21,51 +21,46 @@ struct CustomBeatSheet: View {
     ]
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("标题") {
-                    TextField("例如：队伍发现密道", text: $title)
-                }
-                Section("类型") {
-                    Picker("类型", selection: $type) {
-                        ForEach(types, id: \.0) { value, label in
-                            Text(label).tag(value)
-                        }
+        BookFormSheet(
+            title: "自定义节拍",
+            primaryTitle: "添加",
+            primaryDisabled: title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                || text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+            onCancel: { dismiss() },
+            onPrimary: add
+        ) {
+            BookFormSection("标题") {
+                BookTextField("节拍标题", text: $title)
+            }
+            BookFormSection("类型") {
+                Picker("类型", selection: $type) {
+                    ForEach(types, id: \.0) { value, label in
+                        Text(label).tag(value)
                     }
                 }
-                Section("内容") {
-                    TextEditor(text: $text)
-                        .frame(minHeight: 90)
-                    TextEditor(text: $readAloud)
-                        .frame(minHeight: 60)
-                }
-                Section {
-                    Text("自定义节拍只存在于当前开团，不会修改内容包。")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                .pickerStyle(.menu)
             }
-            .navigationTitle("自定义节拍")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("添加") {
-                        store.addCustomBeat(
-                            sceneID: scene.id,
-                            title: title,
-                            type: type,
-                            text: text,
-                            readAloud: readAloud,
-                            in: run
-                        )
-                        dismiss()
-                    }
-                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
+            BookFormSection("正文") {
+                BookTextEditor("这个节拍发生什么……", text: $text, minHeight: 110)
             }
+            BookFormSection("朗读 / 描述") {
+                BookTextEditor("可选，给玩家的描述……", text: $readAloud, minHeight: 70)
+            }
+            Text("自定义节拍只存在于当前开团，不会修改内容包。")
+                .font(Theme.serif(11))
+                .foregroundStyle(.secondary)
         }
-        .frame(minWidth: 480, minHeight: 480)
+    }
+
+    private func add() {
+        store.addCustomBeat(
+            sceneID: scene.id,
+            title: title,
+            type: type,
+            text: text,
+            readAloud: readAloud,
+            in: run
+        )
+        dismiss()
     }
 }

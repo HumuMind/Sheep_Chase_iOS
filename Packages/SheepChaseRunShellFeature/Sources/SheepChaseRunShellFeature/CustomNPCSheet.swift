@@ -15,46 +15,40 @@ struct CustomNPCSheet: View {
     @State private var traits = ""
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("身份") {
-                    TextField("姓名", text: $name)
-                    TextField("身份 / 角色", text: $role)
-                }
-                Section("角色描述") {
-                    TextEditor(text: $description)
-                        .frame(minHeight: 140)
-                }
-                Section("关键特征") {
-                    TextField("每行一项", text: $traits, axis: .vertical)
-                        .lineLimit(3...6)
-                }
-                Section {
-                    Text("自定义 NPC 只存在于当前开团。")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+        BookFormSheet(
+            title: "自定义人物",
+            primaryTitle: "添加",
+            primaryDisabled: name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                || description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+            onCancel: { dismiss() },
+            onPrimary: add
+        ) {
+            BookFormSection("身份") {
+                BookTextField("姓名", text: $name)
+                BookTextField("身份 / 角色", text: $role)
             }
-            .navigationTitle("自定义人物")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("添加") {
-                        store.addCustomNPC(
-                            name: name,
-                            role: role,
-                            description: description,
-                            keyCharacteristics: traits.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty },
-                            in: run
-                        )
-                        dismiss()
-                    }
-                    .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
+            BookFormSection("角色描述") {
+                BookTextEditor("这个人物是谁、想要什么、会怎么说话……", text: $description, minHeight: 150)
             }
+            BookFormSection("关键特征") {
+                BookTextEditor("每行一项", text: $traits, minHeight: 80)
+            }
+            Text("自定义 NPC 只存在于当前开团。")
+                .font(Theme.serif(11))
+                .foregroundStyle(.secondary)
         }
-        .frame(minWidth: 500, minHeight: 480)
+    }
+
+    private func add() {
+        store.addCustomNPC(
+            name: name,
+            role: role,
+            description: description,
+            keyCharacteristics: traits.components(separatedBy: .newlines)
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty },
+            in: run
+        )
+        dismiss()
     }
 }
