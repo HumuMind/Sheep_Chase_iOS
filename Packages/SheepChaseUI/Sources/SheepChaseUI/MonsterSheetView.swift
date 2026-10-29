@@ -7,18 +7,36 @@ public struct MonsterSheetView: View {
     let annotation: DMAnnotation?
     let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
     let onAnnotationDelete: (() -> Void)?
+    let override: RunMonsterOverride?
+    let onOverrideSave: ((Int, Int, Int, String) -> Void)?
+    let onOverrideClear: (() -> Void)?
 
     public init(
         monster: ContentPack.Monster,
         annotation: DMAnnotation? = nil,
         onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
-        onAnnotationDelete: (() -> Void)? = nil
+        onAnnotationDelete: (() -> Void)? = nil,
+        override: RunMonsterOverride? = nil,
+        onOverrideSave: ((Int, Int, Int, String) -> Void)? = nil,
+        onOverrideClear: (() -> Void)? = nil
     ) {
         self.monster = monster
         self.annotation = annotation
         self.onAnnotationSave = onAnnotationSave
         self.onAnnotationDelete = onAnnotationDelete
+        self.override = override
+        self.onOverrideSave = onOverrideSave
+        self.onOverrideClear = onOverrideClear
+        _ac = State(initialValue: override?.ac ?? monster.ac.value)
+        _hp = State(initialValue: override?.hp ?? monster.hp.average)
+        _initMod = State(initialValue: override?.initiativeModifier ?? monster.initiativeModifier)
+        _overrideNote = State(initialValue: override?.note ?? "")
     }
+
+    @State private var ac: Int
+    @State private var hp: Int
+    @State private var initMod: Int
+    @State private var overrideNote: String
 
     public var body: some View {
         NavigationStack {
@@ -36,6 +54,34 @@ public struct MonsterSheetView: View {
                         Text("CR \(monster.challenge.rating.formatted()) · \(monster.challenge.xp) XP")
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    }
+
+                    if let onOverrideSave, let onOverrideClear {
+                        GroupBox("本场数值调整") {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Stepper("AC \(ac)", value: $ac, in: 1...40)
+                                Stepper("HP \(hp)", value: $hp, in: 1...999)
+                                Stepper("先攻调整 \(initMod >= 0 ? "+" : "")\(initMod)", value: $initMod, in: -10...15)
+                                TextField("调整备注（可选）", text: $overrideNote)
+                                    .textFieldStyle(.roundedBorder)
+                                HStack {
+                                    Button("保存本场调整") {
+                                        onOverrideSave(ac, hp, initMod, overrideNote)
+                                    }
+                                    .buttonStyle(.borderedProminent)
+                                    .tint(Theme.red)
+                                    Button("恢复原始") {
+                                        onOverrideClear()
+                                        ac = monster.ac.value
+                                        hp = monster.hp.average
+                                        initMod = monster.initiativeModifier
+                                        overrideNote = ""
+                                    }
+                                    .buttonStyle(.bordered)
+                                }
+                            }
+                            .padding(.vertical, 3)
+                        }
                     }
 
                     GroupBox("防御与属性") {

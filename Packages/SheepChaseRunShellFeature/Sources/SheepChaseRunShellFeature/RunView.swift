@@ -12,7 +12,6 @@ import SheepChasePersistence
 import SheepChaseUI
 import SwiftUI
 import UniformTypeIdentifiers
-
 public struct RunView: View {
     public init(run: RunRecord) {
         self.run = run
@@ -39,18 +38,15 @@ public struct RunView: View {
     @State private var exportContentType: UTType = .json
     @State private var exportFilename = "荒野逐羊_开团备份.json"
     @State private var exportError: String?
-
     private var currentScene: ContentPack.AdventureScene {
         store.currentScene(for: run)
     }
-
     private var modeSelection: Binding<RunMode> {
         Binding(
             get: { run.mode },
             set: { store.setMode($0, in: run) }
         )
     }
-
     public var body: some View {
         NavigationSplitView {
             RunSidebar(run: run, showGuide: $showGuide)
@@ -103,7 +99,6 @@ public struct RunView: View {
                     }
                     .help("返回主页")
                 }
-
                 ToolbarItem(placement: .principal) {
                     Picker("视图", selection: modeSelection) {
                         ForEach(RunMode.allCases) { mode in
@@ -113,7 +108,6 @@ public struct RunView: View {
                     .pickerStyle(.segmented)
                     .frame(width: 230)
                 }
-
                 if let battle = run.battle, battle.phase == .active {
                     ToolbarItemGroup(placement: .primaryAction) {
                         Button {
@@ -128,7 +122,6 @@ public struct RunView: View {
                         }
                     }
                 }
-
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button {
                         showSearch = true
@@ -279,6 +272,13 @@ public struct RunView: View {
                 },
                 onAnnotationDelete: {
                     store.removeAnnotation(kind: .monster, targetID: monster.id, in: run)
+                },
+                override: store.monsterOverride(for: monster.id, in: run),
+                onOverrideSave: { ac, hp, initMod, note in
+                    store.setMonsterOverride(monsterID: monster.id, ac: ac, hp: hp, initiativeModifier: initMod, note: note, in: run)
+                },
+                onOverrideClear: {
+                    store.clearMonsterOverride(monsterID: monster.id, in: run)
                 }
             )
             .environment(store)

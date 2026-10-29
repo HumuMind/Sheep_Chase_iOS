@@ -82,5 +82,19 @@ final class RunStoreTests: XCTestCase {
         if let customMonster = store.customMonsters(in: run).first {
             XCTAssertEqual(store.monster(id: "custom-monster-\(customMonster.id.uuidString)", in: run)?.name, "守门魔像")
         }
+
+        store.setMonsterOverride(monsterID: "guz", ac: 18, hp: 80, initiativeModifier: 4, note: "强化版", in: run)
+        XCTAssertEqual(store.monsterForBattle(id: "guz", in: run)?.ac.value, 18)
+        XCTAssertEqual(store.monsterForBattle(id: "guz", in: run)?.hp.average, 80)
+        XCTAssertEqual(store.monsterForBattle(id: "guz", in: run)?.initiativeModifier, 4)
+
+        store.setEncounterAdjustment(
+            encounterID: "guz-ambush",
+            combatants: [RunEncounterCombatant(monsterID: "guz", count: 1)],
+            note: "只留古兹",
+            in: run
+        )
+        store.prepareEncounter("guz-ambush", in: run)
+        XCTAssertEqual(run.battle?.monsters.count, 1)
     }
 }

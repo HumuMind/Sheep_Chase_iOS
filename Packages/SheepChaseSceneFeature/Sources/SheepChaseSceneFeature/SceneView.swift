@@ -31,6 +31,7 @@ public struct SceneDetailView: View {
     @Bindable var run: RunRecord
     @State var showSource = false
     @State var showCustomBeat = false
+    @State var editingEncounter: ContentPack.Encounter?
     var onOpenNPC: (String) -> Void = { _ in }
     var onOpenHandout: (String) -> Void = { _ in }
     var onOpenItem: (String) -> Void = { _ in }
@@ -206,6 +207,10 @@ public struct SceneDetailView: View {
         }
         .sheet(isPresented: $showCustomBeat) {
             CustomBeatSheet(scene: scene, run: run)
+                .environment(store)
+        }
+        .sheet(item: $editingEncounter) { encounter in
+            EncounterAdjustmentSheet(encounter: encounter, run: run)
                 .environment(store)
         }
         .onAppear {

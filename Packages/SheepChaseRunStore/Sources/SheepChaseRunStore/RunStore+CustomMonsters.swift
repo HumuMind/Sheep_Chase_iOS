@@ -58,7 +58,7 @@ extension RunStore {
     }
 
     public func battleMonsters(in run: RunRecord) -> [ContentPack.Monster] {
-        orderedBattleMonsters(in: run)
+        orderedBattleMonsters(in: run).map { applyingMonsterOverride($0, in: run) }
     }
 
     private func customMonsterModel(_ custom: RunCustomMonster) -> ContentPack.Monster {

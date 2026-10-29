@@ -223,6 +223,8 @@ public struct RunStateSnapshot: Codable {
     public var customMapPins: [RunCustomMapPin]?
     public var customNPCs: [RunCustomNPC]?
     public var customMonsters: [RunCustomMonster]?
+    public var encounterAdjustments: [RunEncounterAdjustment]?
+    public var monsterOverrides: [RunMonsterOverride]?
 
     public init(
         name: String,
@@ -244,7 +246,9 @@ public struct RunStateSnapshot: Codable {
         customBeats: [RunCustomBeat]? = nil,
         customMapPins: [RunCustomMapPin]? = nil,
         customNPCs: [RunCustomNPC]? = nil,
-        customMonsters: [RunCustomMonster]? = nil
+        customMonsters: [RunCustomMonster]? = nil,
+        encounterAdjustments: [RunEncounterAdjustment]? = nil,
+        monsterOverrides: [RunMonsterOverride]? = nil
     ) {
         self.name = name
         self.contentVersion = contentVersion
@@ -266,6 +270,8 @@ public struct RunStateSnapshot: Codable {
         self.customMapPins = customMapPins
         self.customNPCs = customNPCs
         self.customMonsters = customMonsters
+        self.encounterAdjustments = encounterAdjustments
+        self.monsterOverrides = monsterOverrides
     }
 }
 

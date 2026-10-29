@@ -339,6 +339,13 @@ public struct QuickReferencePanel: View {
                     },
                     onAnnotationDelete: {
                         store.removeAnnotation(kind: .monster, targetID: monster.id, in: run)
+                    },
+                    override: store.monsterOverride(for: monster.id, in: run),
+                    onOverrideSave: { ac, hp, initMod, note in
+                        store.setMonsterOverride(monsterID: monster.id, ac: ac, hp: hp, initiativeModifier: initMod, note: note, in: run)
+                    },
+                    onOverrideClear: {
+                        store.clearMonsterOverride(monsterID: monster.id, in: run)
                     }
                 )
             }

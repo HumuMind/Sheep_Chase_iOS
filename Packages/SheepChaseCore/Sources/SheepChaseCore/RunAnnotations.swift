@@ -168,3 +168,67 @@ public struct RunCustomMonster: Identifiable, Codable, Hashable {
         self.createdAt = createdAt
     }
 }
+
+public struct RunEncounterCombatant: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var monsterID: String
+    public var count: Int
+    public var label: String
+
+    public init(id: UUID = UUID(), monsterID: String, count: Int, label: String = "") {
+        self.id = id
+        self.monsterID = monsterID
+        self.count = max(1, count)
+        self.label = label
+    }
+}
+
+public struct RunEncounterAdjustment: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var encounterID: String
+    public var combatants: [RunEncounterCombatant]
+    public var note: String
+    public var updatedAt: Date
+
+    public init(
+        id: UUID = UUID(),
+        encounterID: String,
+        combatants: [RunEncounterCombatant],
+        note: String = "",
+        updatedAt: Date = .now
+    ) {
+        self.id = id
+        self.encounterID = encounterID
+        self.combatants = combatants
+        self.note = note
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct RunMonsterOverride: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var monsterID: String
+    public var ac: Int?
+    public var hp: Int?
+    public var initiativeModifier: Int?
+    public var note: String
+    public var updatedAt: Date
+
+    public init(
+        id: UUID = UUID(),
+        monsterID: String,
+        ac: Int? = nil,
+        hp: Int? = nil,
+        initiativeModifier: Int? = nil,
+        note: String = "",
+        updatedAt: Date = .now
+    ) {
+        self.id = id
+        self.monsterID = monsterID
+        self.ac = ac
+        self.hp = hp
+        self.initiativeModifier = initiativeModifier
+        self.note = note
+        self.updatedAt = updatedAt
+    }
+}

@@ -27,6 +27,8 @@ public final class RunRecord {
     public var customMapPinsData: Data?
     public var customNPCsData: Data?
     public var customMonstersData: Data?
+    public var encounterAdjustmentsData: Data?
+    public var monsterOverridesData: Data?
     public var isArchived: Bool = false
     public var contentVersion: String = ""
 
@@ -59,6 +61,8 @@ public final class RunRecord {
         self.customMapPinsData = nil
         self.customNPCsData = nil
         self.customMonstersData = nil
+        self.encounterAdjustmentsData = nil
+        self.monsterOverridesData = nil
         self.isArchived = false
         self.contentVersion = contentVersion
     }
@@ -213,6 +217,22 @@ public final class RunRecord {
         }
     }
 
+    public var encounterAdjustments: [RunEncounterAdjustment] {
+        get {
+            guard let encounterAdjustmentsData else { return [] }
+            return Self.decode([RunEncounterAdjustment].self, from: encounterAdjustmentsData) ?? []
+        }
+        set { encounterAdjustmentsData = Self.encode(newValue) }
+    }
+
+    public var monsterOverrides: [RunMonsterOverride] {
+        get {
+            guard let monsterOverridesData else { return [] }
+            return Self.decode([RunMonsterOverride].self, from: monsterOverridesData) ?? []
+        }
+        set { monsterOverridesData = Self.encode(newValue) }
+    }
+
     public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -234,7 +254,9 @@ public final class RunRecord {
             customBeats: customBeats,
             customMapPins: customMapPins,
             customNPCs: customNPCs,
-            customMonsters: customMonsters
+            customMonsters: customMonsters,
+            encounterAdjustments: encounterAdjustments,
+            monsterOverrides: monsterOverrides
         )
     }
 
@@ -259,6 +281,8 @@ public final class RunRecord {
         customMapPins = snapshot.customMapPins ?? []
         customNPCs = snapshot.customNPCs ?? []
         customMonsters = snapshot.customMonsters ?? []
+        encounterAdjustments = snapshot.encounterAdjustments ?? []
+        monsterOverrides = snapshot.monsterOverrides ?? []
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {

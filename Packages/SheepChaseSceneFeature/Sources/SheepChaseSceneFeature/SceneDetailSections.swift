@@ -175,9 +175,27 @@ extension SceneDetailView {
                                 }
                             }
                         }
-                        Text("参考组合；按队伍人数与等级在战斗筹备里逐个添加。")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
+                        if let adjustment = store.encounterAdjustment(for: encounter.id, in: run) {
+                            Text("DM 调整：")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(Theme.gold)
+                            ForEach(adjustment.combatants) { combatant in
+                                if let monster = store.monster(id: combatant.monsterID, in: run) {
+                                    Text("\(monster.name) × \(combatant.count)")
+                                        .font(.caption)
+                                        .foregroundStyle(Theme.inkSoft)
+                                }
+                            }
+                            if !adjustment.note.isEmpty {
+                                Text(adjustment.note)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        } else {
+                            Text("参考组合；按队伍人数与等级在战斗筹备里逐个添加。")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                        }
                         DMAnnotationEditor(
                             subject: encounter.title,
                             annotation: store.annotation(kind: .encounter, targetID: encounter.id, in: run),
@@ -190,12 +208,18 @@ extension SceneDetailView {
                         )
                         HStack {
                             Button {
-                                store.openBattleSetup(for: run)
+                                store.prepareEncounter(encounter.id, in: run)
                             } label: {
-                                Label(run.battle?.phase == .active ? "返回战斗" : "筹备战斗", systemImage: "shield.lefthalf.filled")
+                                Label(run.battle?.phase == .active ? "返回战斗" : "按调整筹备", systemImage: "shield.lefthalf.filled")
                             }
                             .buttonStyle(.borderedProminent)
                             .tint(Theme.red)
+                            Button {
+                                editingEncounter = encounter
+                            } label: {
+                                Label("调整遭遇", systemImage: "slider.horizontal.3")
+                            }
+                            .buttonStyle(.bordered)
                             Spacer()
                         }
                     }
