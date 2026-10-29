@@ -8,6 +8,7 @@ struct RunSidebar: View {
     @Environment(RunStore.self) private var store
     @Bindable var run: RunRecord
     @Binding var showGuide: Bool
+    @State private var showSaveTemplate = false
 
     private var sceneSelection: Binding<String?> {
         Binding(
@@ -62,6 +63,15 @@ struct RunSidebar: View {
             Section("本团") {
                 LabeledContent("队伍", value: "\(run.party.count) 人")
                 LabeledContent("便签", value: "\(run.stickyNotes.count) 张")
+                Button {
+                    showSaveTemplate = true
+                } label: {
+                    Label("另存为我的模组", systemImage: "square.and.arrow.down.on.square")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(Theme.red)
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("save-as-template")
             }
         }
         .listStyle(.sidebar)
@@ -94,5 +104,16 @@ struct RunSidebar: View {
             }
         }
         .navigationTitle("场景")
+        .sheet(isPresented: $showSaveTemplate) {
+            SaveTemplateSheet(run: run)
+                .environment(store)
+        }
+        .task {
+            #if DEBUG
+            if ProcessInfo.processInfo.arguments.contains("-demoSaveTemplate") {
+                showSaveTemplate = true
+            }
+            #endif
+        }
     }
 }

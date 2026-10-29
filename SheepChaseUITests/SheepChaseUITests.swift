@@ -143,6 +143,26 @@ final class SheepChaseUITests: XCTestCase {
         XCTAssertTrue(app.buttons["删除开团"].exists)
     }
 
+    func testSaveTemplateSheetOpens() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-demoRun", "-demoScene3", "-demoSaveTemplate", "-resetPins"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
+        XCTAssertTrue(app.staticTexts["保存内容"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["模组信息"].exists)
+        app.buttons["取消"].tap()
+    }
+
+    func testNewRunShowsModulePicker() throws {
+        let app = XCUIApplication()
+        app.launch()
+        XCTAssertTrue(app.staticTexts["我的开团"].waitForExistence(timeout: 12))
+        app.buttons["新建开团"].tap()
+        XCTAssertTrue(app.staticTexts["选择模组"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["原始模组"].exists)
+        XCTAssertTrue(app.buttons["创建开团"].exists)
+    }
+
     func testGlobalSearchOpens() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]

@@ -55,6 +55,11 @@ struct LibraryRunDetail: View {
                         Text("\(store.adventure.level.min)–\(store.adventure.level.max) 级 · \(store.adventure.players.min)–\(store.adventure.players.max) 人 · 约 \(store.adventure.durationMinutes) 分钟")
                             .font(.callout)
                             .foregroundStyle(.secondary)
+                        if let templateName = run.sourceTemplateName {
+                            Text("基于我的模组：\(templateName)\(run.sourceTemplateBaseVersion.map { " · \($0)" } ?? "")")
+                                .font(.caption)
+                                .foregroundStyle(Theme.red)
+                        }
                     }
                 }
 

@@ -1,0 +1,77 @@
+import SheepChaseCore
+import SheepChaseRunStore
+import SheepChaseUI
+import SwiftUI
+
+struct TemplateLibrarySheet: View {
+    @Environment(RunStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var renaming: AdventureTemplate?
+    @State private var renameText = ""
+    @State private var deleting: AdventureTemplate?
+
+    var body: some View {
+        BookFormSheet(
+            title: "我的模组",
+            primaryTitle: "完成",
+            onCancel: { dismiss() },
+            onPrimary: { dismiss() }
+        ) {
+            if store.orderedTemplates.isEmpty {
+                Text("还没有保存过自己的模组。进入开团后，在左侧“本团”里选择“另存为我的模组”。")
+                    .font(Theme.serif(13))
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(store.orderedTemplates) { template in
+                    BookFormSection(template.name) {
+                        if !template.summary.isEmpty {
+                            Text(template.summary)
+                                .font(Theme.serif(13))
+                                .foregroundStyle(Theme.inkSoft)
+                        }
+                        Text("基于 \(template.baseModuleTitle) · \(template.baseContentVersion) · \(template.changeCount) 处改动")
+                            .font(Theme.serif(11))
+                            .foregroundStyle(.secondary)
+                        HStack {
+                            Button("重命名") {
+                                renameText = template.name
+                                renaming = template
+                            }
+                            .buttonStyle(.bordered)
+                            Spacer()
+                            Button("删除", role: .destructive) {
+                                deleting = template
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                }
+            }
+        }
+        .alert("重命名模组", isPresented: Binding(
+            get: { renaming != nil },
+            set: { if !$0 { renaming = nil } }
+        )) {
+            TextField("模组名称", text: $renameText)
+            Button("取消", role: .cancel) {}
+            Button("保存") {
+                if let renaming {
+                    try? store.renameTemplate(renaming, to: renameText)
+                }
+                renaming = nil
+            }
+        }
+        .alert("删除这个模组？", isPresented: Binding(
+            get: { deleting != nil },
+            set: { if !$0 { deleting = nil } }
+        )) {
+            Button("取消", role: .cancel) {}
+            Button("删除", role: .destructive) {
+                if let deleting { store.deleteTemplate(deleting) }
+                deleting = nil
+            }
+        } message: {
+            Text("已用这个模组创建的开团不会受影响。")
+        }
+    }
+}

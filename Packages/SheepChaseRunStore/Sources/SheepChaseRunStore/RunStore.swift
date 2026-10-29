@@ -13,8 +13,10 @@ public final class RunStore {
     public let repository: RunRepository
     public let appVersion: String
     public let backupDirectory: URL
+    public let templateRepository: AdventureTemplateRepository
 
     public var runs: [RunRecord] = []
+    public var templates: [AdventureTemplate] = []
     public var selectedRunID: UUID?
     public var selectedTab: InspectorTab = .party
     public var toast: String?
@@ -26,12 +28,16 @@ public final class RunStore {
         content: ContentPack,
         appVersion: String,
         backupDirectory: URL,
+        templateRepository: AdventureTemplateRepository? = nil,
         seed: () -> [RunRecord] = { [] }
     ) {
         self.repository = repository
         self.content = content
         self.appVersion = appVersion
         self.backupDirectory = backupDirectory
+        self.templateRepository = templateRepository
+            ?? AdventureTemplateRepository(fileURL: backupDirectory.appendingPathComponent("MyAdventureTemplates.json"))
+        self.templates = self.templateRepository.load().sorted { $0.updatedAt > $1.updatedAt }
         fetchRuns()
         if runs.isEmpty {
             let demoRuns = seed()
@@ -151,19 +157,7 @@ public final class RunStore {
     }
 
     public func createRun(name: String) {
-        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let run = RunRecord(
-            name: trimmed.isEmpty ? "未命名开团" : trimmed,
-            sceneID: scenes.first?.id ?? "scene-1",
-            beatID: scenes.first?.beats.first?.id ?? "",
-            contentVersion: content.manifest.version
-        )
-        repository.insert(run)
-        runs.append(run)
-        selectedRunID = run.id
-        selectedTab = .party
-        persist()
-        notify("已创建空白开团")
+        createRun(name: name, from: nil)
     }
 
     public func selectScene(_ scene: ContentPack.AdventureScene, in run: RunRecord) {

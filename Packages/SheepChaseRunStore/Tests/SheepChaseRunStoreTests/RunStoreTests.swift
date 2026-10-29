@@ -22,11 +22,15 @@ final class RunStoreTests: XCTestCase {
         let container = try ModelContainer(for: RunRecord.self, configurations: config)
         let repository = RunRepository(context: container.mainContext)
         let seedRun = RunRecord(name: "种子团", contentVersion: content.manifest.version)
+        let templateURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("template-test-\(UUID().uuidString).json")
+        let templateRepository = AdventureTemplateRepository(fileURL: templateURL)
         let store = RunStore(
             repository: repository,
             content: content,
             appVersion: "test",
             backupDirectory: FileManager.default.temporaryDirectory,
+            templateRepository: templateRepository,
             seed: { [seedRun] }
         )
 
@@ -96,5 +100,24 @@ final class RunStoreTests: XCTestCase {
         )
         store.prepareEncounter("guz-ambush", in: run)
         XCTAssertEqual(run.battle?.monsters.count, 1)
+
+        let template = try store.saveRunAsTemplate(from: run, name: "强化古兹", summary: "测试模组")
+        XCTAssertEqual(store.templates.count, 1)
+        XCTAssertEqual(template.patch.customNPCs.count, 1)
+        XCTAssertEqual(template.patch.customMonsters.count, 1)
+        XCTAssertEqual(template.patch.customMapPins.count, 1)
+        XCTAssertEqual(template.patch.monsterOverrides.count, 1)
+
+        store.createRun(name: "模板团", from: template)
+        guard let templateRun = store.selectedRun else { return XCTFail("missing template run") }
+        XCTAssertEqual(templateRun.sourceTemplateName, "强化古兹")
+        XCTAssertEqual(templateRun.customNPCs.count, 1)
+        XCTAssertEqual(templateRun.customMonsters.count, 1)
+        XCTAssertEqual(templateRun.monsterOverrides.first?.ac, 18)
+        XCTAssertTrue(templateRun.party.isEmpty)
+        XCTAssertTrue(templateRun.stickyNotes.isEmpty)
+
+        let reloaded = AdventureTemplateRepository(fileURL: templateURL).load()
+        XCTAssertEqual(reloaded.first?.name, "强化古兹")
     }
 }

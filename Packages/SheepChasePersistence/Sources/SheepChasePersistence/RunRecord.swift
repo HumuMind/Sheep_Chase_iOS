@@ -31,6 +31,9 @@ public final class RunRecord {
     public var monsterOverridesData: Data?
     public var isArchived: Bool = false
     public var contentVersion: String = ""
+    public var sourceTemplateID: UUID?
+    public var sourceTemplateName: String?
+    public var sourceTemplateBaseVersion: String?
 
     public init(
         name: String,
@@ -65,6 +68,9 @@ public final class RunRecord {
         self.monsterOverridesData = nil
         self.isArchived = false
         self.contentVersion = contentVersion
+        self.sourceTemplateID = nil
+        self.sourceTemplateName = nil
+        self.sourceTemplateBaseVersion = nil
     }
 
     public var mode: RunMode {
@@ -256,7 +262,10 @@ public final class RunRecord {
             customNPCs: customNPCs,
             customMonsters: customMonsters,
             encounterAdjustments: encounterAdjustments,
-            monsterOverrides: monsterOverrides
+            monsterOverrides: monsterOverrides,
+            sourceTemplateID: sourceTemplateID,
+            sourceTemplateName: sourceTemplateName,
+            sourceTemplateBaseVersion: sourceTemplateBaseVersion
         )
     }
 
@@ -283,6 +292,9 @@ public final class RunRecord {
         customMonsters = snapshot.customMonsters ?? []
         encounterAdjustments = snapshot.encounterAdjustments ?? []
         monsterOverrides = snapshot.monsterOverrides ?? []
+        sourceTemplateID = snapshot.sourceTemplateID
+        sourceTemplateName = snapshot.sourceTemplateName
+        sourceTemplateBaseVersion = snapshot.sourceTemplateBaseVersion
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {

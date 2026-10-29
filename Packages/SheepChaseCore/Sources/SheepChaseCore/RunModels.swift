@@ -225,6 +225,9 @@ public struct RunStateSnapshot: Codable {
     public var customMonsters: [RunCustomMonster]?
     public var encounterAdjustments: [RunEncounterAdjustment]?
     public var monsterOverrides: [RunMonsterOverride]?
+    public var sourceTemplateID: UUID?
+    public var sourceTemplateName: String?
+    public var sourceTemplateBaseVersion: String?
 
     public init(
         name: String,
@@ -248,7 +251,10 @@ public struct RunStateSnapshot: Codable {
         customNPCs: [RunCustomNPC]? = nil,
         customMonsters: [RunCustomMonster]? = nil,
         encounterAdjustments: [RunEncounterAdjustment]? = nil,
-        monsterOverrides: [RunMonsterOverride]? = nil
+        monsterOverrides: [RunMonsterOverride]? = nil,
+        sourceTemplateID: UUID? = nil,
+        sourceTemplateName: String? = nil,
+        sourceTemplateBaseVersion: String? = nil
     ) {
         self.name = name
         self.contentVersion = contentVersion
@@ -272,6 +278,9 @@ public struct RunStateSnapshot: Codable {
         self.customMonsters = customMonsters
         self.encounterAdjustments = encounterAdjustments
         self.monsterOverrides = monsterOverrides
+        self.sourceTemplateID = sourceTemplateID
+        self.sourceTemplateName = sourceTemplateName
+        self.sourceTemplateBaseVersion = sourceTemplateBaseVersion
     }
 }
 

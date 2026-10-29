@@ -14,6 +14,7 @@ public struct LibraryView: View {
     @Environment(RunStore.self) private var store
     @State private var selection: UUID?
     @State private var showNewRun = false
+    @State private var showTemplates = false
     @State private var showImporter = false
     @State private var showAbout = false
     @State private var showSearch = false
@@ -118,6 +119,13 @@ public struct LibraryView: View {
                     .help("新建开团")
 
                     Button {
+                        showTemplates = true
+                    } label: {
+                        Label("我的模组", systemImage: "square.stack.3d.up")
+                    }
+                    .help("管理已保存的模组")
+
+                    Button {
                         showImporter = true
                     } label: {
                         Label("导入开团备份", systemImage: "square.and.arrow.down")
@@ -137,6 +145,10 @@ public struct LibraryView: View {
         .tint(Theme.red)
         .sheet(isPresented: $showNewRun) {
             NewRunSheet()
+                .environment(store)
+        }
+        .sheet(isPresented: $showTemplates) {
+            TemplateLibrarySheet()
                 .environment(store)
         }
         .sheet(isPresented: $showAbout) {
