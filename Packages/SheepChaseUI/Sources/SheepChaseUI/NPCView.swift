@@ -4,9 +4,20 @@ import SheepChaseCore
 public struct NPCSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let npc: ContentPack.NPC
+    let annotation: DMAnnotation?
+    let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
+    let onAnnotationDelete: (() -> Void)?
 
-    public init(npc: ContentPack.NPC) {
+    public init(
+        npc: ContentPack.NPC,
+        annotation: DMAnnotation? = nil,
+        onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
+        onAnnotationDelete: (() -> Void)? = nil
+    ) {
         self.npc = npc
+        self.annotation = annotation
+        self.onAnnotationSave = onAnnotationSave
+        self.onAnnotationDelete = onAnnotationDelete
     }
 
     public var body: some View {
@@ -51,6 +62,16 @@ public struct NPCSheetView: View {
                             }
                             .padding(.bottom, 3)
                         }
+                    }
+
+                    if let onAnnotationSave, let onAnnotationDelete {
+                        DMAnnotationEditor(
+                            subject: npc.name,
+                            annotation: annotation,
+                            onSave: onAnnotationSave,
+                            onDelete: onAnnotationDelete
+                        )
+                        .padding(.top, 18)
                     }
 
                     pageFooter

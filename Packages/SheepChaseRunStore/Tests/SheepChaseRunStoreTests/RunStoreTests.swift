@@ -50,5 +50,12 @@ final class RunStoreTests: XCTestCase {
         XCTAssertTrue(store.isPinnedReference("npc:finethir-shinebright", in: run))
         store.togglePinnedReference("npc:finethir-shinebright", in: run)
         XCTAssertFalse(store.isPinnedReference("npc:finethir-shinebright", in: run))
+
+        store.setAnnotation(kind: .scene, targetID: "scene-3", mode: .replace, text: "我把树屋改成了夜间场景。", in: run)
+        XCTAssertEqual(store.annotation(kind: .scene, targetID: "scene-3", in: run)?.text, "我把树屋改成了夜间场景。")
+        XCTAssertEqual(store.annotation(kind: .scene, targetID: "scene-3", in: run)?.mode, .replace)
+        XCTAssertEqual(run.stateSnapshot.annotations?.first?.text, "我把树屋改成了夜间场景。")
+        store.removeAnnotation(kind: .scene, targetID: "scene-3", in: run)
+        XCTAssertNil(store.annotation(kind: .scene, targetID: "scene-3", in: run))
     }
 }

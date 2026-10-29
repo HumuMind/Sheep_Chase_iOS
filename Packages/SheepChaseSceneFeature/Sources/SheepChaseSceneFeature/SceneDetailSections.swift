@@ -199,6 +199,17 @@ extension SceneDetailView {
                                         }
                                     }
                                 }
+                                DMAnnotationEditor(
+                                    subject: beat.title,
+                                    annotation: store.annotation(kind: .beat, targetID: beat.id, in: run),
+                                    onSave: { text, mode in
+                                        store.setAnnotation(kind: .beat, targetID: beat.id, mode: mode, text: text, in: run)
+                                    },
+                                    onDelete: {
+                                        store.removeAnnotation(kind: .beat, targetID: beat.id, in: run)
+                                    }
+                                )
+                                .padding(.top, 1)
                             }
                             Spacer()
                         }

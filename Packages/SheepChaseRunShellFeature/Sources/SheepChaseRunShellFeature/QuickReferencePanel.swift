@@ -341,11 +341,29 @@ public struct QuickReferencePanel: View {
         switch selection.kind {
         case .npc:
             if let npc = store.npc(id: selection.itemID) {
-                NPCSheetView(npc: npc)
+                NPCSheetView(
+                    npc: npc,
+                    annotation: store.annotation(kind: .npc, targetID: npc.id, in: run),
+                    onAnnotationSave: { text, mode in
+                        store.setAnnotation(kind: .npc, targetID: npc.id, mode: mode, text: text, in: run)
+                    },
+                    onAnnotationDelete: {
+                        store.removeAnnotation(kind: .npc, targetID: npc.id, in: run)
+                    }
+                )
             }
         case .monster:
             if let monster = store.monster(id: selection.itemID) {
-                MonsterSheetView(monster: monster)
+                MonsterSheetView(
+                    monster: monster,
+                    annotation: store.annotation(kind: .monster, targetID: monster.id, in: run),
+                    onAnnotationSave: { text, mode in
+                        store.setAnnotation(kind: .monster, targetID: monster.id, mode: mode, text: text, in: run)
+                    },
+                    onAnnotationDelete: {
+                        store.removeAnnotation(kind: .monster, targetID: monster.id, in: run)
+                    }
+                )
             }
         case .item:
             if let item = store.item(id: selection.itemID) {

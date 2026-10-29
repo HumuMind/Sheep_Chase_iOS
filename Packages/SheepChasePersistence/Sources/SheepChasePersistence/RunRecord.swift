@@ -22,6 +22,7 @@ public final class RunRecord {
     public var sceneNotesData: Data?
     public var prepData: Data?
     public var pinnedReferenceData: Data?
+    public var annotationsData: Data?
     public var isArchived: Bool = false
     public var contentVersion: String = ""
 
@@ -49,6 +50,7 @@ public final class RunRecord {
         self.sceneNotesData = Self.encode([String: String]())
         self.prepData = Self.encode([String]())
         self.pinnedReferenceData = nil
+        self.annotationsData = nil
         self.isArchived = false
         self.contentVersion = contentVersion
     }
@@ -153,6 +155,16 @@ public final class RunRecord {
         }
     }
 
+    public var annotations: [DMAnnotation] {
+        get {
+            guard let annotationsData else { return [] }
+            return Self.decode([DMAnnotation].self, from: annotationsData) ?? []
+        }
+        set {
+            annotationsData = Self.encode(newValue)
+        }
+    }
+
     public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -169,7 +181,8 @@ public final class RunRecord {
             sessions: sessions,
             sceneNotes: sceneNotes,
             prepChecks: prepChecks,
-            pinnedReferenceIDs: pinnedReferenceIDs
+            pinnedReferenceIDs: pinnedReferenceIDs,
+            annotations: annotations
         )
     }
 
@@ -189,6 +202,7 @@ public final class RunRecord {
         sceneNotes = snapshot.sceneNotes ?? [:]
         prepChecks = snapshot.prepChecks ?? []
         pinnedReferenceIDs = snapshot.pinnedReferenceIDs ?? []
+        annotations = snapshot.annotations ?? []
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {

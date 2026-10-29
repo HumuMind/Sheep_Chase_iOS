@@ -218,6 +218,7 @@ public struct RunStateSnapshot: Codable {
     public var sceneNotes: [String: String]?
     public var prepChecks: [String]?
     public var pinnedReferenceIDs: [String]?
+    public var annotations: [DMAnnotation]?
 
     public init(
         name: String,
@@ -234,7 +235,8 @@ public struct RunStateSnapshot: Codable {
         sessions: [RunSession]? = nil,
         sceneNotes: [String: String]? = nil,
         prepChecks: [String]? = nil,
-        pinnedReferenceIDs: [String]? = nil
+        pinnedReferenceIDs: [String]? = nil,
+        annotations: [DMAnnotation]? = nil
     ) {
         self.name = name
         self.contentVersion = contentVersion
@@ -251,6 +253,7 @@ public struct RunStateSnapshot: Codable {
         self.sceneNotes = sceneNotes
         self.prepChecks = prepChecks
         self.pinnedReferenceIDs = pinnedReferenceIDs
+        self.annotations = annotations
     }
 }
 
@@ -325,5 +328,56 @@ public struct BattleState: Codable {
 
     public var totalParticipants: Int {
         selectedPlayerIDs.count + monsters.count
+    }
+}
+
+public enum DMAnnotationTargetKind: String, Codable, CaseIterable, Hashable {
+    case scene
+    case readAloud
+    case beat
+    case npc
+    case monster
+    case item
+    case spell
+    case rule
+    case handout
+    case encounter
+    case guide
+}
+
+public enum DMAnnotationMode: String, Codable, CaseIterable {
+    case append
+    case replace
+
+    public var title: String {
+        switch self {
+        case .append: "追加在原文后"
+        case .replace: "替换原文显示"
+        }
+    }
+}
+
+public struct DMAnnotation: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var targetKind: DMAnnotationTargetKind
+    public var targetID: String
+    public var mode: DMAnnotationMode
+    public var text: String
+    public var updatedAt: Date
+
+    public init(
+        id: UUID = UUID(),
+        targetKind: DMAnnotationTargetKind,
+        targetID: String,
+        mode: DMAnnotationMode = .append,
+        text: String,
+        updatedAt: Date = .now
+    ) {
+        self.id = id
+        self.targetKind = targetKind
+        self.targetID = targetID
+        self.mode = mode
+        self.text = text
+        self.updatedAt = updatedAt
     }
 }

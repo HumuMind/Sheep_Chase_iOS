@@ -205,8 +205,17 @@ public struct RunView: View {
                 .environment(store)
         }
         .sheet(item: $selectedNPC) { npc in
-            NPCSheetView(npc: npc)
-                .environment(store)
+            NPCSheetView(
+                npc: npc,
+                annotation: store.annotation(kind: .npc, targetID: npc.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .npc, targetID: npc.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .npc, targetID: npc.id, in: run)
+                }
+            )
+            .environment(store)
         }
         .sheet(item: $selectedHandout) { handout in
             HandoutSheetView(
@@ -228,8 +237,17 @@ public struct RunView: View {
                 .environment(store)
         }
         .sheet(item: $selectedMonster) { monster in
-            MonsterSheetView(monster: monster)
-                .environment(store)
+            MonsterSheetView(
+                monster: monster,
+                annotation: store.annotation(kind: .monster, targetID: monster.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .monster, targetID: monster.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .monster, targetID: monster.id, in: run)
+                }
+            )
+            .environment(store)
         }
         .sheet(isPresented: $showGuide) { AdventureGuideView(content: store.content) }
         .sheet(isPresented: $showSearch) {

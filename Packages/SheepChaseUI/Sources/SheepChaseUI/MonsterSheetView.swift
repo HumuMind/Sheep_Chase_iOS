@@ -4,9 +4,20 @@ import SheepChaseCore
 public struct MonsterSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let monster: ContentPack.Monster
+    let annotation: DMAnnotation?
+    let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
+    let onAnnotationDelete: (() -> Void)?
 
-    public init(monster: ContentPack.Monster) {
+    public init(
+        monster: ContentPack.Monster,
+        annotation: DMAnnotation? = nil,
+        onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
+        onAnnotationDelete: (() -> Void)? = nil
+    ) {
         self.monster = monster
+        self.annotation = annotation
+        self.onAnnotationSave = onAnnotationSave
+        self.onAnnotationDelete = onAnnotationDelete
     }
 
     public var body: some View {
@@ -105,6 +116,15 @@ public struct MonsterSheetView: View {
                         Text(sourceRef)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    }
+
+                    if let onAnnotationSave, let onAnnotationDelete {
+                        DMAnnotationEditor(
+                            subject: monster.name,
+                            annotation: annotation,
+                            onSave: onAnnotationSave,
+                            onDelete: onAnnotationDelete
+                        )
                     }
                 }
                 .padding(24)

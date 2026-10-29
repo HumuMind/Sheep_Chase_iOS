@@ -53,6 +53,21 @@ public struct SceneDetailView: View {
         (scene.encounterIds ?? []).compactMap { store.encounter(id: $0) }
     }
 
+    private var readAloudAnnotation: DMAnnotation? {
+        store.annotation(kind: .readAloud, targetID: scene.id, in: run)
+    }
+
+    private var sceneAnnotation: DMAnnotation? {
+        store.annotation(kind: .scene, targetID: scene.id, in: run)
+    }
+
+    private var displayedReadAloud: String? {
+        if let annotation = readAloudAnnotation, annotation.mode == .replace {
+            return annotation.text
+        }
+        return scene.readAloud
+    }
+
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
@@ -91,7 +106,7 @@ public struct SceneDetailView: View {
 
                 header
 
-                if let readAloud = scene.readAloud {
+                if let readAloud = displayedReadAloud {
                     GroupBox("朗读 / 描述") {
                         Text(readAloud.singleLineSpaced)
                             .font(.body)
@@ -100,6 +115,33 @@ public struct SceneDetailView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 3)
                     }
+                }
+
+                GroupBox("DM 改动") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        DMAnnotationEditor(
+                            subject: "朗读 / 描述",
+                            annotation: readAloudAnnotation,
+                            onSave: { text, mode in
+                                store.setAnnotation(kind: .readAloud, targetID: scene.id, mode: mode, text: text, in: run)
+                            },
+                            onDelete: {
+                                store.removeAnnotation(kind: .readAloud, targetID: scene.id, in: run)
+                            }
+                        )
+                        Divider()
+                        DMAnnotationEditor(
+                            subject: "场景正文",
+                            annotation: sceneAnnotation,
+                            onSave: { text, mode in
+                                store.setAnnotation(kind: .scene, targetID: scene.id, mode: mode, text: text, in: run)
+                            },
+                            onDelete: {
+                                store.removeAnnotation(kind: .scene, targetID: scene.id, in: run)
+                            }
+                        )
+                    }
+                    .padding(.vertical, 3)
                 }
 
                 beats
