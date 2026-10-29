@@ -78,3 +78,93 @@ public struct RunCustomBeat: Identifiable, Codable, Hashable {
         self.createdAt = createdAt
     }
 }
+
+public struct RunCustomMapPin: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var mapID: String
+    public var x: Double
+    public var y: Double
+    public var label: String
+    public var note: String
+    public var createdAt: Date
+
+    public init(
+        id: UUID = UUID(),
+        mapID: String,
+        x: Double,
+        y: Double,
+        label: String,
+        note: String = "",
+        createdAt: Date = .now
+    ) {
+        self.id = id
+        self.mapID = mapID
+        self.x = x
+        self.y = y
+        self.label = label
+        self.note = note
+        self.createdAt = createdAt
+    }
+}
+
+public struct RunCustomNPC: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var name: String
+    public var role: String
+    public var description: String
+    public var keyCharacteristics: [String]
+    public var createdAt: Date
+
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        role: String,
+        description: String,
+        keyCharacteristics: [String] = [],
+        createdAt: Date = .now
+    ) {
+        self.id = id
+        self.name = name
+        self.role = role
+        self.description = description
+        self.keyCharacteristics = keyCharacteristics
+        self.createdAt = createdAt
+    }
+}
+
+public struct RunCustomMonster: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var name: String
+    public var size: String
+    public var type: String
+    public var alignment: String
+    public var ac: Int
+    public var hp: Int
+    public var initiativeModifier: Int
+    public var actionText: String
+    public var createdAt: Date
+
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        size: String = "中型",
+        type: String = "怪兽",
+        alignment: String = "无阵营",
+        ac: Int,
+        hp: Int,
+        initiativeModifier: Int = 0,
+        actionText: String,
+        createdAt: Date = .now
+    ) {
+        self.id = id
+        self.name = name
+        self.size = size
+        self.type = type
+        self.alignment = alignment
+        self.ac = ac
+        self.hp = hp
+        self.initiativeModifier = initiativeModifier
+        self.actionText = actionText
+        self.createdAt = createdAt
+    }
+}

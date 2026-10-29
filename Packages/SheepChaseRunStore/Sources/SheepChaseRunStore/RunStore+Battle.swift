@@ -61,7 +61,7 @@ extension RunStore {
         guard var battle = run.battle else { return }
         BattleEngine.goToInitiative(
             battle: &battle,
-            monsters: content.monsters,
+            monsters: battleMonsters(in: run),
             d20Roll: { self.d20() }
         )
         run.battle = battle
@@ -97,7 +97,7 @@ extension RunStore {
         guard BattleEngine.start(
             battle: &battle,
             players: run.party,
-            monsters: content.monsters
+            monsters: battleMonsters(in: run)
         ) else { return }
 
         run.battle = battle

@@ -15,11 +15,17 @@ public struct MapView: View {
 
     @State private var selectedPinID: String?
     @State private var showDMPins = true
+    @State private var showAddCustomPin = false
     @State private var zoom: CGFloat = 1
     @State private var offset: CGSize = .zero
     @GestureState private var dragOffset: CGSize = .zero
 
     private var mapData: ContentPack.MapData? { store.maps.first }
+
+    private var customPins: [RunCustomMapPin] {
+        guard let mapData else { return [] }
+        return store.customMapPins(for: mapData.id, in: run)
+    }
 
     public var body: some View {
         ScrollView {
@@ -76,6 +82,12 @@ public struct MapView: View {
             .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)
         }
+        .sheet(isPresented: $showAddCustomPin) {
+            if let mapData {
+                CustomMapPinSheet(map: mapData, run: run)
+                    .environment(store)
+            }
+        }
     }
 
     private var mapCanvas: some View {
@@ -96,6 +108,9 @@ public struct MapView: View {
                     ForEach(mapData.pins.filter { showDMPins || !$0.dmOnly }) { pin in
                         pinButton(pin, in: proxy.size)
                     }
+                }
+                ForEach(customPins) { pin in
+                    customPinButton(pin, in: proxy.size)
                 }
             }
             .scaleEffect(zoom)
@@ -154,10 +169,36 @@ public struct MapView: View {
         .help(pin.label)
     }
 
+    private func customPinButton(_ pin: RunCustomMapPin, in size: CGSize) -> some View {
+        Button {
+            selectedPinID = pin.id.uuidString
+        } label: {
+            Image(systemName: selectedPinID == pin.id.uuidString ? "mappin.circle.fill" : "mappin.circle")
+                .font(.system(size: selectedPinID == pin.id.uuidString ? 22 : 17))
+                .foregroundStyle(Theme.gold)
+                .background(Circle().fill(Theme.paper.opacity(0.9)).frame(width: 22, height: 22))
+                .shadow(color: .black.opacity(0.25), radius: 2, y: 1)
+        }
+        .buttonStyle(.plain)
+        .position(x: size.width * CGFloat(pin.x), y: size.height * CGFloat(pin.y))
+        .help(pin.label)
+    }
+
     private var pinList: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("图钉")
-                .font(.headline)
+            HStack {
+                Text("图钉")
+                    .font(.headline)
+                Spacer()
+                Button {
+                    showAddCustomPin = true
+                } label: {
+                    Label("自定义", systemImage: "plus")
+                        .font(.caption)
+                }
+                .buttonStyle(.borderless)
+                .foregroundStyle(Theme.red)
+            }
             if let mapData {
                 ForEach(mapData.pins.filter { showDMPins || !$0.dmOnly }) { pin in
                     Button {
@@ -185,6 +226,43 @@ public struct MapView: View {
                     .buttonStyle(.plain)
                     .help(pin.dmOnly ? "DM-only 图钉" : "玩家可见图钉")
                     Divider()
+                }
+                if !customPins.isEmpty {
+                    Text("自定义图钉")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 4)
+                    ForEach(customPins) { pin in
+                        Button {
+                            selectedPinID = pin.id.uuidString
+                        } label: {
+                            VStack(alignment: .leading, spacing: 2) {
+                                HStack(spacing: 5) {
+                                    Image(systemName: "mappin.circle.fill")
+                                        .font(.system(size: 9))
+                                        .foregroundStyle(Theme.gold)
+                                    Text(pin.label)
+                                        .font(.callout.weight(selectedPinID == pin.id.uuidString ? .semibold : .regular))
+                                    Spacer()
+                                }
+                                if selectedPinID == pin.id.uuidString, !pin.note.isEmpty {
+                                    Text(pin.note)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                store.deleteCustomMapPin(pin.id, in: run)
+                            } label: {
+                                Label("删除图钉", systemImage: "trash")
+                            }
+                        }
+                        Divider()
+                    }
                 }
             }
         }

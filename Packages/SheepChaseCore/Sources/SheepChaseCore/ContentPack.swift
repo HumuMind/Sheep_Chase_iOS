@@ -103,6 +103,85 @@ public struct ContentPack: Decodable {
         public let text: String
     }
 
+    public struct TextPair: Decodable, Identifiable {
+        public let name: String
+        public let text: String
+        public var id: String { name }
+
+        public init(name: String, text: String) {
+            self.name = name
+            self.text = text
+        }
+    }
+
+    public struct ArmorClass: Decodable {
+        public let value: Int
+        public let note: String?
+
+        public init(value: Int, note: String? = nil) {
+            self.value = value
+            self.note = note
+        }
+    }
+
+    public struct HitPoints: Decodable {
+        public let average: Int
+        public let formula: String
+
+        public init(average: Int, formula: String) {
+            self.average = average
+            self.formula = formula
+        }
+    }
+
+    public struct Speed: Decodable {
+        public let walk: Int
+        public let climb: Int?
+        public let fly: Int?
+
+        public init(walk: Int = 30, climb: Int? = nil, fly: Int? = nil) {
+            self.walk = walk
+            self.climb = climb
+            self.fly = fly
+        }
+    }
+
+    public struct Abilities: Decodable {
+        public let str: Int
+        public let dex: Int
+        public let con: Int
+        public let int: Int
+        public let wis: Int
+        public let cha: Int
+
+        public init(str: Int, dex: Int, con: Int, int: Int, wis: Int, cha: Int) {
+            self.str = str
+            self.dex = dex
+            self.con = con
+            self.int = int
+            self.wis = wis
+            self.cha = cha
+        }
+    }
+
+    public struct Senses: Decodable {
+        public let passivePerception: Int
+
+        public init(passivePerception: Int) {
+            self.passivePerception = passivePerception
+        }
+    }
+
+    public struct Challenge: Decodable {
+        public let rating: Double
+        public let xp: Int
+
+        public init(rating: Double, xp: Int) {
+            self.rating = rating
+            self.xp = xp
+        }
+    }
+
     public struct Monster: Decodable, Identifiable {
         public let id: String
         public let name: String
@@ -131,46 +210,6 @@ public struct ContentPack: Decodable {
         public var initiativeModifier: Int {
             Int(floor(Double(abilities.dex - 10) / 2.0))
         }
-    }
-
-    public struct ArmorClass: Decodable {
-        public let value: Int
-        public let note: String?
-    }
-
-    public struct HitPoints: Decodable {
-        public let average: Int
-        public let formula: String
-    }
-
-    public struct Speed: Decodable {
-        public let walk: Int
-        public let climb: Int?
-        public let fly: Int?
-    }
-
-    public struct Abilities: Decodable {
-        public let str: Int
-        public let dex: Int
-        public let con: Int
-        public let int: Int
-        public let wis: Int
-        public let cha: Int
-    }
-
-    public struct Senses: Decodable {
-        public let passivePerception: Int
-    }
-
-    public struct Challenge: Decodable {
-        public let rating: Double
-        public let xp: Int
-    }
-
-    public struct TextPair: Decodable, Identifiable {
-        public let name: String
-        public let text: String
-        public var id: String { name }
     }
 
     public struct Encounter: Decodable, Identifiable {
@@ -234,6 +273,46 @@ public struct ContentPack: Decodable {
         public let relationships: [Relationship]?
         public let portraitAssetId: String?
         public let sourceRef: String?
+
+        public init(
+            id: String,
+            name: String,
+            role: String,
+            publicDescription: String,
+            dmDescription: String,
+            personality: [String] = [],
+            voice: String = "",
+            motivation: String = "",
+            attitude: String = "neutral",
+            knows: [String] = [],
+            secrets: [String] = [],
+            wants: [String] = [],
+            sampleLines: [String] = [],
+            keyCharacteristics: [String]? = nil,
+            sourceText: String? = nil,
+            relationships: [Relationship]? = nil,
+            portraitAssetId: String? = nil,
+            sourceRef: String? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.role = role
+            self.publicDescription = publicDescription
+            self.dmDescription = dmDescription
+            self.personality = personality
+            self.voice = voice
+            self.motivation = motivation
+            self.attitude = attitude
+            self.knows = knows
+            self.secrets = secrets
+            self.wants = wants
+            self.sampleLines = sampleLines
+            self.keyCharacteristics = keyCharacteristics
+            self.sourceText = sourceText
+            self.relationships = relationships
+            self.portraitAssetId = portraitAssetId
+            self.sourceRef = sourceRef
+        }
 
         public struct Relationship: Decodable, Identifiable {
             public let label: String

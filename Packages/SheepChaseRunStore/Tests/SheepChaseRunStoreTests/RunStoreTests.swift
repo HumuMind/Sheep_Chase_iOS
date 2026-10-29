@@ -66,5 +66,21 @@ final class RunStoreTests: XCTestCase {
             store.deleteCustomBeat(custom.id, in: run)
         }
         XCTAssertTrue(store.customBeats(for: "scene-3", in: run).isEmpty)
+
+        store.addCustomNPC(name: "自定义线人", role: "情报贩子", description: "知道树屋密道。", keyCharacteristics: ["谨慎"], in: run)
+        let customNPC = store.customNPCs(in: run).first
+        XCTAssertEqual(customNPC?.name, "自定义线人")
+        if let customNPC {
+            XCTAssertEqual(store.npc(id: "custom-npc-\(customNPC.id.uuidString)", in: run)?.name, "自定义线人")
+        }
+
+        store.addCustomMapPin(mapID: "treehouse", x: 0.4, y: 0.6, label: "密道", note: "通往厨房", in: run)
+        XCTAssertEqual(store.customMapPins(for: "treehouse", in: run).first?.label, "密道")
+
+        store.addCustomMonster(name: "守门魔像", size: "大型", type: "构装体", alignment: "无阵营", ac: 17, hp: 60, initiativeModifier: -1, actionText: "挥拳攻击。", in: run)
+        XCTAssertTrue(store.orderedBattleMonsters(in: run).contains { $0.name == "守门魔像" })
+        if let customMonster = store.customMonsters(in: run).first {
+            XCTAssertEqual(store.monster(id: "custom-monster-\(customMonster.id.uuidString)", in: run)?.name, "守门魔像")
+        }
     }
 }

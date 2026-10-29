@@ -71,7 +71,7 @@ struct BattleSelectView: View {
                 GroupBox {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack(spacing: 6) {
-                            ForEach(store.orderedBattleMonsters) { monster in
+                            ForEach(store.orderedBattleMonsters(in: run)) { monster in
                                 Button("＋ \(monster.name)") {
                                     store.addBattleMonster(monster, in: run)
                                 }

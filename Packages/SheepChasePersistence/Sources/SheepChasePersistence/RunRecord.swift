@@ -24,6 +24,9 @@ public final class RunRecord {
     public var pinnedReferenceData: Data?
     public var annotationsData: Data?
     public var customBeatsData: Data?
+    public var customMapPinsData: Data?
+    public var customNPCsData: Data?
+    public var customMonstersData: Data?
     public var isArchived: Bool = false
     public var contentVersion: String = ""
 
@@ -53,6 +56,9 @@ public final class RunRecord {
         self.pinnedReferenceData = nil
         self.annotationsData = nil
         self.customBeatsData = nil
+        self.customMapPinsData = nil
+        self.customNPCsData = nil
+        self.customMonstersData = nil
         self.isArchived = false
         self.contentVersion = contentVersion
     }
@@ -177,6 +183,36 @@ public final class RunRecord {
         }
     }
 
+    public var customMapPins: [RunCustomMapPin] {
+        get {
+            guard let customMapPinsData else { return [] }
+            return Self.decode([RunCustomMapPin].self, from: customMapPinsData) ?? []
+        }
+        set {
+            customMapPinsData = Self.encode(newValue)
+        }
+    }
+
+    public var customNPCs: [RunCustomNPC] {
+        get {
+            guard let customNPCsData else { return [] }
+            return Self.decode([RunCustomNPC].self, from: customNPCsData) ?? []
+        }
+        set {
+            customNPCsData = Self.encode(newValue)
+        }
+    }
+
+    public var customMonsters: [RunCustomMonster] {
+        get {
+            guard let customMonstersData else { return [] }
+            return Self.decode([RunCustomMonster].self, from: customMonstersData) ?? []
+        }
+        set {
+            customMonstersData = Self.encode(newValue)
+        }
+    }
+
     public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -195,7 +231,10 @@ public final class RunRecord {
             prepChecks: prepChecks,
             pinnedReferenceIDs: pinnedReferenceIDs,
             annotations: annotations,
-            customBeats: customBeats
+            customBeats: customBeats,
+            customMapPins: customMapPins,
+            customNPCs: customNPCs,
+            customMonsters: customMonsters
         )
     }
 
@@ -217,6 +256,9 @@ public final class RunRecord {
         pinnedReferenceIDs = snapshot.pinnedReferenceIDs ?? []
         annotations = snapshot.annotations ?? []
         customBeats = snapshot.customBeats ?? []
+        customMapPins = snapshot.customMapPins ?? []
+        customNPCs = snapshot.customNPCs ?? []
+        customMonsters = snapshot.customMonsters ?? []
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {

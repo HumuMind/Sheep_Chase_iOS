@@ -220,6 +220,9 @@ public struct RunStateSnapshot: Codable {
     public var pinnedReferenceIDs: [String]?
     public var annotations: [DMAnnotation]?
     public var customBeats: [RunCustomBeat]?
+    public var customMapPins: [RunCustomMapPin]?
+    public var customNPCs: [RunCustomNPC]?
+    public var customMonsters: [RunCustomMonster]?
 
     public init(
         name: String,
@@ -238,7 +241,10 @@ public struct RunStateSnapshot: Codable {
         prepChecks: [String]? = nil,
         pinnedReferenceIDs: [String]? = nil,
         annotations: [DMAnnotation]? = nil,
-        customBeats: [RunCustomBeat]? = nil
+        customBeats: [RunCustomBeat]? = nil,
+        customMapPins: [RunCustomMapPin]? = nil,
+        customNPCs: [RunCustomNPC]? = nil,
+        customMonsters: [RunCustomMonster]? = nil
     ) {
         self.name = name
         self.contentVersion = contentVersion
@@ -257,6 +263,9 @@ public struct RunStateSnapshot: Codable {
         self.pinnedReferenceIDs = pinnedReferenceIDs
         self.annotations = annotations
         self.customBeats = customBeats
+        self.customMapPins = customMapPins
+        self.customNPCs = customNPCs
+        self.customMonsters = customMonsters
     }
 }
 

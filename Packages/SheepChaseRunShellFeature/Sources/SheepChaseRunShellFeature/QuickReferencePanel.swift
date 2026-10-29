@@ -7,23 +7,21 @@ public struct QuickReferencePanel: View {
     public init(run: RunRecord) {
         self.run = run
     }
-
-    @Environment(RunStore.self) private var store
+    @Environment(RunStore.self) var store
     @Bindable var run: RunRecord
     @State private var isExpanded = true
     @State private var expandedKinds: Set<QuickReferenceKind> = [.npc]
     @State private var selection: QuickReferenceSelection?
-
+    @State var showAddNPC = false
+    @State var showAddMonster = false
     private var allEntries: [QuickReferenceEntry] {
         QuickReferenceKind.allCases.flatMap(entries(for:))
     }
-
     private var pinnedEntries: [QuickReferenceEntry] {
         run.pinnedReferenceIDs.compactMap { id in
             allEntries.first { $0.id == id }
         }
     }
-
     public var body: some View {
         Group {
             if isExpanded {
@@ -36,8 +34,15 @@ public struct QuickReferencePanel: View {
             detail(for: selection)
                 .environment(store)
         }
+        .sheet(isPresented: $showAddNPC) {
+            CustomNPCSheet(run: run)
+                .environment(store)
+        }
+        .sheet(isPresented: $showAddMonster) {
+            CustomMonsterSheet(run: run)
+                .environment(store)
+        }
     }
-
     private var expandedPanel: some View {
         VStack(spacing: 0) {
             HStack(spacing: 8) {
@@ -60,13 +65,9 @@ public struct QuickReferencePanel: View {
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 9)
-
             Divider().opacity(0.5)
-
             pinnedSection
-
             Divider().opacity(0.5)
-
             ScrollView {
                 VStack(spacing: 2) {
                     ForEach(QuickReferenceKind.allCases) { kind in
@@ -89,7 +90,6 @@ public struct QuickReferencePanel: View {
         .shadow(color: .black.opacity(0.18), radius: 16, y: 7)
         .accessibilityIdentifier("quick-reference-panel")
     }
-
     private var collapsedButton: some View {
         Button {
             withAnimation(.easeInOut(duration: 0.16)) { isExpanded = true }
@@ -120,7 +120,6 @@ public struct QuickReferencePanel: View {
         .buttonStyle(.plain)
         .accessibilityIdentifier("quick-reference-open")
     }
-
     private var pinnedSection: some View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
@@ -175,7 +174,6 @@ public struct QuickReferencePanel: View {
             .buttonStyle(.plain)
             .accessibilityLabel("\(kind.title)，\(expanded ? "收起" : "展开")")
             .accessibilityIdentifier("qr-category-\(kind.rawValue)")
-
             if expanded {
                 if entries.isEmpty {
                     Text("暂无内容")
@@ -186,6 +184,8 @@ public struct QuickReferencePanel: View {
                 } else {
                     tagRows(entries)
                         .padding(.vertical, 3)
+                    if kind == .npc { customNPCButton }
+                    if kind == .monster { customMonsterButton }
                 }
             }
         }
@@ -219,7 +219,6 @@ public struct QuickReferencePanel: View {
         var current: [QuickReferenceEntry] = []
         var currentWidth: CGFloat = 0
         let maxWidth: CGFloat = 286
-
         for entry in entries {
             let width = estimatedTagWidth(entry)
             let spacing: CGFloat = current.isEmpty ? 0 : 4
@@ -266,6 +265,22 @@ public struct QuickReferencePanel: View {
                 } label: {
                     Label(pinned ? "取消钉住" : "钉住", systemImage: pinned ? "pin.slash" : "pin")
                 }
+                if entry.itemID.hasPrefix("custom-npc-"),
+                   let uuid = UUID(uuidString: String(entry.itemID.dropFirst("custom-npc-".count))) {
+                    Button(role: .destructive) {
+                        store.deleteCustomNPC(uuid, in: run)
+                    } label: {
+                        Label("删除自定义人物", systemImage: "trash")
+                    }
+                }
+                if entry.itemID.hasPrefix("custom-monster-"),
+                   let uuid = UUID(uuidString: String(entry.itemID.dropFirst("custom-monster-".count))) {
+                    Button(role: .destructive) {
+                        store.deleteCustomMonster(uuid, in: run)
+                    } label: {
+                        Label("删除自定义怪物", systemImage: "trash")
+                    }
+                }
             }
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(entry.title)
@@ -298,40 +313,11 @@ public struct QuickReferencePanel: View {
             .accessibilityAddTraits(.isButton)
             .accessibilityIdentifier("qr-pinned-\(entry.id)")
     }
-    private func entries(for kind: QuickReferenceKind) -> [QuickReferenceEntry] {
-        switch kind {
-        case .npc:
-            return store.npcs.map {
-                QuickReferenceEntry(kind: kind, itemID: $0.id, title: $0.name, subtitle: $0.role)
-            }
-        case .monster:
-            return store.orderedBattleMonsters.map {
-                QuickReferenceEntry(kind: kind, itemID: $0.id, title: $0.name, subtitle: $0.type)
-            }
-        case .item:
-            return store.items.map {
-                QuickReferenceEntry(kind: kind, itemID: $0.id, title: $0.name, subtitle: $0.kind)
-            }
-        case .spell:
-            return store.content.spells
-                .sorted { ($0.level, $0.name) < ($1.level, $1.name) }
-                .map {
-                    QuickReferenceEntry(kind: kind, itemID: $0.id, title: $0.name, subtitle: "\($0.level) 环 · \($0.school)")
-                }
-        case .rule:
-            return store.content.rules
-                .sorted { ($0.category, $0.term) < ($1.category, $1.term) }
-                .map {
-                    QuickReferenceEntry(kind: kind, itemID: $0.id, title: $0.term, subtitle: $0.category)
-                }
-        }
-    }
-
     @ViewBuilder
     private func detail(for selection: QuickReferenceSelection) -> some View {
         switch selection.kind {
         case .npc:
-            if let npc = store.npc(id: selection.itemID) {
+            if let npc = store.npc(id: selection.itemID, in: run) {
                 NPCSheetView(
                     npc: npc,
                     annotation: store.annotation(kind: .npc, targetID: npc.id, in: run),
@@ -344,7 +330,7 @@ public struct QuickReferencePanel: View {
                 )
             }
         case .monster:
-            if let monster = store.monster(id: selection.itemID) {
+            if let monster = store.monster(id: selection.itemID, in: run) {
                 MonsterSheetView(
                     monster: monster,
                     annotation: store.annotation(kind: .monster, targetID: monster.id, in: run),
