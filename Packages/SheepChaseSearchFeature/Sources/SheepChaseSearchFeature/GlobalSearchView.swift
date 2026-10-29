@@ -108,7 +108,62 @@ public struct GlobalSearchView: View {
                 results.append(GlobalSearchResult(id: "map:\(map.id)", kind: "地图", title: map.title, subtitle: "\(map.pins.count) 个图钉", body: map.pins.map { "\($0.label)：\($0.description ?? "")" }.joined(separator: "\n"), sceneID: nil))
             }
         }
+        if let run {
+            for annotation in run.annotations where annotation.text.localizedCaseInsensitiveContains(needle) {
+                results.append(GlobalSearchResult(
+                    id: "annotation:\(annotation.id)",
+                    kind: "DM 改动",
+                    title: annotationTitle(annotation),
+                    subtitle: annotation.targetKind.rawValue,
+                    body: annotation.text,
+                    sceneID: sceneID(for: annotation)
+                ))
+            }
+        }
         return results
+    }
+
+    private func annotationTitle(_ annotation: DMAnnotation) -> String {
+        switch annotation.targetKind {
+        case .scene, .readAloud:
+            return store.scene(id: annotation.targetID)?.title ?? annotation.targetID
+        case .beat:
+            for scene in store.scenes {
+                if let beat = scene.beats.first(where: { $0.id == annotation.targetID }) {
+                    return beat.title
+                }
+            }
+            return annotation.targetID
+        case .npc:
+            return store.npc(id: annotation.targetID)?.name ?? annotation.targetID
+        case .monster:
+            return store.monster(id: annotation.targetID)?.name ?? annotation.targetID
+        case .item:
+            return store.item(id: annotation.targetID)?.name ?? annotation.targetID
+        case .spell:
+            return store.spell(id: annotation.targetID)?.name ?? annotation.targetID
+        case .rule:
+            return store.rule(id: annotation.targetID)?.term ?? annotation.targetID
+        case .handout:
+            return store.handout(id: annotation.targetID)?.title ?? annotation.targetID
+        case .encounter:
+            return store.encounter(id: annotation.targetID)?.title ?? annotation.targetID
+        case .guide:
+            return "DM 导读"
+        }
+    }
+
+    private func sceneID(for annotation: DMAnnotation) -> String? {
+        switch annotation.targetKind {
+        case .scene, .readAloud:
+            return annotation.targetID
+        case .beat:
+            return store.scenes.first { scene in
+                scene.beats.contains { $0.id == annotation.targetID }
+            }?.id
+        default:
+            return nil
+        }
     }
 
     public var body: some View {
@@ -117,7 +172,7 @@ public struct GlobalSearchView: View {
                 HStack(spacing: 7) {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(.secondary)
-                    TextField("搜索场景、NPC、怪物、规则、法术…", text: $query)
+                    TextField("搜索场景、NPC、怪物、规则、法术、DM 改动…", text: $query)
                         .textFieldStyle(.plain)
                         .focused($searchFocused)
                     if !query.isEmpty {

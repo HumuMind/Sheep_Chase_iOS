@@ -115,7 +115,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 ### UI
 
 - `Theme`、`AppTextSize`、`BookGroupBoxStyle`、`BookPaperBackground`、`readingPage`。
-- `NPCSheetView`、`MonsterSheetView`、Handout/Item/Rule/Spell 参考卡；NPC/怪物卡支持 DM 改动批注。
+- `NPCSheetView`、`MonsterSheetView`、Handout/Item/Rule/Spell 参考卡；这些卡片均支持 DM 改动批注。
 - `SheepChaseImages` 提供 Package bundle 内的 Cover/Map/Sheep/Parchment。
 - App 的 Asset Catalog 只保留 AppIcon/AccentColor。
 
@@ -138,7 +138,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 ### Feature 包
 
 - `LibraryFeature`：开团库、详情、新建、备团清单、About。
-- `SceneFeature`：场景正文、节拍、分支、flags、遭遇、DM 备注，以及节拍右上角的原文弹框（PDF 风格单列排版）；场景/朗读/节拍支持 DM 改动批注。
+- `SceneFeature`：场景正文、节拍、分支、flags、遭遇、DM 备注，节拍右上角原文弹框（PDF 风格单列排版）；场景/朗读/节拍支持 DM 改动批注和自定义节拍。
 - `BattleFeature`：战斗入口、选择、先攻、战斗、右侧战斗检查器。
 - `MapFeature`：地图平移/缩放与图钉。
 - `InspectorFeature`：队伍/战斗/便签 tab、添加玩家、会话、安全页；原“速查”tab 已移到左下角速查面板。
@@ -171,7 +171,7 @@ Open/import/export 都通过 RunStore；Feature 视图通过 `@Environment(RunSt
 
 | 文件 | 行数 |
 |---|---:|
-| `Packages/SheepChaseRunShellFeature/.../QuickReferencePanel.swift` | 364 |
+| `Packages/SheepChaseRunShellFeature/.../QuickReferencePanel.swift` | 400 |
 | `Packages/SheepChaseRunStore/.../RunStore.swift` | 369 |
 | `Packages/SheepChaseSceneFeature/.../SceneDetailSections.swift` | 353 |
 | `Packages/SheepChaseBattleFeature/.../BattleActiveView.swift` | 347 |
@@ -230,6 +230,6 @@ xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
 - Public API 变宽：RunStore 和 Feature View 的 init 多为 public。
 - SwiftUI `@Observable` 仍通过具体 `RunStore` 注入，而不是协议 existential；协议层只在服务/测试边界使用。
 - 复杂 Run 状态仍以 JSON Data 存在 `RunRecord`，不是完全规范化的 SwiftData 关系。
-- DM 改动是按 Run 保存的批注覆盖层：场景/朗读/节拍/NPC/怪物先支持；原文保持不变。
+- DM 改动是按 Run 保存的批注覆盖层：场景/朗读/节拍/NPC/怪物/物品/法术/规则/手牌/遭遇均支持；原文保持不变；自定义节拍也按 Run 保存。
 - Feature smoke test 只验证 View 可构造；真实渲染由 iPad UI 测试和手工跑团覆盖。
 - 真实 3–4 小时跑团仍是最终验收。

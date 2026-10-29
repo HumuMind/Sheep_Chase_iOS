@@ -16,10 +16,22 @@ public struct HandoutSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let handout: ContentPack.Handout
     let asset: ContentPack.Asset?
+    let annotation: DMAnnotation?
+    let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
+    let onAnnotationDelete: (() -> Void)?
 
-    public init(handout: ContentPack.Handout, asset: ContentPack.Asset?) {
+    public init(
+        handout: ContentPack.Handout,
+        asset: ContentPack.Asset?,
+        annotation: DMAnnotation? = nil,
+        onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
+        onAnnotationDelete: (() -> Void)? = nil
+    ) {
         self.handout = handout
         self.asset = asset
+        self.annotation = annotation
+        self.onAnnotationSave = onAnnotationSave
+        self.onAnnotationDelete = onAnnotationDelete
     }
 
     public var body: some View {
@@ -66,6 +78,15 @@ public struct HandoutSheetView: View {
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
+
+                    if let onAnnotationSave, let onAnnotationDelete {
+                        DMAnnotationEditor(
+                            subject: handout.title,
+                            annotation: annotation,
+                            onSave: onAnnotationSave,
+                            onDelete: onAnnotationDelete
+                        )
+                    }
                 }
                 .padding(24)
                 .frame(maxWidth: 680, alignment: .leading)
@@ -89,9 +110,20 @@ public struct HandoutSheetView: View {
 public struct ItemSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let item: ContentPack.Item
+    let annotation: DMAnnotation?
+    let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
+    let onAnnotationDelete: (() -> Void)?
 
-    public init(item: ContentPack.Item) {
+    public init(
+        item: ContentPack.Item,
+        annotation: DMAnnotation? = nil,
+        onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
+        onAnnotationDelete: (() -> Void)? = nil
+    ) {
         self.item = item
+        self.annotation = annotation
+        self.onAnnotationSave = onAnnotationSave
+        self.onAnnotationDelete = onAnnotationDelete
     }
 
     public var body: some View {
@@ -110,6 +142,15 @@ public struct ItemSheetView: View {
                         Text(pageRef)
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                    }
+
+                    if let onAnnotationSave, let onAnnotationDelete {
+                        DMAnnotationEditor(
+                            subject: item.name,
+                            annotation: annotation,
+                            onSave: onAnnotationSave,
+                            onDelete: onAnnotationDelete
+                        )
                     }
                 }
                 .padding(24)
@@ -134,9 +175,20 @@ public struct ItemSheetView: View {
 public struct RuleSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let rule: ContentPack.RuleCard
+    let annotation: DMAnnotation?
+    let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
+    let onAnnotationDelete: (() -> Void)?
 
-    public init(rule: ContentPack.RuleCard) {
+    public init(
+        rule: ContentPack.RuleCard,
+        annotation: DMAnnotation? = nil,
+        onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
+        onAnnotationDelete: (() -> Void)? = nil
+    ) {
         self.rule = rule
+        self.annotation = annotation
+        self.onAnnotationSave = onAnnotationSave
+        self.onAnnotationDelete = onAnnotationDelete
     }
 
     public var body: some View {
@@ -161,6 +213,15 @@ public struct RuleSheetView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 3)
                     }
+
+                    if let onAnnotationSave, let onAnnotationDelete {
+                        DMAnnotationEditor(
+                            subject: rule.term,
+                            annotation: annotation,
+                            onSave: onAnnotationSave,
+                            onDelete: onAnnotationDelete
+                        )
+                    }
                 }
                 .padding(24)
                 .frame(maxWidth: 560, alignment: .leading)
@@ -184,9 +245,20 @@ public struct RuleSheetView: View {
 public struct SpellSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let spell: ContentPack.SpellCard
+    let annotation: DMAnnotation?
+    let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
+    let onAnnotationDelete: (() -> Void)?
 
-    public init(spell: ContentPack.SpellCard) {
+    public init(
+        spell: ContentPack.SpellCard,
+        annotation: DMAnnotation? = nil,
+        onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
+        onAnnotationDelete: (() -> Void)? = nil
+    ) {
         self.spell = spell
+        self.annotation = annotation
+        self.onAnnotationSave = onAnnotationSave
+        self.onAnnotationDelete = onAnnotationDelete
     }
 
     public var body: some View {
@@ -215,6 +287,15 @@ public struct SpellSheetView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 3)
+                    }
+
+                    if let onAnnotationSave, let onAnnotationDelete {
+                        DMAnnotationEditor(
+                            subject: spell.name,
+                            annotation: annotation,
+                            onSave: onAnnotationSave,
+                            onDelete: onAnnotationDelete
+                        )
                     }
                 }
                 .padding(24)

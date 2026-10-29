@@ -30,6 +30,7 @@ public struct SceneDetailView: View {
     @Environment(RunStore.self) var store
     @Bindable var run: RunRecord
     @State var showSource = false
+    @State var showCustomBeat = false
     var onOpenNPC: (String) -> Void = { _ in }
     var onOpenHandout: (String) -> Void = { _ in }
     var onOpenItem: (String) -> Void = { _ in }
@@ -51,6 +52,11 @@ public struct SceneDetailView: View {
 
     var encounters: [ContentPack.Encounter] {
         (scene.encounterIds ?? []).compactMap { store.encounter(id: $0) }
+    }
+
+    var displayBeats: [SceneBeatItem] {
+        scene.beats.map(SceneBeatItem.init(content:))
+            + store.customBeats(for: scene.id, in: run).map(SceneBeatItem.init(custom:))
     }
 
     private var readAloudAnnotation: DMAnnotation? {
@@ -197,6 +203,10 @@ public struct SceneDetailView: View {
         }
         .sheet(isPresented: $showSource) {
             SourceTextSheet(scene: scene)
+        }
+        .sheet(isPresented: $showCustomBeat) {
+            CustomBeatSheet(scene: scene, run: run)
+                .environment(store)
         }
         .onAppear {
             #if DEBUG

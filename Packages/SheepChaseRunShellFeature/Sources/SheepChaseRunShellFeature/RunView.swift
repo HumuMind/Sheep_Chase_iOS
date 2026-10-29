@@ -220,21 +220,55 @@ public struct RunView: View {
         .sheet(item: $selectedHandout) { handout in
             HandoutSheetView(
                 handout: handout,
-                asset: handout.imageAssetId.flatMap { store.asset(id: $0) }
+                asset: handout.imageAssetId.flatMap { store.asset(id: $0) },
+                annotation: store.annotation(kind: .handout, targetID: handout.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .handout, targetID: handout.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .handout, targetID: handout.id, in: run)
+                }
             )
             .environment(store)
         }
         .sheet(item: $selectedItem) { item in
-            ItemSheetView(item: item)
-                .environment(store)
+            ItemSheetView(
+                item: item,
+                annotation: store.annotation(kind: .item, targetID: item.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .item, targetID: item.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .item, targetID: item.id, in: run)
+                }
+            )
+            .environment(store)
         }
         .sheet(item: $selectedRule) { rule in
-            RuleSheetView(rule: rule)
-                .environment(store)
+            RuleSheetView(
+                rule: rule,
+                annotation: store.annotation(kind: .rule, targetID: rule.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .rule, targetID: rule.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .rule, targetID: rule.id, in: run)
+                }
+            )
+            .environment(store)
         }
         .sheet(item: $selectedSpell) { spell in
-            SpellSheetView(spell: spell)
-                .environment(store)
+            SpellSheetView(
+                spell: spell,
+                annotation: store.annotation(kind: .spell, targetID: spell.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .spell, targetID: spell.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .spell, targetID: spell.id, in: run)
+                }
+            )
+            .environment(store)
         }
         .sheet(item: $selectedMonster) { monster in
             MonsterSheetView(

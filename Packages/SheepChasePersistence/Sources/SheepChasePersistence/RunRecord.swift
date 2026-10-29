@@ -23,6 +23,7 @@ public final class RunRecord {
     public var prepData: Data?
     public var pinnedReferenceData: Data?
     public var annotationsData: Data?
+    public var customBeatsData: Data?
     public var isArchived: Bool = false
     public var contentVersion: String = ""
 
@@ -51,6 +52,7 @@ public final class RunRecord {
         self.prepData = Self.encode([String]())
         self.pinnedReferenceData = nil
         self.annotationsData = nil
+        self.customBeatsData = nil
         self.isArchived = false
         self.contentVersion = contentVersion
     }
@@ -165,6 +167,16 @@ public final class RunRecord {
         }
     }
 
+    public var customBeats: [RunCustomBeat] {
+        get {
+            guard let customBeatsData else { return [] }
+            return Self.decode([RunCustomBeat].self, from: customBeatsData) ?? []
+        }
+        set {
+            customBeatsData = Self.encode(newValue)
+        }
+    }
+
     public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -182,7 +194,8 @@ public final class RunRecord {
             sceneNotes: sceneNotes,
             prepChecks: prepChecks,
             pinnedReferenceIDs: pinnedReferenceIDs,
-            annotations: annotations
+            annotations: annotations,
+            customBeats: customBeats
         )
     }
 
@@ -203,6 +216,7 @@ public final class RunRecord {
         prepChecks = snapshot.prepChecks ?? []
         pinnedReferenceIDs = snapshot.pinnedReferenceIDs ?? []
         annotations = snapshot.annotations ?? []
+        customBeats = snapshot.customBeats ?? []
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {

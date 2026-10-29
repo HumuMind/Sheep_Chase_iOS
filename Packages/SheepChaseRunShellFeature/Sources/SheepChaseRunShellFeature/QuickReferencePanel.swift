@@ -3,7 +3,6 @@ import SheepChasePersistence
 import SheepChaseRunStore
 import SheepChaseUI
 import SwiftUI
-
 public struct QuickReferencePanel: View {
     public init(run: RunRecord) {
         self.run = run
@@ -144,7 +143,6 @@ public struct QuickReferencePanel: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 7)
     }
-
     private func category(_ kind: QuickReferenceKind) -> some View {
         let entries = entries(for: kind)
         let expanded = expandedKinds.contains(kind)
@@ -192,7 +190,6 @@ public struct QuickReferencePanel: View {
             }
         }
     }
-
     private func tagRows(_ entries: [QuickReferenceEntry]) -> some View {
         VStack(spacing: 3) {
             ForEach(groupedRows(entries).indices, id: \.self) { index in
@@ -205,7 +202,6 @@ public struct QuickReferencePanel: View {
             }
         }
     }
-
     private func pinnedTagRows(_ entries: [QuickReferenceEntry]) -> some View {
         VStack(spacing: 3) {
             ForEach(groupedRows(entries).indices, id: \.self) { index in
@@ -218,7 +214,6 @@ public struct QuickReferencePanel: View {
             }
         }
     }
-
     private func groupedRows(_ entries: [QuickReferenceEntry]) -> [[QuickReferenceEntry]] {
         var rows: [[QuickReferenceEntry]] = []
         var current: [QuickReferenceEntry] = []
@@ -239,13 +234,11 @@ public struct QuickReferencePanel: View {
         if !current.isEmpty { rows.append(current) }
         return rows
     }
-
     private func estimatedTagWidth(_ entry: QuickReferenceEntry) -> CGFloat {
         let wide = entry.title.unicodeScalars.filter { $0.value > 0x2E80 }.count
         let narrow = entry.title.count - wide
         return CGFloat(wide) * 13 + CGFloat(narrow) * 7 + 24
     }
-
     private func tag(_ entry: QuickReferenceEntry) -> some View {
         let pinned = run.pinnedReferenceIDs.contains(entry.id)
         return Text(entry.title)
@@ -279,7 +272,6 @@ public struct QuickReferencePanel: View {
             .accessibilityAddTraits(.isButton)
             .accessibilityIdentifier("qr-tag-\(entry.id)")
     }
-
     private func pinnedTag(_ entry: QuickReferenceEntry) -> some View {
         Text(entry.title)
             .font(.caption2.weight(.medium))
@@ -306,7 +298,6 @@ public struct QuickReferencePanel: View {
             .accessibilityAddTraits(.isButton)
             .accessibilityIdentifier("qr-pinned-\(entry.id)")
     }
-
     private func entries(for kind: QuickReferenceKind) -> [QuickReferenceEntry] {
         switch kind {
         case .npc:
@@ -367,15 +358,42 @@ public struct QuickReferencePanel: View {
             }
         case .item:
             if let item = store.item(id: selection.itemID) {
-                ItemSheetView(item: item)
+                ItemSheetView(
+                    item: item,
+                    annotation: store.annotation(kind: .item, targetID: item.id, in: run),
+                    onAnnotationSave: { text, mode in
+                        store.setAnnotation(kind: .item, targetID: item.id, mode: mode, text: text, in: run)
+                    },
+                    onAnnotationDelete: {
+                        store.removeAnnotation(kind: .item, targetID: item.id, in: run)
+                    }
+                )
             }
         case .spell:
             if let spell = store.spell(id: selection.itemID) {
-                SpellSheetView(spell: spell)
+                SpellSheetView(
+                    spell: spell,
+                    annotation: store.annotation(kind: .spell, targetID: spell.id, in: run),
+                    onAnnotationSave: { text, mode in
+                        store.setAnnotation(kind: .spell, targetID: spell.id, mode: mode, text: text, in: run)
+                    },
+                    onAnnotationDelete: {
+                        store.removeAnnotation(kind: .spell, targetID: spell.id, in: run)
+                    }
+                )
             }
         case .rule:
             if let rule = store.rule(id: selection.itemID) {
-                RuleSheetView(rule: rule)
+                RuleSheetView(
+                    rule: rule,
+                    annotation: store.annotation(kind: .rule, targetID: rule.id, in: run),
+                    onAnnotationSave: { text, mode in
+                        store.setAnnotation(kind: .rule, targetID: rule.id, mode: mode, text: text, in: run)
+                    },
+                    onAnnotationDelete: {
+                        store.removeAnnotation(kind: .rule, targetID: rule.id, in: run)
+                    }
+                )
             }
         }
     }

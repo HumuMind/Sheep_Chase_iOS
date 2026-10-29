@@ -267,12 +267,30 @@ struct BattleActiveView: View {
                 .environment(store)
         }
         .sheet(item: $selectedRule) { rule in
-            RuleSheetView(rule: rule)
-                .environment(store)
+            RuleSheetView(
+                rule: rule,
+                annotation: store.annotation(kind: .rule, targetID: rule.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .rule, targetID: rule.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .rule, targetID: rule.id, in: run)
+                }
+            )
+            .environment(store)
         }
         .sheet(item: $selectedSpell) { spell in
-            SpellSheetView(spell: spell)
-                .environment(store)
+            SpellSheetView(
+                spell: spell,
+                annotation: store.annotation(kind: .spell, targetID: spell.id, in: run),
+                onAnnotationSave: { text, mode in
+                    store.setAnnotation(kind: .spell, targetID: spell.id, mode: mode, text: text, in: run)
+                },
+                onAnnotationDelete: {
+                    store.removeAnnotation(kind: .spell, targetID: spell.id, in: run)
+                }
+            )
+            .environment(store)
         }
     }
 
