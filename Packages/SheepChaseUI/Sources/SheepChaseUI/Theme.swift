@@ -53,6 +53,16 @@ public struct BookGroupBoxStyle: GroupBoxStyle {
     }
 }
 
+public extension Theme {
+    static var sheetBackground: Color {
+        #if os(macOS)
+        Color(nsColor: .windowBackgroundColor)
+        #else
+        Color(.systemGroupedBackground)
+        #endif
+    }
+}
+
 public struct BookPaperBackground: View {
     public init() {}
 

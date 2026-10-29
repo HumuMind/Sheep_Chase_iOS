@@ -73,7 +73,7 @@ public struct BookFormSheet<Content: View>: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             }
         }
-        .background(BookPaperBackground())
+        .background(Theme.sheetBackground)
         .environment(\.colorScheme, .light)
         .tint(Theme.red)
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)

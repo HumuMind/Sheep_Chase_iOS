@@ -116,7 +116,7 @@ struct AboutContentSheet: View {
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            .background(BookPaperBackground())
+            .background(Theme.sheetBackground)
             .groupBoxStyle(BookGroupBoxStyle())
             .navigationTitle("关于内容包")
             .toolbar {

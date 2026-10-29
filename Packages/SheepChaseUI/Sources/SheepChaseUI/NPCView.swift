@@ -82,7 +82,7 @@ public struct NPCSheetView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 .background(Color(red: 0.99, green: 0.97, blue: 0.92).opacity(0.35))
             }
-            .background(BookPaperBackground())
+            .background(Theme.sheetBackground)
             .navigationTitle("角色")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

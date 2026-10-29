@@ -79,7 +79,7 @@ final class SheepChaseUITests: XCTestCase {
 
     func testQuickReferencePinAndDetail() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins", "-resetQuickReference"]
         app.launch()
         XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
 
@@ -96,6 +96,25 @@ final class SheepChaseUITests: XCTestCase {
         XCTAssertTrue(pinnedText.waitForExistence(timeout: 5))
         pinnedText.tap()
         XCTAssertTrue(app.staticTexts["古兹"].waitForExistence(timeout: 5))
+    }
+
+    func testQuickReferenceRemembersCollapsedState() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins", "-resetQuickReference"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
+        let collapse = app.buttons["收起速查"]
+        XCTAssertTrue(collapse.waitForExistence(timeout: 5))
+        collapse.tap()
+        XCTAssertTrue(app.buttons["quick-reference-open"].waitForExistence(timeout: 5))
+
+        app.terminate()
+        app.launchArguments = ["-demoRun", "-demoScene3", "-resetPins"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["场景三：林中小屋"].waitForExistence(timeout: 12))
+        XCTAssertTrue(app.buttons["quick-reference-open"].waitForExistence(timeout: 5))
+        app.buttons["quick-reference-open"].tap()
+        XCTAssertTrue(app.buttons["收起速查"].waitForExistence(timeout: 5))
     }
 
     func testHomeButtonReturnsToLibrary() throws {

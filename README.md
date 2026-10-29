@@ -45,7 +45,7 @@
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：9 个 App `SheepChaseTests`；23 个 Package 单元测试；9 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文、怪物数据卡与角色卡）
+- 测试：9 个 App `SheepChaseTests`；23 个 Package 单元测试；10 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文、怪物数据卡、角色卡与速查状态记忆）
 - 内容校对记录：`CONTENT_REVIEW.md`
 - 文件大小检查：`python3 scripts/check_swift_file_sizes.py`
 - Package 测试：`./scripts/test_packages.sh`（或分别 `swift test --package-path Packages/<name> --disable-sandbox`）

@@ -16,8 +16,7 @@ public struct SourceTextSheet: View {
 
     public var body: some View {
         ZStack {
-            BookPaperBackground()
-                .environment(\.colorScheme, .light)
+            Theme.sheetBackground
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
@@ -37,7 +36,9 @@ public struct SourceTextSheet: View {
                 .padding(.bottom, 36)
                 .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .center)
-                .background(Color(red: 0.99, green: 0.97, blue: 0.92).opacity(0.35))
+                .background(Theme.readingPaper)
+                .overlay(Rectangle().stroke(Theme.line.opacity(0.55), lineWidth: 0.5))
+                .padding(.vertical, 16)
             }
             .scrollIndicators(.visible)
         }

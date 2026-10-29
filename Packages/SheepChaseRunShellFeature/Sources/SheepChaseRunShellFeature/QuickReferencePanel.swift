@@ -9,7 +9,7 @@ public struct QuickReferencePanel: View {
     }
     @Environment(RunStore.self) var store
     @Bindable var run: RunRecord
-    @State private var isExpanded = true
+    @AppStorage("quickReference.expanded") private var isExpanded = true
     @State private var expandedKinds: Set<QuickReferenceKind> = [.npc]
     @State private var selection: QuickReferenceSelection?
     @State var showAddNPC = false
@@ -44,7 +44,9 @@ public struct QuickReferencePanel: View {
         }
         .task {
             #if DEBUG
-            if ProcessInfo.processInfo.arguments.contains("-demoCustomNPC") { showAddNPC = true }
+            let args = ProcessInfo.processInfo.arguments
+            if args.contains("-resetQuickReference") { isExpanded = true }
+            if args.contains("-demoCustomNPC") { showAddNPC = true }
             #endif
         }
     }

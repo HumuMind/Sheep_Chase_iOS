@@ -94,7 +94,7 @@ public struct HandoutSheetView: View {
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            .background(BookPaperBackground())
+            .background(Theme.sheetBackground)
             .groupBoxStyle(BookGroupBoxStyle())
             .navigationTitle(handout.title)
             .toolbar {
@@ -159,7 +159,7 @@ public struct ItemSheetView: View {
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            .background(BookPaperBackground())
+            .background(Theme.sheetBackground)
             .groupBoxStyle(BookGroupBoxStyle())
             .navigationTitle(item.name)
             .toolbar {
@@ -229,7 +229,7 @@ public struct RuleSheetView: View {
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            .background(BookPaperBackground())
+            .background(Theme.sheetBackground)
             .groupBoxStyle(BookGroupBoxStyle())
             .navigationTitle(rule.term)
             .toolbar {
@@ -304,7 +304,7 @@ public struct SpellSheetView: View {
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            .background(BookPaperBackground())
+            .background(Theme.sheetBackground)
             .groupBoxStyle(BookGroupBoxStyle())
             .navigationTitle(spell.name)
             .toolbar {

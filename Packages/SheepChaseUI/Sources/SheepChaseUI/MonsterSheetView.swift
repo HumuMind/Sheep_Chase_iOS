@@ -179,7 +179,7 @@ public struct MonsterSheetView: View {
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            .background(BookPaperBackground())
+            .background(Theme.sheetBackground)
             .navigationTitle(monster.name)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
