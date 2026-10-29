@@ -33,7 +33,7 @@ public struct AdventureGuideView: View {
                     footer
                 }
                 .padding(28)
-                .frame(maxWidth: 780, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
                 .readingPage()
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -45,7 +45,7 @@ public struct AdventureGuideView: View {
                 }
             }
         }
-        .frame(minWidth: 680, minHeight: 620)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
         .tint(Theme.red)
     }
 

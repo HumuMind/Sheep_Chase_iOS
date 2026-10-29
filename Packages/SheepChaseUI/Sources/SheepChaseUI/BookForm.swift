@@ -66,7 +66,7 @@ public struct BookFormSheet<Content: View>: View {
                     content
                 }
                 .padding(28)
-                .frame(maxWidth: 640, minHeight: max(430, proxy.size.height - 24), alignment: .topLeading)
+                .frame(maxWidth: BookSheetMetrics.pageWidth, minHeight: max(430, proxy.size.height - 24), alignment: .topLeading)
                 .readingPage()
                 .padding(.horizontal, 12)
                 .padding(.vertical, 12)
@@ -76,7 +76,7 @@ public struct BookFormSheet<Content: View>: View {
         .background(BookPaperBackground())
         .environment(\.colorScheme, .light)
         .tint(Theme.red)
-        .frame(minWidth: 520, minHeight: 420)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 }
 
@@ -199,4 +199,22 @@ public struct BookNumberField: View {
                 )
         }
     }
+}
+
+public enum BookSheetMetrics {
+    #if os(macOS)
+    public static let minWidth: CGFloat = 820
+    public static let minHeight: CGFloat = 640
+    public static let idealWidth: CGFloat = 900
+    public static let idealHeight: CGFloat = 720
+    public static let pageWidth: CGFloat = 760
+    public static let compactPageWidth: CGFloat = 700
+    #else
+    public static let minWidth: CGFloat = 520
+    public static let minHeight: CGFloat = 420
+    public static let idealWidth: CGFloat = 640
+    public static let idealHeight: CGFloat = 560
+    public static let pageWidth: CGFloat = 640
+    public static let compactPageWidth: CGFloat = 600
+    #endif
 }

@@ -246,7 +246,7 @@ public struct GlobalSearchView: View {
                 }
             }
         }
-        .frame(minWidth: 620, minHeight: 520)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
         .onAppear { searchFocused = true }
     }
 }
@@ -280,7 +280,7 @@ private struct SearchResultDetail: View {
                 }
             }
             .padding(24)
-            .frame(maxWidth: 700, alignment: .leading)
+            .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
             .readingPage()
             .padding(.vertical, 16)
             .frame(maxWidth: .infinity, alignment: .center)

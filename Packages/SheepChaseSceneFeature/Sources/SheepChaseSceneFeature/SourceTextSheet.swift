@@ -35,7 +35,7 @@ public struct SourceTextSheet: View {
                 .padding(.horizontal, 40)
                 .padding(.top, 48)
                 .padding(.bottom, 36)
-                .frame(maxWidth: 640, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .background(Color(red: 0.99, green: 0.97, blue: 0.92).opacity(0.35))
             }
@@ -50,7 +50,7 @@ public struct SourceTextSheet: View {
         }
         .environment(\.colorScheme, .light)
         .tint(Theme.red)
-        .frame(minWidth: 520, idealWidth: 640, minHeight: 560)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 
     private func sectionView(_ section: SourceTextSection) -> some View {

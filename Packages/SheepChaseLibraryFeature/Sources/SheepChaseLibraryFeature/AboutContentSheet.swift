@@ -111,7 +111,7 @@ struct AboutContentSheet: View {
                     }
                 }
                 .padding(24)
-                .frame(maxWidth: 660, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
                 .readingPage()
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -125,7 +125,7 @@ struct AboutContentSheet: View {
                 }
             }
         }
-        .frame(minWidth: 560, minHeight: 460)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
         .confirmationDialog("删除全部开团数据？", isPresented: $showDeleteFirst, titleVisibility: .visible) {
             Button("继续", role: .destructive) { showDeleteFinal = true }
             Button("取消", role: .cancel) {}

@@ -78,7 +78,7 @@ public struct NPCSheetView: View {
                 }
                 .padding(.horizontal, 40)
                 .padding(.vertical, 38)
-                .frame(maxWidth: 640, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .background(Color(red: 0.99, green: 0.97, blue: 0.92).opacity(0.35))
             }
@@ -93,7 +93,7 @@ public struct NPCSheetView: View {
         }
         .environment(\.colorScheme, .light)
         .tint(Theme.red)
-        .frame(minWidth: 520, idealWidth: 640, minHeight: 560)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 
     private var pageFooter: some View {

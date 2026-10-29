@@ -100,7 +100,7 @@ struct ImageExportView: View {
                 }
             }
         }
-        .frame(minWidth: 600, minHeight: 440)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
         .fileExporter(
             isPresented: $showExporter,
             document: exportDocument,

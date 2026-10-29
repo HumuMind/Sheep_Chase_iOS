@@ -89,7 +89,7 @@ public struct HandoutSheetView: View {
                     }
                 }
                 .padding(24)
-                .frame(maxWidth: 680, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
                 .readingPage()
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -103,7 +103,7 @@ public struct HandoutSheetView: View {
                 }
             }
         }
-        .frame(minWidth: 520, minHeight: 420)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 }
 
@@ -154,7 +154,7 @@ public struct ItemSheetView: View {
                     }
                 }
                 .padding(24)
-                .frame(maxWidth: 620, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.compactPageWidth, alignment: .leading)
                 .readingPage()
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -168,7 +168,7 @@ public struct ItemSheetView: View {
                 }
             }
         }
-        .frame(minWidth: 500, minHeight: 360)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 }
 
@@ -224,7 +224,7 @@ public struct RuleSheetView: View {
                     }
                 }
                 .padding(24)
-                .frame(maxWidth: 560, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.compactPageWidth, alignment: .leading)
                 .readingPage()
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -238,7 +238,7 @@ public struct RuleSheetView: View {
                 }
             }
         }
-        .frame(minWidth: 480, minHeight: 300)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 }
 
@@ -299,7 +299,7 @@ public struct SpellSheetView: View {
                     }
                 }
                 .padding(24)
-                .frame(maxWidth: 600, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.compactPageWidth, alignment: .leading)
                 .readingPage()
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -313,7 +313,7 @@ public struct SpellSheetView: View {
                 }
             }
         }
-        .frame(minWidth: 500, minHeight: 360)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 
     private func row(_ label: String, _ value: String) -> some View {

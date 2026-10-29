@@ -174,7 +174,7 @@ public struct MonsterSheetView: View {
                     }
                 }
                 .padding(24)
-                .frame(maxWidth: 680, alignment: .leading)
+                .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
                 .readingPage()
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -187,7 +187,7 @@ public struct MonsterSheetView: View {
                 }
             }
         }
-        .frame(minWidth: 540, minHeight: 520)
+        .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 
     private func ability(_ name: String, _ value: Int) -> some View {
