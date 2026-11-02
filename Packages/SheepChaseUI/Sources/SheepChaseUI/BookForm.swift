@@ -70,6 +70,7 @@ public struct BookFormSheet<Content: View>: View {
             }
         }
         .background(Theme.readingPaper)
+        .dismissOnBackgroundClick(onCancel)
         .environment(\.colorScheme, .light)
         .tint(Theme.red)
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
@@ -120,6 +121,7 @@ public struct BookTextField: View {
             TextField("", text: $text)
                 .textFieldStyle(.plain)
                 .font(Theme.serif(15))
+                .selectAllOnFocus()
                 .padding(.horizontal, 9)
                 .padding(.vertical, 7)
                 .background(Theme.paperDeep.opacity(0.35), in: RoundedRectangle(cornerRadius: 4))
@@ -184,6 +186,7 @@ public struct BookNumberField: View {
             TextField("", value: $value, format: .number)
                 .textFieldStyle(.plain)
                 .font(Theme.serif(14).monospacedDigit())
+                .selectAllOnFocus()
                 .multilineTextAlignment(.trailing)
                 .frame(width: 66)
                 .padding(.horizontal, 8)

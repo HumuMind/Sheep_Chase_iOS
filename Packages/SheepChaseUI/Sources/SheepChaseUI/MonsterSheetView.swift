@@ -188,6 +188,7 @@ public struct MonsterSheetView: View {
             }
         }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
+        .dismissOnBackgroundClick { dismiss() }
     }
 
     private func ability(_ name: String, _ value: Int) -> some View {

@@ -17,12 +17,17 @@ public enum Theme {
     public static let darkDesk = Color(red: 0.10, green: 0.075, blue: 0.06)
     public static let darkDeskToolbar = Color(red: 0.14, green: 0.105, blue: 0.08)
 
+    public static var textScale: CGFloat {
+        let raw = UserDefaults.standard.string(forKey: "appTextSize") ?? AppTextSize.large.rawValue
+        return (AppTextSize(rawValue: raw) ?? .large).scale
+    }
+
     public static func serif(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        .custom("Songti SC", size: size).weight(weight)
+        .custom("Songti SC", size: size * textScale).weight(weight)
     }
 
     public static func ui(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        .system(size: size, weight: weight, design: .default)
+        .system(size: size * textScale, weight: weight, design: .default)
     }
 
     public static var background: some View {

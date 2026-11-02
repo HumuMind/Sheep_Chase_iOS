@@ -13,36 +13,27 @@ public struct SourceTextSheet: View {
     @Environment(RunStore.self) private var store
     private let scene: ContentPack.AdventureScene
     private let sections: [SourceTextSection]
+    @State private var selectedSectionID: Int?
 
     public var body: some View {
-        ZStack {
-            Theme.sheetBackground
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(scene.title)
-                        .font(Theme.serif(30, weight: .semibold))
-                        .foregroundStyle(Theme.red)
-                        .padding(.bottom, 20)
-
-                    ForEach(sections) { section in
-                        sectionView(section)
-                    }
-
-                    pageFooter
+        ScrollViewReader { proxy in
+            ZStack(alignment: .topLeading) {
+                HStack(spacing: 0) {
+                    #if os(macOS)
+                    tableOfContents(proxy)
+                    Divider()
+                    #endif
+                    sourceScroll(proxy)
                 }
-                .padding(.horizontal, 40)
-                .padding(.top, 48)
-                .padding(.bottom, 36)
-                .frame(maxWidth: BookSheetMetrics.pageWidth, alignment: .leading)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .background(Theme.readingPaper)
-                .overlay(Rectangle().stroke(Theme.line.opacity(0.55), lineWidth: 0.5))
-                .padding(.vertical, 16)
+                #if !os(macOS)
+                tableOfContentsMenu(proxy)
+                    .padding(18)
+                #endif
             }
-            .scrollIndicators(.visible)
         }
+        .background(Theme.sheetBackground)
         .ignoresSafeArea()
+        .dismissOnBackgroundClick { dismiss() }
         .overlay(alignment: .topTrailing) {
             Button("完成") { dismiss() }
                 .buttonStyle(.borderedProminent)
@@ -53,6 +44,110 @@ public struct SourceTextSheet: View {
         .tint(Theme.red)
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
+
+    private var pageMaxWidth: CGFloat {
+        #if os(macOS)
+        600
+        #else
+        BookSheetMetrics.pageWidth
+        #endif
+    }
+
+    private func sourceScroll(_ proxy: ScrollViewProxy) -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(scene.title)
+                    .font(Theme.serif(30, weight: .semibold))
+                    .foregroundStyle(Theme.red)
+                    .padding(.bottom, 20)
+
+                ForEach(sections) { section in
+                    sectionView(section)
+                        .id(section.id)
+                }
+
+                pageFooter
+            }
+            .padding(.horizontal, 28)
+            .padding(.top, 48)
+            .padding(.bottom, 36)
+            .frame(maxWidth: pageMaxWidth, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .background(Theme.readingPaper)
+            .overlay(Rectangle().stroke(Theme.line.opacity(0.55), lineWidth: 0.5))
+            .padding(.vertical, 16)
+        }
+        .scrollIndicators(.visible)
+    }
+
+    #if os(macOS)
+    private func tableOfContents(_ proxy: ScrollViewProxy) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 6) {
+                Image(systemName: "list.bullet")
+                    .foregroundStyle(Theme.red)
+                Text("目录")
+                    .font(Theme.serif(18, weight: .semibold))
+                    .foregroundStyle(Theme.red)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 18)
+            Divider()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 2) {
+                    ForEach(sections) { section in
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                proxy.scrollTo(section.id, anchor: .top)
+                            }
+                            selectedSectionID = section.id
+                        } label: {
+                            HStack(alignment: .top, spacing: 6) {
+                                Rectangle()
+                                    .fill(selectedSectionID == section.id ? Theme.red : .clear)
+                                    .frame(width: 2)
+                                Text(section.heading ?? scene.title)
+                                    .font(Theme.serif(12, weight: selectedSectionID == section.id ? .semibold : .regular))
+                                    .foregroundStyle(selectedSectionID == section.id ? Theme.red : Theme.inkSoft)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(2)
+                                Spacer(minLength: 0)
+                            }
+                            .padding(.vertical, 5)
+                            .padding(.trailing, 8)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical, 8)
+            }
+        }
+        .frame(width: 170)
+        .background(Theme.readingPaper)
+    }
+    #endif
+
+    #if !os(macOS)
+    private func tableOfContentsMenu(_ proxy: ScrollViewProxy) -> some View {
+        Menu {
+            ForEach(sections) { section in
+                Button(section.heading ?? scene.title) {
+                    selectedSectionID = section.id
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        proxy.scrollTo(section.id, anchor: .top)
+                    }
+                }
+            }
+        } label: {
+            Label("目录", systemImage: "list.bullet")
+                .font(.callout)
+        }
+        .menuStyle(.borderlessButton)
+        .padding(8)
+        .background(Theme.card.opacity(0.92), in: RoundedRectangle(cornerRadius: 6))
+    }
+    #endif
 
     private func sectionView(_ section: SourceTextSection) -> some View {
         Group {

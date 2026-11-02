@@ -93,6 +93,7 @@ public struct NPCSheetView: View {
         }
         .environment(\.colorScheme, .light)
         .tint(Theme.red)
+        .dismissOnBackgroundClick { dismiss() }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
     }
 

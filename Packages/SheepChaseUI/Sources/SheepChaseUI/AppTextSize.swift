@@ -19,6 +19,16 @@ public enum AppTextSize: String, CaseIterable, Identifiable {
         }
     }
 
+    public var scale: CGFloat {
+        switch self {
+        case .small: 0.88
+        case .medium: 0.94
+        case .large: 1.0
+        case .xLarge: 1.12
+        case .accessibility: 1.28
+        }
+    }
+
     public var dynamicTypeSize: DynamicTypeSize {
         switch self {
         case .small: .small
