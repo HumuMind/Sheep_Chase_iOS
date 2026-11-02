@@ -64,14 +64,14 @@ public struct AdventureGuideView: View {
                         .bookSerif(28, weight: .semibold)
                         .foregroundStyle(Theme.ink)
                     Text("\(content.adventure.level.min)–\(content.adventure.level.max) 级 · \(content.adventure.players.min)–\(content.adventure.players.max) 人 · 约 \(content.adventure.durationMinutes / 60) 小时")
-                        .font(.callout)
+                        .bookUI(12)
                         .foregroundStyle(Theme.inkSoft)
                 }
                 Spacer()
             }
 
             Text(content.adventure.summary)
-                .font(.body)
+                .bookUI(13)
                 .lineSpacing(4)
                 .foregroundStyle(Theme.inkSoft)
                 .textSelection(.enabled)
@@ -81,7 +81,7 @@ public struct AdventureGuideView: View {
                     Image(systemName: "shield.lefthalf.filled")
                         .foregroundStyle(Theme.red)
                     Text("内容提示：\(content.adventure.contentWarnings.joined(separator: "、"))")
-                        .font(.caption)
+                        .bookUI(11)
                         .foregroundStyle(Theme.inkSoft)
                 }
                 .padding(.top, 2)
@@ -95,21 +95,21 @@ public struct AdventureGuideView: View {
             VStack(alignment: .leading, spacing: 8) {
                 if let kicker = section.kicker, !kicker.isEmpty {
                     Text(kicker)
-                        .font(.caption.weight(.semibold))
+                        .bookUI(11, weight: .semibold)
                         .foregroundStyle(Theme.red)
                 }
                 Text(section.title)
                     .bookSerif(21, weight: .semibold)
                     .foregroundStyle(Theme.ink)
                 Text(section.body)
-                    .font(.body)
+                    .bookUI(13)
                     .lineSpacing(4)
                     .foregroundStyle(Theme.inkSoft)
                     .textSelection(.enabled)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 if let sourceRef = section.sourceRef, !sourceRef.isEmpty {
                     Text(sourceRef)
-                        .font(.caption2)
+                        .bookUI(10)
                         .foregroundStyle(.tertiary)
                 }
             }
@@ -119,7 +119,7 @@ public struct AdventureGuideView: View {
 
     private var footer: some View {
         Text("本导读整理自《荒野逐羊》简体中文版前置说明与主持建议；角色与规则细节可从场景页和速查入口继续查阅。")
-            .font(.caption)
+            .bookUI(11)
             .foregroundStyle(.secondary)
             .padding(.top, 8)
     }

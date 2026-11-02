@@ -21,12 +21,12 @@ struct BattleSelectView: View {
                 HStack(alignment: .bottom, spacing: 16) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("战斗筹备")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                         Text("先选人，再填先攻")
-                            .font(.largeTitle.weight(.semibold))
+                            .bookUI(28, weight: .semibold)
                         Text("不是所有玩家都会参战，怪物数量也会随人数和等级变化。这里只给建议，不会自动加入。")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -53,7 +53,7 @@ struct BattleSelectView: View {
                         }
                         if run.party.isEmpty {
                             Text("队伍为空。先到「队伍」页签添加玩家。")
-                                .font(.callout)
+                                .bookUI(12)
                                 .foregroundStyle(.secondary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
@@ -62,9 +62,9 @@ struct BattleSelectView: View {
                     .padding(.vertical, 2)
                 } label: {
                     HStack {
-                        Text("参战玩家").font(.headline)
+                        Text("参战玩家").bookUI(13, weight: .semibold)
                         Spacer()
-                        Text("\(selectedPlayers.count) / \(run.party.count)").font(.caption).foregroundStyle(.secondary)
+                        Text("\(selectedPlayers.count) / \(run.party.count)").bookUI(11).foregroundStyle(.secondary)
                     }
                 }
 
@@ -82,7 +82,7 @@ struct BattleSelectView: View {
 
                         if battle.monsters.isEmpty {
                             Text("还没有添加怪物。逐个添加古兹、狼或棕熊。")
-                                .font(.callout)
+                                .bookUI(12)
                                 .foregroundStyle(.secondary)
                                 .padding(.vertical, 4)
                         } else {
@@ -99,7 +99,7 @@ struct BattleSelectView: View {
                                         .buttonStyle(.plain)
                                         .foregroundStyle(.secondary)
                                     }
-                                    .font(.callout)
+                                    .bookUI(12)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 3)
                                     .background(.quaternary, in: RoundedRectangle(cornerRadius: 4))
@@ -110,15 +110,15 @@ struct BattleSelectView: View {
                     .padding(.vertical, 2)
                 } label: {
                     HStack {
-                        Text("参战怪物").font(.headline)
+                        Text("参战怪物").bookUI(13, weight: .semibold)
                         Spacer()
-                        Text("\(battle.monsters.count)").font(.caption).foregroundStyle(.secondary)
+                        Text("\(battle.monsters.count)").bookUI(11).foregroundStyle(.secondary)
                     }
                 }
 
                 GroupBox("建议组合") {
                     Text(store.suggestedEncounter(for: run))
-                        .font(.callout)
+                        .bookUI(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundStyle(.secondary)
                         .padding(.vertical, 3)
@@ -140,7 +140,7 @@ struct BattleSelectView: View {
 
                     Spacer()
                     Text("玩家逐个加入，怪物逐个添加")
-                        .font(.caption)
+                        .bookUI(11)
                         .foregroundStyle(.secondary)
                 }
             }

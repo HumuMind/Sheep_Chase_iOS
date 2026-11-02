@@ -28,10 +28,10 @@ struct LibraryRunRow: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(run.name)
-                    .font(.system(size: 13, weight: .medium))
+                    .bookUI(13, weight: .medium)
                     .lineLimit(1)
                 Text(scene?.title ?? "未知场景")
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
@@ -39,7 +39,7 @@ struct LibraryRunRow: View {
             Spacer(minLength: 4)
 
             Text("\(sceneIndex + 1)/\(store.scenes.count)")
-                .font(.caption2.monospacedDigit())
+                .bookUI(10, monospaced: true)
                 .foregroundStyle(.tertiary)
         }
         .padding(.vertical, 2)

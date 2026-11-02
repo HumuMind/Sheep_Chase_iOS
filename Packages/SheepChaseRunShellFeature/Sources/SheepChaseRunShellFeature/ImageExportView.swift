@@ -38,13 +38,13 @@ struct ImageExportView: View {
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(assetName(asset))
-                            .font(.body.weight(.medium))
+                            .bookUI(13, weight: .medium)
                         Text(assetKind(asset))
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                         if let credit = asset.credit {
                             Text(credit)
-                                .font(.caption2)
+                                .bookUI(10)
                                 .foregroundStyle(.tertiary)
                                 .lineLimit(1)
                         }

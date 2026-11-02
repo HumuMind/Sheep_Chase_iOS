@@ -46,18 +46,18 @@ struct LibraryRunDetail: View {
 
                     VStack(alignment: .leading, spacing: 6) {
                         Text(store.adventure.title)
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                             .textCase(.uppercase)
                             .tracking(0.8)
                         Text(run.name)
-                            .font(.largeTitle.weight(.semibold))
+                            .bookUI(28, weight: .semibold)
                         Text("\(store.adventure.level.min)–\(store.adventure.level.max) 级 · \(store.adventure.players.min)–\(store.adventure.players.max) 人 · 约 \(store.adventure.durationMinutes) 分钟")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                         if let templateName = run.sourceTemplateName {
                             Text("基于我的模组：\(templateName)\(run.sourceTemplateBaseVersion.map { " · \($0)" } ?? "")")
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(Theme.red)
                         }
                     }
@@ -84,14 +84,14 @@ struct LibraryRunDetail: View {
                     .buttonStyle(.bordered)
 
                     Text("上次更新 \(run.updatedAt.formatted(date: .abbreviated, time: .shortened))")
-                        .font(.caption)
+                        .bookUI(11)
                         .foregroundStyle(.secondary)
                 }
 
                 GroupBox("开团管理") {
                     VStack(alignment: .leading, spacing: 9) {
                         Text("重命名、归档或删除这次开团。")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                         HStack(spacing: 10) {
                             Button {
@@ -137,10 +137,10 @@ struct LibraryRunDetail: View {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text(scene?.title ?? "未知场景")
-                                .font(.body.weight(.medium))
+                                .bookUI(13, weight: .medium)
                             Spacer()
                             Text("场景 \(sceneIndex + 1) / \(store.scenes.count)")
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(.secondary)
                         }
                         ProgressView(value: progress)
@@ -166,13 +166,13 @@ struct LibraryRunDetail: View {
                             ForEach(run.party) { member in
                                 HStack {
                                     Text(member.name)
-                                        .font(.body.weight(.medium))
+                                        .bookUI(13, weight: .medium)
                                     Text("Lv \(member.level) · \(member.role)")
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(.secondary)
                                     Spacer()
                                     Text("AC \(member.ac) · HP \(member.hp)/\(member.maxHP)")
-                                        .font(.caption.monospacedDigit())
+                                        .bookUI(11, monospaced: true)
                                         .foregroundStyle(.secondary)
                                 }
                                 .padding(.vertical, 5)
@@ -195,7 +195,7 @@ struct LibraryRunDetail: View {
                                         .frame(width: 7, height: 7)
                                         .padding(.top, 5)
                                     Text(note.text.isEmpty ? "空白便签" : note.text)
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .foregroundStyle(note.text.isEmpty ? .secondary : .primary)
                                         .lineLimit(2)
                                 }
@@ -207,7 +207,7 @@ struct LibraryRunDetail: View {
 
                 GroupBox("内容提示") {
                     Text(store.adventure.contentWarnings.joined(separator: " · "))
-                        .font(.callout)
+                        .bookUI(12)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 3)
@@ -248,9 +248,9 @@ struct LibraryRunDetail: View {
     private func overviewStat(_ value: String, _ label: String) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
             Text(value)
-                .font(.body.monospacedDigit().weight(.semibold))
+                .bookUI(13, weight: .semibold, monospaced: true)
             Text(label)
-                .font(.caption)
+                .bookUI(11)
                 .foregroundStyle(.secondary)
         }
     }

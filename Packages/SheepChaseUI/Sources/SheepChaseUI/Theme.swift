@@ -46,7 +46,7 @@ public struct BookGroupBoxStyle: GroupBoxStyle {
     public func makeBody(configuration: Configuration) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             configuration.label
-                .font(.headline)
+                .bookUI(13, weight: .semibold)
                 .foregroundStyle(Theme.ink)
             Rectangle()
                 .fill(Theme.line.opacity(0.55))

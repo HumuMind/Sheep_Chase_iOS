@@ -14,10 +14,10 @@ struct NotesInspector: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
                 Text("便签")
-                    .font(.headline)
+                    .bookUI(13, weight: .semibold)
                 Spacer()
                 Text("\(run.stickyNotes.count) 张")
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
             }
 
@@ -44,7 +44,7 @@ struct NotesInspector: View {
             }
 
             Text("只属于当前开团；每张便签独立保存。")
-                .font(.footnote)
+                .bookUI(10)
                 .foregroundStyle(.secondary)
                 .padding(.top, 2)
         }

@@ -28,10 +28,10 @@ struct BattleActiveView: View {
                 HStack(alignment: .bottom, spacing: 16) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("战斗 · 第 \(battle?.round ?? 1) 轮")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                         Text(store.encounter(id: "guz-ambush")?.title ?? "战斗")
-                            .font(.largeTitle.weight(.semibold))
+                            .bookUI(28, weight: .semibold)
                     }
                     Spacer()
                     if let battle, battle.phase == .active {
@@ -61,25 +61,25 @@ struct BattleActiveView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(alignment: .firstTextBaseline) {
                                 Text(active.name)
-                                    .font(.title2.weight(.semibold))
+                                    .bookUI(19, weight: .semibold)
                                 Text(active.kind == .player ? "玩家" : "怪物")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                                 Spacer()
                                 Text("AC \(active.ac)")
-                                    .font(.callout.monospacedDigit())
+                                    .bookUI(12, monospaced: true)
                                     .foregroundStyle(.secondary)
                             }
 
                             HStack(spacing: 16) {
                                 Text("HP \(active.hp) / \(active.maxHP)")
-                                    .font(.body.monospacedDigit())
+                                    .bookUI(13, monospaced: true)
                                 Text("先攻 \(active.initiative)")
-                                    .font(.callout)
+                                    .bookUI(12)
                                     .foregroundStyle(.secondary)
                                 HStack(spacing: 4) {
                                     Text("临时")
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(.secondary)
                                     TextField("0", value: tempHPBinding(active), format: .number)
                                         .textFieldStyle(.roundedBorder)
@@ -93,7 +93,7 @@ struct BattleActiveView: View {
 
                             if let concentration = active.concentration, !concentration.isEmpty {
                                 Text("专注中：\(concentration)。受到伤害时按专注规则进行体质豁免。")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(Theme.red)
                             }
 
@@ -118,7 +118,7 @@ struct BattleActiveView: View {
                                         store.toggleCondition(condition, in: run)
                                     }
                                     .buttonStyle(.plain)
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(on ? .white : .secondary)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 3)
@@ -142,7 +142,7 @@ struct BattleActiveView: View {
                                     }
                                 } label: {
                                     Image(systemName: "plus.circle")
-                                        .font(.caption)
+                                        .bookUI(11)
                                 }
                                 .menuStyle(.borderlessButton)
                                 .help("更多状态")
@@ -171,7 +171,7 @@ struct BattleActiveView: View {
                         .controlSize(.small)
                         Spacer()
                         Text(lastRoll ?? "尚未掷骰")
-                            .font(.callout.monospacedDigit())
+                            .bookUI(12, monospaced: true)
                             .foregroundStyle(lastRoll == nil ? .secondary : Theme.ink)
                     }
                     .padding(.vertical, 3)
@@ -182,7 +182,7 @@ struct BattleActiveView: View {
                         VStack(alignment: .leading, spacing: 4) {
                             ForEach(Array((battle?.log ?? []).prefix(9).enumerated()), id: \.offset) { _, entry in
                                 Text(entry)
-                                    .font(.callout)
+                                    .bookUI(12)
                                     .foregroundStyle(.secondary)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
@@ -194,22 +194,22 @@ struct BattleActiveView: View {
                         GroupBox("数据块 · \(monster.name)") {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("\(monster.size)\(monster.type) · \(monster.alignment)")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                                 if let vulnerabilities = monster.damageVulnerabilities, !vulnerabilities.isEmpty {
                                     Text("易伤：\(vulnerabilities.joined(separator: "、"))")
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(Theme.red)
                                 }
                                 ForEach((monster.traits ?? []) + monster.actions) { pair in
                                     Text("\(pair.name)。\(pair.text)")
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .foregroundStyle(.secondary)
                                 }
                                 if let ruleIDs = monster.ruleIds, !ruleIDs.isEmpty {
                                     HStack(spacing: 5) {
                                         Text("规则")
-                                            .font(.caption2)
+                                            .bookUI(10)
                                             .foregroundStyle(.secondary)
                                         ForEach(ruleIDs, id: \.self) { ruleID in
                                             if let rule = store.rule(id: ruleID) {
@@ -217,7 +217,7 @@ struct BattleActiveView: View {
                                                     selectedRule = rule
                                                 }
                                                 .buttonStyle(.borderless)
-                                                .font(.caption)
+                                                .bookUI(11)
                                                 .foregroundStyle(Theme.red)
                                             }
                                         }
@@ -232,7 +232,7 @@ struct BattleActiveView: View {
                                         }
                                     } label: {
                                         Label("打开法术（\(spellIDs.count)）", systemImage: "book.closed")
-                                            .font(.caption)
+                                            .bookUI(11)
                                     }
                                     .menuStyle(.borderlessButton)
                                 }
@@ -244,11 +244,11 @@ struct BattleActiveView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 ForEach(store.encounter(id: "guz-ambush")?.tactics ?? [], id: \.self) { tactic in
                                     Text("· \(tactic)")
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .foregroundStyle(.secondary)
                                 }
                                 Text("App 不自动判命中、豁免或规则；DM 用实体骰或骰子。")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                             }
                             .padding(.vertical, 2)
@@ -335,7 +335,7 @@ private struct MultiDamageSheet: View {
                             VStack(alignment: .leading, spacing: 1) {
                                 Text(combatant.name)
                                 Text("HP \(combatant.hp)/\(combatant.maxHP)")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()

@@ -85,18 +85,18 @@ public struct SceneDetailView: View {
                                 .foregroundStyle(Theme.red)
                             VStack(alignment: .leading, spacing: 1) {
                                 Text("DM 导读")
-                                    .font(.system(size: 13, weight: .semibold))
+                                    .bookUI(13, weight: .semibold)
                                     .foregroundStyle(Theme.ink)
                                 Text("摘要 · 引钩 · 背景 · 主持建议")
-                                    .font(.caption2)
+                                    .bookUI(10)
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()
                             Text("开团前必读")
-                                .font(.caption2.weight(.medium))
+                                .bookUI(10, weight: .medium)
                                 .foregroundStyle(Theme.red)
                             Image(systemName: "chevron.right")
-                                .font(.caption2)
+                                .bookUI(10)
                                 .foregroundStyle(.tertiary)
                         }
                         .padding(.horizontal, 12)
@@ -116,7 +116,7 @@ public struct SceneDetailView: View {
                 if let readAloud = displayedReadAloud {
                     GroupBox("朗读 / 描述") {
                         Text(readAloud.singleLineSpaced)
-                            .font(.body)
+                            .bookUI(13)
                             .lineSpacing(4)
                             .textSelection(.enabled)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -160,7 +160,7 @@ public struct SceneDetailView: View {
                 if let notes = scene.dmNotes {
                     GroupBox("DM 备注") {
                         Text(notes.singleLineSpaced)
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 3)
@@ -170,7 +170,7 @@ public struct SceneDetailView: View {
                 if let fadeToBlack = scene.fadeToBlack {
                     GroupBox("淡出处理 / 安全替代") {
                         Text(fadeToBlack.singleLineSpaced)
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                             .lineSpacing(2)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -180,13 +180,13 @@ public struct SceneDetailView: View {
 
                 GroupBox("本场景备注") {
                     TextEditor(text: sceneNoteBinding)
-                        .font(.callout)
+                        .bookUI(12)
                         .scrollContentBackground(.hidden)
                         .frame(minHeight: 72)
                         .overlay(alignment: .topLeading) {
                             if sceneNoteBinding.wrappedValue.isEmpty {
                                 Text("记录本场景的临时裁定、NPC 反应、队伍选择或下次继续的位置……")
-                                    .font(.callout)
+                                    .bookUI(12)
                                     .foregroundStyle(.tertiary)
                                     .padding(.top, 8)
                                     .padding(.leading, 5)

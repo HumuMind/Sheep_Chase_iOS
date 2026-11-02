@@ -11,12 +11,12 @@ extension SceneDetailView {
         VStack(alignment: .leading, spacing: 5) {
             HStack(spacing: 8) {
                 Text("场景 \(scene.order) / \(store.scenes.count)")
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
                 Text("·")
                     .foregroundStyle(.quaternary)
                 Text("\(store.adventure.level.min)–\(store.adventure.level.max) 级")
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
                 Spacer()
             }
@@ -24,7 +24,7 @@ extension SceneDetailView {
                 .bookSerif(32, weight: .semibold)
                 .textSelection(.enabled)
             Text(scene.summary.singleLineSpaced)
-                .font(.body)
+                .bookUI(13)
                 .foregroundStyle(.secondary)
                 .lineSpacing(2)
                 .textSelection(.enabled)
@@ -37,7 +37,7 @@ extension SceneDetailView {
                                 onOpenNPC(npcID)
                             } label: {
                                 Label(npc.name, systemImage: "person.text.rectangle")
-                                    .font(.callout)
+                                    .bookUI(12)
                             }
                             .buttonStyle(.bordered)
                             .controlSize(.small)
@@ -49,7 +49,7 @@ extension SceneDetailView {
                         store.setMode(.map, in: run)
                     } label: {
                         Label(map.title, systemImage: "map")
-                            .font(.callout)
+                            .bookUI(12)
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.small)
@@ -59,7 +59,7 @@ extension SceneDetailView {
                         onOpenHandout(handoutID)
                     } label: {
                         Label(handout.title, systemImage: "doc.text")
-                            .font(.callout)
+                            .bookUI(12)
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.small)
@@ -69,7 +69,7 @@ extension SceneDetailView {
                         onOpenItem(itemID)
                     } label: {
                         Label(item.name, systemImage: "wand.and.stars")
-                            .font(.callout)
+                            .bookUI(12)
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.small)
@@ -88,7 +88,7 @@ extension SceneDetailView {
                         }
                     } label: {
                         Label("本场速查", systemImage: "book.closed")
-                            .font(.callout)
+                            .bookUI(12)
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.small)
@@ -108,15 +108,15 @@ extension SceneDetailView {
                     VStack(alignment: .leading, spacing: 3) {
                         HStack(spacing: 6) {
                             Text(branch.label)
-                                .font(.callout.weight(.medium))
+                                .bookUI(12, weight: .medium)
                             if let flag = branch.requiresFlag {
                                 Text(triggered ? "已触发" : "条件：\(store.flagLabel(flag))")
-                                    .font(.caption2)
+                                    .bookUI(10)
                                     .foregroundStyle(triggered ? Theme.green : .secondary)
                             }
                         }
                         Text(branch.text.singleLineSpaced)
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                             .lineSpacing(2)
                     }
@@ -140,7 +140,7 @@ extension SceneDetailView {
                         store.toggleFlag(flag.id, in: run)
                     } label: {
                         Label(flag.label, systemImage: on ? "checkmark.circle.fill" : "circle")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(on ? Theme.green : .secondary)
                     }
                     .buttonStyle(.borderless)
@@ -156,11 +156,11 @@ extension SceneDetailView {
                 GroupBox("遭遇 · \(encounter.title)") {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(encounter.summary)
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                         if let tactics = encounter.tactics, !tactics.isEmpty {
                             Text(tactics.joined(separator: " · "))
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(.tertiary)
                         }
                         HStack(spacing: 5) {
@@ -170,30 +170,30 @@ extension SceneDetailView {
                                         onOpenMonster(monster.id)
                                     }
                                     .buttonStyle(.borderless)
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(Theme.red)
                                 }
                             }
                         }
                         if let adjustment = store.encounterAdjustment(for: encounter.id, in: run) {
                             Text("DM 调整：")
-                                .font(.caption.weight(.semibold))
+                                .bookUI(11, weight: .semibold)
                                 .foregroundStyle(Theme.gold)
                             ForEach(adjustment.combatants) { combatant in
                                 if let monster = store.monster(id: combatant.monsterID, in: run) {
                                     Text("\(monster.name) × \(combatant.count)")
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(Theme.inkSoft)
                                 }
                             }
                             if !adjustment.note.isEmpty {
                                 Text(adjustment.note)
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                             }
                         } else {
                             Text("参考组合；按队伍人数与等级在战斗筹备里逐个添加。")
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(.tertiary)
                         }
                         DMAnnotationEditor(

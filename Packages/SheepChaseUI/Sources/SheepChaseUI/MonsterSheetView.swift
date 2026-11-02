@@ -45,14 +45,14 @@ public struct MonsterSheetView: View {
                     HStack(alignment: .firstTextBaseline) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(monster.name)
-                                .font(.largeTitle.weight(.semibold))
+                                .bookUI(28, weight: .semibold)
                             Text("\(monster.size)\(monster.type) · \(monster.alignment)")
-                                .font(.callout)
+                                .bookUI(12)
                                 .foregroundStyle(.secondary)
                         }
                         Spacer()
                         Text("CR \(monster.challenge.rating.formatted()) · \(monster.challenge.xp) XP")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                     }
 
@@ -95,7 +95,7 @@ public struct MonsterSheetView: View {
                                 Text("被动感知 \(monster.senses?.passivePerception ?? 0)")
                             }
                         }
-                        .font(.callout)
+                        .bookUI(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 3)
                     }
@@ -118,7 +118,7 @@ public struct MonsterSheetView: View {
                             VStack(alignment: .leading, spacing: 6) {
                                 ForEach(traits) { trait in
                                     Text("**\(trait.name)。** \(trait.text)")
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .foregroundStyle(.secondary)
                                 }
                             }
@@ -130,7 +130,7 @@ public struct MonsterSheetView: View {
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(monster.actions) { action in
                                 Text("**\(action.name)。** \(action.text)")
-                                    .font(.callout)
+                                    .bookUI(12)
                                     .foregroundStyle(.secondary)
                             }
                         }
@@ -140,7 +140,7 @@ public struct MonsterSheetView: View {
                     if let vulnerabilities = monster.damageVulnerabilities, !vulnerabilities.isEmpty {
                         GroupBox("易伤") {
                             Text(vulnerabilities.joined(separator: "、"))
-                                .font(.callout)
+                                .bookUI(12)
                                 .foregroundStyle(Theme.red)
                         }
                     }
@@ -150,7 +150,7 @@ public struct MonsterSheetView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 ForEach(tactics, id: \.self) { tactic in
                                     Text("· \(tactic)")
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .foregroundStyle(.secondary)
                                 }
                             }
@@ -160,7 +160,7 @@ public struct MonsterSheetView: View {
 
                     if let sourceRef = monster.sourceRef {
                         Text(sourceRef)
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                     }
 
@@ -194,12 +194,12 @@ public struct MonsterSheetView: View {
     private func ability(_ name: String, _ value: Int) -> some View {
         VStack(spacing: 1) {
             Text(name)
-                .font(.caption2)
+                .bookUI(10)
                 .foregroundStyle(.secondary)
             Text("\(value)")
-                .font(.callout.monospacedDigit().weight(.semibold))
+                .bookUI(12, weight: .semibold, monospaced: true)
             Text(abilityModifier(value))
-                .font(.caption2)
+                .bookUI(10)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)

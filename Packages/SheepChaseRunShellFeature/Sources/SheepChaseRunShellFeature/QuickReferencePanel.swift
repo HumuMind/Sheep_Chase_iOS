@@ -56,14 +56,14 @@ public struct QuickReferencePanel: View {
                 Image(systemName: "book.pages")
                     .foregroundStyle(Theme.red)
                 Text("速查")
-                    .font(.headline)
+                    .bookUI(13, weight: .semibold)
                     .foregroundStyle(Theme.ink)
                 Spacer()
                 Button {
                     withAnimation(.easeInOut(duration: 0.16)) { isExpanded = false }
                 } label: {
                     Image(systemName: "chevron.down")
-                        .font(.caption.weight(.semibold))
+                        .bookUI(11, weight: .semibold)
                         .foregroundStyle(.secondary)
                 }
                 .buttonStyle(.plain)
@@ -106,13 +106,13 @@ public struct QuickReferencePanel: View {
                 Text("速查")
                 if !pinnedEntries.isEmpty {
                     Text("\(pinnedEntries.count)")
-                        .font(.caption2.weight(.semibold))
+                        .bookUI(10, weight: .semibold)
                         .padding(.horizontal, 5)
                         .padding(.vertical, 1)
                         .background(Theme.red.opacity(0.12), in: Capsule())
                 }
             }
-            .font(.callout.weight(.medium))
+            .bookUI(12, weight: .medium)
             .foregroundStyle(Theme.ink)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
@@ -131,16 +131,16 @@ public struct QuickReferencePanel: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
                 Text("已钉住")
-                    .font(.caption2.weight(.semibold))
+                    .bookUI(10, weight: .semibold)
                     .foregroundStyle(Theme.red)
                 Text("\(pinnedEntries.count)")
-                    .font(.caption2)
+                    .bookUI(10)
                     .foregroundStyle(.secondary)
                 Spacer()
             }
             if pinnedEntries.isEmpty {
                 Text("右键或长按标签可钉住，钉住后会一直显示在这里")
-                    .font(.caption2)
+                    .bookUI(10)
                     .foregroundStyle(.tertiary)
             } else {
                 pinnedTagRows(pinnedEntries)
@@ -164,11 +164,11 @@ public struct QuickReferencePanel: View {
             } label: {
                 HStack(spacing: 6) {
                     Label(kind.title, systemImage: kind.icon)
-                        .font(.caption.weight(.medium))
+                        .bookUI(11, weight: .medium)
                         .foregroundStyle(Theme.ink)
                     Spacer()
                     Text("\(entries.count)")
-                        .font(.caption2)
+                        .bookUI(10)
                         .foregroundStyle(.secondary)
                     Image(systemName: "chevron.right")
                         .font(.system(size: 9, weight: .semibold))
@@ -184,7 +184,7 @@ public struct QuickReferencePanel: View {
             if expanded {
                 if entries.isEmpty {
                     Text("暂无内容")
-                        .font(.caption2)
+                        .bookUI(10)
                         .foregroundStyle(.tertiary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 4)
@@ -248,7 +248,7 @@ public struct QuickReferencePanel: View {
     private func tag(_ entry: QuickReferenceEntry) -> some View {
         let pinned = run.pinnedReferenceIDs.contains(entry.id)
         return Text(entry.title)
-            .font(.caption)
+            .bookUI(11)
             .foregroundStyle(Theme.ink)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: false)
@@ -296,7 +296,7 @@ public struct QuickReferencePanel: View {
     }
     private func pinnedTag(_ entry: QuickReferenceEntry) -> some View {
         Text(entry.title)
-            .font(.caption2.weight(.medium))
+            .bookUI(10, weight: .medium)
             .foregroundStyle(Theme.ink)
             .lineLimit(1)
             .fixedSize(horizontal: true, vertical: false)

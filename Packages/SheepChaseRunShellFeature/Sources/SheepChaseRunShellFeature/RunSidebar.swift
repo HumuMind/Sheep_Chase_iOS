@@ -31,15 +31,15 @@ struct RunSidebar: View {
                             .foregroundStyle(Theme.red)
                         VStack(alignment: .leading, spacing: 1) {
                             Text("DM 导读")
-                                .font(.system(size: 13, weight: .semibold))
+                                .bookUI(13, weight: .semibold)
                                 .foregroundStyle(Theme.ink)
                             Text("摘要 · 引钩 · 背景 · 主持建议")
-                                .font(.caption2)
+                                .bookUI(10)
                                 .foregroundStyle(.secondary)
                         }
                         Spacer()
                         Text("必读")
-                            .font(.caption2.weight(.medium))
+                            .bookUI(10, weight: .medium)
                             .foregroundStyle(Theme.red)
                     }
                     .padding(.vertical, 3)
@@ -53,7 +53,7 @@ struct RunSidebar: View {
             Section("场景") {
                 ForEach(store.scenes) { scene in
                     Text("\(scene.order). \(scene.title)")
-                        .font(.system(size: 12, weight: .medium))
+                        .bookUI(12, weight: .medium)
                         .lineLimit(1)
                         .padding(.vertical, 2)
                         .tag(scene.id)
@@ -67,7 +67,7 @@ struct RunSidebar: View {
                     showSaveTemplate = true
                 } label: {
                     Label("另存为我的模组", systemImage: "square.and.arrow.down.on.square")
-                        .font(.system(size: 12, weight: .medium))
+                        .bookUI(12, weight: .medium)
                         .foregroundStyle(Theme.red)
                 }
                 .buttonStyle(.plain)
@@ -88,10 +88,10 @@ struct RunSidebar: View {
                     .clipShape(RoundedRectangle(cornerRadius: 3))
                 VStack(alignment: .leading, spacing: 1) {
                     Text("荒野逐羊")
-                        .font(.caption2)
+                        .bookUI(10)
                         .foregroundStyle(.secondary)
                     Text(run.name)
-                        .font(.headline)
+                        .bookUI(13, weight: .semibold)
                         .lineLimit(1)
                 }
                 Spacer()

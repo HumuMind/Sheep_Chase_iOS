@@ -7,7 +7,7 @@ extension QuickReferencePanel {
             showAddNPC = true
         } label: {
             Label("＋ 自定义人物", systemImage: "person.badge.plus")
-                .font(.caption)
+                .bookUI(11)
         }
         .buttonStyle(.borderless)
         .foregroundStyle(Theme.red)
@@ -19,7 +19,7 @@ extension QuickReferencePanel {
             showAddMonster = true
         } label: {
             Label("＋ 自定义怪物", systemImage: "pawprint.fill")
-                .font(.caption)
+                .bookUI(11)
         }
         .buttonStyle(.borderless)
         .foregroundStyle(Theme.red)

@@ -208,14 +208,14 @@ public struct GlobalSearchView: View {
                         NavigationLink(value: result) {
                             HStack(alignment: .top, spacing: 9) {
                                 Text(result.kind)
-                                    .font(.caption2.weight(.semibold))
+                                    .bookUI(10, weight: .semibold)
                                     .foregroundStyle(Theme.red)
                                     .frame(width: 34, alignment: .leading)
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(result.title)
-                                        .font(.body.weight(.medium))
+                                        .bookUI(13, weight: .medium)
                                     Text(result.subtitle)
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(.secondary)
                                 }
                                 Spacer()
@@ -261,15 +261,15 @@ private struct SearchResultDetail: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
                 Text(result.kind)
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
                 Text(result.title)
-                    .font(.largeTitle.weight(.semibold))
+                    .bookUI(28, weight: .semibold)
                 Text(result.subtitle)
-                    .font(.callout)
+                    .bookUI(12)
                     .foregroundStyle(.secondary)
                 Text(result.body)
-                    .font(.body)
+                    .bookUI(13)
                     .lineSpacing(3)
                     .textSelection(.enabled)
                 if result.sceneID != nil, run != nil {

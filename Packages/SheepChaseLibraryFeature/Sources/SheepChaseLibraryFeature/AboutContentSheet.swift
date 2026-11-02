@@ -31,12 +31,12 @@ struct AboutContentSheet: View {
                             )
                         VStack(alignment: .leading, spacing: 4) {
                             Text(content.manifest.title)
-                                .font(.largeTitle.weight(.semibold))
+                                .bookUI(28, weight: .semibold)
                             Text(content.manifest.originalTitle)
-                                .font(.callout)
+                                .bookUI(12)
                                 .foregroundStyle(.secondary)
                             Text("App \(AppVersion.short) · 内容版本 \(content.manifest.version) · schema \(content.manifest.schemaVersion) · \(content.manifest.locale)")
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -46,13 +46,13 @@ struct AboutContentSheet: View {
                             ForEach(content.manifest.credits) { credit in
                                 HStack(alignment: .firstTextBaseline) {
                                     Text(credit.name)
-                                        .font(.callout.weight(.medium))
+                                        .bookUI(12, weight: .medium)
                                     Text(credit.role)
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(.secondary)
                                     if let url = credit.url, let link = URL(string: url) {
                                         Link("链接", destination: link)
-                                            .font(.caption)
+                                            .bookUI(11)
                                     }
                                 }
                             }
@@ -73,7 +73,7 @@ struct AboutContentSheet: View {
 
                     GroupBox("版本与备份") {
                         Text("App \(AppVersion.short)（build \(AppVersion.build)）。启动新版本时，App 会自动把当前开团导出到本机 Application Support/SheepChase/Backups，保留最近 3 次；升级前也可以手动导出 JSON。")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                             .lineSpacing(2)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -82,7 +82,7 @@ struct AboutContentSheet: View {
 
                     GroupBox("使用范围") {
                         Text("当前内容包标记为“个人自用”。冒险文本、中文翻译、封面插画与地图仅用于本地个人跑团，不用于公开分发；若要改变分发方式，需要重新评估授权与素材替换。")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                             .lineSpacing(2)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -91,7 +91,7 @@ struct AboutContentSheet: View {
 
                     GroupBox("内容提示") {
                         Text(content.adventure.contentWarnings.joined(separator: " · "))
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 3)
@@ -105,7 +105,7 @@ struct AboutContentSheet: View {
                         }
                         .buttonStyle(.borderless)
                         Text("会删除本机所有开团、队伍、便签、战斗记录和快照；不会删除内容包。建议先导出 JSON 备份。")
-                            .font(.footnote)
+                            .bookUI(10)
                             .foregroundStyle(.secondary)
                             .padding(.top, 3)
                     }

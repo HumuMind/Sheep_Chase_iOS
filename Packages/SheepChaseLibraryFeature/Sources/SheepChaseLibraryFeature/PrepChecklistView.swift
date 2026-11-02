@@ -26,16 +26,16 @@ struct PrepChecklistView: View {
                 Section {
                     HStack {
                         Text("备团进度")
-                            .font(.headline)
+                            .bookUI(13, weight: .semibold)
                         Spacer()
                         Text("\(min(checkedCount, totalItems)) / \(totalItems)")
-                            .font(.callout.monospacedDigit())
+                            .bookUI(12, monospaced: true)
                             .foregroundStyle(.secondary)
                     }
                     ProgressView(value: Double(min(checkedCount, totalItems)), total: Double(max(totalItems, 1)))
                         .tint(Theme.red)
                     Text("可选清单：读场景、看 NPC/怪物、设队伍、备手牌。不会自动改剧情或战斗状态。")
-                        .font(.footnote)
+                        .bookUI(10)
                         .foregroundStyle(.secondary)
                 }
 
@@ -98,10 +98,10 @@ struct PrepChecklistView: View {
         )) {
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
-                    .font(.body)
+                    .bookUI(13)
                 if let detail, !detail.isEmpty {
                     Text(detail)
-                        .font(.caption)
+                        .bookUI(11)
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
                 }

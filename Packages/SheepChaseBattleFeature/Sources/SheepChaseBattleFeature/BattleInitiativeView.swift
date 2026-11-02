@@ -21,12 +21,12 @@ struct BattleInitiativeView: View {
                 HStack(alignment: .bottom, spacing: 16) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("战斗筹备 / 填写先攻")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                         Text("玩家自己掷，你来填")
-                            .font(.largeTitle.weight(.semibold))
+                            .bookUI(28, weight: .semibold)
                         Text("玩家投 d20 + 先攻加值，把结果填进来；怪物先攻已由 App 自动掷好（d20 + 加值），不需要填写。")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -45,9 +45,9 @@ struct BattleInitiativeView: View {
                         ForEach(selectedPlayers) { member in
                             HStack(spacing: 10) {
                                 Text(member.name)
-                                    .font(.body.weight(.medium))
+                                    .bookUI(13, weight: .medium)
                                 Text("玩家 · 先攻加值 \(signed(member.initMod))")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                                 Spacer()
                                 TextField("先攻", text: playerBinding(member))
@@ -62,13 +62,13 @@ struct BattleInitiativeView: View {
                         ForEach(battle.monsters) { monster in
                             HStack(spacing: 10) {
                                 Text(monster.name)
-                                    .font(.body.weight(.medium))
+                                    .bookUI(13, weight: .medium)
                                 Text("怪物 · 自动 d20 + 加值")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                                 Spacer()
                                 Text(monster.initiative.map(String.init) ?? "—")
-                                    .font(.body.monospacedDigit().weight(.semibold))
+                                    .bookUI(13, weight: .semibold, monospaced: true)
                                     .foregroundStyle(Theme.green)
                                     .frame(width: 64, height: 24)
                                     .background(Theme.green.opacity(0.07), in: RoundedRectangle(cornerRadius: 4))
@@ -80,10 +80,10 @@ struct BattleInitiativeView: View {
                     .padding(.vertical, 2)
                 } label: {
                     HStack {
-                        Text("先攻记录").font(.headline)
+                        Text("先攻记录").bookUI(13, weight: .semibold)
                         Spacer()
                         Text("\(filledCount) / \(battle.totalParticipants)")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -103,7 +103,7 @@ struct BattleInitiativeView: View {
 
                     Spacer()
                     Text("玩家先攻都填完后才能开始；怪物已自动掷好")
-                        .font(.caption)
+                        .bookUI(11)
                         .foregroundStyle(.secondary)
                 }
             }

@@ -17,10 +17,10 @@ struct PartyInspector: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
                 Text("队伍")
-                    .font(.headline)
+                    .bookUI(13, weight: .semibold)
                 Spacer()
                 Text("\(run.party.count) 人")
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
             }
 
@@ -56,7 +56,7 @@ struct PartyInspector: View {
             }
 
             Text("只记录战斗需要的最小数值；不管理角色卡、升级或法术位。")
-                .font(.footnote)
+                .bookUI(10)
                 .foregroundStyle(.secondary)
                 .padding(.top, 2)
         }
@@ -96,20 +96,20 @@ struct PartyRowView: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack(alignment: .firstTextBaseline) {
                 Text(member.name)
-                    .font(.body.weight(.medium))
+                    .bookUI(13, weight: .medium)
                 Text("Lv \(member.level) · \(member.role)")
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
                 Spacer()
                 Text("\(member.hp)/\(member.maxHP)")
-                    .font(.caption.monospacedDigit())
+                    .bookUI(11, monospaced: true)
                     .foregroundStyle(.secondary)
                 Menu {
                     Button("编辑资料…") { onEdit() }
                     Button("移除玩家", role: .destructive) { onRemove() }
                 } label: {
                     Image(systemName: "ellipsis")
-                        .font(.caption)
+                        .bookUI(11)
                 }
                 .menuStyle(.borderlessButton)
                 .frame(width: 18)
@@ -134,7 +134,7 @@ struct PartyRowView: View {
                 }
                 Spacer()
             }
-            .font(.caption2)
+            .bookUI(10)
             .foregroundStyle(.secondary)
         }
         .padding(.vertical, 6)

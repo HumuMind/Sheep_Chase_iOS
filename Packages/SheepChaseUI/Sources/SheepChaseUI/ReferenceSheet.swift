@@ -40,7 +40,7 @@ public struct HandoutSheetView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     GroupBox("玩家可见") {
                         Text(handout.playerText)
-                            .font(.body)
+                            .bookUI(13)
                             .lineSpacing(3)
                             .textSelection(.enabled)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -65,7 +65,7 @@ public struct HandoutSheetView: View {
                     if let dmText = handout.dmText {
                         GroupBox("DM 备注") {
                             Text(dmText)
-                                .font(.callout)
+                                .bookUI(12)
                                 .foregroundStyle(.secondary)
                                 .lineSpacing(2)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -75,7 +75,7 @@ public struct HandoutSheetView: View {
 
                     if let credit = asset?.credit {
                         Text("图片：\(credit)")
-                            .font(.caption2)
+                            .bookUI(10)
                             .foregroundStyle(.secondary)
                     }
 
@@ -133,7 +133,7 @@ public struct ItemSheetView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     GroupBox(item.kind) {
                         Text(item.summary)
-                            .font(.body)
+                            .bookUI(13)
                             .lineSpacing(3)
                             .textSelection(.enabled)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -141,7 +141,7 @@ public struct ItemSheetView: View {
                     }
                     if let pageRef = item.pageRef {
                         Text(pageRef)
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                     }
 
@@ -200,15 +200,15 @@ public struct RuleSheetView: View {
                     GroupBox(rule.term) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(rule.category + " · " + rule.pageRef)
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(.secondary)
                             Text(rule.summary)
-                                .font(.body)
+                                .bookUI(13)
                                 .lineSpacing(3)
                                 .textSelection(.enabled)
                             if !rule.aliases.isEmpty {
                                 Text(rule.aliases.joined(separator: " · "))
-                                    .font(.caption2)
+                                    .bookUI(10)
                                     .foregroundStyle(.tertiary)
                             }
                         }
@@ -271,7 +271,7 @@ public struct SpellSheetView: View {
                     GroupBox(spell.name) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("\(spell.level) 环 · \(spell.school)")
-                                .font(.callout.weight(.medium))
+                                .bookUI(12, weight: .medium)
                             Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 3) {
                                 row("施法时间", spell.castingTime)
                                 row("射程", spell.range)
@@ -281,11 +281,11 @@ public struct SpellSheetView: View {
                             }
                             Divider()
                             Text(spell.summary)
-                                .font(.body)
+                                .bookUI(13)
                                 .lineSpacing(3)
                                 .textSelection(.enabled)
                             Text(spell.pageRef)
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -323,10 +323,10 @@ public struct SpellSheetView: View {
     private func row(_ label: String, _ value: String) -> some View {
         GridRow {
             Text(label)
-                .font(.caption)
+                .bookUI(11)
                 .foregroundStyle(.secondary)
             Text(value)
-                .font(.caption)
+                .bookUI(11)
         }
     }
 }

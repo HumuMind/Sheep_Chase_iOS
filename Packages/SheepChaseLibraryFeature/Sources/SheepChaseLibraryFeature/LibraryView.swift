@@ -62,7 +62,7 @@ public struct LibraryView: View {
                             .bookSerif(15, weight: .bold)
                             .foregroundStyle(Theme.red)
                         Text("DM 工作台")
-                            .font(.caption2)
+                            .bookUI(10)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -87,9 +87,9 @@ public struct LibraryView: View {
                         .frame(width: 92, height: 92)
                         .opacity(0.8)
                     Text("选择一场开团")
-                        .font(.title3.weight(.semibold))
+                        .bookUI(16, weight: .semibold)
                     Text("从左侧选择存档，或新建一场开团。")
-                        .font(.callout)
+                        .bookUI(12)
                         .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

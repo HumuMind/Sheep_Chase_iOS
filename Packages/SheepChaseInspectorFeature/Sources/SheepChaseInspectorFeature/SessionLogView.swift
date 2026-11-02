@@ -47,7 +47,7 @@ public struct SessionLogView: View {
                             .overlay(alignment: .topLeading) {
                                 if noteBinding.wrappedValue.isEmpty {
                                     Text("本次聚会记录：队伍去了哪里、发生了什么、下次从哪里继续……")
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .foregroundStyle(.tertiary)
                                         .padding(.top, 8)
                                         .padding(.leading, 5)
@@ -61,7 +61,7 @@ public struct SessionLogView: View {
                         .tint(Theme.red)
                     } else {
                         Text("还没有进行中的聚会。开始后，结束时会自动保存本地快照。")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                         Button("开始本次聚会") {
                             store.startSession(in: run)
@@ -81,18 +81,18 @@ public struct SessionLogView: View {
                             VStack(alignment: .leading, spacing: 3) {
                                 HStack {
                                     Text("第 \(index + 1) 次聚会")
-                                        .font(.body.weight(.medium))
+                                        .bookUI(13, weight: .medium)
                                     Spacer()
                                     Text(session.endedAt == nil ? "进行中" : "已结束")
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(session.endedAt == nil ? Theme.red : .secondary)
                                 }
                                 Text("\(session.startedAt.formatted(date: .abbreviated, time: .shortened))\(session.endedAt.map { " → \($0.formatted(date: .abbreviated, time: .shortened))" } ?? "")")
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                                 if !session.note.isEmpty {
                                     Text(session.note)
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .foregroundStyle(.secondary)
                                 }
                             }
@@ -104,10 +104,10 @@ public struct SessionLogView: View {
                 if let lastBattle = run.lastBattle, run.battle == nil {
                     Section("上次战斗") {
                         Text("第 \(lastBattle.round) 轮 · \(lastBattle.combatants.count) 名参战者")
-                            .font(.body.weight(.medium))
+                            .bookUI(13, weight: .medium)
                         ForEach(Array(lastBattle.log.prefix(5)), id: \.self) { entry in
                             Text("· \(entry)")
-                                .font(.caption)
+                                .bookUI(11)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -122,9 +122,9 @@ public struct SessionLogView: View {
                             HStack {
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(checkpoint.label)
-                                        .font(.body.weight(.medium))
+                                        .bookUI(13, weight: .medium)
                                     Text(checkpoint.createdAt.formatted(date: .abbreviated, time: .shortened))
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(.secondary)
                                 }
                                 Spacer()
@@ -144,7 +144,7 @@ public struct SessionLogView: View {
 
                 Section {
                     Text("快照只保存在本机当前开团中；JSON 备份仍建议在开团前导出一份。")
-                        .font(.footnote)
+                        .bookUI(10)
                         .foregroundStyle(.secondary)
                 }
             }

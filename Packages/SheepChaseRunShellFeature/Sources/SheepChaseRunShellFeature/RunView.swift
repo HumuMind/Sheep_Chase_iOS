@@ -357,10 +357,10 @@ public struct RunView: View {
                         .ignoresSafeArea()
                     VStack(spacing: 10) {
                         Text("已遮屏")
-                            .font(.title2)
+                            .bookUI(19)
                             .tracking(4)
                         Text("点击任意处恢复")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                         Button("记录休息并恢复") {
                             store.recordRest(note: "暂停遮屏", in: run)

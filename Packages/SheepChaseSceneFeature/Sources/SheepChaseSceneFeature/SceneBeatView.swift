@@ -25,18 +25,18 @@ extension SceneDetailView {
                             VStack(alignment: .leading, spacing: 3) {
                                 HStack(spacing: 6) {
                                     Text(beat.title)
-                                        .font(.body.weight(.medium))
+                                        .bookUI(13, weight: .medium)
                                     Text(beatTypeLabel(beat.type))
-                                        .font(.caption2)
+                                        .bookUI(10)
                                         .foregroundStyle(.secondary)
                                 }
                                 Text(beat.text.singleLineSpaced)
-                                    .font(.callout)
+                                    .bookUI(12)
                                     .foregroundStyle(.secondary)
                                     .lineSpacing(2)
                                 if let read = beat.readAloud {
                                     Text("“\(read.singleLineSpaced)”")
-                                        .font(.callout)
+                                        .bookUI(12)
                                         .italic()
                                         .foregroundStyle(.secondary)
                                         .padding(.top, 1)
@@ -49,7 +49,7 @@ extension SceneDetailView {
                                                     onOpenNPC(npcID)
                                                 }
                                                 .buttonStyle(.borderless)
-                                                .font(.caption)
+                                                .bookUI(11)
                                                 .foregroundStyle(Theme.red)
                                             }
                                         }
@@ -63,7 +63,7 @@ extension SceneDetailView {
                                                     onOpenHandout(handoutID)
                                                 }
                                                 .buttonStyle(.borderless)
-                                                .font(.caption)
+                                                .bookUI(11)
                                                 .foregroundStyle(Theme.red)
                                             }
                                         }
@@ -77,7 +77,7 @@ extension SceneDetailView {
                                                     onOpenItem(itemID)
                                                 }
                                                 .buttonStyle(.borderless)
-                                                .font(.caption)
+                                                .bookUI(11)
                                                 .foregroundStyle(Theme.red)
                                             }
                                         }
@@ -89,7 +89,7 @@ extension SceneDetailView {
                                             if let rule = store.rule(id: ruleID) {
                                                 Button(rule.term) { onOpenRule(ruleID) }
                                                     .buttonStyle(.borderless)
-                                                    .font(.caption)
+                                                    .bookUI(11)
                                                     .foregroundStyle(Theme.red)
                                             }
                                         }
@@ -101,7 +101,7 @@ extension SceneDetailView {
                                             if let spell = store.spell(id: spellID) {
                                                 Button(spell.name) { onOpenSpell(spellID) }
                                                     .buttonStyle(.borderless)
-                                                    .font(.caption)
+                                                    .bookUI(11)
                                                     .foregroundStyle(Theme.red)
                                             }
                                         }
@@ -161,7 +161,7 @@ extension SceneDetailView {
             showCustomBeat = true
         } label: {
             Label("＋ 自定义节拍", systemImage: "plus")
-                .font(.callout)
+                .bookUI(12)
         }
         .buttonStyle(.borderless)
         .foregroundStyle(Theme.red)
@@ -192,7 +192,7 @@ extension SceneDetailView {
 
             Spacer()
             Text("第 \(index + 1) / \(displayBeats.count) 拍")
-                .font(.caption)
+                .bookUI(11)
                 .foregroundStyle(.secondary)
         }
         .padding(.vertical, 2)

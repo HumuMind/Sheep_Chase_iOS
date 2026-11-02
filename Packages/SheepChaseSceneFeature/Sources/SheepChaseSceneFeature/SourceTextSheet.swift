@@ -14,7 +14,8 @@ public struct SourceTextSheet: View {
     private let scene: ContentPack.AdventureScene
     private let sections: [SourceTextSection]
     @State private var selectedSectionID: Int?
-    @State private var scrollTarget: Int?
+    @State private var scrollTarget: String?
+    @State private var scrollRequest = 0
 
     public var body: some View {
         ZStack(alignment: .topLeading) {
@@ -23,7 +24,17 @@ public struct SourceTextSheet: View {
                 tableOfContents
                 Divider()
                 #endif
-                sourceScroll
+                ScrollViewReader { proxy in
+                    sourceScroll
+                        .onChange(of: scrollRequest) { _, _ in
+                            guard let target = scrollTarget else { return }
+                            DispatchQueue.main.async {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    proxy.scrollTo(target, anchor: .top)
+                                }
+                            }
+                        }
+                }
             }
             #if !os(macOS)
             tableOfContentsMenu
@@ -61,8 +72,12 @@ public struct SourceTextSheet: View {
                     .padding(.bottom, 20)
 
                 ForEach(sections) { section in
-                    sectionView(section)
-                        .id(section.id)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Color.clear
+                            .frame(height: 1)
+                        sectionView(section)
+                    }
+                    .id(sectionAnchor(section.id))
                 }
 
                 pageFooter
@@ -100,7 +115,8 @@ public struct SourceTextSheet: View {
                         Button {
                             selectedSectionID = section.id
                             withAnimation(.easeInOut(duration: 0.2)) {
-                                scrollTarget = section.id
+                                scrollTarget = sectionAnchor(section.id)
+                                scrollRequest += 1
                             }
                         } label: {
                             HStack(alignment: .top, spacing: 6) {
@@ -136,19 +152,24 @@ public struct SourceTextSheet: View {
                 Button(section.heading ?? scene.title) {
                     selectedSectionID = section.id
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        scrollTarget = section.id
+                        scrollTarget = sectionAnchor(section.id)
+                        scrollRequest += 1
                     }
                 }
             }
         } label: {
             Label("目录", systemImage: "list.bullet")
-                .font(.callout)
+                .bookUI(12)
         }
         .menuStyle(.borderlessButton)
         .padding(8)
         .background(Theme.card.opacity(0.92), in: RoundedRectangle(cornerRadius: 6))
     }
     #endif
+
+    private func sectionAnchor(_ id: Int) -> String {
+        "source-section-\(id)"
+    }
 
     private func sectionView(_ section: SourceTextSection) -> some View {
         Group {

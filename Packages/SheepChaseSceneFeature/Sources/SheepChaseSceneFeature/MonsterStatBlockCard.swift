@@ -95,7 +95,7 @@ struct MonsterStatBlockCard: View {
                 .bookSerif(9, weight: .semibold)
                 .foregroundStyle(Theme.red)
             Text("\(score) (\(modifier(score)))")
-                .font(.system(size: 11, design: .monospaced))
+                .bookUI(11, monospaced: true)
                 .foregroundStyle(Theme.ink)
         }
         .frame(maxWidth: .infinity)

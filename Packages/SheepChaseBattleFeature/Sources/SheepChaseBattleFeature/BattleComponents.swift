@@ -23,7 +23,7 @@ struct BattleStepsView: View {
             Image(systemName: active ? "\(number).circle.fill" : "\(number).circle")
                 .foregroundStyle(active ? Theme.red : .secondary)
             Text(title)
-                .font(.callout.weight(active ? .medium : .regular))
+                .bookUI(12, weight: active ? .medium : .regular)
                 .foregroundStyle(active ? .primary : .secondary)
         }
     }
@@ -37,14 +37,14 @@ struct PlayerSelectionRow: View {
     var body: some View {
         HStack(spacing: 8) {
             Text(String(member.name.prefix(1)))
-                .font(.caption.weight(.semibold))
+                .bookUI(11, weight: .semibold)
                 .frame(width: 24, height: 24)
                 .background(.quaternary, in: Circle())
             VStack(alignment: .leading, spacing: 1) {
                 Text(member.name)
-                    .font(.body.weight(.medium))
+                    .bookUI(13, weight: .medium)
                 Text("Lv \(member.level) · \(member.role)")
-                    .font(.caption)
+                    .bookUI(11)
                     .foregroundStyle(.secondary)
             }
             Spacer()

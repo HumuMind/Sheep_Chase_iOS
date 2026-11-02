@@ -31,18 +31,18 @@ public struct DMAnnotationEditor: View {
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 6) {
                         Label("DM 改动", systemImage: "square.and.pencil")
-                            .font(.caption.weight(.semibold))
+                            .bookUI(11, weight: .semibold)
                             .foregroundStyle(Theme.gold)
                         Text(annotation.mode.title)
-                            .font(.caption2)
+                            .bookUI(10)
                             .foregroundStyle(.secondary)
                         Spacer()
                         Button("编辑") { beginEditing() }
-                            .font(.caption)
+                            .bookUI(11)
                             .buttonStyle(.borderless)
                     }
                     Text(annotation.text)
-                        .font(.callout)
+                        .bookUI(12)
                         .foregroundStyle(Theme.inkSoft)
                         .lineSpacing(3)
                         .textSelection(.enabled)
@@ -60,7 +60,7 @@ public struct DMAnnotationEditor: View {
                     beginEditing()
                 } label: {
                     Label("DM 注", systemImage: "square.and.pencil")
-                        .font(.caption)
+                        .bookUI(11)
                 }
                 .buttonStyle(.borderless)
                 .foregroundStyle(Theme.gold)

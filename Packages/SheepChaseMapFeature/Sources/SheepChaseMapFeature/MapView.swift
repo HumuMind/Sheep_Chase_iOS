@@ -33,12 +33,12 @@ public struct MapView: View {
                 HStack(alignment: .bottom, spacing: 16) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("场景参考")
-                            .font(.caption)
+                            .bookUI(11)
                             .foregroundStyle(.secondary)
                         Text(mapData?.title ?? "树屋地图")
-                            .font(.largeTitle.weight(.semibold))
+                            .bookUI(28, weight: .semibold)
                         Text("静态地图 + DM 图钉；拖拽平移、按钮缩放；不做网格、token、迷雾或测距。")
-                            .font(.callout)
+                            .bookUI(12)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -52,7 +52,7 @@ public struct MapView: View {
                             setZoom(1)
                             offset = .zero
                         } label: {
-                            Text("\(Int(zoom * 100))%").font(.caption.monospacedDigit())
+                            Text("\(Int(zoom * 100))%").bookUI(11, monospaced: true)
                         }
                         .buttonStyle(.bordered)
                         .help("重置缩放和平移")
@@ -70,7 +70,7 @@ public struct MapView: View {
 
                 GroupBox("地图说明") {
                     Text("拖拽地图可平移；百分比按钮重置视图。图钉只存在于 App 内；导出地图时使用干净原图，不烧录 DM 标记。")
-                        .font(.callout)
+                        .bookUI(12)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 2)
@@ -188,13 +188,13 @@ public struct MapView: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text("图钉")
-                    .font(.headline)
+                    .bookUI(13, weight: .semibold)
                 Spacer()
                 Button {
                     showAddCustomPin = true
                 } label: {
                     Label("自定义", systemImage: "plus")
-                        .font(.caption)
+                        .bookUI(11)
                 }
                 .buttonStyle(.borderless)
                 .foregroundStyle(Theme.red)
@@ -210,12 +210,12 @@ public struct MapView: View {
                                     .font(.system(size: 7))
                                     .foregroundStyle(pin.dmOnly ? Theme.red : Theme.green)
                                 Text(pin.label)
-                                    .font(.callout.weight(selectedPinID == pin.id ? .semibold : .regular))
+                                    .bookUI(12, weight: selectedPinID == pin.id ? .semibold : .regular)
                                 Spacer()
                             }
                             if selectedPinID == pin.id, let description = pin.description {
                                 Text(description)
-                                    .font(.caption)
+                                    .bookUI(11)
                                     .foregroundStyle(.secondary)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
@@ -229,7 +229,7 @@ public struct MapView: View {
                 }
                 if !customPins.isEmpty {
                     Text("自定义图钉")
-                        .font(.caption)
+                        .bookUI(11)
                         .foregroundStyle(.secondary)
                         .padding(.top, 4)
                     ForEach(customPins) { pin in
@@ -242,12 +242,12 @@ public struct MapView: View {
                                         .font(.system(size: 9))
                                         .foregroundStyle(Theme.gold)
                                     Text(pin.label)
-                                        .font(.callout.weight(selectedPinID == pin.id.uuidString ? .semibold : .regular))
+                                        .bookUI(12, weight: selectedPinID == pin.id.uuidString ? .semibold : .regular)
                                     Spacer()
                                 }
                                 if selectedPinID == pin.id.uuidString, !pin.note.isEmpty {
                                     Text(pin.note)
-                                        .font(.caption)
+                                        .bookUI(11)
                                         .foregroundStyle(.secondary)
                                 }
                             }
