@@ -4,26 +4,23 @@ import SheepChaseCore
 public struct MonsterSheetView: View {
     @Environment(\.dismiss) private var dismiss
     let monster: ContentPack.Monster
-    let annotation: DMAnnotation?
-    let onAnnotationSave: ((String, DMAnnotationMode) -> Void)?
-    let onAnnotationDelete: (() -> Void)?
+    let annotations: [DMAnnotation]
+    let onAnnotationChange: (([DMAnnotation]) -> Void)?
     let override: RunMonsterOverride?
     let onOverrideSave: ((Int, Int, Int, String) -> Void)?
     let onOverrideClear: (() -> Void)?
 
     public init(
         monster: ContentPack.Monster,
-        annotation: DMAnnotation? = nil,
-        onAnnotationSave: ((String, DMAnnotationMode) -> Void)? = nil,
-        onAnnotationDelete: (() -> Void)? = nil,
+        annotations: [DMAnnotation] = [],
+        onAnnotationChange: (([DMAnnotation]) -> Void)? = nil,
         override: RunMonsterOverride? = nil,
         onOverrideSave: ((Int, Int, Int, String) -> Void)? = nil,
         onOverrideClear: (() -> Void)? = nil
     ) {
         self.monster = monster
-        self.annotation = annotation
-        self.onAnnotationSave = onAnnotationSave
-        self.onAnnotationDelete = onAnnotationDelete
+        self.annotations = annotations
+        self.onAnnotationChange = onAnnotationChange
         self.override = override
         self.onOverrideSave = onOverrideSave
         self.onOverrideClear = onOverrideClear
@@ -164,12 +161,13 @@ public struct MonsterSheetView: View {
                             .foregroundStyle(.secondary)
                     }
 
-                    if let onAnnotationSave, let onAnnotationDelete {
+                    if let onAnnotationChange {
                         DMAnnotationEditor(
                             subject: monster.name,
-                            annotation: annotation,
-                            onSave: onAnnotationSave,
-                            onDelete: onAnnotationDelete
+                            targetKind: .monster,
+                            targetID: monster.id,
+                            annotations: annotations,
+                            onChange: onAnnotationChange
                         )
                     }
                 }

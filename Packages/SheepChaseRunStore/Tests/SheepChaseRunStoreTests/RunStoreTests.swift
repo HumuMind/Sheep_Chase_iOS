@@ -62,6 +62,18 @@ final class RunStoreTests: XCTestCase {
         store.removeAnnotation(kind: .scene, targetID: "scene-3", in: run)
         XCTAssertNil(store.annotation(kind: .scene, targetID: "scene-3", in: run))
 
+        let first = store.addAnnotation(kind: .beat, targetID: "beat-1", mode: .append, text: "第一条", in: run)
+        let second = store.addAnnotation(kind: .beat, targetID: "beat-1", mode: .replace, text: "第二条", in: run)
+        XCTAssertEqual(store.annotations(kind: .beat, targetID: "beat-1", in: run).count, 2)
+        if let first {
+            store.updateAnnotation(id: first.id, mode: .replace, text: "第一条改", in: run)
+            XCTAssertEqual(store.annotations(kind: .beat, targetID: "beat-1", in: run).first?.text, "第一条改")
+        }
+        if let second {
+            store.removeAnnotation(id: second.id, in: run)
+        }
+        XCTAssertEqual(store.annotations(kind: .beat, targetID: "beat-1", in: run).count, 1)
+
         store.addCustomBeat(sceneID: "scene-3", title: "自定义密道", type: "event", text: "队伍发现树屋下的密道。", readAloud: nil, in: run)
         XCTAssertEqual(store.customBeats(for: "scene-3", in: run).first?.title, "自定义密道")
         if let custom = store.customBeats(for: "scene-3", in: run).first {

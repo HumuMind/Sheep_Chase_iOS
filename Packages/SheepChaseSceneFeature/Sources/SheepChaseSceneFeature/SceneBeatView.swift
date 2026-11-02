@@ -109,12 +109,11 @@ extension SceneDetailView {
                                 }
                                 DMAnnotationEditor(
                                     subject: beat.title,
-                                    annotation: store.annotation(kind: .beat, targetID: beat.id, in: run),
-                                    onSave: { text, mode in
-                                        store.setAnnotation(kind: .beat, targetID: beat.id, mode: mode, text: text, in: run)
-                                    },
-                                    onDelete: {
-                                        store.removeAnnotation(kind: .beat, targetID: beat.id, in: run)
+                                    targetKind: .beat,
+                                    targetID: beat.id,
+                                    annotations: store.annotations(kind: .beat, targetID: beat.id, in: run),
+                                    onChange: { updated in
+                                        store.replaceAnnotations(kind: .beat, targetID: beat.id, with: updated, in: run)
                                     }
                                 )
                                 .padding(.top, 1)

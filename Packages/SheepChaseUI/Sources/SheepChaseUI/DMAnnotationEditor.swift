@@ -4,68 +4,44 @@ import SheepChaseCore
 public struct DMAnnotationEditor: View {
     public init(
         subject: String,
-        annotation: DMAnnotation?,
-        onSave: @escaping (String, DMAnnotationMode) -> Void,
-        onDelete: @escaping () -> Void
+        targetKind: DMAnnotationTargetKind,
+        targetID: String,
+        annotations: [DMAnnotation],
+        onChange: @escaping ([DMAnnotation]) -> Void
     ) {
         self.subject = subject
-        self.annotation = annotation
-        self.onSave = onSave
-        self.onDelete = onDelete
-        _draft = State(initialValue: annotation?.text ?? "")
-        _draftMode = State(initialValue: annotation?.mode ?? .append)
+        self.targetKind = targetKind
+        self.targetID = targetID
+        self.annotations = annotations
+        self.onChange = onChange
     }
 
     private let subject: String
-    private let annotation: DMAnnotation?
-    private let onSave: (String, DMAnnotationMode) -> Void
-    private let onDelete: () -> Void
+    private let targetKind: DMAnnotationTargetKind
+    private let targetID: String
+    private let annotations: [DMAnnotation]
+    private let onChange: ([DMAnnotation]) -> Void
 
     @State private var showEditor = false
-    @State private var draft: String
-    @State private var draftMode: DMAnnotationMode
+    @State private var editingID: UUID?
+    @State private var draft = ""
+    @State private var draftMode: DMAnnotationMode = .append
 
     public var body: some View {
-        Group {
-            if let annotation, !annotation.text.isEmpty {
-                VStack(alignment: .leading, spacing: 5) {
-                    HStack(spacing: 6) {
-                        Label("DM 改动", systemImage: "square.and.pencil")
-                            .bookUI(11, weight: .semibold)
-                            .foregroundStyle(Theme.gold)
-                        Text(annotation.mode.title)
-                            .bookUI(10)
-                            .foregroundStyle(.secondary)
-                        Spacer()
-                        Button("编辑") { beginEditing() }
-                            .bookUI(11)
-                            .buttonStyle(.borderless)
-                    }
-                    Text(annotation.text)
-                        .bookUI(12)
-                        .foregroundStyle(Theme.inkSoft)
-                        .lineSpacing(3)
-                        .textSelection(.enabled)
-                }
-                .padding(.horizontal, 10)
-                .padding(.vertical, 8)
-                .background(Theme.gold.opacity(0.08))
-                .overlay(alignment: .leading) {
-                    Rectangle()
-                        .fill(Theme.gold.opacity(0.75))
-                        .frame(width: 3)
-                }
-            } else {
-                Button {
-                    beginEditing()
-                } label: {
-                    Label("DM 注", systemImage: "square.and.pencil")
-                        .bookUI(11)
-                }
-                .buttonStyle(.borderless)
-                .foregroundStyle(Theme.gold)
-                .help("添加仅本团可见的 DM 改动")
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(annotations) { annotation in
+                annotationCard(annotation)
             }
+
+            Button {
+                beginAdding()
+            } label: {
+                Label(annotations.isEmpty ? "DM 注" : "＋ 添加 DM 注", systemImage: "square.and.pencil")
+                    .bookUI(11)
+            }
+            .buttonStyle(.borderless)
+            .foregroundStyle(Theme.gold)
+            .help("添加仅本团可见的 DM 改动")
         }
         .sheet(isPresented: $showEditor) {
             editorSheet
@@ -73,25 +49,64 @@ public struct DMAnnotationEditor: View {
         .onAppear {
             #if DEBUG
             if subject == "朗读 / 描述", ProcessInfo.processInfo.arguments.contains("-demoAnnotation") {
-                beginEditing()
+                beginAdding()
             }
             #endif
         }
     }
 
+    private func annotationCard(_ annotation: DMAnnotation) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            HStack(spacing: 6) {
+                Label("DM 改动", systemImage: "square.and.pencil")
+                    .bookUI(11, weight: .semibold)
+                    .foregroundStyle(Theme.gold)
+                Text(annotation.mode.title)
+                    .bookUI(10)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Button("编辑") { beginEditing(annotation) }
+                    .bookUI(11)
+                    .buttonStyle(.borderless)
+                Button {
+                    delete(annotation.id)
+                } label: {
+                    Image(systemName: "trash")
+                        .bookUI(10)
+                }
+                .buttonStyle(.borderless)
+                .foregroundStyle(.secondary)
+                .help("删除这条 DM 注")
+            }
+            Text(annotation.text)
+                .bookUI(12)
+                .foregroundStyle(Theme.inkSoft)
+                .lineSpacing(3)
+                .textSelection(.enabled)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(Theme.gold.opacity(0.08))
+        .overlay(alignment: .leading) {
+            Rectangle()
+                .fill(Theme.gold.opacity(0.75))
+                .frame(width: 3)
+        }
+    }
+
     private var editorSheet: some View {
         BookFormSheet(
-            title: "DM 批注 · \(subject)",
+            title: editingID == nil ? "添加 DM 批注 · \(subject)" : "编辑 DM 批注 · \(subject)",
             primaryTitle: "保存",
             primaryDisabled: draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-            deleteTitle: annotation == nil ? nil : "删除",
+            deleteTitle: editingID == nil ? nil : "删除",
             onCancel: { showEditor = false },
             onDelete: {
-                onDelete()
+                if let editingID { delete(editingID) }
                 showEditor = false
             },
             onPrimary: {
-                onSave(draft, draftMode)
+                saveDraft()
                 showEditor = false
             }
         ) {
@@ -111,9 +126,42 @@ public struct DMAnnotationEditor: View {
         }
     }
 
-    private func beginEditing() {
-        draft = annotation?.text ?? ""
-        draftMode = annotation?.mode ?? .append
+    private func beginAdding() {
+        editingID = nil
+        draft = ""
+        draftMode = .append
         showEditor = true
+    }
+
+    private func beginEditing(_ annotation: DMAnnotation) {
+        editingID = annotation.id
+        draft = annotation.text
+        draftMode = annotation.mode
+        showEditor = true
+    }
+
+    private func saveDraft() {
+        let trimmed = draft.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        var updated = annotations
+        if let editingID, let index = updated.firstIndex(where: { $0.id == editingID }) {
+            updated[index].text = trimmed
+            updated[index].mode = draftMode
+            updated[index].updatedAt = .now
+        } else {
+            updated.append(
+                DMAnnotation(
+                    targetKind: targetKind,
+                    targetID: targetID,
+                    mode: draftMode,
+                    text: trimmed
+                )
+            )
+        }
+        onChange(updated)
+    }
+
+    private func delete(_ id: UUID) {
+        onChange(annotations.filter { $0.id != id })
     }
 }

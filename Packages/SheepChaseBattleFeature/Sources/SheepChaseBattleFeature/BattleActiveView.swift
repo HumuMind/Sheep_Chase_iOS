@@ -269,12 +269,9 @@ struct BattleActiveView: View {
         .sheet(item: $selectedRule) { rule in
             RuleSheetView(
                 rule: rule,
-                annotation: store.annotation(kind: .rule, targetID: rule.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .rule, targetID: rule.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .rule, targetID: rule.id, in: run)
+                annotations: store.annotations(kind: .rule, targetID: rule.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .rule, targetID: rule.id, with: updated, in: run)
                 }
             )
             .environment(store)
@@ -282,12 +279,9 @@ struct BattleActiveView: View {
         .sheet(item: $selectedSpell) { spell in
             SpellSheetView(
                 spell: spell,
-                annotation: store.annotation(kind: .spell, targetID: spell.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .spell, targetID: spell.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .spell, targetID: spell.id, in: run)
+                annotations: store.annotations(kind: .spell, targetID: spell.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .spell, targetID: spell.id, with: updated, in: run)
                 }
             )
             .environment(store)

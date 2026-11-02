@@ -198,12 +198,11 @@ extension SceneDetailView {
                         }
                         DMAnnotationEditor(
                             subject: encounter.title,
-                            annotation: store.annotation(kind: .encounter, targetID: encounter.id, in: run),
-                            onSave: { text, mode in
-                                store.setAnnotation(kind: .encounter, targetID: encounter.id, mode: mode, text: text, in: run)
-                            },
-                            onDelete: {
-                                store.removeAnnotation(kind: .encounter, targetID: encounter.id, in: run)
+                            targetKind: .encounter,
+                            targetID: encounter.id,
+                            annotations: store.annotations(kind: .encounter, targetID: encounter.id, in: run),
+                            onChange: { updated in
+                                store.replaceAnnotations(kind: .encounter, targetID: encounter.id, with: updated, in: run)
                             }
                         )
                         HStack {

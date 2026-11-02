@@ -200,12 +200,9 @@ public struct RunView: View {
         .sheet(item: $selectedNPC) { npc in
             NPCSheetView(
                 npc: npc,
-                annotation: store.annotation(kind: .npc, targetID: npc.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .npc, targetID: npc.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .npc, targetID: npc.id, in: run)
+                annotations: store.annotations(kind: .npc, targetID: npc.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .npc, targetID: npc.id, with: updated, in: run)
                 }
             )
             .environment(store)
@@ -214,12 +211,9 @@ public struct RunView: View {
             HandoutSheetView(
                 handout: handout,
                 asset: handout.imageAssetId.flatMap { store.asset(id: $0) },
-                annotation: store.annotation(kind: .handout, targetID: handout.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .handout, targetID: handout.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .handout, targetID: handout.id, in: run)
+                annotations: store.annotations(kind: .handout, targetID: handout.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .handout, targetID: handout.id, with: updated, in: run)
                 }
             )
             .environment(store)
@@ -227,12 +221,9 @@ public struct RunView: View {
         .sheet(item: $selectedItem) { item in
             ItemSheetView(
                 item: item,
-                annotation: store.annotation(kind: .item, targetID: item.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .item, targetID: item.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .item, targetID: item.id, in: run)
+                annotations: store.annotations(kind: .item, targetID: item.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .item, targetID: item.id, with: updated, in: run)
                 }
             )
             .environment(store)
@@ -240,12 +231,9 @@ public struct RunView: View {
         .sheet(item: $selectedRule) { rule in
             RuleSheetView(
                 rule: rule,
-                annotation: store.annotation(kind: .rule, targetID: rule.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .rule, targetID: rule.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .rule, targetID: rule.id, in: run)
+                annotations: store.annotations(kind: .rule, targetID: rule.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .rule, targetID: rule.id, with: updated, in: run)
                 }
             )
             .environment(store)
@@ -253,12 +241,9 @@ public struct RunView: View {
         .sheet(item: $selectedSpell) { spell in
             SpellSheetView(
                 spell: spell,
-                annotation: store.annotation(kind: .spell, targetID: spell.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .spell, targetID: spell.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .spell, targetID: spell.id, in: run)
+                annotations: store.annotations(kind: .spell, targetID: spell.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .spell, targetID: spell.id, with: updated, in: run)
                 }
             )
             .environment(store)
@@ -266,12 +251,9 @@ public struct RunView: View {
         .sheet(item: $selectedMonster) { monster in
             MonsterSheetView(
                 monster: monster,
-                annotation: store.annotation(kind: .monster, targetID: monster.id, in: run),
-                onAnnotationSave: { text, mode in
-                    store.setAnnotation(kind: .monster, targetID: monster.id, mode: mode, text: text, in: run)
-                },
-                onAnnotationDelete: {
-                    store.removeAnnotation(kind: .monster, targetID: monster.id, in: run)
+                annotations: store.annotations(kind: .monster, targetID: monster.id, in: run),
+                onAnnotationChange: { updated in
+                    store.replaceAnnotations(kind: .monster, targetID: monster.id, with: updated, in: run)
                 },
                 override: store.monsterOverride(for: monster.id, in: run),
                 onOverrideSave: { ac, hp, initMod, note in

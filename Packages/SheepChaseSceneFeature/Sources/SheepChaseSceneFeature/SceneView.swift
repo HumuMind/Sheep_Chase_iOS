@@ -60,17 +60,18 @@ public struct SceneDetailView: View {
             + store.customBeats(for: scene.id, in: run).map(SceneBeatItem.init(custom:))
     }
 
-    private var readAloudAnnotation: DMAnnotation? {
-        store.annotation(kind: .readAloud, targetID: scene.id, in: run)
+    private var readAloudAnnotations: [DMAnnotation] {
+        store.annotations(kind: .readAloud, targetID: scene.id, in: run)
     }
 
-    private var sceneAnnotation: DMAnnotation? {
-        store.annotation(kind: .scene, targetID: scene.id, in: run)
+    private var sceneAnnotations: [DMAnnotation] {
+        store.annotations(kind: .scene, targetID: scene.id, in: run)
     }
 
     private var displayedReadAloud: String? {
-        if let annotation = readAloudAnnotation, annotation.mode == .replace {
-            return annotation.text
+        let replacements = readAloudAnnotations.filter { $0.mode == .replace }.map(\.text)
+        if !replacements.isEmpty {
+            return replacements.joined(separator: "\n\n")
         }
         return scene.readAloud
     }
@@ -128,23 +129,21 @@ public struct SceneDetailView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         DMAnnotationEditor(
                             subject: "朗读 / 描述",
-                            annotation: readAloudAnnotation,
-                            onSave: { text, mode in
-                                store.setAnnotation(kind: .readAloud, targetID: scene.id, mode: mode, text: text, in: run)
-                            },
-                            onDelete: {
-                                store.removeAnnotation(kind: .readAloud, targetID: scene.id, in: run)
+                            targetKind: .readAloud,
+                            targetID: scene.id,
+                            annotations: readAloudAnnotations,
+                            onChange: { updated in
+                                store.replaceAnnotations(kind: .readAloud, targetID: scene.id, with: updated, in: run)
                             }
                         )
                         Divider()
                         DMAnnotationEditor(
                             subject: "场景正文",
-                            annotation: sceneAnnotation,
-                            onSave: { text, mode in
-                                store.setAnnotation(kind: .scene, targetID: scene.id, mode: mode, text: text, in: run)
-                            },
-                            onDelete: {
-                                store.removeAnnotation(kind: .scene, targetID: scene.id, in: run)
+                            targetKind: .scene,
+                            targetID: scene.id,
+                            annotations: sceneAnnotations,
+                            onChange: { updated in
+                                store.replaceAnnotations(kind: .scene, targetID: scene.id, with: updated, in: run)
                             }
                         )
                     }

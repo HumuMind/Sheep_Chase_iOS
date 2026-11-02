@@ -327,12 +327,9 @@ public struct QuickReferencePanel: View {
             if let npc = store.npc(id: selection.itemID, in: run) {
                 NPCSheetView(
                     npc: npc,
-                    annotation: store.annotation(kind: .npc, targetID: npc.id, in: run),
-                    onAnnotationSave: { text, mode in
-                        store.setAnnotation(kind: .npc, targetID: npc.id, mode: mode, text: text, in: run)
-                    },
-                    onAnnotationDelete: {
-                        store.removeAnnotation(kind: .npc, targetID: npc.id, in: run)
+                    annotations: store.annotations(kind: .npc, targetID: npc.id, in: run),
+                    onAnnotationChange: { updated in
+                        store.replaceAnnotations(kind: .npc, targetID: npc.id, with: updated, in: run)
                     }
                 )
             }
@@ -340,12 +337,9 @@ public struct QuickReferencePanel: View {
             if let monster = store.monster(id: selection.itemID, in: run) {
                 MonsterSheetView(
                     monster: monster,
-                    annotation: store.annotation(kind: .monster, targetID: monster.id, in: run),
-                    onAnnotationSave: { text, mode in
-                        store.setAnnotation(kind: .monster, targetID: monster.id, mode: mode, text: text, in: run)
-                    },
-                    onAnnotationDelete: {
-                        store.removeAnnotation(kind: .monster, targetID: monster.id, in: run)
+                    annotations: store.annotations(kind: .monster, targetID: monster.id, in: run),
+                    onAnnotationChange: { updated in
+                        store.replaceAnnotations(kind: .monster, targetID: monster.id, with: updated, in: run)
                     },
                     override: store.monsterOverride(for: monster.id, in: run),
                     onOverrideSave: { ac, hp, initMod, note in
@@ -360,12 +354,9 @@ public struct QuickReferencePanel: View {
             if let item = store.item(id: selection.itemID) {
                 ItemSheetView(
                     item: item,
-                    annotation: store.annotation(kind: .item, targetID: item.id, in: run),
-                    onAnnotationSave: { text, mode in
-                        store.setAnnotation(kind: .item, targetID: item.id, mode: mode, text: text, in: run)
-                    },
-                    onAnnotationDelete: {
-                        store.removeAnnotation(kind: .item, targetID: item.id, in: run)
+                    annotations: store.annotations(kind: .item, targetID: item.id, in: run),
+                    onAnnotationChange: { updated in
+                        store.replaceAnnotations(kind: .item, targetID: item.id, with: updated, in: run)
                     }
                 )
             }
@@ -373,12 +364,9 @@ public struct QuickReferencePanel: View {
             if let spell = store.spell(id: selection.itemID) {
                 SpellSheetView(
                     spell: spell,
-                    annotation: store.annotation(kind: .spell, targetID: spell.id, in: run),
-                    onAnnotationSave: { text, mode in
-                        store.setAnnotation(kind: .spell, targetID: spell.id, mode: mode, text: text, in: run)
-                    },
-                    onAnnotationDelete: {
-                        store.removeAnnotation(kind: .spell, targetID: spell.id, in: run)
+                    annotations: store.annotations(kind: .spell, targetID: spell.id, in: run),
+                    onAnnotationChange: { updated in
+                        store.replaceAnnotations(kind: .spell, targetID: spell.id, with: updated, in: run)
                     }
                 )
             }
@@ -386,12 +374,9 @@ public struct QuickReferencePanel: View {
             if let rule = store.rule(id: selection.itemID) {
                 RuleSheetView(
                     rule: rule,
-                    annotation: store.annotation(kind: .rule, targetID: rule.id, in: run),
-                    onAnnotationSave: { text, mode in
-                        store.setAnnotation(kind: .rule, targetID: rule.id, mode: mode, text: text, in: run)
-                    },
-                    onAnnotationDelete: {
-                        store.removeAnnotation(kind: .rule, targetID: rule.id, in: run)
+                    annotations: store.annotations(kind: .rule, targetID: rule.id, in: run),
+                    onAnnotationChange: { updated in
+                        store.replaceAnnotations(kind: .rule, targetID: rule.id, with: updated, in: run)
                     }
                 )
             }
