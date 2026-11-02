@@ -35,18 +35,18 @@ struct TemplateLibrarySheet: View {
 
             if store.orderedTemplates.isEmpty {
                 Text("还没有保存过自己的模组。进入开团后，在左侧“本团”里选择“另存为我的模组”。")
-                    .font(Theme.serif(13))
+                    .bookSerif(13)
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(store.orderedTemplates) { template in
                     BookFormSection(template.name) {
                         if !template.summary.isEmpty {
                             Text(template.summary)
-                                .font(Theme.serif(13))
+                                .bookSerif(13)
                                 .foregroundStyle(Theme.inkSoft)
                         }
                         Text("基于 \(template.baseModuleTitle) · \(template.baseContentVersion) · \(template.changeCount) 处改动")
-                            .font(Theme.serif(11))
+                            .bookSerif(11)
                             .foregroundStyle(.secondary)
                         HStack {
                             Button("重命名") {

@@ -29,7 +29,7 @@ struct RootView: View {
 
             if let toast = store.toast {
                 Text(toast)
-                    .font(Theme.ui(12, weight: .medium))
+                    .bookUI(12, weight: .medium)
                     .foregroundStyle(Theme.inkSoft)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 9)

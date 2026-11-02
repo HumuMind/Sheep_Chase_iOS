@@ -33,26 +33,26 @@ struct CustomMapPinSheet: View {
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         Text("横向")
-                            .font(Theme.serif(13))
+                            .bookSerif(13)
                         Slider(value: $x, in: 0...1)
                             .tint(Theme.red)
                         Text("\(Int(x * 100))%")
-                            .font(Theme.serif(11).monospacedDigit())
+                            .bookSerif(11, monospaced: true)
                             .foregroundStyle(.secondary)
                     }
                     HStack {
                         Text("纵向")
-                            .font(Theme.serif(13))
+                            .bookSerif(13)
                         Slider(value: $y, in: 0...1)
                             .tint(Theme.red)
                         Text("\(Int(y * 100))%")
-                            .font(Theme.serif(11).monospacedDigit())
+                            .bookSerif(11, monospaced: true)
                             .foregroundStyle(.secondary)
                     }
                 }
             }
             Text("自定义图钉只存在于当前开团，导出地图原图不会烧录图钉。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
     }

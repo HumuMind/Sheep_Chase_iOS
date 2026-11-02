@@ -52,13 +52,13 @@ public struct BookFormSheet<Content: View>: View {
                             .disabled(primaryDisabled)
                             .keyboardShortcut(.defaultAction)
                     }
-                    .font(Theme.serif(13))
+                    .bookSerif(13)
 
                     Divider()
                         .opacity(0.45)
 
                     Text(title)
-                        .font(Theme.serif(28, weight: .semibold))
+                        .bookSerif(28, weight: .semibold)
                         .foregroundStyle(Theme.red)
                         .padding(.top, 2)
                         .padding(.bottom, 2)
@@ -89,7 +89,7 @@ public struct BookFormSection<Content: View>: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
-                .font(Theme.serif(18, weight: .semibold))
+                .bookSerif(18, weight: .semibold)
                 .foregroundStyle(Theme.red)
             Rectangle()
                 .fill(Theme.line.opacity(0.55))
@@ -116,11 +116,11 @@ public struct BookTextField: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label)
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
             TextField("", text: $text)
                 .textFieldStyle(.plain)
-                .font(Theme.serif(15))
+                .bookSerif(15)
                 .selectAllOnFocus()
                 .padding(.horizontal, 9)
                 .padding(.vertical, 7)
@@ -148,14 +148,14 @@ public struct BookTextEditor: View {
         ZStack(alignment: .topLeading) {
             if text.isEmpty {
                 Text(placeholder)
-                    .font(Theme.serif(14))
+                    .bookSerif(14)
                     .foregroundStyle(.tertiary)
                     .padding(.horizontal, 11)
                     .padding(.vertical, 10)
                     .allowsHitTesting(false)
             }
             TextEditor(text: $text)
-                .font(Theme.serif(15))
+                .bookSerif(15)
                 .scrollContentBackground(.hidden)
                 .padding(6)
                 .frame(minHeight: minHeight)
@@ -182,12 +182,12 @@ public struct BookNumberField: View {
     public var body: some View {
         HStack {
             Text(label)
-                .font(Theme.serif(13))
+                .bookSerif(13)
                 .foregroundStyle(Theme.inkSoft)
             Spacer()
             TextField("", text: $text)
                 .textFieldStyle(.plain)
-                .font(Theme.serif(14).monospacedDigit())
+                .bookSerif(14, monospaced: true)
                 .multilineTextAlignment(.trailing)
                 .frame(width: 66)
                 .padding(.horizontal, 8)

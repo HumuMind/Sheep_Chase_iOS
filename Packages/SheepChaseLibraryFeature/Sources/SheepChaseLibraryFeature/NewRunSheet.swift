@@ -50,19 +50,19 @@ struct NewRunSheet: View {
 
                 if store.orderedTemplates.isEmpty {
                     Text("还没有保存过自己的模组。进入开团后，可在左侧“本团”里另存为我的模组。")
-                        .font(Theme.serif(11))
+                        .bookSerif(11)
                         .foregroundStyle(.secondary)
                 }
             }
 
             if let selectedTemplate, selectedTemplate.baseContentVersion != store.content.manifest.version {
                 Text("这个模组基于 \(selectedTemplate.baseContentVersion)，当前内容包是 \(store.content.manifest.version)。部分改动可能无法匹配，但仍可创建。")
-                    .font(Theme.serif(11))
+                    .bookSerif(11)
                     .foregroundStyle(Theme.red)
             }
 
             Text("新开团会复制所选模组的改动，但队伍、便签、战斗、会话和进度都是全新的。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
     }
@@ -75,10 +75,10 @@ struct NewRunSheet: View {
                     .padding(.top, 2)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .font(Theme.serif(15, weight: .medium))
+                        .bookSerif(15, weight: .medium)
                         .foregroundStyle(Theme.ink)
                     Text(subtitle)
-                        .font(Theme.serif(11))
+                        .bookSerif(11)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.leading)
                 }

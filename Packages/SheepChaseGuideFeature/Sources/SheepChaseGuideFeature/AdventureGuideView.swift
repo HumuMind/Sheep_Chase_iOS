@@ -61,7 +61,7 @@ public struct AdventureGuideView: View {
                     .overlay(RoundedRectangle(cornerRadius: 4).stroke(Theme.line, lineWidth: 1))
                 VStack(alignment: .leading, spacing: 4) {
                     Text(content.adventure.title)
-                        .font(Theme.serif(28, weight: .semibold))
+                        .bookSerif(28, weight: .semibold)
                         .foregroundStyle(Theme.ink)
                     Text("\(content.adventure.level.min)–\(content.adventure.level.max) 级 · \(content.adventure.players.min)–\(content.adventure.players.max) 人 · 约 \(content.adventure.durationMinutes / 60) 小时")
                         .font(.callout)
@@ -99,7 +99,7 @@ public struct AdventureGuideView: View {
                         .foregroundStyle(Theme.red)
                 }
                 Text(section.title)
-                    .font(Theme.serif(21, weight: .semibold))
+                    .bookSerif(21, weight: .semibold)
                     .foregroundStyle(Theme.ink)
                 Text(section.body)
                     .font(.body)

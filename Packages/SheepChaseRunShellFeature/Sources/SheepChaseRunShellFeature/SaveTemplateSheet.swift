@@ -43,7 +43,7 @@ struct SaveTemplateSheet: View {
                 BookTextField("模组名称", text: $name)
                 BookTextEditor("一句话简介（可选）", text: $summary, minHeight: 64)
                 Text("\(store.content.manifest.title) · \(store.content.manifest.version)")
-                    .font(Theme.serif(11))
+                    .bookSerif(11)
                     .foregroundStyle(.secondary)
             }
 
@@ -65,7 +65,7 @@ struct SaveTemplateSheet: View {
                         }
                         .pickerStyle(.menu)
                         Text("覆盖会更新模板内容，已经用旧模板创建的开团不受影响。")
-                            .font(Theme.serif(11))
+                            .bookSerif(11)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -79,7 +79,7 @@ struct SaveTemplateSheet: View {
             }
 
             Text("只会保存模组内容改动，不会保存队伍、战斗、便签、会话记录、备团勾选或当前进度。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
         .onChange(of: overwriteID) { _, newValue in
@@ -114,10 +114,10 @@ struct SaveTemplateSheet: View {
         Toggle(isOn: isOn) {
             HStack {
                 Text(title)
-                    .font(Theme.serif(13))
+                    .bookSerif(13)
                 Spacer()
                 Text(detail)
-                    .font(Theme.serif(11))
+                    .bookSerif(11)
                     .foregroundStyle(.secondary)
             }
         }

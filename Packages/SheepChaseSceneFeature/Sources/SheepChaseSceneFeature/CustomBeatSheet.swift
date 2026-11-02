@@ -47,7 +47,7 @@ struct CustomBeatSheet: View {
                 BookTextEditor("可选，给玩家的描述……", text: $readAloud, minHeight: 70)
             }
             Text("自定义节拍只存在于当前开团，不会修改内容包。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
     }

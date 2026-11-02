@@ -8,10 +8,10 @@ struct MonsterStatBlockCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(monster.name)
-                .font(Theme.serif(22, weight: .semibold))
+                .bookSerif(22, weight: .semibold)
                 .foregroundStyle(Theme.red)
             Text("\(monster.size)\(monster.type)，\(monster.alignment)")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(Theme.inkSoft)
 
             Rectangle().fill(Theme.red.opacity(0.8)).frame(height: 1.5)
@@ -21,7 +21,7 @@ struct MonsterStatBlockCard: View {
                 Text("生命值 \(monster.hp.average)（\(monster.hp.formula)）")
                 Text("速度 \(speedText)")
             }
-            .font(Theme.serif(12))
+            .bookSerif(12)
             .foregroundStyle(Theme.ink)
 
             abilityGrid
@@ -38,7 +38,7 @@ struct MonsterStatBlockCard: View {
                 }
                 Text("挑战等级 \(challengeRating)（\(monster.challenge.xp) XP）")
             }
-            .font(Theme.serif(11))
+            .bookSerif(11)
             .foregroundStyle(Theme.inkSoft)
 
             Rectangle().fill(Theme.red.opacity(0.35)).frame(height: 0.7)
@@ -46,19 +46,19 @@ struct MonsterStatBlockCard: View {
             if let traits = monster.traits {
                 ForEach(traits) { trait in
                     Text("\(trait.name)。\(trait.text)")
-                        .font(Theme.serif(11))
+                        .bookSerif(11)
                         .foregroundStyle(Theme.ink)
                 }
             }
 
             Text("动作")
-                .font(Theme.serif(14, weight: .semibold))
+                .bookSerif(14, weight: .semibold)
                 .foregroundStyle(Theme.red)
                 .padding(.top, 2)
 
             ForEach(monster.actions) { action in
                 Text("\(action.name)。\(action.text)")
-                    .font(Theme.serif(11))
+                    .bookSerif(11)
                     .foregroundStyle(Theme.ink)
             }
         }
@@ -92,7 +92,7 @@ struct MonsterStatBlockCard: View {
     private func abilityCell(_ label: String, _ score: Int) -> some View {
         VStack(spacing: 2) {
             Text(label)
-                .font(Theme.serif(9, weight: .semibold))
+                .bookSerif(9, weight: .semibold)
                 .foregroundStyle(Theme.red)
             Text("\(score) (\(modifier(score)))")
                 .font(.system(size: 11, design: .monospaced))

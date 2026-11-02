@@ -35,7 +35,7 @@ public struct SafetySheet: View {
             BookFormSection("本冒险的内容提示") {
                 ForEach(store.adventure.contentWarnings, id: \.self) { warning in
                     Label(warning, systemImage: "exclamationmark.triangle")
-                        .font(Theme.serif(13))
+                        .bookSerif(13)
                 }
             }
 
@@ -68,19 +68,19 @@ public struct SafetySheet: View {
                 let log = run.safety.restLog ?? []
                 if log.isEmpty {
                     Text("还没有记录。")
-                        .font(Theme.serif(11))
+                        .bookSerif(11)
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(log, id: \.self) { entry in
                         Text("· \(entry)")
-                            .font(Theme.serif(12))
+                            .bookSerif(12)
                             .foregroundStyle(.secondary)
                     }
                 }
             }
 
             Text("这些设置只保存在当前开团，不上传。需要临时隐藏内容时，用工具栏的“遮屏”。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
     }

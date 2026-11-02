@@ -25,14 +25,14 @@ struct NotesInspector: View {
                 store.addNote(to: run)
             } label: {
                 Label("新建便签", systemImage: "plus")
-                    .font(Theme.ui(11, weight: .semibold))
+                    .bookUI(11, weight: .semibold)
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
 
             if run.stickyNotes.isEmpty {
                 Text("还没有便签。\n把 NPC 秘密、临时裁定或下次继续的位置分开记。")
-                    .font(Theme.ui(10))
+                    .bookUI(10)
                     .foregroundStyle(Theme.muted)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
@@ -70,7 +70,7 @@ private struct StickyNoteCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             TextEditor(text: binding)
-                .font(Theme.serif(11.5))
+                .bookSerif(11.5)
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
                 .frame(minHeight: 64)
@@ -97,7 +97,7 @@ private struct StickyNoteCard: View {
                 Spacer()
 
                 Text(note.updatedAt.shortRelative)
-                    .font(Theme.ui(8))
+                    .bookUI(8)
                     .foregroundStyle(Theme.muted.opacity(0.7))
 
                 Button {

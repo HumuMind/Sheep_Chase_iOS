@@ -58,7 +58,7 @@ public struct AddPlayerSheet: View {
                 BookNumberField("被动感知", value: $passivePerception)
             }
             Text("只记录战斗需要的最小数值，不创建完整角色卡。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
     }

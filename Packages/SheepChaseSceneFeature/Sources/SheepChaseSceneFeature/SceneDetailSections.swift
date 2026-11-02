@@ -21,7 +21,7 @@ extension SceneDetailView {
                 Spacer()
             }
             Text(scene.title)
-                .font(Theme.serif(32, weight: .semibold))
+                .bookSerif(32, weight: .semibold)
                 .textSelection(.enabled)
             Text(scene.summary.singleLineSpaced)
                 .font(.body)

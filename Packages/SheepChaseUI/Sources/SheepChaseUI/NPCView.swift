@@ -25,14 +25,14 @@ public struct NPCSheetView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(npc.name)
-                        .font(Theme.serif(30, weight: .semibold))
+                        .bookSerif(30, weight: .semibold)
                         .foregroundStyle(Theme.red)
                         .padding(.bottom, 16)
 
                     if let sourceText = npc.sourceText, !sourceText.isEmpty {
                         ForEach(paragraphs(sourceText).indices, id: \.self) { index in
                             Text("　　\(paragraphs(sourceText)[index])")
-                                .font(Theme.serif(15))
+                                .bookSerif(15)
                                 .lineSpacing(7)
                                 .foregroundStyle(Theme.ink)
                                 .textSelection(.enabled)
@@ -40,7 +40,7 @@ public struct NPCSheetView: View {
                         }
                     } else {
                         Text(npc.dmDescription)
-                            .font(Theme.serif(15))
+                            .bookSerif(15)
                             .lineSpacing(7)
                             .foregroundStyle(Theme.ink)
                             .padding(.bottom, 8)
@@ -48,7 +48,7 @@ public struct NPCSheetView: View {
 
                     if let characteristics = npc.keyCharacteristics, !characteristics.isEmpty {
                         Text("关键特征")
-                            .font(Theme.serif(20, weight: .semibold))
+                            .bookSerif(20, weight: .semibold)
                             .foregroundStyle(Theme.red)
                             .padding(.top, 18)
                             .padding(.bottom, 6)
@@ -57,7 +57,7 @@ public struct NPCSheetView: View {
                                 Text("•")
                                     .foregroundStyle(Theme.red)
                                 Text(characteristic)
-                                    .font(Theme.serif(15))
+                                    .bookSerif(15)
                                     .foregroundStyle(Theme.ink)
                             }
                             .padding(.bottom, 3)
@@ -106,7 +106,7 @@ public struct NPCSheetView: View {
                 }
                 Text("荒野逐羊 · 简体中文版")
             }
-            .font(Theme.serif(10))
+            .bookSerif(10)
             .foregroundStyle(Theme.inkSoft.opacity(0.75))
             Spacer()
         }

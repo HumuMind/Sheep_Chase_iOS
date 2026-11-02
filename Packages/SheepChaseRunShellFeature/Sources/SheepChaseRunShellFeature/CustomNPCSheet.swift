@@ -34,7 +34,7 @@ struct CustomNPCSheet: View {
                 BookTextEditor("每行一项", text: $traits, minHeight: 80)
             }
             Text("自定义 NPC 只存在于当前开团。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
     }

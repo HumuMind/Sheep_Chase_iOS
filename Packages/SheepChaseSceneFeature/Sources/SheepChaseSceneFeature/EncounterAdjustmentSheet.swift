@@ -32,10 +32,10 @@ struct EncounterAdjustmentSheet: View {
                     ), in: 0...20) {
                         HStack {
                             Text(monster.name)
-                                .font(Theme.serif(14))
+                                .bookSerif(14)
                             Spacer()
                             Text("× \(counts[monster.id] ?? 0)")
-                                .font(Theme.serif(12).monospacedDigit())
+                                .bookSerif(12, monospaced: true)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -45,7 +45,7 @@ struct EncounterAdjustmentSheet: View {
                 BookTextEditor("为什么改、这组怪怎么打……", text: $note, minHeight: 80)
             }
             Text("保存后“按调整筹备”会把这组怪物加入战斗筹备；清空全部数量并保存可恢复原始组合。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
         .onAppear {

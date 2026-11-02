@@ -56,7 +56,7 @@ public struct SourceTextSheet: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 Text(scene.title)
-                    .font(Theme.serif(30, weight: .semibold))
+                    .bookSerif(30, weight: .semibold)
                     .foregroundStyle(Theme.red)
                     .padding(.bottom, 20)
 
@@ -77,7 +77,7 @@ public struct SourceTextSheet: View {
             .overlay(Rectangle().stroke(Theme.line.opacity(0.55), lineWidth: 0.5))
             .padding(.vertical, 16)
         }
-        .scrollPosition(id: $scrollTarget, anchor: .top)
+        .scrollPosition(id: $scrollTarget, anchor: UnitPoint(x: 0.5, y: 0.12))
         .scrollIndicators(.visible)
     }
 
@@ -88,7 +88,7 @@ public struct SourceTextSheet: View {
                 Image(systemName: "list.bullet")
                     .foregroundStyle(Theme.red)
                 Text("目录")
-                    .font(Theme.serif(18, weight: .semibold))
+                    .bookSerif(18, weight: .semibold)
                     .foregroundStyle(Theme.red)
             }
             .padding(.horizontal, 16)
@@ -108,7 +108,7 @@ public struct SourceTextSheet: View {
                                     .fill(selectedSectionID == section.id ? Theme.red : .clear)
                                     .frame(width: 2)
                                 Text(section.heading ?? scene.title)
-                                    .font(Theme.serif(12, weight: selectedSectionID == section.id ? .semibold : .regular))
+                                    .bookSerif(12, weight: selectedSectionID == section.id ? .semibold : .regular)
                                     .foregroundStyle(selectedSectionID == section.id ? Theme.red : Theme.inkSoft)
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(2)
@@ -159,7 +159,7 @@ public struct SourceTextSheet: View {
                 VStack(alignment: .leading, spacing: 8) {
                     if let heading = section.heading {
                         Text(heading)
-                            .font(Theme.serif(21, weight: .semibold))
+                            .bookSerif(21, weight: .semibold)
                             .foregroundStyle(Theme.red)
                             .padding(.top, section.id == 0 ? 0 : 22)
                             .padding(.bottom, 2)
@@ -193,11 +193,11 @@ public struct SourceTextSheet: View {
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             VStack(alignment: .leading, spacing: 2) {
                 Text(question)
-                    .font(Theme.serif(15, weight: .semibold))
+                    .bookSerif(15, weight: .semibold)
                     .foregroundStyle(Theme.ink)
                 if !answer.isEmpty {
                     Text("　　\(answer)")
-                        .font(Theme.serif(15))
+                        .bookSerif(15)
                         .lineSpacing(7)
                         .foregroundStyle(Theme.ink)
                 }
@@ -205,7 +205,7 @@ public struct SourceTextSheet: View {
             .padding(.bottom, 7)
         } else {
             Text("　　\(paragraph)")
-                .font(Theme.serif(15))
+                .bookSerif(15)
                 .lineSpacing(7)
                 .foregroundStyle(Theme.ink)
                 .textSelection(.enabled)
@@ -217,7 +217,7 @@ public struct SourceTextSheet: View {
         HStack {
             Spacer()
             Text("荒野逐羊 · 简体中文版")
-                .font(Theme.serif(10))
+                .bookSerif(10)
                 .foregroundStyle(Theme.inkSoft.opacity(0.75))
             Spacer()
         }

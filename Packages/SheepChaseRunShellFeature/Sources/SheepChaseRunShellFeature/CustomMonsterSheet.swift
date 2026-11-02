@@ -37,17 +37,17 @@ struct CustomMonsterSheet: View {
             }
             BookFormSection("数值") {
                 Stepper("护甲等级  \(ac)", value: $ac, in: 1...40)
-                    .font(Theme.serif(14))
+                    .bookSerif(14)
                 Stepper("生命值  \(hp)", value: $hp, in: 1...999)
-                    .font(Theme.serif(14))
+                    .bookSerif(14)
                 Stepper("先攻调整  \(initiativeModifier >= 0 ? "+" : "")\(initiativeModifier)", value: $initiativeModifier, in: -5...10)
-                    .font(Theme.serif(14))
+                    .bookSerif(14)
             }
             BookFormSection("动作") {
                 BookTextEditor("这个怪物在战斗中做什么……", text: $actionText, minHeight: 100)
             }
             Text("自定义怪物只存在于当前开团，可在战斗筹备中选择。")
-                .font(Theme.serif(11))
+                .bookSerif(11)
                 .foregroundStyle(.secondary)
         }
     }

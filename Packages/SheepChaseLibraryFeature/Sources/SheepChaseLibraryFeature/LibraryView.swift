@@ -59,7 +59,7 @@ public struct LibraryView: View {
                         .opacity(0.9)
                     VStack(alignment: .leading, spacing: 1) {
                         Text("荒野逐羊")
-                            .font(Theme.serif(15, weight: .bold))
+                            .bookSerif(15, weight: .bold)
                             .foregroundStyle(Theme.red)
                         Text("DM 工作台")
                             .font(.caption2)
