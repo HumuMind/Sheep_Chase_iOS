@@ -247,6 +247,7 @@ public struct GlobalSearchView: View {
             }
         }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
+        .dismissOnBackgroundClick { dismiss() }
         .onAppear { searchFocused = true }
     }
 }

@@ -26,7 +26,6 @@ struct RootView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.clear)
             .groupBoxStyle(BookGroupBoxStyle())
-            .id(appTextSize)
 
             if let toast = store.toast {
                 Text(toast)

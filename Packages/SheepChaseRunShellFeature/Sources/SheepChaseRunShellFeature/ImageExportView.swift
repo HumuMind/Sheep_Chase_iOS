@@ -101,6 +101,7 @@ struct ImageExportView: View {
             }
         }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
+        .dismissOnBackgroundClick { dismiss() }
         .fileExporter(
             isPresented: $showExporter,
             document: exportDocument,

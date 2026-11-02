@@ -14,21 +14,28 @@ private struct SelectAllOnFocusModifier: ViewModifier {
             .focused($isFocused)
             .onChange(of: isFocused) { _, focused in
                 guard focused else { return }
-                #if os(macOS)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
-                    NSApp.sendAction(#selector(NSText.selectAll(_:)), to: nil, from: nil)
+                selectAll()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+                    selectAll()
                 }
-                #else
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
-                    UIApplication.shared.sendAction(
-                        #selector(UIResponder.selectAll(_:)),
-                        to: nil,
-                        from: nil,
-                        for: nil
-                    )
-                }
-                #endif
             }
+    }
+
+    private func selectAll() {
+        #if os(macOS)
+        if let editor = NSApp.keyWindow?.firstResponder as? NSTextView {
+            editor.selectAll(nil)
+        } else {
+            NSApp.sendAction(#selector(NSText.selectAll(_:)), to: nil, from: nil)
+        }
+        #else
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.selectAll(_:)),
+            to: nil,
+            from: nil,
+            for: nil
+        )
+        #endif
     }
 }
 

@@ -46,6 +46,7 @@ public struct AdventureGuideView: View {
             }
         }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
+        .dismissOnBackgroundClick { dismiss() }
         .tint(Theme.red)
     }
 

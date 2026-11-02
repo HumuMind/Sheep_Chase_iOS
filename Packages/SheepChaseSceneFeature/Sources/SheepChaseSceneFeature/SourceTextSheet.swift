@@ -14,22 +14,21 @@ public struct SourceTextSheet: View {
     private let scene: ContentPack.AdventureScene
     private let sections: [SourceTextSection]
     @State private var selectedSectionID: Int?
+    @State private var scrollTarget: Int?
 
     public var body: some View {
-        ScrollViewReader { proxy in
-            ZStack(alignment: .topLeading) {
-                HStack(spacing: 0) {
-                    #if os(macOS)
-                    tableOfContents(proxy)
-                    Divider()
-                    #endif
-                    sourceScroll(proxy)
-                }
-                #if !os(macOS)
-                tableOfContentsMenu(proxy)
-                    .padding(18)
+        ZStack(alignment: .topLeading) {
+            HStack(spacing: 0) {
+                #if os(macOS)
+                tableOfContents
+                Divider()
                 #endif
+                sourceScroll
             }
+            #if !os(macOS)
+            tableOfContentsMenu
+                .padding(18)
+            #endif
         }
         .background(Theme.sheetBackground)
         .ignoresSafeArea()
@@ -53,7 +52,7 @@ public struct SourceTextSheet: View {
         #endif
     }
 
-    private func sourceScroll(_ proxy: ScrollViewProxy) -> some View {
+    private var sourceScroll: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 Text(scene.title)
@@ -68,6 +67,7 @@ public struct SourceTextSheet: View {
 
                 pageFooter
             }
+            .scrollTargetLayout()
             .padding(.horizontal, 28)
             .padding(.top, 48)
             .padding(.bottom, 36)
@@ -77,11 +77,12 @@ public struct SourceTextSheet: View {
             .overlay(Rectangle().stroke(Theme.line.opacity(0.55), lineWidth: 0.5))
             .padding(.vertical, 16)
         }
+        .scrollPosition(id: $scrollTarget, anchor: .top)
         .scrollIndicators(.visible)
     }
 
     #if os(macOS)
-    private func tableOfContents(_ proxy: ScrollViewProxy) -> some View {
+    private var tableOfContents: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 6) {
                 Image(systemName: "list.bullet")
@@ -97,10 +98,10 @@ public struct SourceTextSheet: View {
                 VStack(alignment: .leading, spacing: 2) {
                     ForEach(sections) { section in
                         Button {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                proxy.scrollTo(section.id, anchor: .top)
-                            }
                             selectedSectionID = section.id
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                scrollTarget = section.id
+                            }
                         } label: {
                             HStack(alignment: .top, spacing: 6) {
                                 Rectangle()
@@ -129,13 +130,13 @@ public struct SourceTextSheet: View {
     #endif
 
     #if !os(macOS)
-    private func tableOfContentsMenu(_ proxy: ScrollViewProxy) -> some View {
+    private var tableOfContentsMenu: some View {
         Menu {
             ForEach(sections) { section in
                 Button(section.heading ?? scene.title) {
                     selectedSectionID = section.id
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        proxy.scrollTo(section.id, anchor: .top)
+                        scrollTarget = section.id
                     }
                 }
             }

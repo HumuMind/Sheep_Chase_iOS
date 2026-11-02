@@ -126,6 +126,7 @@ struct AboutContentSheet: View {
             }
         }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
+        .dismissOnBackgroundClick { dismiss() }
         .confirmationDialog("删除全部开团数据？", isPresented: $showDeleteFirst, titleVisibility: .visible) {
             Button("继续", role: .destructive) { showDeleteFinal = true }
             Button("取消", role: .cancel) {}

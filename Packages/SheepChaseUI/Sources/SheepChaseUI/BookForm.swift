@@ -171,10 +171,12 @@ public struct BookTextEditor: View {
 public struct BookNumberField: View {
     private let label: String
     @Binding private var value: Int
+    @State private var text: String
 
     public init(_ label: String, value: Binding<Int>) {
         self.label = label
         self._value = value
+        _text = State(initialValue: String(value.wrappedValue))
     }
 
     public var body: some View {
@@ -183,10 +185,9 @@ public struct BookNumberField: View {
                 .font(Theme.serif(13))
                 .foregroundStyle(Theme.inkSoft)
             Spacer()
-            TextField("", value: $value, format: .number)
+            TextField("", text: $text)
                 .textFieldStyle(.plain)
                 .font(Theme.serif(14).monospacedDigit())
-                .selectAllOnFocus()
                 .multilineTextAlignment(.trailing)
                 .frame(width: 66)
                 .padding(.horizontal, 8)
@@ -196,6 +197,17 @@ public struct BookNumberField: View {
                     RoundedRectangle(cornerRadius: 4)
                         .stroke(Theme.line.opacity(0.55), lineWidth: 1)
                 )
+                .selectAllOnFocus()
+                .onChange(of: text) { _, newValue in
+                    if let parsed = Int(newValue) {
+                        value = parsed
+                    }
+                }
+                .onChange(of: value) { _, newValue in
+                    if Int(text) != newValue {
+                        text = String(newValue)
+                    }
+                }
         }
     }
 }

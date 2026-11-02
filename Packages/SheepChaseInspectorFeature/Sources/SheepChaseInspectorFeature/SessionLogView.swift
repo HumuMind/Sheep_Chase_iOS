@@ -160,6 +160,7 @@ public struct SessionLogView: View {
             }
         }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
+        .dismissOnBackgroundClick { dismiss() }
         .alert("恢复这个快照？", isPresented: $showRestoreConfirmation) {
             Button("取消", role: .cancel) {
                 restoreCandidate = nil

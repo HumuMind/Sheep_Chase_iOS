@@ -88,6 +88,7 @@ struct PrepChecklistView: View {
             }
         }
         .frame(minWidth: BookSheetMetrics.minWidth, idealWidth: BookSheetMetrics.idealWidth, minHeight: BookSheetMetrics.minHeight, idealHeight: BookSheetMetrics.idealHeight)
+        .dismissOnBackgroundClick { dismiss() }
     }
 
     private func check(_ id: String, _ title: String, detail: String?) -> some View {

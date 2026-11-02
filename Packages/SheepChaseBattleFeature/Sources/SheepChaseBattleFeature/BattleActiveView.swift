@@ -361,5 +361,6 @@ private struct MultiDamageSheet: View {
             }
         }
         .frame(minWidth: 460, minHeight: 380)
+        .dismissOnBackgroundClick { dismiss() }
     }
 }
