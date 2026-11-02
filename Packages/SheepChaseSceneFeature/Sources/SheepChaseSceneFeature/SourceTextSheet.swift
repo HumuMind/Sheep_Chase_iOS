@@ -66,6 +66,10 @@ public struct SourceTextSheet: View {
     private var sourceScroll: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
+                Color.clear
+                    .frame(height: 1)
+                    .id("source-top")
+
                 Text(scene.title)
                     .bookSerif(30, weight: .semibold)
                     .foregroundStyle(Theme.red)
@@ -168,7 +172,7 @@ public struct SourceTextSheet: View {
     #endif
 
     private func sectionAnchor(_ id: Int) -> String {
-        "source-section-\(id)"
+        id == 0 ? "source-top" : "source-section-\(id)"
     }
 
     private func sectionView(_ section: SourceTextSection) -> some View {
