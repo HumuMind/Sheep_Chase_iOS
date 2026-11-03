@@ -107,6 +107,7 @@ public struct SceneDetailView: View {
                             RoundedRectangle(cornerRadius: 6)
                                 .stroke(Theme.line, lineWidth: 1)
                         )
+                        .contentShape(RoundedRectangle(cornerRadius: 6))
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("dm-guide-scene-banner")

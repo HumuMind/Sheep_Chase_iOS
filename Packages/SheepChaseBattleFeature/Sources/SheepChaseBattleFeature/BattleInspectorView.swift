@@ -103,6 +103,8 @@ public struct BattleInspector: View {
                                         .bookUI(11, monospaced: true)
                                         .foregroundStyle(.secondary)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
 

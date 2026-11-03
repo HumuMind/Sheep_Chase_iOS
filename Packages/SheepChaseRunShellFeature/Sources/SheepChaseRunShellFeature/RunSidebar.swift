@@ -43,6 +43,7 @@ struct RunSidebar: View {
                             .foregroundStyle(Theme.red)
                     }
                     .padding(.vertical, 3)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityIdentifier("dm-guide-sidebar")

@@ -90,6 +90,7 @@ struct NewRunSheet: View {
                 RoundedRectangle(cornerRadius: 6)
                     .stroke(selected ? Theme.red.opacity(0.35) : Theme.line.opacity(0.55), lineWidth: 1)
             )
+            .contentShape(RoundedRectangle(cornerRadius: 6))
         }
         .buttonStyle(.plain)
     }
