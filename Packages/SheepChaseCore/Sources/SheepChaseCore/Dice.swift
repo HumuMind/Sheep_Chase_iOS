@@ -118,12 +118,6 @@ public enum DiceParser {
         var text = input.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return .failure(.empty) }
 
-        let lower = text.lowercased()
-        for prefix in ["/r", "roll", "r", "掷", "投", "骰"] where lower.hasPrefix(prefix) {
-            text = String(text.dropFirst(prefix.count)).trimmingCharacters(in: .whitespaces)
-            break
-        }
-
         var mode: DiceMode = .normal
         let modeLower = text.lowercased()
         for (prefix, value) in [("优势", DiceMode.advantage), ("劣势", DiceMode.disadvantage), ("adv", .advantage), ("dis", .disadvantage)]

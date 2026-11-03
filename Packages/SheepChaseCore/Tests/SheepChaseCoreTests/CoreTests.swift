@@ -78,7 +78,7 @@ final class CoreTests: XCTestCase {
 
 extension CoreTests {
     func testDiceParserSupportsPrefixesAndMultiTerms() throws {
-        let parsed = try DiceParser.parse("/r 1d20+1d4+2").get()
+        let parsed = try DiceParser.parse("1d20+1d4+2").get()
         XCTAssertEqual(parsed.mode, .normal)
         XCTAssertEqual(parsed.terms, [DiceTerm(count: 1, sides: 20), DiceTerm(count: 1, sides: 4)])
         XCTAssertEqual(parsed.modifier, 2)

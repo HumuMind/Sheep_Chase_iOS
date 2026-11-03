@@ -11,12 +11,6 @@ struct DiceHelpSheet: View {
         ("2d6+3", "两颗 d6 加 3"),
         ("4d6", "四颗 d6"),
         ("1d20+1d4+2", "多段骰子 + 加值"),
-        ("/r 1d20+5", "/r 前缀"),
-        ("r 2d6+3", "r 前缀"),
-        ("roll 4d6", "roll 前缀"),
-        ("掷 1d20+5", "掷 前缀"),
-        ("投 2d6+3", "投 前缀"),
-        ("骰 4d6", "骰 前缀"),
         ("优势 1d20+5", "一次优势检定"),
         ("adv 1d20+5", "一次优势检定"),
         ("优势 2d20+3", "两次独立优势检定"),
@@ -43,13 +37,13 @@ struct DiceHelpSheet: View {
                     .foregroundStyle(Theme.inkSoft)
             }
 
-            BookFormSection("全部指令前缀") {
-                Text("/r　r　roll　掷　投　骰")
-                    .bookUI(13, weight: .medium, monospaced: true)
-                    .foregroundStyle(Theme.ink)
-                Text("前缀后面直接写骰子表达式，例如 /r 1d20+5、掷 2d6+3、骰 4d6。")
-                    .bookUI(11)
-                    .foregroundStyle(.secondary)
+            BookFormSection("直接输入") {
+                Text("直接在输入框写骰子表达式，不需要 /r、r、roll 等前缀。")
+                    .bookUI(12)
+                    .foregroundStyle(Theme.inkSoft)
+                Text("例如输入 1d20+5 或 优势 2d20+3，按回车或点右侧箭头。")
+                    .bookUI(12)
+                    .foregroundStyle(Theme.inkSoft)
             }
 
             BookFormSection("优势 / 劣势") {
