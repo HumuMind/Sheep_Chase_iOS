@@ -204,6 +204,11 @@ public struct RuleSheetView: View {
                                     .bookUI(10)
                                     .foregroundStyle(.tertiary)
                             }
+
+                            Text("规则摘要为 2014 版《玩家手册》/《地下城主指南》的带团速查，不是官方全文；页码为英文原版参考，若与中文版页码不同，以规则内容为准。")
+                                .bookUI(10)
+                                .foregroundStyle(.secondary)
+                                .lineSpacing(2)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 3)
