@@ -25,7 +25,7 @@ struct BattleSelectView: View {
                             .foregroundStyle(.secondary)
                         Text("先选人，再填先攻")
                             .bookUI(28, weight: .semibold)
-                        Text("不是所有玩家都会参战，怪物数量也会随人数和等级变化。这里只给建议，不会自动加入。")
+                        Text("选择玩家、怪物和特殊 NPC 盟友；不是所有玩家都会参战。这里只给建议，不会自动加入。")
                             .bookUI(12)
                             .foregroundStyle(.secondary)
                     }
@@ -116,6 +116,52 @@ struct BattleSelectView: View {
                     }
                 }
 
+                GroupBox {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(battle.allies ?? []) { ally in
+                            HStack(spacing: 5) {
+                                Text(ally.name)
+                                Text("NPC")
+                                    .bookUI(9)
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Button {
+                                    store.removeBattleAlly(ally.id, in: run)
+                                } label: {
+                                    Image(systemName: "xmark")
+                                        .font(.system(size: 7, weight: .semibold))
+                                }
+                                .buttonStyle(.plain)
+                                .foregroundStyle(.secondary)
+                            }
+                            .bookUI(12)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 3)
+                            .background(.quaternary, in: RoundedRectangle(cornerRadius: 4))
+                        }
+
+                        Button("＋ 范席尔（绵羊）") {
+                            store.addBattleAlly(in: run)
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.small)
+                        .disabled((battle.allies ?? []).contains { $0.baseID == "finethir-sheep" })
+
+                        if (battle.allies ?? []).isEmpty {
+                            Text("特殊 NPC 可以作为盟友参战，例如被变成绵羊的范席尔。")
+                                .bookUI(11)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(.vertical, 2)
+                } label: {
+                    HStack {
+                        Text("参战 NPC / 盟友").bookUI(13, weight: .semibold)
+                        Spacer()
+                        Text("\(battle.allies?.count ?? 0)").bookUI(11).foregroundStyle(.secondary)
+                    }
+                }
+
                 GroupBox("建议组合") {
                     Text(store.suggestedEncounter(for: run))
                         .bookUI(12)
@@ -139,7 +185,7 @@ struct BattleSelectView: View {
                     .disabled(battle.totalParticipants == 0)
 
                     Spacer()
-                    Text("玩家逐个加入，怪物逐个添加")
+                    Text("玩家、怪物和 NPC 盟友逐个加入")
                         .bookUI(11)
                         .foregroundStyle(.secondary)
                 }

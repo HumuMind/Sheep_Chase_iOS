@@ -33,6 +33,28 @@ final class BattleEngineTests: XCTestCase {
         XCTAssertEqual(state.round, 1)
     }
 
+    func testNPCAllyBecomesBattleCombatant() {
+        let player = player(name: "阿岚", initiative: 10)
+        var state = battle(players: [player])
+        state.allies = [
+            BattleAlly(
+                baseID: "finethir-sheep",
+                name: "范席尔（绵羊）",
+                subtitle: "NPC 盟友",
+                ac: 10,
+                hp: 3,
+                maxHP: 3,
+                initiative: 12
+            )
+        ]
+        XCTAssertTrue(BattleEngine.start(battle: &state, players: [player], monsters: [], allies: state.allies ?? []))
+        let ally = state.combatants.first { $0.kind == .npc }
+        XCTAssertEqual(ally?.name, "范席尔（绵羊）")
+        XCTAssertEqual(ally?.baseID, "finethir-sheep")
+        XCTAssertEqual(ally?.ac, 10)
+        XCTAssertEqual(ally?.hp, 3)
+    }
+
     func testMonsterCombatantKeepsBaseID() {
         let player = player(name: "阿岚", initiative: 10)
         var state = battle(players: [player])

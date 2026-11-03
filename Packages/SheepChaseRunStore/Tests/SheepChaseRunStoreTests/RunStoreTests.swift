@@ -90,6 +90,10 @@ final class RunStoreTests: XCTestCase {
             XCTAssertEqual(store.npc(id: "custom-npc-\(customNPC.id.uuidString)", in: run)?.name, "自定义线人")
         }
 
+        store.openBattleSetup(for: run)
+        store.addBattleAlly(in: run)
+        XCTAssertEqual(run.battle?.allies?.first?.name, "范席尔（绵羊）")
+
         store.addCustomMapPin(mapID: "treehouse", x: 0.4, y: 0.6, label: "密道", note: "通往厨房", in: run)
         XCTAssertEqual(store.customMapPins(for: "treehouse", in: run).first?.label, "密道")
 

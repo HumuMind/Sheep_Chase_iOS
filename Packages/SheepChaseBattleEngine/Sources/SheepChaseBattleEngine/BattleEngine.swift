@@ -24,12 +24,18 @@ public enum BattleEngine {
     public static func goToInitiative(
         battle: inout BattleState,
         monsters: [ContentPack.Monster],
+        allies: [BattleAlly] = [],
         d20Roll: () -> Int = { Int.random(in: 1...20) }
     ) {
         for index in battle.monsters.indices where battle.monsters[index].initiative == nil {
             let stat = monsters.first { $0.id == battle.monsters[index].baseID }
             battle.monsters[index].initiative = d20Roll() + (stat?.initiativeModifier ?? 0)
         }
+        var currentAllies = battle.allies ?? allies
+        for index in currentAllies.indices where currentAllies[index].initiative == nil {
+            currentAllies[index].initiative = d20Roll() + currentAllies[index].initiativeModifier
+        }
+        battle.allies = currentAllies
         battle.phase = .initiative
     }
 
@@ -59,7 +65,8 @@ public enum BattleEngine {
     public static func start(
         battle: inout BattleState,
         players: [PartyMember],
-        monsters: [ContentPack.Monster]
+        monsters: [ContentPack.Monster],
+        allies: [BattleAlly] = []
     ) -> Bool {
         guard battleReady(battle) else { return false }
 
@@ -91,6 +98,23 @@ public enum BattleEngine {
                     ac: stat.ac.value,
                     hp: stat.hp.average,
                     maxHP: stat.hp.average,
+                    initiative: initiative,
+                    tempHP: 0
+                )
+            )
+        }
+
+        for ally in battle.allies ?? allies {
+            guard let initiative = ally.initiative else { continue }
+            combatants.append(
+                BattleCombatant(
+                    id: ally.id,
+                    name: ally.name,
+                    kind: .npc,
+                    baseID: ally.baseID,
+                    ac: ally.ac,
+                    hp: ally.hp,
+                    maxHP: ally.maxHP,
                     initiative: initiative,
                     tempHP: 0
                 )

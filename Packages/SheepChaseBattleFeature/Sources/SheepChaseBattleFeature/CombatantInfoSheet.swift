@@ -12,6 +12,7 @@ struct CombatantInfoSheet: View {
     let combatant: BattleCombatant
     let monster: ContentPack.Monster?
     let member: PartyMember?
+    let ally: BattleAlly?
 
     @State private var selectedRule: ContentPack.RuleCard?
     @State private var selectedSpell: ContentPack.SpellCard?
@@ -27,6 +28,7 @@ struct CombatantInfoSheet: View {
                 combatant: combatant,
                 monster: monster,
                 member: member,
+                ally: ally,
                 onOpenRule: { ruleID in
                     if let rule = store.rule(id: ruleID) { selectedRule = rule }
                 },

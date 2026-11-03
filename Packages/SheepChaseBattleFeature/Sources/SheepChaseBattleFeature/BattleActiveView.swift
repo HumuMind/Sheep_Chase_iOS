@@ -30,6 +30,11 @@ struct BattleActiveView: View {
         return run.party.first { $0.id == active.id }
     }
 
+    private var activeAlly: BattleAlly? {
+        guard let active, active.kind == .npc else { return nil }
+        return run.battle?.allies?.first { $0.id == active.id }
+    }
+
     @State private var showMultiDamage = false
     @State private var selectedRule: ContentPack.RuleCard?
     @State private var selectedSpell: ContentPack.SpellCard?
@@ -79,6 +84,7 @@ struct BattleActiveView: View {
                         combatant: active,
                         monster: activeMonster,
                         member: activeMember,
+                        ally: activeAlly,
                         onOpenRule: { ruleID in
                             if let rule = store.rule(id: ruleID) { selectedRule = rule }
                         },
@@ -94,7 +100,7 @@ struct BattleActiveView: View {
                             HStack(alignment: .firstTextBaseline) {
                                 Text(active.name)
                                     .bookUI(19, weight: .semibold)
-                                Text(active.kind == .player ? "玩家" : "怪物")
+                                Text(active.kind == .player ? "玩家" : (active.kind == .npc ? "NPC" : "怪物"))
                                     .bookUI(11)
                                     .foregroundStyle(.secondary)
                                 Spacer()

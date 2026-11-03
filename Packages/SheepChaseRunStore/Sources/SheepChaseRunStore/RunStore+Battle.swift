@@ -45,6 +45,33 @@ extension RunStore {
         commit(run)
     }
 
+    public func addBattleAlly(in run: RunRecord) {
+        guard var battle = run.battle, battle.phase == .select else { return }
+        guard !(battle.allies ?? []).contains(where: { $0.baseID == "finethir-sheep" }) else { return }
+        var allies = battle.allies ?? []
+        allies.append(
+            BattleAlly(
+                baseID: "finethir-sheep",
+                name: "范席尔（绵羊）",
+                subtitle: "被变成绵羊的法师 · NPC 盟友",
+                ac: 10,
+                hp: 3,
+                maxHP: 3,
+                initiativeModifier: 0
+            )
+        )
+        battle.allies = allies
+        run.battle = battle
+        commit(run)
+    }
+
+    public func removeBattleAlly(_ allyID: UUID, in run: RunRecord) {
+        guard var battle = run.battle, battle.phase == .select else { return }
+        battle.allies?.removeAll { $0.id == allyID }
+        run.battle = battle
+        commit(run)
+    }
+
     public func removeBattleMonster(_ monsterID: UUID, in run: RunRecord) {
         guard var battle = run.battle, battle.phase == .select else { return }
         battle.monsters.removeAll { $0.id == monsterID }
@@ -62,6 +89,7 @@ extension RunStore {
         BattleEngine.goToInitiative(
             battle: &battle,
             monsters: battleMonsters(in: run),
+            allies: battle.allies ?? [],
             d20Roll: { self.d20() }
         )
         run.battle = battle
@@ -97,7 +125,8 @@ extension RunStore {
         guard BattleEngine.start(
             battle: &battle,
             players: run.party,
-            monsters: battleMonsters(in: run)
+            monsters: battleMonsters(in: run),
+            allies: battle.allies ?? []
         ) else { return }
 
         run.battle = battle

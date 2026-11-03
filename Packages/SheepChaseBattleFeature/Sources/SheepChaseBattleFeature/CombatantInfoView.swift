@@ -9,6 +9,7 @@ struct CombatantInfoView: View {
     let combatant: BattleCombatant
     let monster: ContentPack.Monster?
     let member: PartyMember?
+    let ally: BattleAlly?
     let onOpenRule: (String) -> Void
     let onOpenSpell: (String) -> Void
 
@@ -20,6 +21,8 @@ struct CombatantInfoView: View {
                     monsterInfo(monster)
                 } else if let member {
                     playerInfo(member)
+                } else if let ally {
+                    allyInfo(ally)
                 } else {
                     Text("找不到这个对象的详细资料。")
                         .bookUI(12)
@@ -34,7 +37,7 @@ struct CombatantInfoView: View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
             Text(combatant.name)
                 .bookSerif(20, weight: .semibold)
-            Text(combatant.kind == .player ? "玩家" : "怪物")
+            Text(combatant.kind == .player ? "玩家" : (combatant.kind == .npc ? "NPC" : "怪物"))
                 .bookUI(10)
                 .foregroundStyle(.secondary)
             Spacer()
@@ -111,6 +114,29 @@ struct CombatantInfoView: View {
                     }
                 }
             }
+        }
+    }
+
+    private func allyInfo(_ ally: BattleAlly) -> some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Text(ally.subtitle.isEmpty ? "NPC 盟友" : ally.subtitle)
+                .bookUI(12)
+                .foregroundStyle(.secondary)
+            HStack(spacing: 16) {
+                info("先攻", signed(combatant.initiative))
+                info("临时 HP", "\(combatant.tempHP ?? 0)")
+            }
+            if !combatant.conditions.isEmpty {
+                Text("状态：\(combatant.conditions.joined(separator: "、"))")
+                    .bookUI(11)
+                    .foregroundStyle(Theme.red)
+            }
+            if let concentration = combatant.concentration, !concentration.isEmpty {
+                Text("专注：\(concentration)").bookUI(11).foregroundStyle(Theme.red)
+            }
+            Text("NPC 盟友的详细角色卡由 DM 自行管理；这里记录当前战斗数值。")
+                .bookUI(10)
+                .foregroundStyle(.secondary)
         }
     }
 

@@ -59,6 +59,24 @@ struct BattleInitiativeView: View {
                             Divider()
                         }
 
+                        ForEach(battle.allies ?? []) { ally in
+                            HStack(spacing: 10) {
+                                Text(ally.name)
+                                    .bookUI(13, weight: .medium)
+                                Text("NPC 盟友 · 自动 d20 + 加值")
+                                    .bookUI(11)
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text(ally.initiative.map(String.init) ?? "—")
+                                    .bookUI(13, weight: .semibold, monospaced: true)
+                                    .foregroundStyle(Theme.green)
+                                    .frame(width: 64, height: 24)
+                                    .background(Theme.green.opacity(0.07), in: RoundedRectangle(cornerRadius: 4))
+                            }
+                            .padding(.vertical, 6)
+                            Divider()
+                        }
+
                         ForEach(battle.monsters) { monster in
                             HStack(spacing: 10) {
                                 Text(monster.name)
@@ -118,6 +136,7 @@ struct BattleInitiativeView: View {
     private var filledCount: Int {
         selectedPlayers.compactMap { battle.playerInitiatives[$0.id.uuidString] }.count
             + battle.monsters.filter { $0.initiative != nil }.count
+            + (battle.allies ?? []).filter { $0.initiative != nil }.count
     }
 
     private func playerBinding(_ member: PartyMember) -> Binding<String> {

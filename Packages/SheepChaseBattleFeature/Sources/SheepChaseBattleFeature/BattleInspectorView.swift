@@ -68,6 +68,16 @@ public struct BattleInspector: View {
                         }
                         .bookUI(12)
                     }
+                    ForEach(battle.allies ?? []) { ally in
+                        HStack {
+                            Text(ally.name + "（NPC）")
+                            Spacer()
+                            Text(ally.initiative.map(String.init) ?? "—")
+                                .monospacedDigit()
+                                .foregroundStyle(Theme.green)
+                        }
+                        .bookUI(12)
+                    }
                     Button("开始战斗") {
                         store.startBattle(in: run)
                     }
@@ -94,7 +104,7 @@ public struct BattleInspector: View {
                                     VStack(alignment: .leading, spacing: 1) {
                                         Text(combatant.name)
                                             .bookUI(12, weight: combatant.id == battle.activeID ? .semibold : .regular)
-                                        Text("\(combatant.kind == .player ? "玩家" : "怪物") · AC \(combatant.ac)")
+                                        Text("\(combatant.kind == .player ? "玩家" : (combatant.kind == .npc ? "NPC" : "怪物")) · AC \(combatant.ac)")
                                             .bookUI(10)
                                             .foregroundStyle(.secondary)
                                     }
@@ -165,7 +175,8 @@ public struct BattleInspector: View {
                 run: run,
                 combatant: combatant,
                 monster: monster(for: combatant),
-                member: member(for: combatant)
+                member: member(for: combatant),
+                ally: ally(for: combatant)
             )
             .environment(store)
         }
@@ -183,6 +194,10 @@ public struct BattleInspector: View {
 
     private func member(for combatant: BattleCombatant) -> PartyMember? {
         run.party.first { $0.id == combatant.id }
+    }
+
+    private func ally(for combatant: BattleCombatant) -> BattleAlly? {
+        run.battle?.allies?.first { $0.id == combatant.id }
     }
 
     private var battleSubtitle: String {

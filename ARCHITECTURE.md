@@ -108,7 +108,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 
 ### BattleEngine
 
-- 选择、先攻、开战、轮次、HP/临时 HP、状态、专注、骰子、多目标、撤销。
+- 选择、先攻、开战、轮次、HP/临时 HP、状态、专注、骰子、多目标、撤销；参战类别包括玩家、怪物、NPC 盟友，范席尔（绵羊）可作为预设 NPC 盟友加入。
 - 纯 `BattleState` 输入输出，不依赖 SwiftData/SwiftUI。
 - `RunStore+Battle` 只负责取/存 Run、checkpoint、toast。
 
@@ -190,7 +190,7 @@ python3 scripts/check_swift_file_sizes.py
 
 ## 测试
 
-Package 测试（28 个）：
+Package 测试（29 个）：
 
 - Core 3
 - Persistence 2

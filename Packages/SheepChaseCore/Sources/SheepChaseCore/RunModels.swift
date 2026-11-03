@@ -118,6 +118,7 @@ public enum BattlePhase: String, Codable {
 public enum CombatantKind: String, Codable {
     case player
     case monster
+    case npc
 }
 
 public struct BattleMonster: Identifiable, Codable, Hashable {
@@ -130,6 +131,40 @@ public struct BattleMonster: Identifiable, Codable, Hashable {
         self.id = id
         self.baseID = baseID
         self.name = name
+        self.initiative = initiative
+    }
+}
+
+public struct BattleAlly: Identifiable, Codable, Hashable {
+    public var id: UUID
+    public var baseID: String
+    public var name: String
+    public var subtitle: String
+    public var ac: Int
+    public var hp: Int
+    public var maxHP: Int
+    public var initiativeModifier: Int
+    public var initiative: Int?
+
+    public init(
+        id: UUID = UUID(),
+        baseID: String,
+        name: String,
+        subtitle: String = "",
+        ac: Int,
+        hp: Int,
+        maxHP: Int,
+        initiativeModifier: Int = 0,
+        initiative: Int? = nil
+    ) {
+        self.id = id
+        self.baseID = baseID
+        self.name = name
+        self.subtitle = subtitle
+        self.ac = ac
+        self.hp = hp
+        self.maxHP = maxHP
+        self.initiativeModifier = initiativeModifier
         self.initiative = initiative
     }
 }
@@ -327,6 +362,7 @@ public struct BattleState: Codable {
     public var phase: BattlePhase
     public var selectedPlayerIDs: [UUID]
     public var monsters: [BattleMonster]
+    public var allies: [BattleAlly]?
     public var playerInitiatives: [String: Int]
     public var combatants: [BattleCombatant]
     public var round: Int
@@ -338,6 +374,7 @@ public struct BattleState: Codable {
         phase: BattlePhase = .select,
         selectedPlayerIDs: [UUID] = [],
         monsters: [BattleMonster] = [],
+        allies: [BattleAlly]? = nil,
         playerInitiatives: [String: Int] = [:],
         combatants: [BattleCombatant] = [],
         round: Int = 1,
@@ -348,6 +385,7 @@ public struct BattleState: Codable {
         self.phase = phase
         self.selectedPlayerIDs = selectedPlayerIDs
         self.monsters = monsters
+        self.allies = allies
         self.playerInitiatives = playerInitiatives
         self.combatants = combatants
         self.round = round
@@ -357,6 +395,6 @@ public struct BattleState: Codable {
     }
 
     public var totalParticipants: Int {
-        selectedPlayerIDs.count + monsters.count
+        selectedPlayerIDs.count + monsters.count + (allies ?? []).count
     }
 }
