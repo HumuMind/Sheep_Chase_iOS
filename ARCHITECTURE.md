@@ -190,7 +190,7 @@ python3 scripts/check_swift_file_sizes.py
 
 ## 测试
 
-Package 测试（23 个）：
+Package 测试（28 个）：
 
 - Core 3
 - Persistence 2

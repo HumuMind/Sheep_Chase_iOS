@@ -12,10 +12,13 @@ extension RunStore {
     public func rollDice(
         _ expression: DiceExpression,
         command: String,
+        subject: String? = nil,
         in run: RunRecord,
         die: (Int) -> Int = { sides in Int.random(in: 1...sides) }
     ) -> DiceRoll {
-        let result = DiceRoller.roll(expression, command: command, die: die)
+        var result = DiceRoller.roll(expression, command: command, die: die)
+        let trimmedSubject = subject?.trimmingCharacters(in: .whitespacesAndNewlines)
+        result.subject = trimmedSubject?.isEmpty == true ? nil : trimmedSubject
         var history = run.diceHistory
         history.insert(result, at: 0)
         if history.count > 30 { history = Array(history.prefix(30)) }

@@ -54,6 +54,7 @@ public struct DiceRoll: Identifiable, Codable, Hashable {
     public var mode: DiceMode
     public var checks: [DiceCheck]
     public var total: Int
+    public var subject: String?
     public var createdAt: Date
 
     public init(
@@ -62,6 +63,7 @@ public struct DiceRoll: Identifiable, Codable, Hashable {
         mode: DiceMode,
         checks: [DiceCheck],
         total: Int,
+        subject: String? = nil,
         createdAt: Date = .now
     ) {
         self.id = id
@@ -69,6 +71,7 @@ public struct DiceRoll: Identifiable, Codable, Hashable {
         self.mode = mode
         self.checks = checks
         self.total = total
+        self.subject = subject
         self.createdAt = createdAt
     }
 

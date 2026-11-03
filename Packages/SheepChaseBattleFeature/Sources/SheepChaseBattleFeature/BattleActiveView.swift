@@ -30,7 +30,6 @@ struct BattleActiveView: View {
         return run.party.first { $0.id == active.id }
     }
 
-    @State private var lastRoll: String?
     @State private var showMultiDamage = false
     @State private var selectedRule: ContentPack.RuleCard?
     @State private var selectedSpell: ContentPack.SpellCard?
@@ -53,6 +52,12 @@ struct BattleActiveView: View {
                         }
                         .buttonStyle(.bordered)
                         .disabled(battle.undo == nil)
+                        Button {
+                            store.openDiceSheet(subject: active?.name ?? "")
+                        } label: {
+                            Label("投掷", systemImage: "die.face.5")
+                        }
+                        .buttonStyle(.bordered)
                         Button("多目标伤害") {
                             showMultiDamage = true
                         }
@@ -177,31 +182,6 @@ struct BattleActiveView: View {
                         }
                         .padding(.vertical, 3)
                     }
-                }
-
-                GroupBox("骰子") {
-                    HStack(spacing: 6) {
-                        ForEach([4, 6, 8, 10, 12, 20], id: \.self) { sides in
-                            Button("d\(sides)") {
-                                let value = store.rollDice(sides: sides, in: run)
-                                lastRoll = "d\(sides) = \(value)"
-                            }
-                            .buttonStyle(.bordered)
-                            .controlSize(.small)
-                        }
-                        Divider().frame(height: 18)
-                        Button("d20+5") {
-                            let value = store.rollDice(sides: 20, modifier: 5, in: run)
-                            lastRoll = "d20+5 = \(value)"
-                        }
-                        .buttonStyle(.bordered)
-                        .controlSize(.small)
-                        Spacer()
-                        Text(lastRoll ?? "尚未掷骰")
-                            .bookUI(12, monospaced: true)
-                            .foregroundStyle(lastRoll == nil ? .secondary : Theme.ink)
-                    }
-                    .padding(.vertical, 3)
                 }
 
                 HStack(alignment: .top, spacing: 12) {

@@ -20,6 +20,7 @@ public final class RunStore {
     public var selectedRunID: UUID?
     public var selectedTab: InspectorTab = .party
     public var toast: String?
+    public var diceSheetRequest: DiceSheetRequest?
 
     private var toastTask: Task<Void, Never>?
 

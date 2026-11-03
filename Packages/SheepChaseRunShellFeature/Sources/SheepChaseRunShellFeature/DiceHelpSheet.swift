@@ -100,6 +100,15 @@ struct DiceHelpSheet: View {
                     .foregroundStyle(.secondary)
             }
 
+            BookFormSection("投掷者") {
+                Text("战斗界面的「投掷」按钮会带入当前对象名字；可以直接修改，也可以留空。")
+                    .bookUI(12)
+                    .foregroundStyle(Theme.inkSoft)
+                Text("从右下角骰子按钮打开时，投掷者默认为空。")
+                    .bookUI(11)
+                    .foregroundStyle(.secondary)
+            }
+
             BookFormSection("记录") {
                 Text("左侧记录会保存每次的完整公式、投掷过程和最终结果；顶部「最近」区域显示最后一次结果。")
                     .bookUI(12)
