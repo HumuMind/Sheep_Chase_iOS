@@ -117,3 +117,16 @@ extension CoreTests {
         XCTAssertEqual(result.total, 39)
     }
 }
+
+extension CoreTests {
+    func testDiceRollerDisadvantageMultipleD20() {
+        var rolls = [18, 6, 15, 9]
+        let expression = DiceExpression(
+            terms: [DiceTerm(count: 2, sides: 20)],
+            mode: .disadvantage
+        )
+        let result = DiceRoller.roll(expression, command: "劣势 2d20") { _ in rolls.removeFirst() }
+        XCTAssertEqual(result.checks.map(\.kept), [6, 9])
+        XCTAssertEqual(result.total, 15)
+    }
+}

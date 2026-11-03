@@ -9,8 +9,7 @@ struct DicePanel: View {
     @Bindable var run: RunRecord
 
     @AppStorage("dicePanel.expanded") private var isExpanded = true
-    @State private var count = 1
-    @State private var sides = 20
+    @State private var diceCounts: [Int: Int] = [:]
     @State private var modifier = 0
     @State private var mode: DiceMode = .normal
     @State private var command = ""
@@ -21,8 +20,17 @@ struct DicePanel: View {
 
     private var history: [DiceRoll] { store.diceHistory(in: run) }
 
+    private var terms: [DiceTerm] {
+        dice.compactMap { sides in
+            guard let count = diceCounts[sides], count > 0 else { return nil }
+            return DiceTerm(count: count, sides: sides)
+        }
+    }
+
     private var formula: String {
-        "\(mode == .normal ? "" : mode.title + " ")\(count)d\(sides)\(signed(modifier))"
+        guard !terms.isEmpty else { return "选择骰子" }
+        let dicePart = terms.map { "\($0.count)d\($0.sides)" }.joined(separator: "+")
+        return "\(mode == .normal ? "" : mode.title + " ")\(dicePart)\(signed(modifier))"
     }
 
     var body: some View {
@@ -115,33 +123,101 @@ struct DicePanel: View {
                             Text("\(latest.command) = \(latest.total)")
                                 .bookUI(12, weight: .medium, monospaced: true)
                                 .foregroundStyle(Theme.ink)
-                            if latest.mode != .normal {
-                                Text(latest.detail)
-                                    .bookUI(10)
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(3)
-                            }
+                            Text(latest.detail)
+                                .bookUI(10)
+                                .foregroundStyle(.secondary)
+                                .lineLimit(8)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                         .padding(.bottom, 2)
                     }
 
-                    HStack(spacing: 4) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 4), spacing: 6) {
                         ForEach(dice, id: \.self) { value in
-                            Button("d\(value)") {
-                                sides = value
-                                if value != 20, mode != .normal { mode = .normal }
+                            Button {
+                                addDie(value)
+                            } label: {
+                                VStack(spacing: 2) {
+                                    Text("d\(value)")
+                                        .bookUI(14, weight: .semibold, monospaced: true)
+                                    if let count = diceCounts[value], count > 0 {
+                                        Text("×\(count)")
+                                            .bookUI(10, weight: .medium)
+                                            .foregroundStyle(Theme.red)
+                                    } else {
+                                        Text("添加")
+                                            .bookUI(9)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, minHeight: 44)
+                                .background(
+                                    (diceCounts[value] ?? 0) > 0 ? Theme.red.opacity(0.08) : Theme.paperDeep.opacity(0.25),
+                                    in: RoundedRectangle(cornerRadius: 6)
+                                )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 6)
+                                        .stroke((diceCounts[value] ?? 0) > 0 ? Theme.red.opacity(0.35) : Theme.line.opacity(0.55), lineWidth: 1)
+                                )
                             }
-                            .buttonStyle(.bordered)
-                            .controlSize(.mini)
-                            .tint(sides == value ? Theme.red : Theme.inkSoft)
+                            .buttonStyle(.plain)
+                            .foregroundStyle(Theme.ink)
                         }
                     }
 
-                    HStack(spacing: 8) {
-                        Stepper("数量 \(count)", value: $count, in: 1...20)
-                            .bookUI(11)
-                        Stepper("加值 \(signed(modifier))", value: $modifier, in: -20...20)
-                            .bookUI(11)
+                    if !terms.isEmpty {
+                        HStack(spacing: 5) {
+                            ForEach(terms, id: \.sides) { term in
+                                HStack(spacing: 3) {
+                                    Text("\(term.count)d\(term.sides)")
+                                        .bookUI(11, weight: .medium, monospaced: true)
+                                    Button {
+                                        removeDie(term.sides)
+                                    } label: {
+                                        Image(systemName: "minus.circle.fill")
+                                            .bookUI(10)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(Theme.red)
+                                }
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 3)
+                                .background(Theme.readingPaper, in: Capsule())
+                                .overlay(Capsule().stroke(Theme.line.opacity(0.6), lineWidth: 1))
+                            }
+                            Spacer()
+                            Button("清空") { diceCounts = [:] }
+                                .buttonStyle(.borderless)
+                                .bookUI(9)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    HStack(spacing: 5) {
+                        Text("加值")
+                            .bookUI(10)
+                            .foregroundStyle(.secondary)
+                        Text(signed(modifier))
+                            .bookUI(12, weight: .semibold, monospaced: true)
+                            .foregroundStyle(modifier == 0 ? Theme.ink : Theme.red)
+                        Spacer()
+                        Button("归零") {
+                            modifier = 0
+                        }
+                        .buttonStyle(.borderless)
+                        .bookUI(9)
+                        .foregroundStyle(.secondary)
+                    }
+
+                    HStack(spacing: 4) {
+                        ForEach([1, 2, 3, 5, -1, -2, -5], id: \.self) { value in
+                            Button(value > 0 ? "+\(value)" : "\(value)") {
+                                modifier += value
+                            }
+                            .buttonStyle(.bordered)
+                            .controlSize(.mini)
+                            .tint(value > 0 ? Theme.green : Theme.inkSoft)
+                        }
                     }
 
                     Picker("模式", selection: $mode) {
@@ -151,9 +227,7 @@ struct DicePanel: View {
                     }
                     .pickerStyle(.segmented)
                     .labelsHidden()
-                    .onChange(of: mode) { _, newMode in
-                        if newMode != .normal { sides = 20 }
-                    }
+                    .onChange(of: mode) { _, _ in errorMessage = nil }
 
                     Button {
                         rollQuick()
@@ -163,6 +237,7 @@ struct DicePanel: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(Theme.red)
+                    .disabled(terms.isEmpty)
 
                     if let errorMessage {
                         Text(errorMessage)
@@ -208,7 +283,7 @@ struct DicePanel: View {
             }
             .frame(maxHeight: 410)
         }
-        .frame(width: 330)
+        .frame(width: 350)
         .background(Theme.card)
         .overlay(
             RoundedRectangle(cornerRadius: 9)
@@ -220,18 +295,28 @@ struct DicePanel: View {
     }
 
     private func rollQuick() {
-        if mode != .normal, sides != 20 {
-            errorMessage = "优势/劣势只适用于 d20。"
+        guard !terms.isEmpty else {
+            errorMessage = "先点几个骰子。"
             return
         }
-        let expression = DiceExpression(
-            terms: [DiceTerm(count: count, sides: sides)],
-            modifier: modifier,
-            mode: mode
-        )
-        let result = store.rollDice(expression, command: formula, in: run)
+        if mode != .normal, terms.contains(where: { $0.sides != 20 }) {
+            errorMessage = "优势/劣势只适用于纯 d20；请移除其他骰子。"
+            return
+        }
+        let expression = DiceExpression(terms: terms, modifier: modifier, mode: mode)
+        _ = store.rollDice(expression, command: formula, in: run)
         errorMessage = nil
-        _ = result
+    }
+
+    private func addDie(_ sides: Int) {
+        diceCounts[sides, default: 0] += 1
+        errorMessage = nil
+    }
+
+    private func removeDie(_ sides: Int) {
+        guard let count = diceCounts[sides], count > 0 else { return }
+        diceCounts[sides] = count > 1 ? count - 1 : nil
+        errorMessage = nil
     }
 
     private func rollCommand() {

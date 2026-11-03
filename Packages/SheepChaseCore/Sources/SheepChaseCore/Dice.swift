@@ -75,13 +75,17 @@ public struct DiceRoll: Identifiable, Codable, Hashable {
     public var detail: String {
         if mode == .normal {
             guard let check = checks.first else { return command }
-            return "\(check.rawRolls.map(String.init).joined(separator: " + ")) = \(check.total)"
+            let rawTotal = check.rawRolls.reduce(0, +)
+            let modifier = total - rawTotal
+            let raw = check.rawRolls.map(String.init).joined(separator: " + ")
+            let modifierText = modifier == 0 ? "" : (modifier > 0 ? " + \(modifier)" : " - \(abs(modifier))")
+            return "[\(raw)]\(modifierText) = \(total)"
         }
         return checks.map { check in
             let modifier = check.total - check.kept
-            let modifierText = modifier >= 0 ? "+ \(modifier)" : "- \(abs(modifier))"
-            return "[\(check.rawRolls.map(String.init).joined(separator: " | "))] 取 \(check.kept) \(modifierText) = \(check.total)"
-        }.joined(separator: "\n")
+            let modifierText = modifier == 0 ? "" : (modifier > 0 ? " + \(modifier)" : " - \(abs(modifier))")
+            return "[\(check.rawRolls.map(String.init).joined(separator: " | "))] 取 \(check.kept)\(modifierText) = \(check.total)"
+        }.joined(separator: "\n") + "\n合计 \(total)"
     }
 }
 
