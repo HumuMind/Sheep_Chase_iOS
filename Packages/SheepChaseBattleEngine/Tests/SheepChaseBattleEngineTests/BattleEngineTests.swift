@@ -33,6 +33,27 @@ final class BattleEngineTests: XCTestCase {
         XCTAssertEqual(state.round, 1)
     }
 
+    func testMonsterCombatantKeepsBaseID() {
+        let player = player(name: "阿岚", initiative: 10)
+        var state = battle(players: [player])
+        let monster = ContentPack.Monster.custom(
+            id: "guz",
+            name: "古兹",
+            size: "中型",
+            type: "类人生物（半兽人）",
+            alignment: "混乱中立",
+            ac: .init(value: 14),
+            hp: .init(average: 67, formula: "9d8+27"),
+            speed: .init(walk: 30),
+            abilities: .init(str: 16, dex: 12, con: 17, int: 8, wis: 11, cha: 8),
+            challenge: .init(rating: 2, xp: 450),
+            actions: [.init(name: "回旋巨剑", text: "近战武器攻击。")]
+        )
+        state.monsters = [BattleMonster(baseID: "guz", name: "古兹", initiative: 8)]
+        XCTAssertTrue(BattleEngine.start(battle: &state, players: [player], monsters: [monster]))
+        XCTAssertEqual(state.combatants.first { $0.kind == .monster }?.baseID, "guz")
+    }
+
     func testTempHPAbsorbsDamageAndConcentrationUndo() {
         let a = player(name: "阿岚", initiative: 10)
         var state = battle(players: [a])

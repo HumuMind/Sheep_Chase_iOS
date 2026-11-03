@@ -13,8 +13,16 @@ struct BattleActiveView: View {
     private var battle: BattleState? { run.battle }
     private var active: BattleCombatant? { store.activeCombatant(in: run) }
     private var activeMonster: ContentPack.Monster? {
-        guard let baseID = active?.baseID else { return nil }
-        return store.monster(id: baseID, in: run)
+        guard let active else { return nil }
+        if let baseID = active.baseID, let monster = store.monster(id: baseID, in: run) {
+            return monster
+        }
+        // Older battles created before combatants stored baseID: recover it
+        // from the battle draft, whose monster IDs match the combatant IDs.
+        if let baseID = run.battle?.monsters.first(where: { $0.id == active.id })?.baseID {
+            return store.monster(id: baseID, in: run)
+        }
+        return nil
     }
 
     private var activeMember: PartyMember? {

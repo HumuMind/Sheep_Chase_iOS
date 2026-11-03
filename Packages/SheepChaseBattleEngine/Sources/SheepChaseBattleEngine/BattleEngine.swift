@@ -87,6 +87,7 @@ public enum BattleEngine {
                     id: monsterState.id,
                     name: monsterState.name,
                     kind: .monster,
+                    baseID: monsterState.baseID,
                     ac: stat.ac.value,
                     hp: stat.hp.average,
                     maxHP: stat.hp.average,
