@@ -3,5 +3,6 @@ term: 法术豁免 DC
 aliases:
 - Spell Save DC
 category: 魔法
-summary: 法术豁免 DC = 8 + 熟练加值 + 施法属性调整值。诺克为 DC 14，法术攻击 +6。
-pageRef: 玩家手册第 205 页
+summary: |
+  法术豁免 DC = 8 + 熟练加值 + 施法属性调整值；法术攻击调整 = 熟练加值 + 施法属性调整值。
+pageRef: 玩家手册2024 · 法术 · 法术效应

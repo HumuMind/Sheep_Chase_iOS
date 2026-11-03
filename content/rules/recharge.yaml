@@ -3,5 +3,6 @@ term: 充能
 aliases:
 - Recharge
 category: 怪物
-summary: 怪物能力标注“充能 5–6”时，在其回合开始时投 d6；结果在范围内则恢复使用。
-pageRef: 怪物图鉴导言
+summary: |
+  怪物能力标注“充能 5–6”时，在其回合开始时投 d6；结果在范围内则恢复使用。
+pageRef: 怪物图鉴（2014）· 导言

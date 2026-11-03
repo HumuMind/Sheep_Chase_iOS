@@ -4,5 +4,6 @@ aliases:
 - Saving Throw
 - Save
 category: 核心
-summary: d20 + 属性调整值 + 熟练加值（若该职业熟练）。达到 DC 即成功。常见 DC 由法术或怪物能力给出。
-pageRef: 玩家手册第 179 页
+summary: |
+  d20 + 属性调整值 + 熟练加值（若该豁免熟练）。达到 DC 即成功；DC 由法术、怪物能力或 DM 设定。
+pageRef: 玩家手册2024 · 进行游戏 · 豁免检定

@@ -4,13 +4,12 @@ aliases:
   - Speak with Animals
 level: 1
 school: 预言系（仪式）
-castingTime: 1 动作
+castingTime: 1 动作或仪式
 range: 自身
 components: V, S
 duration: 10 分钟
 concentration: false
 ritual: true
 summary: |
-  你获得理解并口头回应动物的能力。持续时间内，你可以理解动物的叫声、动作和姿态，
-  并能用它们能理解的方式回应。你无法说服动物做超出其理解或能力范围的事。
-pageRef: 玩家手册第 277 页
+  你获得理解野兽并与其语言沟通的能力；交涉时可对野兽使用任何技能选项。野兽能提供周遭地点、怪物和近一日察觉的信息。
+pageRef: 玩家手册2024 · 法术详述 · 一环

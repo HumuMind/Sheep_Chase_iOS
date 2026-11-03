@@ -3,5 +3,6 @@ term: 临时生命值
 aliases:
 - Temporary HP
 category: 战斗
-summary: 临时 HP 先于正常 HP 扣除，不叠加；长休后消失（除非来源另有说明）。
-pageRef: 玩家手册第 198 页
+summary: |
+  临时 HP 是缓冲层：受到伤害时先扣除临时 HP，再扣除正常 HP，不能叠加；持续时间结束或长休后消失，除非来源另有说明。
+pageRef: 玩家手册2024 · 进行游戏 · 临时生命值

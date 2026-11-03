@@ -1,7 +1,8 @@
 id: enlarge-reduce
-name: 变巨/缩小术
+name: 变巨术/缩小术
 aliases:
-- Enlarge/Reduce
+  - 变巨/缩小术
+  - Enlarge/Reduce
 level: 2
 school: 变化系
 castingTime: 1 动作
@@ -9,5 +10,6 @@ range: 30 尺
 components: V, S, M
 duration: 专注，至多 1 分钟
 concentration: true
-summary: 使目标体型增大或缩小一阶；增大时武器伤害 +1d4，缩小时 −1d4。
-pageRef: 玩家手册第 237 页
+summary: |
+  目标体型增大或缩小一级；变巨时力量检定/豁免优势，武器和徒手打击命中额外 1d4 伤害；缩小时力量检定/豁免劣势，武器和徒手打击伤害减少 1d4（最低 1）。
+pageRef: 玩家手册2024 · 法术详述 · 二环

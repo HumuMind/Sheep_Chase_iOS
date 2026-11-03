@@ -4,10 +4,11 @@ aliases:
 - Jump
 level: 1
 school: 变化系
-castingTime: 1 动作
+castingTime: 1 附赠动作
 range: 触及
 components: V, S, M
 duration: 1 分钟
 concentration: false
-summary: 目标在持续时间内跳跃距离变为三倍；每次跳跃仍消耗移动力。
-pageRef: 玩家手册第 254 页
+summary: |
+  触碰一个自愿生物；法术持续期间，目标每回合一次可消耗 10 尺移动力跳跃至多 30 尺。
+pageRef: 玩家手册2024 · 法术详述 · 一环

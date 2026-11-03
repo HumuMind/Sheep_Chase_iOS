@@ -205,7 +205,7 @@ public struct RuleSheetView: View {
                                     .foregroundStyle(.tertiary)
                             }
 
-                            Text("规则摘要为 2014 版《玩家手册》/《地下城主指南》的带团速查，不是官方全文；页码为英文原版参考，若与中文版页码不同，以规则内容为准。")
+                            Text("规则摘要参考 2024 版《玩家手册》整理，法术卷轴/充能/多重攻击沿用旧版《地下城主指南》/《怪物图鉴》；不是官方全文，以原文和 DM 裁定为准。")
                                 .bookUI(10)
                                 .foregroundStyle(.secondary)
                                 .lineSpacing(2)

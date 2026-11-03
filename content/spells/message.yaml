@@ -7,7 +7,8 @@ school: 变化系
 castingTime: 1 动作
 range: 120 尺
 components: V, S, M
-duration: 1 轮
+duration: 立即
 concentration: false
-summary: 目标听到你的耳语并可低声回复；其他人听不到，但魔法沉默或障碍会阻断。
-pageRef: 玩家手册第 259 页
+summary: |
+  向 120 尺内一个生物低声传讯；只有目标能听到并可用低语回复。可隔着固态物件施展，但 1 尺厚石/金属/木料、薄铅或魔法沉默会阻断。
+pageRef: 玩家手册2024 · 法术详述 · 零环
