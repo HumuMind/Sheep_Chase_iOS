@@ -14,6 +14,7 @@ public struct BattleInspector: View {
     @Bindable var run: RunRecord
 
     private var battle: BattleState? { run.battle }
+    @State private var infoCombatant: BattleCombatant?
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -106,8 +107,7 @@ public struct BattleInspector: View {
                             .buttonStyle(.plain)
 
                             Button {
-                                store.selectCombatant(combatant.id, in: run)
-                                store.notify("当前对象：\(combatant.name)")
+                                infoCombatant = combatant
                             } label: {
                                 Text("信息")
                                     .bookUI(10, weight: .medium)
@@ -158,6 +158,29 @@ public struct BattleInspector: View {
                 .buttonStyle(.bordered)
             }
         }
+        .sheet(item: $infoCombatant) { combatant in
+            CombatantInfoSheet(
+                run: run,
+                combatant: combatant,
+                monster: monster(for: combatant),
+                member: member(for: combatant)
+            )
+            .environment(store)
+        }
+    }
+
+    private func monster(for combatant: BattleCombatant) -> ContentPack.Monster? {
+        if let baseID = combatant.baseID, let monster = store.monster(id: baseID, in: run) {
+            return monster
+        }
+        if let baseID = run.battle?.monsters.first(where: { $0.id == combatant.id })?.baseID {
+            return store.monster(id: baseID, in: run)
+        }
+        return nil
+    }
+
+    private func member(for combatant: BattleCombatant) -> PartyMember? {
+        run.party.first { $0.id == combatant.id }
     }
 
     private var battleSubtitle: String {
