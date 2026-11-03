@@ -239,7 +239,7 @@ struct DicePanel: View {
                 withAnimation(.easeInOut(duration: 0.16)) { quickExpanded.toggle() }
             } label: {
                 HStack {
-                    Label("快速投掷", systemImage: "hand.tap")
+                    Label("手动投掷", systemImage: "hand.tap")
                         .bookUI(11, weight: .semibold)
                     Spacer()
                     Image(systemName: quickExpanded ? "chevron.up" : "chevron.down")
