@@ -27,7 +27,7 @@ final class ContentAndExportTests: XCTestCase {
         XCTAssertEqual(content.npcs.count, 3)
         XCTAssertEqual(content.monsters.count, 5)
         XCTAssertEqual(content.encounters.count, 3)
-        XCTAssertEqual(content.rules.count, 22)
+        XCTAssertEqual(content.rules.count, 23)
         XCTAssertEqual(content.spells.count, 14)
         XCTAssertEqual(content.assets.count, 3)
     }

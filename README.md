@@ -10,7 +10,7 @@
 
 ## 内容包
 
-- `content/` — YAML 源文件（4 场景、3 NPC、5 怪物、3 遭遇、22 规则、14 法术、2 手牌、13 flags、树屋地图与图钉）
+- `content/` — YAML 源文件（4 场景、3 NPC、5 怪物、3 遭遇、23 规则、14 法术、2 手牌、13 flags、树屋地图与图钉）
 - `schema/content-pack.schema.json` — JSON Schema
 - `scripts/build_content.py` — 校验与构建，输出 `build/ContentPack.json` 与 `build/assets/`
 
