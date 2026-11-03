@@ -5,18 +5,29 @@ import SheepChaseUI
 import SwiftUI
 
 struct DicePanel: View {
+    @Environment(RunStore.self) private var store
     @Bindable var run: RunRecord
     @AppStorage("dicePanel.expanded") private var isExpanded = true
     @State private var subject = ""
+    @State private var logToBattle = false
 
     var body: some View {
         Group {
             if isExpanded { expandedPanel } else { collapsedButton }
         }
+        .task(id: store.dicePanelRequest) {
+            guard let request = store.dicePanelRequest else { return }
+            subject = request.subject
+            logToBattle = request.logToBattle
+            withAnimation(.easeInOut(duration: 0.16)) { isExpanded = true }
+            store.dicePanelRequest = nil
+        }
     }
 
     private var collapsedButton: some View {
         Button {
+            subject = ""
+            logToBattle = false
             withAnimation(.easeInOut(duration: 0.16)) { isExpanded = true }
         } label: {
             HStack(spacing: 6) {
@@ -65,36 +76,12 @@ struct DicePanel: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 9)
             Divider().opacity(0.5)
-            DiceWorkspace(run: run, subject: $subject)
+            DiceWorkspace(run: run, subject: $subject, logToBattle: logToBattle)
         }
         .background(Theme.card)
         .overlay(RoundedRectangle(cornerRadius: 9).stroke(Theme.line, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 9))
         .shadow(color: .black.opacity(0.18), radius: 16, y: 7)
         .accessibilityIdentifier("dice-panel")
-    }
-}
-
-struct DiceSheet: View {
-    @Environment(\.dismiss) private var dismiss
-    @Bindable var run: RunRecord
-    @State private var subject: String
-    let logToBattle: Bool
-
-    init(run: RunRecord, subject: String, logToBattle: Bool = false) {
-        self.run = run
-        self.logToBattle = logToBattle
-        _subject = State(initialValue: subject)
-    }
-
-    var body: some View {
-        BookFormSheet(
-            title: "投掷",
-            primaryTitle: "完成",
-            onCancel: { dismiss() },
-            onPrimary: { dismiss() }
-        ) {
-            DiceWorkspace(run: run, subject: $subject, logToBattle: logToBattle)
-        }
     }
 }

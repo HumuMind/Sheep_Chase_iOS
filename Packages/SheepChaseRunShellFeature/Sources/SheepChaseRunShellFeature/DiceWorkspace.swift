@@ -43,7 +43,7 @@ struct DiceWorkspace: View {
             }
             .frame(width: 350)
         }
-        .frame(width: 556, height: 500)
+        .frame(width: 556, height: 540)
         .sheet(isPresented: $showHelp) {
             DiceHelpSheet { example in
                 command = example

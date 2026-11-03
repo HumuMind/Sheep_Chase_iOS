@@ -53,7 +53,7 @@ struct BattleActiveView: View {
                         .buttonStyle(.bordered)
                         .disabled(battle.undo == nil)
                         Button {
-                            store.openDiceSheet(subject: active?.name ?? "", logToBattle: true)
+                            store.openDicePanel(subject: active?.name ?? "", logToBattle: true)
                         } label: {
                             Label("投掷", systemImage: "die.face.5")
                         }

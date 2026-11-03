@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DiceSheetRequest: Identifiable, Hashable {
+public struct DicePanelRequest: Identifiable, Hashable {
     public let id = UUID()
     public let subject: String
     public let logToBattle: Bool
@@ -13,11 +13,11 @@ public struct DiceSheetRequest: Identifiable, Hashable {
 
 @MainActor
 extension RunStore {
-    public func openDiceSheet(subject: String, logToBattle: Bool = false) {
-        diceSheetRequest = DiceSheetRequest(subject: subject, logToBattle: logToBattle)
+    public func openDicePanel(subject: String, logToBattle: Bool = false) {
+        dicePanelRequest = DicePanelRequest(subject: subject, logToBattle: logToBattle)
     }
 
-    public func closeDiceSheet() {
-        diceSheetRequest = nil
+    public func closeDicePanel() {
+        dicePanelRequest = nil
     }
 }

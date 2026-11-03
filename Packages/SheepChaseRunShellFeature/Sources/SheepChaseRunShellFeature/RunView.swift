@@ -250,13 +250,6 @@ public struct RunView: View {
             )
             .environment(store)
         }
-        .sheet(item: Binding(
-            get: { store.diceSheetRequest },
-            set: { store.diceSheetRequest = $0 }
-        )) { request in
-            DiceSheet(run: run, subject: request.subject, logToBattle: request.logToBattle)
-                .environment(store)
-        }
         .sheet(item: $selectedMonster) { monster in
             MonsterSheetView(
                 monster: monster,
