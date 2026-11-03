@@ -81,31 +81,44 @@ public struct BattleInspector: View {
 
                 case .active:
                     ForEach(battle.combatants) { combatant in
-                        Button {
-                            store.selectCombatant(combatant.id, in: run)
-                        } label: {
-                            HStack(spacing: 6) {
-                                Text("\(combatant.initiative)")
-                                    .bookUI(11, monospaced: true)
-                                    .frame(width: 22, alignment: .trailing)
-                                    .foregroundStyle(combatant.id == battle.activeID ? Theme.red : .secondary)
-                                VStack(alignment: .leading, spacing: 1) {
-                                    Text(combatant.name)
-                                        .bookUI(12, weight: combatant.id == battle.activeID ? .semibold : .regular)
-                                    Text("\(combatant.kind == .player ? "玩家" : "怪物") · AC \(combatant.ac)")
-                                        .bookUI(10)
+                        HStack(spacing: 4) {
+                            Button {
+                                store.selectCombatant(combatant.id, in: run)
+                            } label: {
+                                HStack(spacing: 6) {
+                                    Text("\(combatant.initiative)")
+                                        .bookUI(11, monospaced: true)
+                                        .frame(width: 22, alignment: .trailing)
+                                        .foregroundStyle(combatant.id == battle.activeID ? Theme.red : .secondary)
+                                    VStack(alignment: .leading, spacing: 1) {
+                                        Text(combatant.name)
+                                            .bookUI(12, weight: combatant.id == battle.activeID ? .semibold : .regular)
+                                        Text("\(combatant.kind == .player ? "玩家" : "怪物") · AC \(combatant.ac)")
+                                            .bookUI(10)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    Spacer()
+                                    Text("\(combatant.hp)/\(combatant.maxHP)")
+                                        .bookUI(11, monospaced: true)
                                         .foregroundStyle(.secondary)
                                 }
-                                Spacer()
-                                Text("\(combatant.hp)/\(combatant.maxHP)")
-                                    .bookUI(11, monospaced: true)
-                                    .foregroundStyle(.secondary)
                             }
-                            .padding(.vertical, 3)
-                            .padding(.horizontal, 4)
-                            .background(combatant.id == battle.activeID ? Theme.red.opacity(0.07) : Color.clear, in: RoundedRectangle(cornerRadius: 5))
+                            .buttonStyle(.plain)
+
+                            Button {
+                                store.selectCombatant(combatant.id, in: run)
+                            } label: {
+                                Image(systemName: "info.circle")
+                                    .bookUI(12)
+                                    .foregroundStyle(combatant.id == battle.activeID ? Theme.red : .secondary)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("查看\(combatant.name)信息")
+                            .help("查看\(combatant.name)的信息")
                         }
-                        .buttonStyle(.plain)
+                        .padding(.vertical, 3)
+                        .padding(.horizontal, 4)
+                        .background(combatant.id == battle.activeID ? Theme.red.opacity(0.07) : Color.clear, in: RoundedRectangle(cornerRadius: 5))
                     }
 
                     Button("撤销上一步") {

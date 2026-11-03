@@ -14,7 +14,12 @@ struct BattleActiveView: View {
     private var active: BattleCombatant? { store.activeCombatant(in: run) }
     private var activeMonster: ContentPack.Monster? {
         guard let baseID = active?.baseID else { return nil }
-        return store.monster(id: baseID)
+        return store.monster(id: baseID, in: run)
+    }
+
+    private var activeMember: PartyMember? {
+        guard let active, active.kind == .player else { return nil }
+        return run.party.first { $0.id == active.id }
     }
 
     @State private var lastRoll: String?
@@ -152,6 +157,20 @@ struct BattleActiveView: View {
                     }
                 }
 
+                if let active {
+                    CombatantInfoView(
+                        combatant: active,
+                        monster: activeMonster,
+                        member: activeMember,
+                        onOpenRule: { ruleID in
+                            if let rule = store.rule(id: ruleID) { selectedRule = rule }
+                        },
+                        onOpenSpell: { spellID in
+                            if let spell = store.spell(id: spellID) { selectedSpell = spell }
+                        }
+                    )
+                }
+
                 GroupBox("骰子") {
                     HStack(spacing: 6) {
                         ForEach([4, 6, 8, 10, 12, 20], id: \.self) { sides in
@@ -190,57 +209,7 @@ struct BattleActiveView: View {
                         .padding(.vertical, 2)
                     }
 
-                    if let monster = activeMonster {
-                        GroupBox("数据块 · \(monster.name)") {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("\(monster.size)\(monster.type) · \(monster.alignment)")
-                                    .bookUI(11)
-                                    .foregroundStyle(.secondary)
-                                if let vulnerabilities = monster.damageVulnerabilities, !vulnerabilities.isEmpty {
-                                    Text("易伤：\(vulnerabilities.joined(separator: "、"))")
-                                        .bookUI(11)
-                                        .foregroundStyle(Theme.red)
-                                }
-                                ForEach((monster.traits ?? []) + monster.actions) { pair in
-                                    Text("\(pair.name)。\(pair.text)")
-                                        .bookUI(12)
-                                        .foregroundStyle(.secondary)
-                                }
-                                if let ruleIDs = monster.ruleIds, !ruleIDs.isEmpty {
-                                    HStack(spacing: 5) {
-                                        Text("规则")
-                                            .bookUI(10)
-                                            .foregroundStyle(.secondary)
-                                        ForEach(ruleIDs, id: \.self) { ruleID in
-                                            if let rule = store.rule(id: ruleID) {
-                                                Button(rule.term) {
-                                                    selectedRule = rule
-                                                }
-                                                .buttonStyle(.borderless)
-                                                .bookUI(11)
-                                                .foregroundStyle(Theme.red)
-                                            }
-                                        }
-                                    }
-                                }
-                                if let spellIDs = monster.spellIds, !spellIDs.isEmpty {
-                                    Menu {
-                                        ForEach(spellIDs, id: \.self) { spellID in
-                                            if let spell = store.spell(id: spellID) {
-                                                Button(spell.name) { selectedSpell = spell }
-                                            }
-                                        }
-                                    } label: {
-                                        Label("打开法术（\(spellIDs.count)）", systemImage: "book.closed")
-                                            .bookUI(11)
-                                    }
-                                    .menuStyle(.borderlessButton)
-                                }
-                            }
-                            .padding(.vertical, 2)
-                        }
-                    } else {
-                        GroupBox("本场提示") {
+                    GroupBox("本场提示") {
                             VStack(alignment: .leading, spacing: 4) {
                                 ForEach(store.encounter(id: "guz-ambush")?.tactics ?? [], id: \.self) { tactic in
                                     Text("· \(tactic)")
@@ -253,7 +222,6 @@ struct BattleActiveView: View {
                             }
                             .padding(.vertical, 2)
                         }
-                    }
                 }
             }
             .padding(24)
