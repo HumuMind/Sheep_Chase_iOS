@@ -78,6 +78,7 @@ struct DicePanel: View {
             Divider().opacity(0.5)
             DiceWorkspace(run: run, subject: $subject, logToBattle: logToBattle)
         }
+        .frame(width: 480)
         .background(Theme.card)
         .overlay(RoundedRectangle(cornerRadius: 9).stroke(Theme.line, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 9))
