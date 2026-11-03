@@ -139,6 +139,16 @@ public enum RunExport {
         } else {
             lines.append("（未开始战斗）")
         }
+        lines.append("## 骰子记录")
+        if run.diceHistory.isEmpty {
+            lines.append("（无）")
+        } else {
+            for roll in run.diceHistory.prefix(20) {
+                lines.append("- \(roll.command) = \(roll.total)")
+            }
+        }
+        lines.append("")
+
         return lines.joined(separator: "\n") + "\n"
     }
 

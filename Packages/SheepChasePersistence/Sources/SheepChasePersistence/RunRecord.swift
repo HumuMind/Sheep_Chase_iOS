@@ -29,6 +29,7 @@ public final class RunRecord {
     public var customMonstersData: Data?
     public var encounterAdjustmentsData: Data?
     public var monsterOverridesData: Data?
+    public var diceHistoryData: Data?
     public var isArchived: Bool = false
     public var contentVersion: String = ""
     public var sourceTemplateID: UUID?
@@ -66,6 +67,7 @@ public final class RunRecord {
         self.customMonstersData = nil
         self.encounterAdjustmentsData = nil
         self.monsterOverridesData = nil
+        self.diceHistoryData = nil
         self.isArchived = false
         self.contentVersion = contentVersion
         self.sourceTemplateID = nil
@@ -239,6 +241,14 @@ public final class RunRecord {
         set { monsterOverridesData = Self.encode(newValue) }
     }
 
+    public var diceHistory: [DiceRoll] {
+        get {
+            guard let diceHistoryData else { return [] }
+            return Self.decode([DiceRoll].self, from: diceHistoryData) ?? []
+        }
+        set { diceHistoryData = Self.encode(newValue) }
+    }
+
     public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -265,7 +275,8 @@ public final class RunRecord {
             monsterOverrides: monsterOverrides,
             sourceTemplateID: sourceTemplateID,
             sourceTemplateName: sourceTemplateName,
-            sourceTemplateBaseVersion: sourceTemplateBaseVersion
+            sourceTemplateBaseVersion: sourceTemplateBaseVersion,
+            diceHistory: diceHistory
         )
     }
 
@@ -295,6 +306,7 @@ public final class RunRecord {
         sourceTemplateID = snapshot.sourceTemplateID
         sourceTemplateName = snapshot.sourceTemplateName
         sourceTemplateBaseVersion = snapshot.sourceTemplateBaseVersion
+        diceHistory = snapshot.diceHistory ?? []
     }
 
     private static func encode<T: Encodable>(_ value: T) -> Data {

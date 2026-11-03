@@ -75,3 +75,45 @@ final class CoreTests: XCTestCase {
         XCTAssertEqual(decoded.safety.restLog, ["中场休息"])
     }
 }
+
+extension CoreTests {
+    func testDiceParserSupportsPrefixesAndMultiTerms() throws {
+        let parsed = try DiceParser.parse("/r 1d20+1d4+2").get()
+        XCTAssertEqual(parsed.mode, .normal)
+        XCTAssertEqual(parsed.terms, [DiceTerm(count: 1, sides: 20), DiceTerm(count: 1, sides: 4)])
+        XCTAssertEqual(parsed.modifier, 2)
+    }
+
+    func testDiceParserSupportsAdvantageForMultipleD20() throws {
+        let parsed = try DiceParser.parse("优势 2d20+3").get()
+        XCTAssertEqual(parsed.mode, .advantage)
+        XCTAssertEqual(parsed.terms, [DiceTerm(count: 2, sides: 20)])
+        XCTAssertEqual(parsed.modifier, 3)
+    }
+
+    func testDiceParserRejectsMixedAdvantage() {
+        let result = DiceParser.parse("优势 2d20+1d6")
+        XCTAssertEqual(result, .failure(.advantageNeedsD20))
+    }
+
+    func testDiceRollerNormalTotal() {
+        var rolls = [4, 2]
+        let expression = DiceExpression(terms: [DiceTerm(count: 2, sides: 6)], modifier: 3)
+        let result = DiceRoller.roll(expression, command: "2d6+3") { _ in rolls.removeFirst() }
+        XCTAssertEqual(result.total, 9)
+        XCTAssertEqual(result.checks.first?.rawRolls, [4, 2])
+    }
+
+    func testDiceRollerAdvantageMultipleD20() {
+        var rolls = [6, 18, 9, 15]
+        let expression = DiceExpression(
+            terms: [DiceTerm(count: 2, sides: 20)],
+            modifier: 3,
+            mode: .advantage
+        )
+        let result = DiceRoller.roll(expression, command: "优势 2d20+3") { _ in rolls.removeFirst() }
+        XCTAssertEqual(result.checks.map(\.kept), [18, 15])
+        XCTAssertEqual(result.checks.map(\.total), [21, 18])
+        XCTAssertEqual(result.total, 39)
+    }
+}

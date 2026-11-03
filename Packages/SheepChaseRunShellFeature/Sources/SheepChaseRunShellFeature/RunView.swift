@@ -189,6 +189,8 @@ public struct RunView: View {
                 QuickReferencePanel(run: run)
                     .padding(14)
                 Spacer()
+                DicePanel(run: run)
+                    .padding(14)
             }
         }
         .navigationSplitViewStyle(.balanced)

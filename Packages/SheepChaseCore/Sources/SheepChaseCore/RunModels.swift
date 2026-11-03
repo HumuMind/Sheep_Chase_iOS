@@ -228,6 +228,7 @@ public struct RunStateSnapshot: Codable {
     public var sourceTemplateID: UUID?
     public var sourceTemplateName: String?
     public var sourceTemplateBaseVersion: String?
+    public var diceHistory: [DiceRoll]?
 
     public init(
         name: String,
@@ -254,7 +255,8 @@ public struct RunStateSnapshot: Codable {
         monsterOverrides: [RunMonsterOverride]? = nil,
         sourceTemplateID: UUID? = nil,
         sourceTemplateName: String? = nil,
-        sourceTemplateBaseVersion: String? = nil
+        sourceTemplateBaseVersion: String? = nil,
+        diceHistory: [DiceRoll]? = nil
     ) {
         self.name = name
         self.contentVersion = contentVersion
@@ -281,6 +283,7 @@ public struct RunStateSnapshot: Codable {
         self.sourceTemplateID = sourceTemplateID
         self.sourceTemplateName = sourceTemplateName
         self.sourceTemplateBaseVersion = sourceTemplateBaseVersion
+        self.diceHistory = diceHistory
     }
 }
 
