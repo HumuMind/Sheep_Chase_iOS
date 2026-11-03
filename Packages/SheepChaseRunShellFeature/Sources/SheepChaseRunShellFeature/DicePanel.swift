@@ -147,7 +147,7 @@ struct DicePanel: View {
                                 HStack(alignment: .firstTextBaseline) {
                                     Text(roll.command)
                                         .bookUI(10, weight: .medium)
-                                        .lineLimit(1)
+                                        .fixedSize(horizontal: false, vertical: true)
                                     Spacer(minLength: 2)
                                     Text("\(roll.total)")
                                         .bookUI(11, weight: .semibold, monospaced: true)
@@ -156,7 +156,7 @@ struct DicePanel: View {
                                 Text(roll.detail)
                                     .bookUI(9)
                                     .foregroundStyle(.secondary)
-                                    .lineLimit(2)
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
                             .padding(.horizontal, 6)
                             .padding(.vertical, 5)
@@ -203,7 +203,7 @@ struct DicePanel: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel("投掷指令")
             }
-            Text("支持 /r 1d20+5；点右上角 ? 查看帮助")
+            Text("支持 1d20+5、2d6+3、优势 2d20；点 ? 查看帮助")
                 .bookUI(9)
                 .foregroundStyle(.secondary)
         }
@@ -222,7 +222,6 @@ struct DicePanel: View {
             Text(roll.detail)
                 .bookUI(10)
                 .foregroundStyle(Theme.inkSoft)
-                .lineLimit(7)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(8)
