@@ -36,14 +36,14 @@ struct DiceWorkspace: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
-            historyColumn.frame(width: 205)
+            historyColumn.frame(width: 190)
             Divider()
             ScrollView {
                 rightColumn.padding(11)
             }
-            .frame(width: 350)
+            .frame(width: 290)
         }
-        .frame(width: 556, height: 540)
+        .frame(width: 480, height: 540)
         .sheet(isPresented: $showHelp) {
             DiceHelpSheet { example in
                 command = example
