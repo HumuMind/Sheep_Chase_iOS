@@ -112,7 +112,11 @@ struct DicePanel: View {
             Button {
                 withAnimation(.easeInOut(duration: 0.16)) { isExpanded = false }
             } label: {
-                Image(systemName: "chevron.down").bookUI(11)
+                Label("收起", systemImage: "chevron.down")
+                    .bookUI(10, weight: .medium)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 4)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .foregroundStyle(.secondary)
@@ -150,7 +154,7 @@ struct DicePanel: View {
                                         .fixedSize(horizontal: false, vertical: true)
                                     Spacer(minLength: 2)
                                     Text("\(roll.total)")
-                                        .bookUI(11, weight: .semibold, monospaced: true)
+                                        .bookUI(16, weight: .bold, monospaced: true)
                                         .foregroundStyle(Theme.red)
                                 }
                                 Text(roll.detail)
@@ -214,7 +218,7 @@ struct DicePanel: View {
             HStack {
                 Text("最近").bookUI(10, weight: .semibold).foregroundStyle(Theme.gold)
                 Spacer()
-                Text("\(roll.total)").bookUI(14, weight: .semibold, monospaced: true).foregroundStyle(Theme.red)
+                Text("\(roll.total)").bookUI(20, weight: .bold, monospaced: true).foregroundStyle(Theme.red)
             }
             Text(roll.command)
                 .bookUI(11, weight: .medium, monospaced: true)

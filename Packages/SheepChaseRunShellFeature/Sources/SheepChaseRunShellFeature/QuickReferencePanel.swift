@@ -62,8 +62,11 @@ public struct QuickReferencePanel: View {
                 Button {
                     withAnimation(.easeInOut(duration: 0.16)) { isExpanded = false }
                 } label: {
-                    Image(systemName: "chevron.down")
-                        .bookUI(11, weight: .semibold)
+                    Label("收起", systemImage: "chevron.down")
+                        .bookUI(10, weight: .medium)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 4)
+                        .contentShape(Rectangle())
                         .foregroundStyle(.secondary)
                 }
                 .buttonStyle(.plain)
