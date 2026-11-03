@@ -57,7 +57,18 @@ extension RunStore {
                 ac: 10,
                 hp: 3,
                 maxHP: 3,
-                initiativeModifier: 0
+                initiativeModifier: 0,
+                speed: 40,
+                strength: 12,
+                dexterity: 10,
+                constitution: 11,
+                intelligence: 17,
+                wisdom: 12,
+                charisma: 5,
+                skills: ["感知 +2"],
+                passivePerception: 12,
+                languages: [],
+                actions: ["顶撞。近战武器攻击：命中 +3，触及 5 尺，单一目标。命中：3（1d4+1）钝击伤害。"]
             )
         )
         battle.allies = allies

@@ -93,6 +93,9 @@ final class RunStoreTests: XCTestCase {
         store.openBattleSetup(for: run)
         store.addBattleAlly(in: run)
         XCTAssertEqual(run.battle?.allies?.first?.name, "范席尔（绵羊）")
+        XCTAssertEqual(run.battle?.allies?.first?.intelligence, 17)
+        XCTAssertEqual(run.battle?.allies?.first?.wisdom, 12)
+        XCTAssertEqual(run.battle?.allies?.first?.speed, 40)
 
         store.addCustomMapPin(mapID: "treehouse", x: 0.4, y: 0.6, label: "密道", note: "通往厨房", in: run)
         XCTAssertEqual(store.customMapPins(for: "treehouse", in: run).first?.label, "密道")

@@ -123,8 +123,28 @@ struct CombatantInfoView: View {
                 .bookUI(12)
                 .foregroundStyle(.secondary)
             HStack(spacing: 16) {
+                info("速度", "\(ally.speed) 尺")
                 info("先攻", signed(combatant.initiative))
                 info("临时 HP", "\(combatant.tempHP ?? 0)")
+                info("被动感知", "\(ally.passivePerception)")
+            }
+            HStack(spacing: 8) {
+                ability("力量", ally.strength)
+                ability("敏捷", ally.dexterity)
+                ability("体质", ally.constitution)
+                ability("智力", ally.intelligence)
+                ability("感知", ally.wisdom)
+                ability("魅力", ally.charisma)
+            }
+            if !ally.skills.isEmpty {
+                Text("技能：\(ally.skills.joined(separator: "、"))")
+                    .bookUI(11)
+                    .foregroundStyle(.secondary)
+            }
+            if !ally.languages.isEmpty {
+                Text("语言：\(ally.languages.joined(separator: "、"))")
+                    .bookUI(11)
+                    .foregroundStyle(.secondary)
             }
             if !combatant.conditions.isEmpty {
                 Text("状态：\(combatant.conditions.joined(separator: "、"))")
@@ -134,7 +154,12 @@ struct CombatantInfoView: View {
             if let concentration = combatant.concentration, !concentration.isEmpty {
                 Text("专注：\(concentration)").bookUI(11).foregroundStyle(Theme.red)
             }
-            Text("NPC 盟友的详细角色卡由 DM 自行管理；这里记录当前战斗数值。")
+            ForEach(ally.actions, id: \.self) { action in
+                Text(action)
+                    .bookUI(12)
+                    .foregroundStyle(Theme.inkSoft)
+            }
+            Text("NPC 盟友的详细角色卡由 DM 自行管理；这里使用绵羊生物卡并把智力/感知替换为法师属性。")
                 .bookUI(10)
                 .foregroundStyle(.secondary)
         }
