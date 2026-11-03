@@ -148,11 +148,12 @@ final class RunStoreTests: XCTestCase {
         XCTAssertTrue(store.templates.contains { $0.name == "导入模组" })
 
         let diceExpression = DiceExpression(terms: [DiceTerm(count: 2, sides: 6)], modifier: 3)
-        let roll = store.rollDice(diceExpression, command: "2d6+3", subject: "古兹", in: run) { _ in 4 }
+        let roll = store.rollDice(diceExpression, command: "2d6+3", subject: "古兹", logToBattle: true, in: run) { _ in 4 }
         XCTAssertEqual(roll.total, 11)
         XCTAssertEqual(store.diceHistory(in: run).first?.command, "2d6+3")
         XCTAssertEqual(store.diceHistory(in: run).first?.subject, "古兹")
         XCTAssertEqual(run.stateSnapshot.diceHistory?.first?.total, 11)
+        XCTAssertTrue(run.battle?.log.first?.contains("骰子 · 古兹") == true)
         store.clearDiceHistory(in: run)
         XCTAssertTrue(store.diceHistory(in: run).isEmpty)
     }

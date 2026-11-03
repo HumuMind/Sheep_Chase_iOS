@@ -79,9 +79,11 @@ struct DiceSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var run: RunRecord
     @State private var subject: String
+    let logToBattle: Bool
 
-    init(run: RunRecord, subject: String) {
+    init(run: RunRecord, subject: String, logToBattle: Bool = false) {
         self.run = run
+        self.logToBattle = logToBattle
         _subject = State(initialValue: subject)
     }
 
@@ -92,7 +94,7 @@ struct DiceSheet: View {
             onCancel: { dismiss() },
             onPrimary: { dismiss() }
         ) {
-            DiceWorkspace(run: run, subject: $subject)
+            DiceWorkspace(run: run, subject: $subject, logToBattle: logToBattle)
         }
     }
 }

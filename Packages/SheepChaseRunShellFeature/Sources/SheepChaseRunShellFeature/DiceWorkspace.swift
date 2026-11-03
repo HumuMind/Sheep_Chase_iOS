@@ -8,6 +8,7 @@ struct DiceWorkspace: View {
     @Environment(RunStore.self) private var store
     @Bindable var run: RunRecord
     @Binding var subject: String
+    var logToBattle: Bool = false
 
     @AppStorage("dicePanel.quickExpanded") private var quickExpanded = false
     @State private var diceCounts: [Int: Int] = [:]
@@ -126,6 +127,14 @@ struct DiceWorkspace: View {
                 .textFieldStyle(.roundedBorder)
                 .bookUI(11)
                 .selectAllOnFocus()
+            if logToBattle {
+                Text("战斗日志")
+                    .bookUI(9, weight: .semibold)
+                    .foregroundStyle(Theme.red)
+                    .padding(.horizontal, 5)
+                    .padding(.vertical, 2)
+                    .background(Theme.red.opacity(0.08), in: Capsule())
+            }
             Button { showHelp = true } label: {
                 Image(systemName: "questionmark.circle").bookUI(13)
             }
@@ -316,6 +325,7 @@ struct DiceWorkspace: View {
             DiceExpression(terms: terms, modifier: modifier, mode: mode),
             command: formula,
             subject: subject,
+            logToBattle: logToBattle,
             in: run
         )
         errorMessage = nil
@@ -328,6 +338,7 @@ struct DiceWorkspace: View {
                 expression,
                 command: command.trimmingCharacters(in: .whitespacesAndNewlines),
                 subject: subject,
+                logToBattle: logToBattle,
                 in: run
             )
             errorMessage = nil

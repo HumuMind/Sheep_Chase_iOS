@@ -254,7 +254,7 @@ public struct RunView: View {
             get: { store.diceSheetRequest },
             set: { store.diceSheetRequest = $0 }
         )) { request in
-            DiceSheet(run: run, subject: request.subject)
+            DiceSheet(run: run, subject: request.subject, logToBattle: request.logToBattle)
                 .environment(store)
         }
         .sheet(item: $selectedMonster) { monster in

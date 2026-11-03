@@ -13,6 +13,7 @@ extension RunStore {
         _ expression: DiceExpression,
         command: String,
         subject: String? = nil,
+        logToBattle: Bool = false,
         in run: RunRecord,
         die: (Int) -> Int = { sides in Int.random(in: 1...sides) }
     ) -> DiceRoll {
@@ -23,6 +24,11 @@ extension RunStore {
         history.insert(result, at: 0)
         if history.count > 30 { history = Array(history.prefix(30)) }
         run.diceHistory = history
+        if logToBattle, var battle = run.battle {
+            let subjectPrefix = result.subject.map { "\($0) · " } ?? ""
+            battle.log.insert("骰子 · \(subjectPrefix)\(result.command) = \(result.total)", at: 0)
+            run.battle = battle
+        }
         commit(run)
         return result
     }
