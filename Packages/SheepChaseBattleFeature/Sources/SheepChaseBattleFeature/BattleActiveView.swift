@@ -70,6 +70,20 @@ struct BattleActiveView: View {
                 }
 
                 if let active {
+                    CombatantInfoView(
+                        combatant: active,
+                        monster: activeMonster,
+                        member: activeMember,
+                        onOpenRule: { ruleID in
+                            if let rule = store.rule(id: ruleID) { selectedRule = rule }
+                        },
+                        onOpenSpell: { spellID in
+                            if let spell = store.spell(id: spellID) { selectedSpell = spell }
+                        }
+                    )
+                }
+
+                if let active {
                     GroupBox("当前回合") {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(alignment: .firstTextBaseline) {
@@ -163,20 +177,6 @@ struct BattleActiveView: View {
                         }
                         .padding(.vertical, 3)
                     }
-                }
-
-                if let active {
-                    CombatantInfoView(
-                        combatant: active,
-                        monster: activeMonster,
-                        member: activeMember,
-                        onOpenRule: { ruleID in
-                            if let rule = store.rule(id: ruleID) { selectedRule = rule }
-                        },
-                        onOpenSpell: { spellID in
-                            if let spell = store.spell(id: spellID) { selectedSpell = spell }
-                        }
-                    )
                 }
 
                 GroupBox("骰子") {

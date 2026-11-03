@@ -107,12 +107,19 @@ public struct BattleInspector: View {
 
                             Button {
                                 store.selectCombatant(combatant.id, in: run)
+                                store.notify("当前对象：\(combatant.name)")
                             } label: {
-                                Image(systemName: "info.circle")
-                                    .bookUI(12)
-                                    .foregroundStyle(combatant.id == battle.activeID ? Theme.red : .secondary)
+                                Text("信息")
+                                    .bookUI(10, weight: .medium)
+                                    .padding(.horizontal, 5)
+                                    .padding(.vertical, 2)
+                                    .background(
+                                        (combatant.id == battle.activeID ? Theme.red : Theme.inkSoft).opacity(0.08),
+                                        in: Capsule()
+                                    )
                             }
                             .buttonStyle(.plain)
+                            .foregroundStyle(combatant.id == battle.activeID ? Theme.red : Theme.inkSoft)
                             .accessibilityLabel("查看\(combatant.name)信息")
                             .help("查看\(combatant.name)的信息")
                         }
