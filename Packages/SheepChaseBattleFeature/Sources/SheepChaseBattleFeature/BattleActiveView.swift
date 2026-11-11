@@ -150,17 +150,10 @@ struct BattleActiveView: View {
                                 Text("战斗笔记")
                                     .bookUI(10, weight: .semibold)
                                     .foregroundStyle(.secondary)
-                                TextField("记录这个参与者的战斗状态、战术或临时裁定……", text: noteBinding(active), axis: .vertical)
-                                    .textFieldStyle(.plain)
-                                    .bookUI(11)
-                                    .lineLimit(2...5)
-                                    .padding(.horizontal, 7)
-                                    .padding(.vertical, 5)
-                                    .background(Theme.paperDeep.opacity(0.22), in: RoundedRectangle(cornerRadius: 5))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .stroke(Theme.line.opacity(0.5), lineWidth: 1)
-                                    )
+                                AutoGrowingTextEditor(
+                                    "记录这个参与者的战斗状态、战术或临时裁定……",
+                                    text: noteBinding(active)
+                                )
                             }
 
                                 .tint(active.hp <= active.maxHP / 4 ? Theme.redSoft : Theme.green)

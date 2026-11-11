@@ -108,7 +108,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 
 ### BattleEngine
 
-- 选择、先攻、开战、轮次、HP 直改/临时 HP、状态、专注、每个参与者的战斗笔记、骰子、多目标、撤销；参战类别包括玩家、怪物、NPC 盟友，范席尔（绵羊）可作为预设 NPC 盟友加入。
+- 选择、先攻、开战、轮次、HP 直改/临时 HP、状态、专注、每个参与者的多行自适应战斗笔记、骰子、多目标、撤销；参战类别包括玩家、怪物、NPC 盟友，范席尔（绵羊）可作为预设 NPC 盟友加入。
 - 纯 `BattleState` 输入输出，不依赖 SwiftData/SwiftUI。
 - `RunStore+Battle` 只负责取/存 Run、checkpoint、toast。
 
