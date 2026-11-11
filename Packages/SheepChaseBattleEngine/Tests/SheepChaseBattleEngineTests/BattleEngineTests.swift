@@ -40,6 +40,9 @@ final class BattleEngineTests: XCTestCase {
         guard let id = state.combatants.first?.id else { return XCTFail("missing combatant") }
         BattleEngine.setHP(7, forID: id, battle: &state)
         XCTAssertEqual(state.combatants.first?.hp, 7)
+        let logCount = state.log.count
+        BattleEngine.setHP(7, forID: id, battle: &state)
+        XCTAssertEqual(state.log.count, logCount)
         BattleEngine.setNotes("准备动作：格挡", forID: id, battle: &state)
         XCTAssertEqual(state.combatants.first?.notes, "准备动作：格挡")
         BattleEngine.setHP(0, forID: id, battle: &state)

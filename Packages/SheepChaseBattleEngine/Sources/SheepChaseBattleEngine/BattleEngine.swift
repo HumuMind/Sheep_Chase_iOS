@@ -151,9 +151,10 @@ public enum BattleEngine {
 
     public static func setHP(_ value: Int, forID id: UUID, battle: inout BattleState) {
         guard let index = battle.combatants.firstIndex(where: { $0.id == id }) else { return }
-        battle.undo = undoSnapshot(battle)
         let before = battle.combatants[index].hp
         let clamped = min(max(0, value), battle.combatants[index].maxHP)
+        guard clamped != before else { return }
+        battle.undo = undoSnapshot(battle)
         battle.combatants[index].hp = clamped
         if clamped == 0, !battle.combatants[index].conditions.contains("倒地") {
             battle.combatants[index].conditions.append("倒地")

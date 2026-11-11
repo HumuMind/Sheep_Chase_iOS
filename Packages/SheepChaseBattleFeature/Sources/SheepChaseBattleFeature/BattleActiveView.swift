@@ -114,11 +114,8 @@ struct BattleActiveView: View {
                                     Text("HP")
                                         .bookUI(11)
                                         .foregroundStyle(.secondary)
-                                    TextField("0", value: hpBinding(active), format: .number)
-                                        .textFieldStyle(.roundedBorder)
-                                        .bookUI(13, monospaced: true)
-                                        .frame(width: 54)
-                                        .selectAllOnFocus()
+                                    CombatantHPField(run: run, combatantID: active.id)
+                                        .id(active.id)
                                     Text("/ \(active.maxHP)")
                                         .bookUI(13, monospaced: true)
                                 }
@@ -270,12 +267,6 @@ struct BattleActiveView: View {
         )
     }
 
-    private func hpBinding(_ combatant: BattleCombatant) -> Binding<Int> {
-        Binding(
-            get: { run.battle?.combatants.first { $0.id == combatant.id }?.hp ?? combatant.hp },
-            set: { store.setHP($0, forID: combatant.id, in: run) }
-        )
-    }
 
     private func noteBinding(_ combatant: BattleCombatant) -> Binding<String> {
         Binding(
