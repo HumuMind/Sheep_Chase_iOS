@@ -31,6 +31,7 @@ public struct SceneDetailView: View {
     @Bindable var run: RunRecord
     @State var showSource = false
     @State var showCustomBeat = false
+    @State var editingCustomBeat: RunCustomBeat?
     @State var editingEncounter: ContentPack.Encounter?
     var onOpenNPC: (String) -> Void = { _ in }
     var onOpenHandout: (String) -> Void = { _ in }
@@ -128,6 +129,9 @@ public struct SceneDetailView: View {
 
                 GroupBox("DM 改动") {
                     VStack(alignment: .leading, spacing: 8) {
+                        Text("每个栏目都可以继续追加多条 DM 注，每条可单独编辑或删除。")
+                            .bookUI(10)
+                            .foregroundStyle(.secondary)
                         DMAnnotationEditor(
                             subject: "朗读 / 描述",
                             targetKind: .readAloud,
@@ -207,6 +211,10 @@ public struct SceneDetailView: View {
         }
         .sheet(isPresented: $showCustomBeat) {
             CustomBeatSheet(scene: scene, run: run)
+                .environment(store)
+        }
+        .sheet(item: $editingCustomBeat) { beat in
+            CustomBeatSheet(scene: scene, run: run, beat: beat)
                 .environment(store)
         }
         .sheet(item: $editingEncounter) { encounter in

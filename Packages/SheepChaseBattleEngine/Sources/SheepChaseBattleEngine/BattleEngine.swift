@@ -149,6 +149,31 @@ public enum BattleEngine {
         battle.log.insert("第 \(battle.round) 轮 · \(battle.combatants[next].name) 的回合", at: 0)
     }
 
+    public static func setHP(_ value: Int, forID id: UUID, battle: inout BattleState) {
+        guard let index = battle.combatants.firstIndex(where: { $0.id == id }) else { return }
+        battle.undo = undoSnapshot(battle)
+        let before = battle.combatants[index].hp
+        let clamped = min(max(0, value), battle.combatants[index].maxHP)
+        battle.combatants[index].hp = clamped
+        if clamped == 0, !battle.combatants[index].conditions.contains("倒地") {
+            battle.combatants[index].conditions.append("倒地")
+        }
+        battle.log.insert(
+            "第 \(battle.round) 轮 · \(battle.combatants[index].name) HP 设为 \(clamped)（原 \(before)）",
+            at: 0
+        )
+        if clamped == 0, battle.combatants[index].concentration != nil {
+            battle.combatants[index].concentration = nil
+            battle.log.insert("\(battle.combatants[index].name) 的专注中断", at: 0)
+        }
+    }
+
+    public static func setNotes(_ text: String, forID id: UUID, battle: inout BattleState) {
+        guard let index = battle.combatants.firstIndex(where: { $0.id == id }) else { return }
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        battle.combatants[index].notes = trimmed.isEmpty ? nil : trimmed
+    }
+
     public static func setTemporaryHP(_ value: Int, forID id: UUID, battle: inout BattleState) {
         guard let index = battle.combatants.firstIndex(where: { $0.id == id }) else { return }
         battle.undo = undoSnapshot(battle)

@@ -108,7 +108,7 @@ Feature 包不允许反向依赖 App，也不允许 RunShell 被其他 Feature �
 
 ### BattleEngine
 
-- 选择、先攻、开战、轮次、HP/临时 HP、状态、专注、骰子、多目标、撤销；参战类别包括玩家、怪物、NPC 盟友，范席尔（绵羊）可作为预设 NPC 盟友加入。
+- 选择、先攻、开战、轮次、HP 直改/临时 HP、状态、专注、每个参与者的战斗笔记、骰子、多目标、撤销；参战类别包括玩家、怪物、NPC 盟友，范席尔（绵羊）可作为预设 NPC 盟友加入。
 - 纯 `BattleState` 输入输出，不依赖 SwiftData/SwiftUI。
 - `RunStore+Battle` 只负责取/存 Run、checkpoint、toast。
 
@@ -190,7 +190,7 @@ python3 scripts/check_swift_file_sizes.py
 
 ## 测试
 
-Package 测试（29 个）：
+Package 测试（30 个）：
 
 - Core 3
 - Persistence 2
@@ -233,6 +233,7 @@ xcodebuild -project SheepChase.xcodeproj -scheme SheepChasePad \
 - 复杂 Run 状态仍以 JSON Data 存在 `RunRecord`，不是完全规范化的 SwiftData 关系。
 - DM 改动是按 Run 保存的批注覆盖层：场景/朗读/节拍/NPC/怪物/物品/法术/规则/手牌/遭遇均支持，同一目标可添加多条批注；原文保持不变。
 - 自定义节拍、自定义 NPC、自定义怪物、自定义地图图钉均按 Run 保存，并进入快照/导出。
+- 自定义节拍支持编辑和删除；DM 注按目标无限追加，每条可单独编辑/删除。
 - 我的模组用 `AdventureTemplate` 保存可复用的 `AdventureTemplatePatch`，不含任何开团进度；模板存本地 JSON（`AdventureTemplateRepository`），新建开团时可选择原始模组或某个我的模组，并记录来源模板与基础版本。
 - 我的模组支持新建、覆盖、重命名、删除、导出/导入 JSON；导入会校验基础模组 ID 并生成新模板 ID，不覆盖已有模板。
 - 遭遇组合用 `RunEncounterAdjustment` 按 Run 覆盖；怪物数值用 `RunMonsterOverride` 按 Run 覆盖 AC/HP/先攻，并应用到战斗筹备/开战。

@@ -109,12 +109,19 @@ struct BattleActiveView: View {
                                     .foregroundStyle(.secondary)
                             }
 
-                            HStack(spacing: 16) {
-                                Text("HP \(active.hp) / \(active.maxHP)")
-                                    .bookUI(13, monospaced: true)
-                                Text("先攻 \(active.initiative)")
-                                    .bookUI(12)
-                                    .foregroundStyle(.secondary)
+                            HStack(spacing: 12) {
+                                HStack(spacing: 4) {
+                                    Text("HP")
+                                        .bookUI(11)
+                                        .foregroundStyle(.secondary)
+                                    TextField("0", value: hpBinding(active), format: .number)
+                                        .textFieldStyle(.roundedBorder)
+                                        .bookUI(13, monospaced: true)
+                                        .frame(width: 54)
+                                        .selectAllOnFocus()
+                                    Text("/ \(active.maxHP)")
+                                        .bookUI(13, monospaced: true)
+                                }
                                 HStack(spacing: 4) {
                                     Text("临时")
                                         .bookUI(11)
@@ -123,10 +130,13 @@ struct BattleActiveView: View {
                                         .textFieldStyle(.roundedBorder)
                                         .frame(width: 46)
                                 }
+                                Text("先攻 \(active.initiative)")
+                                    .bookUI(12)
+                                    .foregroundStyle(.secondary)
                                 Spacer()
                                 TextField("专注：例如加速术", text: concentrationBinding(active))
                                     .textFieldStyle(.roundedBorder)
-                                    .frame(width: 190)
+                                    .frame(width: 180)
                             }
 
                             if let concentration = active.concentration, !concentration.isEmpty {
@@ -136,20 +146,26 @@ struct BattleActiveView: View {
                             }
 
                             ProgressView(value: Double(active.hp), total: Double(max(active.maxHP, 1)))
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text("战斗笔记")
+                                    .bookUI(10, weight: .semibold)
+                                    .foregroundStyle(.secondary)
+                                TextField("记录这个参与者的战斗状态、战术或临时裁定……", text: noteBinding(active), axis: .vertical)
+                                    .textFieldStyle(.plain)
+                                    .bookUI(11)
+                                    .lineLimit(2...5)
+                                    .padding(.horizontal, 7)
+                                    .padding(.vertical, 5)
+                                    .background(Theme.paperDeep.opacity(0.22), in: RoundedRectangle(cornerRadius: 5))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .stroke(Theme.line.opacity(0.5), lineWidth: 1)
+                                    )
+                            }
+
                                 .tint(active.hp <= active.maxHP / 4 ? Theme.redSoft : Theme.green)
 
                             HStack(spacing: 5) {
-                                ForEach([-1, -5, -10, 5], id: \.self) { delta in
-                                    Button(delta > 0 ? "+\(delta)" : "\(delta)") {
-                                        store.adjustHP(delta, in: run)
-                                    }
-                                    .buttonStyle(.bordered)
-                                    .controlSize(.small)
-                                    .tint(delta > 0 ? Theme.green : Theme.inkSoft)
-                                }
-
-                                Divider().frame(height: 18)
-
                                 ForEach(["受擒", "倒地", "恐慌", "中毒"], id: \.self) { condition in
                                     let on = active.conditions.contains(condition)
                                     Button(condition) {
@@ -258,6 +274,20 @@ struct BattleActiveView: View {
         Binding(
             get: { run.battle?.combatants.first { $0.id == combatant.id }?.tempHP ?? 0 },
             set: { store.setTemporaryHP($0, forID: combatant.id, in: run) }
+        )
+    }
+
+    private func hpBinding(_ combatant: BattleCombatant) -> Binding<Int> {
+        Binding(
+            get: { run.battle?.combatants.first { $0.id == combatant.id }?.hp ?? combatant.hp },
+            set: { store.setHP($0, forID: combatant.id, in: run) }
+        )
+    }
+
+    private func noteBinding(_ combatant: BattleCombatant) -> Binding<String> {
+        Binding(
+            get: { run.battle?.combatants.first { $0.id == combatant.id }?.notes ?? "" },
+            set: { store.setCombatantNote($0, forID: combatant.id, in: run) }
         )
     }
 

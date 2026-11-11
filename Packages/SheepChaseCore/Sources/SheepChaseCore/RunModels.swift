@@ -147,6 +147,7 @@ public struct BattleCombatant: Identifiable, Codable, Hashable {
     public var tempHP: Int?
     public var conditions: [String]
     public var concentration: String?
+    public var notes: String?
 
     public init(
         id: UUID,
@@ -159,7 +160,8 @@ public struct BattleCombatant: Identifiable, Codable, Hashable {
         initiative: Int,
         tempHP: Int? = nil,
         conditions: [String] = [],
-        concentration: String? = nil
+        concentration: String? = nil,
+        notes: String? = nil
     ) {
         self.id = id
         self.name = name
@@ -172,6 +174,7 @@ public struct BattleCombatant: Identifiable, Codable, Hashable {
         self.tempHP = tempHP
         self.conditions = conditions
         self.concentration = concentration
+        self.notes = notes
     }
 }
 

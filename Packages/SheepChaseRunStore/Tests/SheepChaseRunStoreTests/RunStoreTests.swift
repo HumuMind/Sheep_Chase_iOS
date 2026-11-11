@@ -79,6 +79,8 @@ final class RunStoreTests: XCTestCase {
         if let custom = store.customBeats(for: "scene-3", in: run).first {
             store.selectBeatID(custom.id.uuidString, in: run)
             XCTAssertEqual(run.beatID, custom.id.uuidString)
+            store.updateCustomBeat(custom.id, title: "密道入口", type: "decision", text: "队伍决定是否进入密道。", readAloud: nil, in: run)
+            XCTAssertEqual(store.customBeats(for: "scene-3", in: run).first?.title, "密道入口")
             store.deleteCustomBeat(custom.id, in: run)
         }
         XCTAssertTrue(store.customBeats(for: "scene-3", in: run).isEmpty)

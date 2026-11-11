@@ -45,3 +45,27 @@ extension RunStore {
         commit(run)
     }
 }
+
+@MainActor
+extension RunStore {
+    public func updateCustomBeat(
+        _ beatID: UUID,
+        title: String,
+        type: String,
+        text: String,
+        readAloud: String?,
+        in run: RunRecord
+    ) {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty, !trimmedText.isEmpty,
+              let index = run.customBeats.firstIndex(where: { $0.id == beatID })
+        else { return }
+        let note = readAloud?.trimmingCharacters(in: .whitespacesAndNewlines)
+        run.customBeats[index].title = trimmedTitle
+        run.customBeats[index].type = type
+        run.customBeats[index].text = trimmedText
+        run.customBeats[index].readAloud = note?.isEmpty == true ? nil : note
+        commit(run)
+    }
+}

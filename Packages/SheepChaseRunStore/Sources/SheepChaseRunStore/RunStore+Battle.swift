@@ -171,6 +171,21 @@ extension RunStore {
         commit(run)
     }
 
+    public func setHP(_ value: Int, forID id: UUID, in run: RunRecord) {
+        guard var battle = run.battle else { return }
+        BattleEngine.setHP(value, forID: id, battle: &battle)
+        run.battle = battle
+        syncParty(run)
+        commit(run)
+    }
+
+    public func setCombatantNote(_ text: String, forID id: UUID, in run: RunRecord) {
+        guard var battle = run.battle else { return }
+        BattleEngine.setNotes(text, forID: id, battle: &battle)
+        run.battle = battle
+        commit(run)
+    }
+
     public func adjustHP(forID id: UUID, delta: Int, in run: RunRecord) {
         guard var battle = run.battle else { return }
         BattleEngine.adjustHP(forID: id, delta: delta, battle: &battle)

@@ -107,16 +107,6 @@ extension SceneDetailView {
                                         }
                                     }
                                 }
-                                DMAnnotationEditor(
-                                    subject: beat.title,
-                                    targetKind: .beat,
-                                    targetID: beat.id,
-                                    annotations: store.annotations(kind: .beat, targetID: beat.id, in: run),
-                                    onChange: { updated in
-                                        store.replaceAnnotations(kind: .beat, targetID: beat.id, with: updated, in: run)
-                                    }
-                                )
-                                .padding(.top, 1)
                             }
                             Spacer()
                         }
@@ -126,6 +116,11 @@ extension SceneDetailView {
                     .buttonStyle(.plain)
                     .contextMenu {
                         if let custom = beat.custom {
+                            Button {
+                                editingCustomBeat = custom
+                            } label: {
+                                Label("编辑自定义节拍", systemImage: "pencil")
+                            }
                             Button(role: .destructive) {
                                 store.deleteCustomBeat(custom.id, in: run)
                             } label: {
@@ -133,6 +128,37 @@ extension SceneDetailView {
                             }
                         }
                     }
+
+                    VStack(alignment: .leading, spacing: 5) {
+                        DMAnnotationEditor(
+                            subject: beat.title,
+                            targetKind: .beat,
+                            targetID: beat.id,
+                            annotations: store.annotations(kind: .beat, targetID: beat.id, in: run),
+                            onChange: { updated in
+                                store.replaceAnnotations(kind: .beat, targetID: beat.id, with: updated, in: run)
+                            }
+                        )
+                        if let custom = beat.custom {
+                            HStack(spacing: 10) {
+                                Button {
+                                    editingCustomBeat = custom
+                                } label: {
+                                    Label("编辑节拍", systemImage: "pencil")
+                                }
+                                Button(role: .destructive) {
+                                    store.deleteCustomBeat(custom.id, in: run)
+                                } label: {
+                                    Label("删除", systemImage: "trash")
+                                }
+                            }
+                            .buttonStyle(.borderless)
+                            .bookUI(10)
+                            .foregroundStyle(Theme.red)
+                        }
+                    }
+                    .padding(.leading, 32)
+                    .padding(.bottom, 7)
 
                     if beat.id != displayBeats.last?.id {
                         Divider()

@@ -45,7 +45,7 @@
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：9 个 App `SheepChaseTests`；29 个 Package 单元测试；12 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文、怪物数据卡、角色卡、速查状态、模组选择与另存为模组）
+- 测试：9 个 App `SheepChaseTests`；30 个 Package 单元测试；12 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文、怪物数据卡、角色卡、速查状态、模组选择与另存为模组）
 - 内容校对记录：`CONTENT_REVIEW.md`
 - 文件大小检查：`python3 scripts/check_swift_file_sizes.py`
 - Package 测试：`./scripts/test_packages.sh`（或分别 `swift test --package-path Packages/<name> --disable-sandbox`）
@@ -79,6 +79,6 @@ DEBUG 启动参数：`-demoRun`、`-demoScene` / `-demoScene3` / `-demoScene4`�
 
 ## 状态
 
-MVP 功能闭环已实现：4 场景内容、NPC 卡、可平移/缩放地图、全局 ⌘K 速查、左下角分类速查/钉住、DM 改动批注、自定义节拍、自定义 NPC/怪物、自定义地图图钉、遭遇调整、怪物本场数值、我的模组（含导入/导出/覆盖）、通用骰子工具、队伍添加/编辑/移除、备团清单与逐场景备注、战斗筹备/先攻/轮次/HP/临时 HP/扩展状态/专注/骰子/多目标/撤销，NPC 盟友参战、怪物动作直达规则/法术、场景怪物数据卡、聚会记录与本地快照、桌面安全页与 rest 记录、Run JSON/Markdown 导出与导入、图片单张/批量导出与分享、Run 重命名/归档/删除、删除全部数据二次确认、自动保存/重启恢复、版本升级自动备份。
+MVP 功能闭环已实现：4 场景内容、NPC 卡、可平移/缩放地图、全局 ⌘K 速查、左下角分类速查/钉住、DM 改动批注（可无限追加）、自定义节拍（可编辑/删除）、自定义 NPC/怪物、自定义地图图钉、遭遇调整、怪物本场数值、我的模组（含导入/导出/覆盖）、通用骰子工具、队伍添加/编辑/移除、备团清单与逐场景备注、战斗筹备/先攻/轮次/HP 直改/临时 HP/参与者战斗笔记/扩展状态/专注/骰子/多目标/撤销，NPC 盟友参战、怪物动作直达规则/法术、场景怪物数据卡、聚会记录与本地快照、桌面安全页与 rest 记录、Run JSON/Markdown 导出与导入、图片单张/批量导出与分享、Run 重命名/归档/删除、删除全部数据二次确认、自动保存/重启恢复、版本升级自动备份。
 
 下一步是一次真实 3–4 小时跑团，按 `PLAYTEST.md` 记录备团时间、查询时间、回合点击和数据安全。产品与技术结论见 `DISCUSSION.md`。

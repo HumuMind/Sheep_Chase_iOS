@@ -33,6 +33,20 @@ final class BattleEngineTests: XCTestCase {
         XCTAssertEqual(state.round, 1)
     }
 
+    func testSetHPAndCombatantNotes() {
+        let player = player(name: "阿岚", initiative: 10)
+        var state = battle(players: [player])
+        XCTAssertTrue(BattleEngine.start(battle: &state, players: [player], monsters: []))
+        guard let id = state.combatants.first?.id else { return XCTFail("missing combatant") }
+        BattleEngine.setHP(7, forID: id, battle: &state)
+        XCTAssertEqual(state.combatants.first?.hp, 7)
+        BattleEngine.setNotes("准备动作：格挡", forID: id, battle: &state)
+        XCTAssertEqual(state.combatants.first?.notes, "准备动作：格挡")
+        BattleEngine.setHP(0, forID: id, battle: &state)
+        XCTAssertEqual(state.combatants.first?.hp, 0)
+        XCTAssertTrue(state.combatants.first?.conditions.contains("倒地") == true)
+    }
+
     func testNPCAllyBecomesBattleCombatant() {
         let player = player(name: "阿岚", initiative: 10)
         var state = battle(players: [player])
