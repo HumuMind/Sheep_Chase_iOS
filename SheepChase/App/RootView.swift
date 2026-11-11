@@ -46,6 +46,7 @@ struct RootView: View {
         .tint(Theme.red)
         .dynamicTypeSize((AppTextSize(rawValue: appTextSize) ?? .large).dynamicTypeSize)
         .themedToolbarBackground()
+        .dismissFocusOnBackgroundClick()
         .task {
             openDemoRunIfNeeded()
         }
