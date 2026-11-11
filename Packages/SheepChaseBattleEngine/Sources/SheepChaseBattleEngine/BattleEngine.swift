@@ -171,8 +171,7 @@ public enum BattleEngine {
 
     public static func setNotes(_ text: String, forID id: UUID, battle: inout BattleState) {
         guard let index = battle.combatants.firstIndex(where: { $0.id == id }) else { return }
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        battle.combatants[index].notes = trimmed.isEmpty ? nil : trimmed
+        battle.combatants[index].notes = text.isEmpty ? nil : text
     }
 
     public static func setTemporaryHP(_ value: Int, forID id: UUID, battle: inout BattleState) {

@@ -43,8 +43,8 @@ final class BattleEngineTests: XCTestCase {
         let logCount = state.log.count
         BattleEngine.setHP(7, forID: id, battle: &state)
         XCTAssertEqual(state.log.count, logCount)
-        BattleEngine.setNotes("准备动作：格挡", forID: id, battle: &state)
-        XCTAssertEqual(state.combatants.first?.notes, "准备动作：格挡")
+        BattleEngine.setNotes("准备动作：格挡\n第二行\n", forID: id, battle: &state)
+        XCTAssertEqual(state.combatants.first?.notes, "准备动作：格挡\n第二行\n")
         BattleEngine.setHP(0, forID: id, battle: &state)
         XCTAssertEqual(state.combatants.first?.hp, 0)
         XCTAssertTrue(state.combatants.first?.conditions.contains("倒地") == true)
