@@ -124,6 +124,50 @@ final class BattleEngineTests: XCTestCase {
         XCTAssertEqual(state.round, 2)
     }
 
+    func testSetInitiativeReordersAndKeepsActiveCombatant() {
+        let a = player(name: "阿岚", initiative: 10)
+        let b = player(name: "米娅", initiative: 10)
+        var state = battle(players: [a, b])
+        state.playerInitiatives[a.id.uuidString] = 18
+        state.playerInitiatives[b.id.uuidString] = 12
+        XCTAssertTrue(BattleEngine.start(battle: &state, players: [a, b], monsters: []))
+        XCTAssertEqual(state.activeID, a.id)
+
+        XCTAssertTrue(BattleEngine.setInitiative(20, forID: b.id, battle: &state))
+        XCTAssertEqual(state.combatants.map(\.name), ["米娅", "阿岚"])
+        XCTAssertEqual(state.activeID, a.id)
+        XCTAssertTrue(state.log.first?.contains("12 → 20") == true)
+
+        XCTAssertTrue(BattleEngine.undo(battle: &state))
+        XCTAssertEqual(state.combatants.map(\.name), ["阿岚", "米娅"])
+        XCTAssertEqual(state.combatants.first { $0.id == b.id }?.initiative, 12)
+    }
+
+    func testAppendCombatantDuringBattleAndUndo() {
+        let a = player(name: "阿岚", initiative: 10)
+        var state = battle(players: [a])
+        state.playerInitiatives[a.id.uuidString] = 18
+        XCTAssertTrue(BattleEngine.start(battle: &state, players: [a], monsters: []))
+        let late = BattleCombatant(
+            id: UUID(),
+            name: "狼 3",
+            kind: .monster,
+            baseID: "wolf",
+            ac: 13,
+            hp: 11,
+            maxHP: 11,
+            initiative: 15
+        )
+
+        XCTAssertTrue(BattleEngine.appendCombatant(late, battle: &state))
+        XCTAssertEqual(state.combatants.map(\.name), ["阿岚", "狼 3"])
+        XCTAssertEqual(state.activeID, a.id)
+        XCTAssertFalse(BattleEngine.appendCombatant(late, battle: &state))
+
+        XCTAssertTrue(BattleEngine.undo(battle: &state))
+        XCTAssertEqual(state.combatants.map(\.name), ["阿岚"])
+    }
+
     func testDeterministicDice() {
         var state = BattleState()
         let total = BattleEngine.rollDice(

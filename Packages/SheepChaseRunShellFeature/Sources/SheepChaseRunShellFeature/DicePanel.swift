@@ -22,6 +22,13 @@ struct DicePanel: View {
             withAnimation(.easeInOut(duration: 0.16)) { isExpanded = true }
             store.dicePanelRequest = nil
         }
+        .onReceive(NotificationCenter.default.publisher(for: .toggleDicePanel)) { _ in
+            if !isExpanded {
+                subject = ""
+                logToBattle = false
+            }
+            withAnimation(.easeInOut(duration: 0.16)) { isExpanded.toggle() }
+        }
     }
 
     private var collapsedButton: some View {
@@ -52,13 +59,16 @@ struct DicePanel: View {
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("dice-panel-open")
+        .help("骰子面板（⌘D）")
     }
 
     private var expandedPanel: some View {
         VStack(spacing: 0) {
             HStack(spacing: 8) {
                 Image(systemName: "die.face.5").foregroundStyle(Theme.red)
-                Text("骰子").bookUI(13, weight: .semibold)
+                Text("骰子")
+                    .bookUI(13, weight: .semibold)
+                    .help("骰子面板（⌘D）")
                 Spacer()
                 Button {
                     withAnimation(.easeInOut(duration: 0.16)) { isExpanded = false }

@@ -42,6 +42,9 @@ public struct QuickReferencePanel: View {
             CustomMonsterSheet(run: run)
                 .environment(store)
         }
+        .onReceive(NotificationCenter.default.publisher(for: .toggleQuickReferencePanel)) { _ in
+            withAnimation(.easeInOut(duration: 0.16)) { isExpanded.toggle() }
+        }
         .task {
             #if DEBUG
             let args = ProcessInfo.processInfo.arguments
@@ -58,6 +61,7 @@ public struct QuickReferencePanel: View {
                 Text("速查")
                     .bookUI(13, weight: .semibold)
                     .foregroundStyle(Theme.ink)
+                    .help("速查面板（⌘R）")
                 Spacer()
                 Button {
                     withAnimation(.easeInOut(duration: 0.16)) { isExpanded = false }
@@ -129,6 +133,7 @@ public struct QuickReferencePanel: View {
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("quick-reference-open")
+        .help("速查面板（⌘R）")
     }
     private var pinnedSection: some View {
         VStack(alignment: .leading, spacing: 5) {

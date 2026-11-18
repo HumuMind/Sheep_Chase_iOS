@@ -115,6 +115,8 @@ public struct RunView: View {
                         } label: {
                             Label("下一回合", systemImage: "arrow.right")
                         }
+                        .keyboardShortcut(.rightArrow, modifiers: .command)
+                        .help("下一回合（⌘→）")
                         Button {
                             store.endBattle(in: run)
                         } label: {

@@ -33,14 +33,9 @@ extension RunStore {
     public func addBattleMonster(_ monster: ContentPack.Monster, in run: RunRecord) {
         guard var battle = run.battle, battle.phase == .select else { return }
         let count = battle.monsters.filter { $0.baseID == monster.id }.count + 1
-        let name: String
-        switch monster.id {
-        case "wolf-guard": name = "狼 \(count)"
-        case "brown-bear": name = count == 1 ? "棕熊" : "棕熊 \(count)"
-        case "bed-dragon-wyrmling": name = count == 1 ? "床龙雏龙" : "床龙雏龙 \(count)"
-        default: name = count == 1 ? monster.name : "\(monster.name) \(count)"
-        }
-        battle.monsters.append(BattleMonster(baseID: monster.id, name: name))
+        battle.monsters.append(
+            BattleMonster(baseID: monster.id, name: battleMonsterName(monster, count: count))
+        )
         run.battle = battle
         commit(run)
     }
@@ -119,6 +114,54 @@ extension RunStore {
         BattleEngine.setPlayerInitiative(text, memberID: memberID, battle: &battle)
         run.battle = battle
         commit(run)
+    }
+
+    public func setCombatantInitiative(_ value: Int, forID id: UUID, in run: RunRecord) {
+        guard var battle = run.battle else { return }
+        guard BattleEngine.setInitiative(value, forID: id, battle: &battle) else { return }
+        run.battle = battle
+        commit(run)
+    }
+
+    public func joinBattlePlayer(_ member: PartyMember, initiative: Int, in run: RunRecord) {
+        guard var battle = run.battle, battle.phase == .active else { return }
+        guard !battle.combatants.contains(where: { $0.id == member.id }) else { return }
+        let combatant = BattleCombatant(
+            id: member.id,
+            name: member.name,
+            kind: .player,
+            ac: member.ac,
+            hp: member.hp,
+            maxHP: member.maxHP,
+            initiative: initiative,
+            tempHP: member.tempHP,
+            conditions: member.conditions
+        )
+        guard BattleEngine.appendCombatant(combatant, battle: &battle) else { return }
+        run.battle = battle
+        syncParty(run)
+        commit(run)
+        notify("\(member.name) 加入战斗 · 先攻 \(initiative)")
+    }
+
+    public func joinBattleMonster(_ monster: ContentPack.Monster, in run: RunRecord) {
+        guard var battle = run.battle, battle.phase == .active else { return }
+        let count = battle.combatants.filter { $0.baseID == monster.id }.count + 1
+        let combatant = BattleCombatant(
+            id: UUID(),
+            name: battleMonsterName(monster, count: count),
+            kind: .monster,
+            baseID: monster.id,
+            ac: monster.ac.value,
+            hp: monster.hp.average,
+            maxHP: monster.hp.average,
+            initiative: d20() + monster.initiativeModifier,
+            tempHP: 0
+        )
+        guard BattleEngine.appendCombatant(combatant, battle: &battle) else { return }
+        run.battle = battle
+        commit(run)
+        notify("\(combatant.name) 加入战斗 · 先攻 \(combatant.initiative)")
     }
 
     public func battleReady(_ run: RunRecord) -> Bool {
@@ -252,5 +295,18 @@ extension RunStore {
     public func activeCombatant(in run: RunRecord) -> BattleCombatant? {
         guard let battle = run.battle else { return nil }
         return BattleEngine.activeCombatant(battle)
+    }
+
+    private func battleMonsterName(_ monster: ContentPack.Monster, count: Int) -> String {
+        switch monster.id {
+        case "wolf-guard":
+            return "狼 \(count)"
+        case "brown-bear":
+            return count == 1 ? "棕熊" : "棕熊 \(count)"
+        case "bed-dragon-wyrmling":
+            return count == 1 ? "床龙雏龙" : "床龙雏龙 \(count)"
+        default:
+            return count == 1 ? monster.name : "\(monster.name) \(count)"
+        }
     }
 }

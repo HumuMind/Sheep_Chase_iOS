@@ -15,6 +15,8 @@ public struct BattleInspector: View {
 
     private var battle: BattleState? { run.battle }
     @State private var infoCombatant: BattleCombatant?
+    @State private var joiningPlayer: PartyMember?
+    @State private var joiningInitiative = ""
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -25,6 +27,9 @@ public struct BattleInspector: View {
                 Text(battleSubtitle)
                     .bookUI(11)
                     .foregroundStyle(.secondary)
+                if let battle, battle.phase == .active {
+                    addCombatantMenu(battle)
+                }
             }
 
             if let battle {
@@ -93,14 +98,17 @@ public struct BattleInspector: View {
                 case .active:
                     ForEach(battle.combatants) { combatant in
                         HStack(spacing: 4) {
+                            BattleInitiativeField(
+                                name: combatant.name,
+                                value: combatant.initiative,
+                                isActive: combatant.id == battle.activeID
+                            ) { value in
+                                store.setCombatantInitiative(value, forID: combatant.id, in: run)
+                            }
                             Button {
                                 store.selectCombatant(combatant.id, in: run)
                             } label: {
                                 HStack(spacing: 6) {
-                                    Text("\(combatant.initiative)")
-                                        .bookUI(11, monospaced: true)
-                                        .frame(width: 22, alignment: .trailing)
-                                        .foregroundStyle(combatant.id == battle.activeID ? Theme.red : .secondary)
                                     VStack(alignment: .leading, spacing: 1) {
                                         Text(combatant.name)
                                             .bookUI(12, weight: combatant.id == battle.activeID ? .semibold : .regular)
@@ -180,6 +188,72 @@ public struct BattleInspector: View {
             )
             .environment(store)
         }
+        .alert("加入战斗", isPresented: joiningPlayerAlert) {
+            TextField("先攻", text: $joiningInitiative)
+            Button("加入") {
+                guard let player = joiningPlayer,
+                      let initiative = Int(joiningInitiative.trimmingCharacters(in: .whitespacesAndNewlines))
+                else { return }
+                store.joinBattlePlayer(player, initiative: initiative, in: run)
+                joiningPlayer = nil
+                joiningInitiative = ""
+            }
+            .disabled(Int(joiningInitiative.trimmingCharacters(in: .whitespacesAndNewlines)) == nil)
+            Button("取消", role: .cancel) {
+                joiningPlayer = nil
+                joiningInitiative = ""
+            }
+        } message: {
+            Text("\(joiningPlayer?.name ?? "玩家") 自己掷先攻，填入结果后加入当前轮次。")
+        }
+    }
+
+    private var joiningPlayerAlert: Binding<Bool> {
+        Binding(
+            get: { joiningPlayer != nil },
+            set: { presented in
+                if !presented {
+                    joiningPlayer = nil
+                    joiningInitiative = ""
+                }
+            }
+        )
+    }
+
+    private func addCombatantMenu(_ battle: BattleState) -> some View {
+        Menu {
+            let availablePlayers = run.party.filter { member in
+                !battle.combatants.contains { $0.id == member.id }
+            }
+            Section("玩家（手动填先攻）") {
+                if availablePlayers.isEmpty {
+                    Text("所有玩家均已参战")
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(availablePlayers) { member in
+                        Button(member.name) {
+                            joiningPlayer = member
+                            joiningInitiative = ""
+                        }
+                    }
+                }
+            }
+            Section("怪物（自动掷先攻）") {
+                ForEach(store.battleMonsters(in: run)) { monster in
+                    Button("＋ \(monster.name)") {
+                        store.joinBattleMonster(monster, in: run)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: "plus.circle")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(Theme.red)
+        }
+        .menuStyle(.borderlessButton)
+        .fixedSize()
+        .accessibilityLabel("添加参战者")
+        .help("向当前战斗加入玩家或怪物")
     }
 
     private func monster(for combatant: BattleCombatant) -> ContentPack.Monster? {

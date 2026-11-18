@@ -3,6 +3,7 @@ import SheepChaseBattleEngine
 import SheepChaseExport
 import SheepChaseCore
 import SheepChasePersistence
+import SheepChaseRunShellFeature
 import SheepChaseUI
 import SwiftData
 import SwiftUI
@@ -44,6 +45,9 @@ struct SheepChaseApp: App {
                 .frame(minWidth: 1040, minHeight: 700)
         }
         .modelContainer(container)
+        .commands {
+            RunShortcutCommands()
+        }
         #if os(macOS)
         .defaultSize(width: 1380, height: 900)
         #endif

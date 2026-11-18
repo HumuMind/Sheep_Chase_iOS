@@ -121,10 +121,7 @@ public enum BattleEngine {
             )
         }
 
-        combatants.sort {
-            if $0.initiative == $1.initiative { return $0.name < $1.name }
-            return $0.initiative > $1.initiative
-        }
+        combatants = sortedByInitiative(combatants)
         guard let first = combatants.first else { return false }
 
         battle.combatants = combatants
@@ -135,6 +132,33 @@ public enum BattleEngine {
             "先攻记录 → " + combatants.map { "\($0.name) \($0.initiative)" }.joined(separator: " · "),
             "第 1 轮 · \(first.name) 的回合",
         ]
+        return true
+    }
+
+    @discardableResult
+    public static func setInitiative(_ value: Int, forID id: UUID, battle: inout BattleState) -> Bool {
+        guard battle.phase == .active,
+              let index = battle.combatants.firstIndex(where: { $0.id == id }),
+              battle.combatants[index].initiative != value
+        else { return false }
+        battle.undo = undoSnapshot(battle)
+        let name = battle.combatants[index].name
+        let previous = battle.combatants[index].initiative
+        battle.combatants[index].initiative = value
+        battle.combatants = sortedByInitiative(battle.combatants)
+        battle.log.insert("先攻调整 · \(name) \(previous) → \(value)", at: 0)
+        return true
+    }
+
+    @discardableResult
+    public static func appendCombatant(_ combatant: BattleCombatant, battle: inout BattleState) -> Bool {
+        guard battle.phase == .active,
+              !battle.combatants.contains(where: { $0.id == combatant.id })
+        else { return false }
+        battle.undo = undoSnapshot(battle)
+        battle.combatants.append(combatant)
+        battle.combatants = sortedByInitiative(battle.combatants)
+        battle.log.insert("加入战斗 · \(combatant.name) 先攻 \(combatant.initiative)", at: 0)
         return true
     }
 
@@ -282,6 +306,13 @@ public enum BattleEngine {
     public static func activeCombatant(_ battle: BattleState) -> BattleCombatant? {
         guard let activeID = battle.activeID else { return nil }
         return battle.combatants.first { $0.id == activeID }
+    }
+
+    private static func sortedByInitiative(_ combatants: [BattleCombatant]) -> [BattleCombatant] {
+        combatants.sorted {
+            if $0.initiative == $1.initiative { return $0.name < $1.name }
+            return $0.initiative > $1.initiative
+        }
     }
 
     private static func undoSnapshot(_ battle: BattleState) -> BattleUndo {
