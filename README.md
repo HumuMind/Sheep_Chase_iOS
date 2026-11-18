@@ -2,7 +2,11 @@
 
 《荒野逐羊》（A Wild Sheep Chase）的 DM 备团 App，以 macOS 为主、适配 iPad，用于在 D&D 5E 跑团时快速查阅场景、NPC 与怪物资料。
 
-## 素材
+> 本仓库为私有备份，内容仅个人自用，不公开分发。
+
+## 本地素材（不纳入仓库）
+
+以下 PDF 仅保留在本地，已从 Git 历史移除并由 `.gitignore` 排除：
 
 - `Sheep_Chase_FINAL.pdf` — 英文原版冒险
 - `綿羊冒險記.pdf` — 中文译本
@@ -45,7 +49,7 @@
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：9 个 App `SheepChaseTests`；30 个 Package 单元测试；12 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文（整页跨段选择复制）、怪物数据卡、角色卡、速查状态、模组选择与另存为模组）
+- 测试：9 个 App `SheepChaseTests`；35 个 Package 单元测试；12 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文（整页跨段选择复制）、怪物数据卡、角色卡、速查状态、模组选择与另存为模组）
 - 内容校对记录：`CONTENT_REVIEW.md`
 - 文件大小检查：`python3 scripts/check_swift_file_sizes.py`
 - Package 测试：`./scripts/test_packages.sh`（或分别 `swift test --package-path Packages/<name> --disable-sandbox`）
