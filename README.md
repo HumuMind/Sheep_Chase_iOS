@@ -49,7 +49,9 @@
 > 支持系统浅色/深色：浅色为纸页桌面，深色为深色桌面 + 浅色阅读页；关于页可调界面字号。
 
 - 内容包资源：`build/ContentPack.json` 会同步到 `SheepChase/Resources/ContentPack.json`；原始图片同步到 `SheepChase/Resources/ContentAssets/`
-- 测试：9 个 App `SheepChaseTests`；51 个 Package 单元测试；12 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文（整页跨段选择复制）、怪物数据卡、角色卡、速查状态、模组选择与另存为模组）
+- 测试：13 个 App `SheepChaseTests`；51 个 Package 单元测试；12 个 iPad `SheepChaseUITests`（含 DM 导读、速查、主页导航、开团操作、场景原文（整页跨段选择复制）、怪物数据卡、角色卡、速查状态、模组选择与另存为模组）
+- 本地数据：全部在 `~/Library/Application Support/SheepChase/`（`Data/SheepChase.store`、`MyAdventureTemplates.json`、`Backups/`）；App 不在沙盒里，旧版本散落在 `Application Support` 根目录的 `default.store` 与 `MyAdventureTemplates.json` 会在首次启动时自动迁入。仓库里没有任何开团数据，示例开团只在 Debug 构建用 `-demoRun` / `-seedDemo` 启动时写入
+- 清空本机数据：`./scripts/reset_local_data.sh`（默认列出待删文件并二次确认；请先退出 App）
 - 内容校对记录：`CONTENT_REVIEW.md`
 - 文件大小检查：`python3 scripts/check_swift_file_sizes.py`
 - Package 测试：`./scripts/test_packages.sh`（或分别 `swift test --package-path Packages/<name> --disable-sandbox`）

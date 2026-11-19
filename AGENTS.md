@@ -25,6 +25,7 @@
 - Package 测试：`./scripts/test_packages.sh`；不要删除 `-disable-sandbox`（当前环境宏插件需要）。
 - UI 使用原生 NavigationSplitView / toolbar / inspector / GroupBox；不要重新引入自绘标题栏或 HTML 式大卡片；主题背景统一使用 PDF 纸面。
 - 内容校对记录在 `CONTENT_REVIEW.md`；真实跑团前先读 `PLAYTEST.md`，按其中的指标记录；不要在未备份当前 Run 的情况下开始测试。
+- 本地数据集中在 `~/Library/Application Support/SheepChase/`；清空用 `./scripts/reset_local_data.sh`。仓库里不放任何开团数据，示例开团只在 Debug 用 `-demoRun` 启动时写入。
 - 可点击原型在 `prototype/index.html`，直接打开即可，无需构建。
 - 文档与界面使用简体中文。
 - 实现以简洁、够用为准，避免过度设计。

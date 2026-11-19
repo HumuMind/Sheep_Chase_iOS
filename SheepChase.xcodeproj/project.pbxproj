@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A8804DDE3CDA7810784A569 /* SheepChaseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7972BE44E388EA599EEC9D21 /* SheepChaseUITests.swift */; };
+		0F90CF1FA5B21A81046BBCB9 /* LocalDataLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F357D4E4E705EF8F404F3C12 /* LocalDataLayout.swift */; };
+		1043AA9B81ED0023F4E695EA /* LocalDataLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D4B88232FDCE48DF352893C /* LocalDataLayoutTests.swift */; };
 		11AD874E36AAE01CE672E73A /* SheepChaseRunShellFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 141A39B5F6BB456FB622D412 /* SheepChaseRunShellFeature */; };
 		16937F9607EEB260BCB91705 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
 		1B4A6F7FB05556BEEBEB6AAE /* SheepChaseRunStore in Frameworks */ = {isa = PBXBuildFile; productRef = 54C195F436A929750A2FDB16 /* SheepChaseRunStore */; };
@@ -24,6 +26,7 @@
 		5A94990918C57A5CD18201EB /* ContentPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F2FD00743370B53287BF389 /* ContentPack.json */; };
 		5B05D70DE57679D2DC693C0D /* map-treehouse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BB7DE3816798478894ACFF3F /* map-treehouse.jpg */; };
 		603DFB598A0D33614AD31337 /* SheepChaseLibraryFeature in Frameworks */ = {isa = PBXBuildFile; productRef = F38009CD91559680D8BD8010 /* SheepChaseLibraryFeature */; };
+		6107E8BFA3509764177186EE /* LocalDataLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F357D4E4E705EF8F404F3C12 /* LocalDataLayout.swift */; };
 		61C894CE5FC93153C2644F11 /* SheepChaseRunStore in Frameworks */ = {isa = PBXBuildFile; productRef = ADA652E9B580E563D43E631C /* SheepChaseRunStore */; };
 		632A02A1CFF3A94AEA5B82E6 /* map-treehouse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BB7DE3816798478894ACFF3F /* map-treehouse.jpg */; };
 		6792EBB8BCEEF2668CFB4869 /* SheepChaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = FB328123E4DDC8532B332C48 /* SheepChaseCore */; };
@@ -90,12 +93,14 @@
 		7972BE44E388EA599EEC9D21 /* SheepChaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheepChaseUITests.swift; sourceTree = "<group>"; };
 		7D61782F11E8123F15561EDE /* AppStartup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStartup.swift; sourceTree = "<group>"; };
 		8804416B86AAF5FA7A4B275B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		8D4B88232FDCE48DF352893C /* LocalDataLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataLayoutTests.swift; sourceTree = "<group>"; };
 		9F2FD00743370B53287BF389 /* ContentPack.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContentPack.json; sourceTree = "<group>"; };
 		AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheepChaseApp.swift; sourceTree = "<group>"; };
 		BB7DE3816798478894ACFF3F /* map-treehouse.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "map-treehouse.jpg"; sourceTree = "<group>"; };
 		C2F9CCA9D660BDFE8FEBC58C /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		D59694443ADF9982B72BD40F /* SheepChasePersistence */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChasePersistence; path = Packages/SheepChasePersistence; sourceTree = SOURCE_ROOT; };
 		E8951581CEE5AFEBBA1F4839 /* SheepChaseUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseUI; path = Packages/SheepChaseUI; sourceTree = SOURCE_ROOT; };
+		F357D4E4E705EF8F404F3C12 /* LocalDataLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataLayout.swift; sourceTree = "<group>"; };
 		FF23A5D31EA1CC7DFA62A827 /* SheepChaseBattleEngine */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseBattleEngine; path = Packages/SheepChaseBattleEngine; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -149,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				07B9009FFB8120C98C8A4AA4 /* ContentAndExportTests.swift */,
+				8D4B88232FDCE48DF352893C /* LocalDataLayoutTests.swift */,
 			);
 			path = SheepChaseTests;
 			sourceTree = "<group>";
@@ -183,6 +189,7 @@
 			children = (
 				7D61782F11E8123F15561EDE /* AppStartup.swift */,
 				09BBFE6ABDC7DA376165A223 /* DemoSeed.swift */,
+				F357D4E4E705EF8F404F3C12 /* LocalDataLayout.swift */,
 				8804416B86AAF5FA7A4B275B /* RootView.swift */,
 				AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */,
 				0121C1FABEB0A2FA0C8EF58E /* StartupErrorView.swift */,
@@ -442,6 +449,7 @@
 				A2791399FA164FF5851E0C50 /* AppStartup.swift in Sources */,
 				70D602408AC5BB4096ADAF4F /* ContentStore.swift in Sources */,
 				9E69A201D1D1039D41C3EF50 /* DemoSeed.swift in Sources */,
+				6107E8BFA3509764177186EE /* LocalDataLayout.swift in Sources */,
 				7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */,
 				DAB34ED281F99E40670CDC67 /* SheepChaseApp.swift in Sources */,
 				C9771FFEE1C1599AB244773B /* StartupErrorView.swift in Sources */,
@@ -455,6 +463,7 @@
 				7671517AB8D75075AD45DA4E /* AppStartup.swift in Sources */,
 				31F23F900EEDF94F909ABE4E /* ContentStore.swift in Sources */,
 				E9E7C846B812929B9A7692B3 /* DemoSeed.swift in Sources */,
+				0F90CF1FA5B21A81046BBCB9 /* LocalDataLayout.swift in Sources */,
 				16937F9607EEB260BCB91705 /* RootView.swift in Sources */,
 				F1626034B5C81EC6EE036892 /* SheepChaseApp.swift in Sources */,
 				8653176363A27E9D6E124C5F /* StartupErrorView.swift in Sources */,
@@ -466,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2451C298D3EC411CC2D1F208 /* ContentAndExportTests.swift in Sources */,
+				1043AA9B81ED0023F4E695EA /* LocalDataLayoutTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

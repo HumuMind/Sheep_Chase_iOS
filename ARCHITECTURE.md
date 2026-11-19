@@ -209,7 +209,7 @@ Package 测试（51 个）：
 
 App 测试：
 
-- 9 个 `SheepChaseTests`
+- 13 个 `SheepChaseTests`
 - 12 个 iPad `SheepChaseUITests`（含 DM 导读、速查钉住/详情、主页导航、开团操作、场景原文、怪物数据卡、角色卡与速查状态记忆、模组选择与另存为模组）
 
 命令：

@@ -10,6 +10,9 @@ public enum DemoLaunch {
         arguments.contains(flag)
     }
 
+    /// 首次启动时是否写入示例开团；UI 测试与截图都靠它准备数据。
+    public static var seedsDemoRuns: Bool { has("-demoRun") || has("-seedDemo") }
+
     public static var openRun: Bool { has("-demoRun") }
     public static var resetsPinnedReferences: Bool { has("-resetPins") }
     public static var showsSceneMode: Bool { has("-demoScene") }

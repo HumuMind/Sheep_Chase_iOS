@@ -2,8 +2,20 @@ import Foundation
 import SheepChaseCore
 import SheepChasePersistence
 import SheepChaseRunStore
+import SheepChaseUI
 
+/// 示例开团。只在 Debug 构建里用 `-demoRun` / `-seedDemo` 启动时写入，
+/// 正常启动与正式使用时开团库保持为空。
 enum DemoSeed {
+    static func makeForDemoLaunchIfNeeded(content: ContentPack) -> [RunRecord] {
+        #if DEBUG
+        guard DemoLaunch.seedsDemoRuns else { return [] }
+        return make(content: content)
+        #else
+        return []
+        #endif
+    }
+
     static func make(content: ContentPack) -> [RunRecord] {
         let friday = RunRecord(name: "周五团 · A 组", sceneID: "scene-2", beatID: "guz-arrives", contentVersion: content.manifest.version)
         friday.party = [
