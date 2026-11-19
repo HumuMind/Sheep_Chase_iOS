@@ -60,6 +60,28 @@ public struct ContentPack: Decodable {
     }
 
     public struct AdventureScene: Decodable, Identifiable {
+        /// 内容包缺少场景时的兜底值，避免视图强制解包崩溃。
+        public static let missingScene = AdventureScene(
+            id: "",
+            order: 0,
+            title: "内容包缺少场景",
+            summary: "请运行 python3 scripts/build_content.py 重新生成本地内容包。",
+            readAloud: nil,
+            dmText: nil,
+            beats: [],
+            branches: nil,
+            npcIds: nil,
+            encounterIds: nil,
+            handoutIds: nil,
+            ruleIds: nil,
+            spellIds: nil,
+            mapIds: nil,
+            itemIds: nil,
+            dmNotes: nil,
+            fadeToBlack: nil,
+            sourceRef: nil
+        )
+
         public let id: String
         public let order: Int
         public let title: String

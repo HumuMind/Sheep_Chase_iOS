@@ -1,6 +1,6 @@
-import XCTest
-import SheepChasePersistence
 @testable import SheepChaseMapFeature
+import SheepChasePersistence
+import XCTest
 
 final class SmokeTests: XCTestCase {
     func testMapViewCanBeConstructed() {

@@ -1,5 +1,5 @@
-import SwiftUI
 import SheepChaseCore
+import SwiftUI
 
 public struct NPCSheetView: View {
     @Environment(\.dismiss) private var dismiss

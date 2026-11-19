@@ -1,6 +1,6 @@
-import XCTest
-import SwiftUI
 @testable import SheepChaseUI
+import SwiftUI
+import XCTest
 
 final class UITests: XCTestCase {
     func testTextSizeCasesAndTitles() {

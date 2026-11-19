@@ -1,7 +1,7 @@
-import Foundation
-import XCTest
-import SheepChaseCore
 @testable import SheepChaseGuideFeature
+import Foundation
+import SheepChaseCore
+import XCTest
 
 final class SmokeTests: XCTestCase {
     private var content: ContentPack {

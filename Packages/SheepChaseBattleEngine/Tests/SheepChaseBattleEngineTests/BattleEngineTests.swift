@@ -1,7 +1,7 @@
-import Foundation
-import XCTest
-import SheepChaseCore
 @testable import SheepChaseBattleEngine
+import Foundation
+import SheepChaseCore
+import XCTest
 
 final class BattleEngineTests: XCTestCase {
     private func player(name: String, initiative: Int) -> PartyMember {

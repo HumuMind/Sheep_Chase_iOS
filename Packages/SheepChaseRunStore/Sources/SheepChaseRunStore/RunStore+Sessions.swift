@@ -1,9 +1,8 @@
-import SheepChaseBattleEngine
-import SheepChaseExport
-import SheepChaseCore
-import SheepChasePersistence
 import Foundation
 import Observation
+import SheepChaseCore
+import SheepChaseExport
+import SheepChasePersistence
 import SwiftData
 
 @MainActor
@@ -22,7 +21,7 @@ extension RunStore {
         var sessions = run.sessions
         sessions.append(RunSession(startedAt: .now))
         run.sessions = sessions
-        commit(run)
+        guard commit(run) else { return }
         createCheckpoint("开始聚会", in: run)
         notify("开始第 \(sessions.count) 次聚会")
     }
@@ -36,7 +35,7 @@ extension RunStore {
             sessions[index] = session
         }
         run.sessions = sessions
-        commit(run)
+        guard commit(run) else { return }
         createCheckpoint("结束聚会", in: run)
         notify("聚会记录已保存")
     }
@@ -59,7 +58,7 @@ extension RunStore {
     public func restoreCheckpoint(_ checkpoint: RunCheckpoint, in run: RunRecord) {
         run.apply(checkpoint.state)
         run.updatedAt = .now
-        commit(run)
+        guard commit(run) else { return }
         notify("已恢复到「\(checkpoint.label)」")
     }
 
@@ -75,7 +74,7 @@ extension RunStore {
         log.append("\(timestamp)　\(note.isEmpty ? "暂停 / 休息" : note)")
         safety.restLog = Array(log.suffix(20))
         run.safety = safety
-        commit(run)
+        guard commit(run) else { return }
         notify("已记录休息")
     }
 
@@ -83,7 +82,7 @@ extension RunStore {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
         run.name = trimmed
-        commit(run)
+        guard commit(run) else { return }
         notify("开团已重命名")
     }
 
@@ -92,7 +91,7 @@ extension RunStore {
         if archived, selectedRunID == run.id {
             selectedRunID = nil
         }
-        commit(run)
+        guard commit(run) else { return }
         notify(archived ? "已归档开团" : "已恢复开团")
     }
 
@@ -100,7 +99,7 @@ extension RunStore {
         if selectedRunID == run.id { selectedRunID = nil }
         runs.removeAll { $0.id == run.id }
         repository.delete(run)
-        persist()
+        guard persist() else { return }
         notify("开团已删除")
     }
 
@@ -110,7 +109,7 @@ extension RunStore {
             repository.delete(run)
         }
         runs.removeAll()
-        persist()
+        guard persist() else { return }
         notify("全部开团数据已删除")
     }
 
@@ -141,7 +140,12 @@ extension RunStore {
         repository.insert(run)
         runs.append(run)
         selectedRunID = run.id
-        persist()
+        guard persist() else {
+            runs.removeAll { $0.id == run.id }
+            repository.delete(run)
+            selectedRunID = nil
+            throw RunStoreError.persistenceFailed
+        }
         notify("已导入为新开团")
         return run
     }

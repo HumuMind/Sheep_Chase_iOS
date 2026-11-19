@@ -1,5 +1,5 @@
-import SwiftUI
 import SheepChaseUI
+import SwiftUI
 
 extension QuickReferencePanel {
     var customNPCButton: some View {

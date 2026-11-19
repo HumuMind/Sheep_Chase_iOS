@@ -1,7 +1,7 @@
+@testable import SheepChaseInspectorFeature
+import SheepChasePersistence
 import SwiftUI
 import XCTest
-import SheepChasePersistence
-@testable import SheepChaseInspectorFeature
 
 final class SmokeTests: XCTestCase {
     func testInspectorCanBeConstructed() {

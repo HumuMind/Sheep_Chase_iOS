@@ -1,7 +1,7 @@
-import SheepChaseRunStore
+import Foundation
 import SheepChaseCore
 import SheepChasePersistence
-import Foundation
+import SheepChaseRunStore
 
 enum DemoSeed {
     static func make(content: ContentPack) -> [RunRecord] {

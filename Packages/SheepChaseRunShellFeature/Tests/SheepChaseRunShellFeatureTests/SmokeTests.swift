@@ -1,6 +1,6 @@
-import XCTest
-import SheepChasePersistence
 @testable import SheepChaseRunShellFeature
+import SheepChasePersistence
+import XCTest
 
 final class SmokeTests: XCTestCase {
     func testRunViewCanBeConstructed() {

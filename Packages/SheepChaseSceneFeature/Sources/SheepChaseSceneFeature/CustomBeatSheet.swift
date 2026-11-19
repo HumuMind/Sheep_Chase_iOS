@@ -1,8 +1,8 @@
-import SwiftUI
 import SheepChaseCore
 import SheepChasePersistence
 import SheepChaseRunStore
 import SheepChaseUI
+import SwiftUI
 
 struct CustomBeatSheet: View {
     @Environment(RunStore.self) private var store

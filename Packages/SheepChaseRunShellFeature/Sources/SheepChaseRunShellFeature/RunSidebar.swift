@@ -111,7 +111,7 @@ struct RunSidebar: View {
         }
         .task {
             #if DEBUG
-            if ProcessInfo.processInfo.arguments.contains("-demoSaveTemplate") {
+            if DemoLaunch.showsSaveTemplateSheet {
                 showSaveTemplate = true
             }
             #endif

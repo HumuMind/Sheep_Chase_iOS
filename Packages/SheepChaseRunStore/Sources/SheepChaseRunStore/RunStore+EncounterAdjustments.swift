@@ -48,7 +48,9 @@ extension RunStore {
         }
 
         openBattleSetup(for: run)
-        guard run.battle == nil || run.battle?.monsters.isEmpty == true else { return }
+        guard var battle = run.battle, battle.monsters.isEmpty else { return }
+        battle.encounterID = encounterID
+        run.battle = battle
         for combatant in baseCombatants {
             guard let monster = monsterForBattle(id: combatant.monsterID, in: run) else { continue }
             for _ in 0..<max(1, combatant.count) {

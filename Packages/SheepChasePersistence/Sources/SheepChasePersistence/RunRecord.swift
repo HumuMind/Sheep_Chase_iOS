@@ -1,4 +1,5 @@
 import Foundation
+import OSLog
 import SheepChaseCore
 import SwiftData
 
@@ -249,6 +250,37 @@ public final class RunRecord {
         set { diceHistoryData = Self.encode(newValue) }
     }
 
+    /// 读取时无法解码的数据段名称，用于提示用户部分数据可能已损坏。
+    public var damagedSections: [String] {
+        var damaged: [String] = []
+        func check<T: Decodable>(_ type: T.Type, _ data: Data?, _ label: String) {
+            guard let data else { return }
+            if Self.decode(type, from: data) == nil {
+                damaged.append(label)
+            }
+        }
+        check([PartyMember].self, partyData, "队伍")
+        check([String: Bool].self, flagsData, "剧情标记")
+        check([StickyNote].self, notesData, "便签")
+        check(BattleState.self, battleData, "战斗")
+        check(BattleState.self, lastBattleData, "上一场战斗")
+        check(SafetyState.self, safetyData, "安全工具")
+        check([RunSession].self, sessionsData, "聚会记录")
+        check([RunCheckpoint].self, checkpointsData, "存档点")
+        check([String: String].self, sceneNotesData, "场景笔记")
+        check([String].self, prepData, "备团清单")
+        check([String].self, pinnedReferenceData, "置顶资料")
+        check([DMAnnotation].self, annotationsData, "批注")
+        check([RunCustomBeat].self, customBeatsData, "自定义情节")
+        check([RunCustomMapPin].self, customMapPinsData, "自定义地图钉")
+        check([RunCustomNPC].self, customNPCsData, "自定义 NPC")
+        check([RunCustomMonster].self, customMonstersData, "自定义怪物")
+        check([RunEncounterAdjustment].self, encounterAdjustmentsData, "遭遇调整")
+        check([RunMonsterOverride].self, monsterOverridesData, "怪物改动")
+        check([DiceRoll].self, diceHistoryData, "掷骰记录")
+        return damaged
+    }
+
     public var stateSnapshot: RunStateSnapshot {
         RunStateSnapshot(
             name: name,
@@ -309,15 +341,32 @@ public final class RunRecord {
         diceHistory = snapshot.diceHistory ?? []
     }
 
+    private static let logger = Logger(subsystem: "SheepChasePersistence", category: "RunRecord")
+
     private static func encode<T: Encodable>(_ value: T) -> Data {
-        (try? JSONEncoder().encode(value)) ?? Data()
+        do {
+            return try JSONEncoder().encode(value)
+        } catch {
+            logger.error("编码 \(String(describing: T.self)) 失败：\(error.localizedDescription)")
+            return Data()
+        }
     }
 
     private static func encodeOptional<T: Encodable>(_ value: T) -> Data? {
-        try? JSONEncoder().encode(value)
+        do {
+            return try JSONEncoder().encode(value)
+        } catch {
+            logger.error("编码 \(String(describing: T.self)) 失败：\(error.localizedDescription)")
+            return nil
+        }
     }
 
     private static func decode<T: Decodable>(_ type: T.Type, from data: Data) -> T? {
-        try? JSONDecoder().decode(type, from: data)
+        do {
+            return try JSONDecoder().decode(type, from: data)
+        } catch {
+            logger.error("解码 \(String(describing: T.self)) 失败：\(error.localizedDescription)")
+            return nil
+        }
     }
 }

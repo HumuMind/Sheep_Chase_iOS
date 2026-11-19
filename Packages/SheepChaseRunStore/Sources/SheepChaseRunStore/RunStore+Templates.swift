@@ -65,19 +65,27 @@ extension RunStore {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { throw TemplateStoreError.emptyName }
         guard let index = templates.firstIndex(where: { $0.id == template.id }) else { return }
+        let previous = templates[index]
         templates[index].name = trimmed
         templates[index].updatedAt = .now
         do {
             try templateRepository.save(templates)
         } catch {
+            templates[index] = previous
             throw TemplateStoreError.saveFailed(error.localizedDescription)
         }
         notify("模组已重命名")
     }
 
-    public func deleteTemplate(_ template: AdventureTemplate) {
-        templates.removeAll { $0.id == template.id }
-        try? templateRepository.save(templates)
+    public func deleteTemplate(_ template: AdventureTemplate) throws {
+        guard let index = templates.firstIndex(where: { $0.id == template.id }) else { return }
+        let removed = templates.remove(at: index)
+        do {
+            try templateRepository.save(templates)
+        } catch {
+            templates.insert(removed, at: min(index, templates.count))
+            throw TemplateStoreError.saveFailed(error.localizedDescription)
+        }
         notify("已删除我的模组：\(template.name)")
     }
 
@@ -96,6 +104,7 @@ extension RunStore {
         guard let index = templates.firstIndex(where: { $0.id == template.id }) else {
             throw TemplateStoreError.saveFailed("找不到要覆盖的模组。")
         }
+        let previous = templates[index]
         templates[index].name = trimmed
         templates[index].summary = summary.trimmingCharacters(in: .whitespacesAndNewlines)
         templates[index].patch = patch
@@ -106,6 +115,7 @@ extension RunStore {
         do {
             try templateRepository.save(templates)
         } catch {
+            templates[index] = previous
             throw TemplateStoreError.saveFailed(error.localizedDescription)
         }
         notify("已更新我的模组：\(trimmed)")
@@ -181,7 +191,12 @@ extension RunStore {
         runs.append(run)
         selectedRunID = run.id
         selectedTab = .party
-        persist()
+        guard persist() else {
+            runs.removeAll { $0.id == run.id }
+            repository.delete(run)
+            selectedRunID = nil
+            return
+        }
 
         if let template, template.baseContentVersion != content.manifest.version {
             notify("已使用「\(template.name)」创建开团；模板基于 \(template.baseContentVersion)，当前内容包为 \(content.manifest.version)")

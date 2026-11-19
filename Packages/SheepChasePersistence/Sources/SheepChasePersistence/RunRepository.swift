@@ -10,11 +10,11 @@ public final class RunRepository {
         self.context = context
     }
 
-    public func fetchAll() -> [RunRecord] {
+    public func fetchAll() throws -> [RunRecord] {
         let descriptor = FetchDescriptor<RunRecord>(
             sortBy: [SortDescriptor(\.updatedAt, order: .reverse)]
         )
-        return (try? context.fetch(descriptor)) ?? []
+        return try context.fetch(descriptor)
     }
 
     public func insert(_ run: RunRecord) {
@@ -25,7 +25,7 @@ public final class RunRepository {
         context.delete(run)
     }
 
-    public func save() {
-        try? context.save()
+    public func save() throws {
+        try context.save()
     }
 }

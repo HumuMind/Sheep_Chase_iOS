@@ -1,10 +1,8 @@
-import SheepChaseRunShellFeature
-import SheepChaseLibraryFeature
-import SheepChaseRunStore
-import SheepChaseBattleEngine
-import SheepChaseExport
 import SheepChaseCore
+import SheepChaseLibraryFeature
 import SheepChasePersistence
+import SheepChaseRunShellFeature
+import SheepChaseRunStore
 import SheepChaseUI
 import SwiftUI
 
@@ -50,42 +48,45 @@ struct RootView: View {
         .task {
             openDemoRunIfNeeded()
         }
+        .alert("存储失败", isPresented: Binding(
+            get: { store.persistenceError != nil },
+            set: { if !$0 { store.clearPersistenceError() } }
+        )) {
+            Button("好", role: .cancel) {
+                store.clearPersistenceError()
+            }
+        } message: {
+            Text(store.persistenceError ?? "")
+        }
     }
 
     private func openDemoRunIfNeeded() {
         #if DEBUG
-        let arguments = ProcessInfo.processInfo.arguments
-        guard arguments.contains("-demoRun"),
+        guard DemoLaunch.openRun,
               let run = store.orderedRuns.first(where: { $0.name.contains("周五") }) ?? store.orderedRuns.first
         else { return }
 
         store.open(run)
-        if arguments.contains("-resetPins") {
+        if DemoLaunch.resetsPinnedReferences {
             for id in run.pinnedReferenceIDs {
                 store.togglePinnedReference(id, in: run)
             }
         }
-        if arguments.contains("-demoScene") {
+        if DemoLaunch.showsSceneMode {
             store.setMode(.scene, in: run)
         }
-        if arguments.contains("-demoMap") {
+        if DemoLaunch.showsMapMode {
             store.setMode(.map, in: run)
         }
-        if arguments.contains("-demoScene2"), let scene = store.scene(id: "scene-2") {
-            store.selectScene(scene, in: run)
-        }
-        if arguments.contains("-demoScene3"), let scene = store.scene(id: "scene-3") {
-            store.selectScene(scene, in: run)
-        }
-        if arguments.contains("-demoScene4"), let scene = store.scene(id: "scene-4") {
+        if let sceneID = DemoLaunch.sceneOverrideID, let scene = store.scene(id: sceneID) {
             store.selectScene(scene, in: run)
         }
 
-        if arguments.contains("-demoNotes") {
+        if DemoLaunch.showsNotesTab {
             store.selectedTab = .notes
         }
 
-        if arguments.contains("-demoBattleActive") {
+        if DemoLaunch.startsActiveBattle {
             store.openBattleSetup(for: run)
             run.party.forEach { store.toggleBattlePlayer($0, in: run) }
             if let guz = store.content.monsters.first(where: { $0.id == "guz" }) {
@@ -102,7 +103,7 @@ struct RootView: View {
                 store.setPlayerInitiative(String(20 - index), memberID: member.id, in: run)
             }
             store.startBattle(in: run)
-        } else if arguments.contains("-demoBattle") {
+        } else if DemoLaunch.showsBattleSetup {
             store.openBattleSetup(for: run)
         }
         #endif

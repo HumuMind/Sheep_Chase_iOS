@@ -3,6 +3,7 @@ import SheepChasePersistence
 import SheepChaseRunStore
 import SheepChaseUI
 import SwiftUI
+
 public struct QuickReferencePanel: View {
     public init(run: RunRecord) {
         self.run = run
@@ -47,9 +48,8 @@ public struct QuickReferencePanel: View {
         }
         .task {
             #if DEBUG
-            let args = ProcessInfo.processInfo.arguments
-            if args.contains("-resetQuickReference") { isExpanded = true }
-            if args.contains("-demoCustomNPC") { showAddNPC = true }
+            if DemoLaunch.resetsQuickReference { isExpanded = true }
+            if DemoLaunch.showsCustomNPCSheet { showAddNPC = true }
             #endif
         }
     }

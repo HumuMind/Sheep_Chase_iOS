@@ -15,6 +15,7 @@ struct TemplateLibrarySheet: View {
     @State private var showExporter = false
     @State private var showImporter = false
     @State private var importError: String?
+    @State private var saveError: String?
 
     var body: some View {
         BookFormSheet(
@@ -78,7 +79,11 @@ struct TemplateLibrarySheet: View {
             Button("取消", role: .cancel) {}
             Button("保存") {
                 if let renaming {
-                    try? store.renameTemplate(renaming, to: renameText)
+                    do {
+                        try store.renameTemplate(renaming, to: renameText)
+                    } catch {
+                        saveError = error.localizedDescription
+                    }
                 }
                 renaming = nil
             }
@@ -89,7 +94,13 @@ struct TemplateLibrarySheet: View {
         )) {
             Button("取消", role: .cancel) {}
             Button("删除", role: .destructive) {
-                if let deleting { store.deleteTemplate(deleting) }
+                if let deleting {
+                    do {
+                        try store.deleteTemplate(deleting)
+                    } catch {
+                        saveError = error.localizedDescription
+                    }
+                }
                 deleting = nil
             }
         } message: {
@@ -138,6 +149,14 @@ struct TemplateLibrarySheet: View {
             Button("好") { importError = nil }
         } message: {
             Text(importError ?? "未知错误")
+        }
+        .alert("模组操作失败", isPresented: Binding(
+            get: { saveError != nil },
+            set: { if !$0 { saveError = nil } }
+        )) {
+            Button("好") { saveError = nil }
+        } message: {
+            Text(saveError ?? "未知错误")
         }
     }
 }

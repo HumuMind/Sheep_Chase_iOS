@@ -1,9 +1,7 @@
-import SheepChaseBattleEngine
-import SheepChaseExport
-import SheepChaseCore
-import SheepChasePersistence
 import Foundation
 import Observation
+import SheepChaseCore
+import SheepChasePersistence
 import SwiftData
 
 @MainActor
@@ -21,6 +19,7 @@ public final class RunStore {
     public var selectedTab: InspectorTab = .party
     public var toast: String?
     public var dicePanelRequest: DicePanelRequest?
+    public var persistenceError: String?
 
     private var toastTask: Task<Void, Never>?
 
@@ -38,18 +37,36 @@ public final class RunStore {
         self.backupDirectory = backupDirectory
         self.templateRepository = templateRepository
             ?? AdventureTemplateRepository(fileURL: backupDirectory.appendingPathComponent("MyAdventureTemplates.json"))
-        self.templates = self.templateRepository.load().sorted { $0.updatedAt > $1.updatedAt }
-        fetchRuns()
-        if runs.isEmpty {
-            let demoRuns = seed()
-            demoRuns.forEach { repository.insert($0) }
-            repository.save()
-            fetchRuns()
+        var issues: [String] = []
+        do {
+            self.templates = try self.templateRepository.load().sorted { $0.updatedAt > $1.updatedAt }
+        } catch {
+            self.templates = []
+            issues.append("读取我的模组失败：\(error.localizedDescription)")
         }
-    }
-
-    public func fetchRuns() {
-        runs = repository.fetchAll()
+        do {
+            self.runs = try repository.fetchAll()
+            if self.runs.isEmpty {
+                let demoRuns = seed()
+                if !demoRuns.isEmpty {
+                    demoRuns.forEach { repository.insert($0) }
+                    do {
+                        try repository.save()
+                        self.runs = demoRuns.sorted { $0.updatedAt > $1.updatedAt }
+                    } catch {
+                        demoRuns.forEach { repository.delete($0) }
+                        issues.append("初始化示例开团失败：\(error.localizedDescription)")
+                    }
+                }
+            } else if let damaged = self.runs.first(where: { !$0.damagedSections.isEmpty }) {
+                let sections = damaged.damagedSections.joined(separator: "、")
+                issues.append("「\(damaged.name)」的部分数据无法读取（\(sections)），已按空值载入。")
+            }
+        } catch {
+            self.runs = []
+            issues.append("读取开团数据失败：\(error.localizedDescription)")
+        }
+        self.persistenceError = issues.isEmpty ? nil : issues.joined(separator: "\n")
     }
 
     public var selectedRun: RunRecord? {
@@ -67,13 +84,6 @@ public final class RunStore {
 
     public var adventure: ContentPack.Adventure { content.adventure }
     public var scenes: [ContentPack.AdventureScene] { content.scenes.sorted { $0.order < $1.order } }
-
-    public var orderedBattleMonsters: [ContentPack.Monster] {
-        let order = ["guz": 0, "wolf-guard": 1, "brown-bear": 2, "noke": 3, "bed-dragon-wyrmling": 4]
-        return content.monsters.sorted {
-            (order[$0.id] ?? 99) < (order[$1.id] ?? 99)
-        }
-    }
 
     public var npcs: [ContentPack.NPC] {
         content.npcs.sorted { $0.name < $1.name }
@@ -140,7 +150,7 @@ public final class RunStore {
     }
 
     public func currentScene(for run: RunRecord) -> ContentPack.AdventureScene {
-        scene(id: run.sceneID) ?? scenes.first!
+        scene(id: run.sceneID) ?? scenes.first ?? .missingScene
     }
 
     // MARK: - Navigation
@@ -148,8 +158,7 @@ public final class RunStore {
     public func open(_ run: RunRecord) {
         selectedRunID = run.id
         selectedTab = run.battle?.phase == .active || run.mode == .battle ? .battle : .party
-        run.updatedAt = .now
-        persist()
+        commit(run)
     }
 
     public func closeRun() {
@@ -223,7 +232,7 @@ public final class RunStore {
         var party = run.party
         party.append(member)
         run.party = party
-        commit(run)
+        guard commit(run) else { return }
         notify("已添加玩家：\(member.name)")
     }
 
@@ -272,7 +281,7 @@ public final class RunStore {
             battle.combatants[battleIndex].conditions = member.conditions
             run.battle = battle
         }
-        commit(run)
+        guard commit(run) else { return }
         notify("玩家资料已更新")
     }
 
@@ -288,7 +297,7 @@ public final class RunStore {
             battle.combatants.removeAll { $0.id == member.id }
             run.battle = battle
         }
-        commit(run)
+        guard commit(run) else { return }
         notify("已移除玩家：\(member.name)")
     }
 
@@ -321,31 +330,8 @@ public final class RunStore {
 
     public func deleteNote(_ noteID: UUID, from run: RunRecord) {
         run.stickyNotes = run.stickyNotes.filter { $0.id != noteID }
-        commit(run)
+        guard commit(run) else { return }
         notify("便签已删除")
-    }
-
-// MARK: - Persistence
-
-    public func syncParty(_ run: RunRecord) {
-        guard let battle = run.battle else { return }
-        var party = run.party
-        for index in party.indices {
-            guard let combatant = battle.combatants.first(where: { $0.id == party[index].id }) else { continue }
-            party[index].hp = combatant.hp
-            party[index].tempHP = combatant.tempHP
-            party[index].conditions = combatant.conditions
-        }
-        run.party = party
-    }
-
-    public func commit(_ run: RunRecord) {
-        run.updatedAt = .now
-        repository.save()
-    }
-
-    public func persist() {
-        repository.save()
     }
 
     public func d20() -> Int {

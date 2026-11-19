@@ -1,8 +1,6 @@
-import SheepChaseRunStore
-import SheepChaseBattleEngine
-import SheepChaseExport
 import SheepChaseCore
 import SheepChasePersistence
+import SheepChaseRunStore
 import SheepChaseUI
 import SwiftUI
 
@@ -11,6 +9,12 @@ struct BattleActiveView: View {
     @Bindable var run: RunRecord
 
     private var battle: BattleState? { run.battle }
+
+    private var encounter: ContentPack.Encounter? {
+        guard let encounterID = run.battle?.encounterID else { return nil }
+        return store.encounter(id: encounterID)
+    }
+
     private var active: BattleCombatant? { store.activeCombatant(in: run) }
     private var activeMonster: ContentPack.Monster? {
         guard let active else { return nil }
@@ -47,7 +51,7 @@ struct BattleActiveView: View {
                         Text("战斗 · 第 \(battle?.round ?? 1) 轮")
                             .bookUI(11)
                             .foregroundStyle(.secondary)
-                        Text(store.encounter(id: "guz-ambush")?.title ?? "战斗")
+                        Text(encounter?.title ?? "战斗")
                             .bookUI(28, weight: .semibold)
                     }
                     Spacer()
@@ -211,7 +215,7 @@ struct BattleActiveView: View {
 
                     GroupBox("本场提示") {
                             VStack(alignment: .leading, spacing: 4) {
-                                ForEach(store.encounter(id: "guz-ambush")?.tactics ?? [], id: \.self) { tactic in
+                                ForEach(encounter?.tactics ?? [], id: \.self) { tactic in
                                     Text("· \(tactic)")
                                         .bookUI(12)
                                         .foregroundStyle(.secondary)

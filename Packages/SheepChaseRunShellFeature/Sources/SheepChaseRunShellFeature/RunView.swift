@@ -1,17 +1,17 @@
+import SheepChaseBattleFeature
+import SheepChaseCore
+import SheepChaseExport
 import SheepChaseGuideFeature
-import SheepChaseSearchFeature
 import SheepChaseInspectorFeature
 import SheepChaseMapFeature
-import SheepChaseBattleFeature
-import SheepChaseSceneFeature
-import SheepChaseRunStore
-import SheepChaseBattleEngine
-import SheepChaseExport
-import SheepChaseCore
 import SheepChasePersistence
+import SheepChaseRunStore
+import SheepChaseSceneFeature
+import SheepChaseSearchFeature
 import SheepChaseUI
 import SwiftUI
 import UniformTypeIdentifiers
+
 public struct RunView: View {
     public init(run: RunRecord) {
         self.run = run
@@ -21,12 +21,7 @@ public struct RunView: View {
     @State private var showAddPlayer = false
     @State private var showPrivacy = false
     @State private var showInspector = true
-    @State private var selectedNPC: ContentPack.NPC?
-    @State private var selectedHandout: ContentPack.Handout?
-    @State private var selectedItem: ContentPack.Item?
-    @State private var selectedRule: ContentPack.RuleCard?
-    @State private var selectedSpell: ContentPack.SpellCard?
-    @State private var selectedMonster: ContentPack.Monster?
+    @State private var reference: RunReference?
     @State private var showSearch = false
     @State private var showGuide = false
     @State private var showSessions = false
@@ -60,22 +55,22 @@ public struct RunView: View {
                     SceneDetailView(
                         run: run,
                         onOpenNPC: { npcID in
-                            selectedNPC = store.npc(id: npcID)
+                            reference = store.npc(id: npcID).map(RunReference.npc)
                         },
                         onOpenHandout: { handoutID in
-                            selectedHandout = store.handout(id: handoutID)
+                            reference = store.handout(id: handoutID).map(RunReference.handout)
                         },
                         onOpenItem: { itemID in
-                            selectedItem = store.item(id: itemID)
+                            reference = store.item(id: itemID).map(RunReference.item)
                         },
                         onOpenRule: { ruleID in
-                            selectedRule = store.rule(id: ruleID)
+                            reference = store.rule(id: ruleID).map(RunReference.rule)
                         },
                         onOpenSpell: { spellID in
-                            selectedSpell = store.spell(id: spellID)
+                            reference = store.spell(id: spellID).map(RunReference.spell)
                         },
                         onOpenMonster: { monsterID in
-                            selectedMonster = store.monster(id: monsterID)
+                            reference = store.monster(id: monsterID).map(RunReference.monster)
                         },
                         onOpenGuide: { showGuide = true }
                     )
@@ -201,73 +196,9 @@ public struct RunView: View {
             AddPlayerSheet(run: run)
                 .environment(store)
         }
-        .sheet(item: $selectedNPC) { npc in
-            NPCSheetView(
-                npc: npc,
-                annotations: store.annotations(kind: .npc, targetID: npc.id, in: run),
-                onAnnotationChange: { updated in
-                    store.replaceAnnotations(kind: .npc, targetID: npc.id, with: updated, in: run)
-                }
-            )
-            .environment(store)
-        }
-        .sheet(item: $selectedHandout) { handout in
-            HandoutSheetView(
-                handout: handout,
-                asset: handout.imageAssetId.flatMap { store.asset(id: $0) },
-                annotations: store.annotations(kind: .handout, targetID: handout.id, in: run),
-                onAnnotationChange: { updated in
-                    store.replaceAnnotations(kind: .handout, targetID: handout.id, with: updated, in: run)
-                }
-            )
-            .environment(store)
-        }
-        .sheet(item: $selectedItem) { item in
-            ItemSheetView(
-                item: item,
-                annotations: store.annotations(kind: .item, targetID: item.id, in: run),
-                onAnnotationChange: { updated in
-                    store.replaceAnnotations(kind: .item, targetID: item.id, with: updated, in: run)
-                }
-            )
-            .environment(store)
-        }
-        .sheet(item: $selectedRule) { rule in
-            RuleSheetView(
-                rule: rule,
-                annotations: store.annotations(kind: .rule, targetID: rule.id, in: run),
-                onAnnotationChange: { updated in
-                    store.replaceAnnotations(kind: .rule, targetID: rule.id, with: updated, in: run)
-                }
-            )
-            .environment(store)
-        }
-        .sheet(item: $selectedSpell) { spell in
-            SpellSheetView(
-                spell: spell,
-                annotations: store.annotations(kind: .spell, targetID: spell.id, in: run),
-                onAnnotationChange: { updated in
-                    store.replaceAnnotations(kind: .spell, targetID: spell.id, with: updated, in: run)
-                }
-            )
-            .environment(store)
-        }
-        .sheet(item: $selectedMonster) { monster in
-            MonsterSheetView(
-                monster: monster,
-                annotations: store.annotations(kind: .monster, targetID: monster.id, in: run),
-                onAnnotationChange: { updated in
-                    store.replaceAnnotations(kind: .monster, targetID: monster.id, with: updated, in: run)
-                },
-                override: store.monsterOverride(for: monster.id, in: run),
-                onOverrideSave: { ac, hp, initMod, note in
-                    store.setMonsterOverride(monsterID: monster.id, ac: ac, hp: hp, initiativeModifier: initMod, note: note, in: run)
-                },
-                onOverrideClear: {
-                    store.clearMonsterOverride(monsterID: monster.id, in: run)
-                }
-            )
-            .environment(store)
+        .sheet(item: $reference) { reference in
+            RunReferenceSheet(reference: reference, run: run)
+                .environment(store)
         }
         .sheet(isPresented: $showGuide) { AdventureGuideView(content: store.content) }
         .sheet(isPresented: $showSearch) {
@@ -312,26 +243,25 @@ public struct RunView: View {
         }
         .task {
             #if DEBUG
-            let args = ProcessInfo.processInfo.arguments
-            if args.contains("-demoNPC") {
-                selectedNPC = store.npc(id: "ahmed-noke")
+            if let npcID = DemoLaunch.npcID, let npc = store.npc(id: npcID) {
+                reference = .npc(npc)
             }
-            if args.contains("-demoHandout") {
-                selectedHandout = store.handout(id: "scroll-speak-with-animals")
+            if let handoutID = DemoLaunch.handoutID, let handout = store.handout(id: handoutID) {
+                reference = .handout(handout)
             }
-            if args.contains("-demoItem") {
-                selectedItem = store.item(id: "staff-of-true-polymorph")
+            if let itemID = DemoLaunch.itemID, let item = store.item(id: itemID) {
+                reference = .item(item)
             }
-            if args.contains("-demoSafety") {
+            if DemoLaunch.showsSafetySheet {
                 showSafety = true
             }
-            if args.contains("-demoSessions") {
+            if DemoLaunch.showsSessionsSheet {
                 showSessions = true
             }
-            if args.contains("-demoSearch") {
+            if DemoLaunch.showsSearchSheet {
                 showSearch = true
             }
-            if args.contains("-demoImageExport") {
+            if DemoLaunch.showsImageExport {
                 showImageExport = true
             }
             #endif

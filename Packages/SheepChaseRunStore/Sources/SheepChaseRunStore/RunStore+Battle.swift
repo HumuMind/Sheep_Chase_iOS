@@ -1,9 +1,8 @@
-import SheepChaseBattleEngine
-import SheepChaseCore
-import SheepChaseExport
-import SheepChasePersistence
 import Foundation
 import Observation
+import SheepChaseBattleEngine
+import SheepChaseCore
+import SheepChasePersistence
 import SwiftData
 
 @MainActor
@@ -42,30 +41,11 @@ extension RunStore {
 
     public func addBattleAlly(in run: RunRecord) {
         guard var battle = run.battle, battle.phase == .select else { return }
-        guard !(battle.allies ?? []).contains(where: { $0.baseID == "finethir-sheep" }) else { return }
+        guard !(battle.allies ?? []).contains(where: { $0.baseID == ModuleBattleAllies.finethirSheepID }) else {
+            return
+        }
         var allies = battle.allies ?? []
-        allies.append(
-            BattleAlly(
-                baseID: "finethir-sheep",
-                name: "范席尔（绵羊）",
-                subtitle: "被变成绵羊的法师 · NPC 盟友",
-                ac: 10,
-                hp: 3,
-                maxHP: 3,
-                initiativeModifier: 0,
-                speed: 40,
-                strength: 12,
-                dexterity: 10,
-                constitution: 11,
-                intelligence: 17,
-                wisdom: 12,
-                charisma: 5,
-                skills: ["感知 +2"],
-                passivePerception: 12,
-                languages: [],
-                actions: ["顶撞。近战武器攻击：命中 +3，触及 5 尺，单一目标。命中：3（1d4+1）钝击伤害。"]
-            )
-        )
+        allies.append(ModuleBattleAllies.finethirSheep())
         battle.allies = allies
         run.battle = battle
         commit(run)
@@ -140,7 +120,7 @@ extension RunStore {
         guard BattleEngine.appendCombatant(combatant, battle: &battle) else { return }
         run.battle = battle
         syncParty(run)
-        commit(run)
+        guard commit(run) else { return }
         notify("\(member.name) 加入战斗 · 先攻 \(initiative)")
     }
 
@@ -160,7 +140,7 @@ extension RunStore {
         )
         guard BattleEngine.appendCombatant(combatant, battle: &battle) else { return }
         run.battle = battle
-        commit(run)
+        guard commit(run) else { return }
         notify("\(combatant.name) 加入战斗 · 先攻 \(combatant.initiative)")
     }
 
@@ -270,7 +250,7 @@ extension RunStore {
         guard BattleEngine.undo(battle: &battle) else { return }
         run.battle = battle
         syncParty(run)
-        commit(run)
+        guard commit(run) else { return }
         notify("已撤销上一步")
     }
 
@@ -308,5 +288,20 @@ extension RunStore {
         default:
             return count == 1 ? monster.name : "\(monster.name) \(count)"
         }
+    }
+
+    // MARK: - Party sync
+
+    /// 把战斗里的 HP、临时 HP 与状态同步回队伍。
+    func syncParty(_ run: RunRecord) {
+        guard let battle = run.battle else { return }
+        var party = run.party
+        for index in party.indices {
+            guard let combatant = battle.combatants.first(where: { $0.id == party[index].id }) else { continue }
+            party[index].hp = combatant.hp
+            party[index].tempHP = combatant.tempHP
+            party[index].conditions = combatant.conditions
+        }
+        run.party = party
     }
 }

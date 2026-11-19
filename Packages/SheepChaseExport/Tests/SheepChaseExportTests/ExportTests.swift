@@ -1,8 +1,8 @@
+@testable import SheepChaseExport
 import Foundation
-import XCTest
 import SheepChaseCore
 import SheepChasePersistence
-@testable import SheepChaseExport
+import XCTest
 
 final class ExportTests: XCTestCase {
     func testJSONRoundTrip() throws {
@@ -33,7 +33,7 @@ final class ExportTests: XCTestCase {
         defer { defaults.removePersistentDomain(forName: suite) }
 
         let run = RunRecord(name: "备份测试", contentVersion: "0.3.0")
-        let folder = try XCTUnwrap(RunBackupService.createIfNeeded(
+        let folder = try XCTUnwrap(try RunBackupService.createIfNeeded(
             runs: [run],
             contentVersion: "0.3.0",
             appVersion: "0.1.0",
@@ -44,7 +44,7 @@ final class ExportTests: XCTestCase {
         let files = try FileManager.default.contentsOfDirectory(atPath: folder.path)
         XCTAssertTrue(files.contains { $0.hasSuffix(".json") })
         XCTAssertTrue(files.contains("说明.txt"))
-        XCTAssertNil(RunBackupService.createIfNeeded(
+        XCTAssertNil(try RunBackupService.createIfNeeded(
             runs: [run],
             contentVersion: "0.3.0",
             appVersion: "0.1.0",

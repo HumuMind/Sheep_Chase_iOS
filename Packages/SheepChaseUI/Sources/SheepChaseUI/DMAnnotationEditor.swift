@@ -1,5 +1,5 @@
-import SwiftUI
 import SheepChaseCore
+import SwiftUI
 
 public struct DMAnnotationEditor: View {
     public init(
@@ -48,7 +48,7 @@ public struct DMAnnotationEditor: View {
         }
         .onAppear {
             #if DEBUG
-            if subject == "朗读 / 描述", ProcessInfo.processInfo.arguments.contains("-demoAnnotation") {
+            if subject == "朗读 / 描述", DemoLaunch.opensAnnotationEditor {
                 beginAdding()
             }
             #endif

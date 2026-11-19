@@ -1,7 +1,7 @@
+@testable import SheepChasePersistence
+import SheepChaseCore
 import SwiftData
 import XCTest
-import SheepChaseCore
-@testable import SheepChasePersistence
 
 final class PersistenceTests: XCTestCase {
     @MainActor
@@ -16,9 +16,9 @@ final class PersistenceTests: XCTestCase {
         run.stickyNotes = [StickyNote(text: "测试")]
         run.safety = SafetyState(restLog: ["休息"])
         repository.insert(run)
-        repository.save()
+        try repository.save()
 
-        let fetched = repository.fetchAll()
+        let fetched = try repository.fetchAll()
         XCTAssertEqual(fetched.count, 1)
         XCTAssertEqual(fetched.first?.party.first?.name, "阿岚")
         XCTAssertEqual(fetched.first?.flags["scroll-used"], true)
@@ -34,9 +34,9 @@ final class PersistenceTests: XCTestCase {
         let repository = RunRepository(context: container.mainContext)
         let run = RunRecord(name: "待删除")
         repository.insert(run)
-        repository.save()
+        try repository.save()
         repository.delete(run)
-        repository.save()
-        XCTAssertTrue(repository.fetchAll().isEmpty)
+        try repository.save()
+        XCTAssertTrue(try repository.fetchAll().isEmpty)
     }
 }

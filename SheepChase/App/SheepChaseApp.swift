@@ -1,8 +1,3 @@
-import SheepChaseRunStore
-import SheepChaseBattleEngine
-import SheepChaseExport
-import SheepChaseCore
-import SheepChasePersistence
 import SheepChaseRunShellFeature
 import SheepChaseUI
 import SwiftData
@@ -11,40 +6,21 @@ import SwiftUI
 @main
 @MainActor
 struct SheepChaseApp: App {
-    private let container: ModelContainer
-    @State private var store: RunStore
-
-    init() {
-        do {
-            let container = try ModelContainer(for: RunRecord.self)
-            self.container = container
-            let content = ContentStore.load()
-            let repository = RunRepository(context: container.mainContext)
-            let backupDirectory = FileManager.default.urls(
-                for: .applicationSupportDirectory,
-                in: .userDomainMask
-            ).first ?? FileManager.default.temporaryDirectory
-            let store = RunStore(
-                repository: repository,
-                content: content,
-                appVersion: AppVersion.short,
-                backupDirectory: backupDirectory,
-                seed: { DemoSeed.make(content: content) }
-            )
-            store.createVersionBackupIfNeeded()
-            _store = State(initialValue: store)
-        } catch {
-            fatalError("无法创建 SwiftData 容器：\(error)")
-        }
-    }
+    private let startup: Result<AppStartup.Ready, StartupFailure> = AppStartup.make()
 
     var body: some Scene {
         WindowGroup("荒野逐羊") {
-            RootView()
-                .environment(store)
-                .frame(minWidth: 1040, minHeight: 700)
+            switch startup {
+            case .success(let ready):
+                RootView()
+                    .environment(ready.store)
+                    .frame(minWidth: 1040, minHeight: 700)
+                    .modelContainer(ready.container)
+            case .failure(let failure):
+                StartupErrorView(message: failure.message)
+                    .frame(minWidth: 520, minHeight: 360)
+            }
         }
-        .modelContainer(container)
         .commands {
             RunShortcutCommands()
         }

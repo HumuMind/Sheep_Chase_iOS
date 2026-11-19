@@ -162,6 +162,7 @@ public enum RunExport {
 public enum RunBackupService {
     public static let versionKey = "lastBackupVersion"
 
+    /// 返回新建的备份目录；当本版本已备份过时返回 nil。写入失败会抛出错误。
     @discardableResult
     public static func createIfNeeded(
         runs: [RunRecord],
@@ -170,7 +171,7 @@ public enum RunBackupService {
         baseDirectory: URL,
         defaults: UserDefaults = .standard,
         keep: Int = 3
-    ) -> URL? {
+    ) throws -> URL? {
         let backupKey = "\(appVersion)/\(contentVersion)"
         guard defaults.string(forKey: versionKey) != backupKey else { return nil }
 
@@ -183,37 +184,33 @@ public enum RunBackupService {
             .appendingPathComponent("Backups", isDirectory: true)
             .appendingPathComponent("v\(appVersion)-\(stamp)", isDirectory: true)
 
-        do {
-            try fileManager.createDirectory(at: folder, withIntermediateDirectories: true)
-            for run in runs {
-                let data = try RunExport.data(
-                    for: run,
-                    contentVersion: contentVersion,
-                    appVersion: appVersion
-                )
-                let filename = RunExport.safeFilename(
-                    run.name,
-                    suffix: "自动备份-\(run.id.uuidString.prefix(8))",
-                    extension: "json"
-                )
-                try data.write(to: folder.appendingPathComponent(filename), options: [.atomic])
-            }
-            let readme = """
-            《荒野逐羊》自动备份
-            App 版本：\(appVersion)
-            内容版本：\(contentVersion)
-            导出时间：\(ISO8601DateFormatter().string(from: .now))
-
-            每个 JSON 文件对应一个开团；可从 App 的开团库使用“导入开团备份…”恢复为新开团。
-            这些文件只在本机，不会上传。
-            """
-            try readme.write(to: folder.appendingPathComponent("说明.txt"), atomically: true, encoding: .utf8)
-            defaults.set(backupKey, forKey: versionKey)
-            pruneBackups(in: baseDirectory.appendingPathComponent("SheepChase/Backups", isDirectory: true), keep: keep)
-            return folder
-        } catch {
-            return nil
+        try fileManager.createDirectory(at: folder, withIntermediateDirectories: true)
+        for run in runs {
+            let data = try RunExport.data(
+                for: run,
+                contentVersion: contentVersion,
+                appVersion: appVersion
+            )
+            let filename = RunExport.safeFilename(
+                run.name,
+                suffix: "自动备份-\(run.id.uuidString.prefix(8))",
+                extension: "json"
+            )
+            try data.write(to: folder.appendingPathComponent(filename), options: [.atomic])
         }
+        let readme = """
+        《荒野逐羊》自动备份
+        App 版本：\(appVersion)
+        内容版本：\(contentVersion)
+        导出时间：\(ISO8601DateFormatter().string(from: .now))
+
+        每个 JSON 文件对应一个开团；可从 App 的开团库使用“导入开团备份…”恢复为新开团。
+        这些文件只在本机，不会上传。
+        """
+        try readme.write(to: folder.appendingPathComponent("说明.txt"), atomically: true, encoding: .utf8)
+        defaults.set(backupKey, forKey: versionKey)
+        pruneBackups(in: baseDirectory.appendingPathComponent("SheepChase/Backups", isDirectory: true), keep: keep)
+        return folder
     }
 
     private static func pruneBackups(in directory: URL, keep: Int) {

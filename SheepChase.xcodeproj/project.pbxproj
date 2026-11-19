@@ -32,13 +32,17 @@
 		7151907658F411269BEE9FC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 398BC927DE54B66A467BEA90 /* Assets.xcassets */; };
 		7579BDF6F8697207C0007D97 /* SheepChaseLibraryFeature in Frameworks */ = {isa = PBXBuildFile; productRef = A5216D5F3DBF43D20BD855B3 /* SheepChaseLibraryFeature */; };
 		7627F4F442FF821DAF77F67D /* SheepChaseUI in Frameworks */ = {isa = PBXBuildFile; productRef = B27BF26B823542F664092860 /* SheepChaseUI */; };
+		7671517AB8D75075AD45DA4E /* AppStartup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D61782F11E8123F15561EDE /* AppStartup.swift */; };
 		793DC80D214C7C91E6C9625F /* ContentPack.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F2FD00743370B53287BF389 /* ContentPack.json */; };
 		7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8804416B86AAF5FA7A4B275B /* RootView.swift */; };
 		82C515E147815ADE4F2C5C38 /* SheepChaseExport in Frameworks */ = {isa = PBXBuildFile; productRef = 1875245BE95345369C995CC9 /* SheepChaseExport */; };
+		8653176363A27E9D6E124C5F /* StartupErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0121C1FABEB0A2FA0C8EF58E /* StartupErrorView.swift */; };
 		86F94787D29484ADCADF2BC5 /* SheepChaseExport in Frameworks */ = {isa = PBXBuildFile; productRef = 6347EF1D8FC0B1D533735267 /* SheepChaseExport */; };
 		9E69A201D1D1039D41C3EF50 /* DemoSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BBFE6ABDC7DA376165A223 /* DemoSeed.swift */; };
+		A2791399FA164FF5851E0C50 /* AppStartup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D61782F11E8123F15561EDE /* AppStartup.swift */; };
 		A85CE9B79F5E42CF03115C67 /* SheepChaseBattleEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 16E536CC53D8C41F2E3D25C2 /* SheepChaseBattleEngine */; };
 		B5B0AFCF8EB0C113F0DB7925 /* sheep-ink.png in Resources */ = {isa = PBXBuildFile; fileRef = 6DAACF9346CBD12B1262C705 /* sheep-ink.png */; };
+		C9771FFEE1C1599AB244773B /* StartupErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0121C1FABEB0A2FA0C8EF58E /* StartupErrorView.swift */; };
 		D2FE0F355C1625B7C3F15B1A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 398BC927DE54B66A467BEA90 /* Assets.xcassets */; };
 		D3C709D23C425A5E73785779 /* SheepChaseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 091ECABC8BAD82773C7AB893 /* SheepChaseUI */; };
 		DAB34ED281F99E40670CDC67 /* SheepChaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */; };
@@ -68,6 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0121C1FABEB0A2FA0C8EF58E /* StartupErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartupErrorView.swift; sourceTree = "<group>"; };
 		020524B273A5E80CE97899DA /* cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cover.jpg; sourceTree = "<group>"; };
 		07B9009FFB8120C98C8A4AA4 /* ContentAndExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentAndExportTests.swift; sourceTree = "<group>"; };
 		09BBFE6ABDC7DA376165A223 /* DemoSeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSeed.swift; sourceTree = "<group>"; };
@@ -83,6 +88,7 @@
 		74D26705776FF419D4BBFF78 /* SheepChaseRunStore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseRunStore; path = Packages/SheepChaseRunStore; sourceTree = SOURCE_ROOT; };
 		79427969371EE15B9616FD84 /* SheepChaseRunShellFeature */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SheepChaseRunShellFeature; path = Packages/SheepChaseRunShellFeature; sourceTree = SOURCE_ROOT; };
 		7972BE44E388EA599EEC9D21 /* SheepChaseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheepChaseUITests.swift; sourceTree = "<group>"; };
+		7D61782F11E8123F15561EDE /* AppStartup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStartup.swift; sourceTree = "<group>"; };
 		8804416B86AAF5FA7A4B275B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		9F2FD00743370B53287BF389 /* ContentPack.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ContentPack.json; sourceTree = "<group>"; };
 		AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheepChaseApp.swift; sourceTree = "<group>"; };
@@ -175,9 +181,11 @@
 		92DAD19E6DC81F5B04C818D5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7D61782F11E8123F15561EDE /* AppStartup.swift */,
 				09BBFE6ABDC7DA376165A223 /* DemoSeed.swift */,
 				8804416B86AAF5FA7A4B275B /* RootView.swift */,
 				AC22467318AE87268E2CDA73 /* SheepChaseApp.swift */,
+				0121C1FABEB0A2FA0C8EF58E /* StartupErrorView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -431,10 +439,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2791399FA164FF5851E0C50 /* AppStartup.swift in Sources */,
 				70D602408AC5BB4096ADAF4F /* ContentStore.swift in Sources */,
 				9E69A201D1D1039D41C3EF50 /* DemoSeed.swift in Sources */,
 				7F1C47E321F8A5F13B975EFA /* RootView.swift in Sources */,
 				DAB34ED281F99E40670CDC67 /* SheepChaseApp.swift in Sources */,
+				C9771FFEE1C1599AB244773B /* StartupErrorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,10 +452,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7671517AB8D75075AD45DA4E /* AppStartup.swift in Sources */,
 				31F23F900EEDF94F909ABE4E /* ContentStore.swift in Sources */,
 				E9E7C846B812929B9A7692B3 /* DemoSeed.swift in Sources */,
 				16937F9607EEB260BCB91705 /* RootView.swift in Sources */,
 				F1626034B5C81EC6EE036892 /* SheepChaseApp.swift in Sources */,
+				8653176363A27E9D6E124C5F /* StartupErrorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

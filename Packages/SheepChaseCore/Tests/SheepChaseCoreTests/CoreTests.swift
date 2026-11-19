@@ -1,5 +1,5 @@
-import XCTest
 @testable import SheepChaseCore
+import XCTest
 
 final class CoreTests: XCTestCase {
     func testPartyMemberRoundTrip() throws {

@@ -8,11 +8,12 @@ public final class AdventureTemplateRepository {
         self.fileURL = fileURL
     }
 
-    public func load() -> [AdventureTemplate] {
-        guard let data = try? Data(contentsOf: fileURL) else { return [] }
+    public func load() throws -> [AdventureTemplate] {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else { return [] }
+        let data = try Data(contentsOf: fileURL)
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        return (try? decoder.decode([AdventureTemplate].self, from: data)) ?? []
+        return try decoder.decode([AdventureTemplate].self, from: data)
     }
 
     public func save(_ templates: [AdventureTemplate]) throws {

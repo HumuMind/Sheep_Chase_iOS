@@ -172,13 +172,13 @@ Open/import/export 都通过 RunStore；Feature 视图通过 `@Environment(RunSt
 
 | 文件 | 行数 |
 |---|---:|
-| `Packages/SheepChaseRunShellFeature/.../QuickReferencePanel.swift` | 400 |
-| `Packages/SheepChaseRunStore/.../RunStore.swift` | 369 |
-| `Packages/SheepChaseSceneFeature/.../SceneDetailSections.swift` | 353 |
-| `Packages/SheepChaseBattleFeature/.../BattleActiveView.swift` | 347 |
-| `Packages/SheepChaseRunShellFeature/.../RunView.swift` | 346 |
-| `Packages/SheepChaseRunShellFeature/.../ImageExportView.swift` | 301 |
-| `Packages/SheepChaseBattleEngine/.../BattleEngine.swift` | 240 |
+| `Packages/SheepChaseCore/.../ContentPack.swift` | 394 |
+| `Packages/SheepChaseRunShellFeature/.../QuickReferencePanel.swift` | 393 |
+| `Packages/SheepChaseCore/.../RunModels.swift` | 373 |
+| `Packages/SheepChaseRunStore/.../RunStore.swift` | 372 |
+| `Packages/SheepChasePersistence/.../RunRecord.swift` | 372 |
+| `Packages/SheepChaseRunShellFeature/.../DiceWorkspace.swift` | 364 |
+| `Packages/SheepChaseBattleFeature/.../BattleActiveView.swift` | 340 |
 
 检查：
 
@@ -190,14 +190,14 @@ python3 scripts/check_swift_file_sizes.py
 
 ## 测试
 
-Package 测试（30 个）：
+Package 测试（51 个）：
 
-- Core 3
-- Persistence 2
+- Core 9
+- Persistence 4
 - UI 2
 - Export 3
-- BattleEngine 4
-- RunStore 1
+- BattleEngine 9
+- RunStore 16
 - LibraryFeature 1
 - SceneFeature 1
 - BattleFeature 1

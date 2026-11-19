@@ -1,8 +1,6 @@
-import SheepChaseRunStore
-import SheepChaseBattleEngine
-import SheepChaseExport
 import SheepChaseCore
 import SheepChasePersistence
+import SheepChaseRunStore
 import SheepChaseUI
 import SwiftUI
 
@@ -223,7 +221,7 @@ public struct SceneDetailView: View {
         }
         .onAppear {
             #if DEBUG
-            if ProcessInfo.processInfo.arguments.contains("-demoSource") {
+            if DemoLaunch.showsSourceSheet {
                 showSource = true
             }
             #endif

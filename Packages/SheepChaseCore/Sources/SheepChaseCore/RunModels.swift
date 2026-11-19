@@ -329,6 +329,8 @@ public struct SafetyState: Codable {
 
 public struct BattleState: Codable {
     public var phase: BattlePhase
+    /// 通过「准备遭遇」建战时记录的遭遇 ID；其他方式建立的战斗为 nil。
+    public var encounterID: String?
     public var selectedPlayerIDs: [UUID]
     public var monsters: [BattleMonster]
     public var allies: [BattleAlly]?
@@ -341,6 +343,7 @@ public struct BattleState: Codable {
 
     public init(
         phase: BattlePhase = .select,
+        encounterID: String? = nil,
         selectedPlayerIDs: [UUID] = [],
         monsters: [BattleMonster] = [],
         allies: [BattleAlly]? = nil,
@@ -352,6 +355,7 @@ public struct BattleState: Codable {
         undo: BattleUndo? = nil
     ) {
         self.phase = phase
+        self.encounterID = encounterID
         self.selectedPlayerIDs = selectedPlayerIDs
         self.monsters = monsters
         self.allies = allies

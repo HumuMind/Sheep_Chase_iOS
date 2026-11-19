@@ -22,14 +22,6 @@ public enum Theme {
         return (AppTextSize(rawValue: raw) ?? .large).scale
     }
 
-    public static func serif(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        .custom("Songti SC", size: size * textScale).weight(weight)
-    }
-
-    public static func ui(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        .system(size: size * textScale, weight: weight, design: .default)
-    }
-
     public static var background: some View {
         LinearGradient(
             colors: [Color(red: 0.25, green: 0.18, blue: 0.13), Color(red: 0.15, green: 0.10, blue: 0.08)],

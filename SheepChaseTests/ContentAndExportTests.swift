@@ -1,11 +1,10 @@
-import SheepChaseRunStore
-import SheepChaseBattleEngine
-import SheepChaseExport
+@testable import SheepChase
 import SheepChaseCore
+import SheepChaseExport
 import SheepChasePersistence
+import SheepChaseRunStore
 import SwiftData
 import XCTest
-@testable import SheepChase
 
 final class ContentAndExportTests: XCTestCase {
     private var repositoryRoot: URL {
